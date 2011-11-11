@@ -1,0 +1,11 @@
+#!/usr/bin/python
+# This is just a wrapper to call ffmulticonverter
+
+try:
+    import ffmulticonverter.ffmulticonverter as converter
+except ImportError:
+    import ffmulticonverter as converter
+    # this is to avoid error, if package is not already installed
+
+if __name__ == '__main__':
+    converter.main()

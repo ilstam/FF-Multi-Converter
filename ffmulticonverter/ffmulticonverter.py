@@ -540,6 +540,8 @@ class ProgressDlg(QDialog):
             
     def convert_a_file(self):
         """Do the conversions of files using methods of Conversions class."""
+        if not self.files:
+            return
         if self.index == 0 or self.index == 1:
             if converter.convert_video_or_audio(self.files[0], self.ext_to):
                 self.ok += 1

@@ -24,7 +24,7 @@ from __future__ import unicode_literals
 import platform
 py_version = platform.python_version()
 
-__version__ = "1.0"
+__version__ = "1.0.2"
 
 if platform.system() != 'Linux':
     exit('ΣΦΑΛΜΑ: Η εφαρμογή τρέχει μόνο σε συστήματα Linux.')
@@ -62,7 +62,7 @@ class FFMultiConverter(QMainWindow,
         
         self.ffmpeg, self.unoconv = self.check_for_dependencies()  
         
-        types = ['Ήχου', 'Video', 'Εικόνας', 'Έγγραφο Κειμένου']
+        types = ['Ήχος', 'Video', 'Εικόνα', 'Έγγραφο Κειμένου']
         [self.typeComboBox.addItem(_type) for _type in types]          
         
         self.connect(self.typeComboBox, SIGNAL('currentIndexChanged(QString)'),
@@ -363,7 +363,7 @@ class FFMultiConverter(QMainWindow,
         Returns: boolean
         """
         # Add quotations to every dir's or file's name in order to avoid error
-        # in special cases such us spaces or special characters.
+        # in special cases such as spaces or special characters.
         path = ''
         for i in from_file.split('/')[1:]:
             path += '/"' + i + '"'        
@@ -404,7 +404,7 @@ class FFMultiConverter(QMainWindow,
         Returns: boolean        
         """        
         # Add quotations to every dir's or file's name in order to avoid error
-        # in special cases such us spaces or special characters.        
+        # in special cases such as spaces or special characters.        
         path = ''
         for i in from_file.split('/')[1:]:
             path += '/"' + i + '"'        

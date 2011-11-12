@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_files/ffmulticonverter.ui'
 #
-# Created: Sat Nov 12 00:42:40 2011
+# Created: Sun Nov 13 00:27:35 2011
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -48,7 +48,7 @@ class Ui_FFMultiConverter(object):
         self.gridLayout_3 = QtGui.QGridLayout()
         self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
         self.label_3 = QtGui.QLabel(self.centralwidget)
-        self.label_3.setText(QtGui.QApplication.translate("FFMultiConverter", "Μετατροπή αρχείου:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("FFMultiConverter", "Τύπος αρχείου:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.gridLayout_3.addWidget(self.label_3, 0, 0, 1, 1)
         self.typeComboBox = QtGui.QComboBox(self.centralwidget)
@@ -88,7 +88,7 @@ class Ui_FFMultiConverter(object):
         self.horizontalLayout_2.addWidget(self.recursiveCheckBox)
         self.deleteCheckBox = QtGui.QCheckBox(self.centralwidget)
         self.deleteCheckBox.setText(QtGui.QApplication.translate("FFMultiConverter", "Διαγραφή \n"
-"προτοτύπου", None, QtGui.QApplication.UnicodeUTF8))
+"πρωτοτύπου", None, QtGui.QApplication.UnicodeUTF8))
         self.deleteCheckBox.setObjectName(_fromUtf8("deleteCheckBox"))
         self.horizontalLayout_2.addWidget(self.deleteCheckBox)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)

@@ -12,7 +12,7 @@ setup(
                               ["ffmulticonverter/icons/ffmulticonverter.png"]),
                   ("/usr/share/applications/", 
                      ["ffmulticonverter/desktop/FF-Multi-Converter.desktop"])],
-    version = "1.0",
+    version = "1.0.2",
     description = "GUI File Format Converter",
     author = "Ilias Stamatis",
     author_email = "il.stam@yahoo.gr",

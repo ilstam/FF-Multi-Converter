@@ -50,9 +50,6 @@ import path_generator
 import ui_ffmulticonverter
 import qrc_resources
 
-app = QApplication(sys.argv)
-app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
-
 class FFMultiConverter(QMainWindow, 
             ui_ffmulticonverter.Ui_FFMultiConverter):    
     
@@ -462,7 +459,6 @@ class FFMultiConverter(QMainWindow,
                 ' unoconv δεν είναι εγκατεστημένο.\nΔεν μπορείτε να κάνετε '
                 'μετατροπές εγγράφων κειμένου μέχρι να το εγκαταστήσετε.')
 
-converter = FFMultiConverter()
                 
 class ProgressDlg(QDialog):
     
@@ -566,6 +562,10 @@ class ProgressDlg(QDialog):
         self.files.pop(0)                
                     
 def main():
+    global converter
+    app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
+    converter = FFMultiConverter()
     converter.show()
     if not converter.ffmpeg or not converter.unoconv:
         converter.missing_dependencies()

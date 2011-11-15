@@ -4,21 +4,22 @@
 
 from distutils.core import setup
 
+data_files = [("/usr/share/app-install/icons/", 
+                              ["ffmulticonverter/icons/ffmulticonverter.png"]),
+              ("/usr/share/applications/", 
+                      ["ffmulticonverter/desktop/FF-Multi-Converter.desktop"])]
 setup(
     name = "ffmulticonverter",
     packages = ["ffmulticonverter"],
     scripts = ["ffmulticonverter/ffmulticonverter"],
-    data_files = [("/usr/share/app-install/icons/", 
-                              ["ffmulticonverter/icons/ffmulticonverter.png"]),
-                  ("/usr/share/applications/", 
-                     ["ffmulticonverter/desktop/FF-Multi-Converter.desktop"])],
+    data_files = data_files,
     version = "1.0.2",
     description = "GUI File Format Converter",
     author = "Ilias Stamatis",
     author_email = "il.stam@yahoo.gr",
     license = "GNU GPL3",
     platforms = 'Linux',
-    requires = ['python2', 'PyQt4', 'ffmpeg', 'unoconv'], 
+    requires = ['python2', 'PyQt4', 'PIL', 'ffmpeg', 'unoconv', 'openoffice'], 
     url = "http://pypi.python.org/pypi/ffmulticonverter",
     keywords = ["convert", "file format", "extension"],
     classifiers = [
@@ -43,6 +44,6 @@ Features
  - Recursively convert files (same type or extension)
  - Delete original files
  
-Requires: python 2.7, PyQt4, ffmpeg, unoconv, Open/Libre office suite
+Requires: python 2.7, PyQt4, PIL, ffmpeg, unoconv, Open/Libre office suite
 """
 )

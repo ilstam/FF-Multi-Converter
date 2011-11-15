@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Program: FF Multi Converter
 # Purpose: GUI application to convert multiple file formats 
-# Requires: python 2.7, PyQt4, ffmpeg, unoconv, Open/Libre office suite
+# Requires: python 2.7, PyQt4, PIL, ffmpeg, unoconv, Open/Libre office suite
 #
 # Copyright (C) 2011 Ilias Stamatis <il.stam@yahoo.gr>
 #

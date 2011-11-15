@@ -18,7 +18,7 @@ Description:
          - Recursively convert files (same type or extension)
          - Delete original files
          
-        Requires: python 2.7, PyQt4, ffmpeg, unoconv, Open/Libre office suite
+        Requires: python 2.7, PyQt4, PIL, ffmpeg, unoconv, Open/Libre office suite
         
 Keywords: convert,file format,extension
 Platform: Linux
@@ -33,5 +33,7 @@ Classifier: Topic :: Multimedia :: Sound/Audio :: Conversion
 Classifier: Topic :: Utilities
 Requires: python2
 Requires: PyQt4
+Requires: PIL
 Requires: ffmpeg
 Requires: unoconv
+Requires: openoffice

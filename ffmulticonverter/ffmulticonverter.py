@@ -37,6 +37,12 @@ try:
 except ImportError:
     exit('ΣΦΑΛΜΑ: Το πρόγραμμα χρειάζεται την PyQt4 για να τρέξει.')    
 
+try:
+    from PIL import Image
+except ImportError:    
+    print "Η βιβλιοθήκη PIL δεν είναι εγκατεστημένη και γι' αυτό δεν μπορείτε"
+          " να κάνετε μετατροπές εικόνας μέχρι να την εγκαταστήσετε."     
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import sys
@@ -44,7 +50,6 @@ import os
 import subprocess
 import shlex
 import functools
-from PIL import Image
 
 import path_generator
 import ui_ffmulticonverter

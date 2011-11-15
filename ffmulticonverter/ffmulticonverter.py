@@ -40,7 +40,8 @@ except ImportError:
 try:
     from PIL import Image
 except ImportError:
-    print "Η βιβλιοθήκη PIL δεν είναι εγκατεστημένη και γι' αυτό δεν μπορείτε να κάνετε μετατροπές εικόνας μέχρι να την εγκαταστήσετε."     
+    print("Η βιβλιοθήκη PIL δεν είναι εγκατεστημένη και γι' αυτό δεν μπορείτε "
+          "να κάνετε μετατροπές εικόνας μέχρι να την εγκαταστήσετε.")
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *

@@ -29,7 +29,7 @@ __version__ = "1.0.2"
 if platform.system() != 'Linux':
     exit('ΣΦΑΛΜΑ: Η εφαρμογή τρέχει μόνο σε συστήματα Linux.')
 
-if not (py_version > '2.7' and py_version < '3'):
+if not (py_version >= '2.6' and py_version < '3'):
     exit('ΣΦΑΛΜΑ: Το πρόγραμμα χρειάζεται την Python 2.7 για να τρέξει.')
     
 try:

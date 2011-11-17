@@ -3,7 +3,7 @@
 # Program: FF Multi Converter
 # Purpose: GUI application to convert multiple file formats 
 #
-# Copyright (C) 2011 Ilias Stamatis <il.stam@yahoo.gr>
+# Copyright (C) 2011 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

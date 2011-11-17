@@ -1,5 +1,2 @@
 include LICENSE.txt
-include ffmulticonverter/icons/*
-include ffmulticonverter/qrc/*
-include ffmulticonverter/ui_files/*
-include ffmulticonverter/desktop/*
+include ffmulticonverter/data/*

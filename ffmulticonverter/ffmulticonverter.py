@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # Program: FF Multi Converter
 # Purpose: GUI application to convert multiple file formats 
-# Requires: python 2.7, PyQt4, PIL, ffmpeg, unoconv, Open/Libre office suite
 #
 # Copyright (C) 2011 Ilias Stamatis <il.stam@yahoo.gr>
 #
@@ -24,24 +23,24 @@ from __future__ import unicode_literals
 import platform
 py_version = platform.python_version()
 
-__version__ = "1.0.2"
+__version__ = "1.1.0"
 
 if platform.system() != 'Linux':
-    exit('ΣΦΑΛΜΑ: Η εφαρμογή τρέχει μόνο σε συστήματα Linux.')
+    exit('Error: The application is available for Linux platforms only.')
 
 if not (py_version >= '2.6' and py_version < '3'):
-    exit('ΣΦΑΛΜΑ: Το πρόγραμμα χρειάζεται την Python 2.7 για να τρέξει.')
+    exit('Error: You need python 2.6 or python2.7 to run this program.')
     
 try:
     import PyQt4
 except ImportError:
-    exit('ΣΦΑΛΜΑ: Το πρόγραμμα χρειάζεται την PyQt4 για να τρέξει.')    
+    exit('Error: You need PyQt4 to run this program.')    
 
 try:
     from PIL import Image
 except ImportError:
-    print("Η βιβλιοθήκη PIL δεν είναι εγκατεστημένη και γι' αυτό δεν μπορείτε "
-          "να κάνετε μετατροπές εικόνας μέχρι να την εγκαταστήσετε.")
+    pass
+    # User will be informed about this later
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -49,7 +48,6 @@ import sys
 import os
 import subprocess
 import shlex
-import functools
 
 import path_generator
 import ui_ffmulticonverter
@@ -60,28 +58,8 @@ class FFMultiConverter(QMainWindow,
     
     def __init__(self, parent=None):
         super(FFMultiConverter, self).__init__(parent)        
-        self.setupUi(self)
+        self.setupUi(self)   
         
-        self.ffmpeg, self.unoconv = self.check_for_dependencies()  
-        
-        types = ['Ήχος', 'Video', 'Εικόνα', 'Έγγραφο Κειμένου']
-        [self.typeComboBox.addItem(_type) for _type in types]          
-        
-        self.connect(self.typeComboBox, SIGNAL('currentIndexChanged(QString)'),
-                                                    self.refresh_comboboxes)
-        self.connect(self.fromComboBox, SIGNAL('currentIndexChanged(QString)'),
-                                                self.refresh_document_combo)
-        self.connect(self.folderCheckBox, SIGNAL('clicked()'), 
-                        functools.partial(self.checkboxes_clicked, 'fol'))
-        self.connect(self.recursiveCheckBox, SIGNAL('clicked()'), 
-                        functools.partial(self.checkboxes_clicked, 'rec')) 
-        self.connect(self.openToolButton, SIGNAL('clicked()'), 
-                                                        self.choose_file)
-        self.connect(self.convertPushButton, SIGNAL('clicked()'), self.convert)
-        self.connect(self.convertAction, SIGNAL('triggered()'), self.convert)
-        self.connect(self.aboutAction, SIGNAL('triggered()'), self.about)
-        self.connect(self.exitAction, SIGNAL('triggered()'), self.close)
-
         self.audio_formats = ['aac', 'ac3', 'aiff', 'amr', 'asf', 'au', 'avi', 
                               'dvd', 'flac', 'flv', 'm4a', 'm4v', 'mmf', 'mov',
                               'mp2', 'mp3', 'mp4', 'mpeg', 'ogg', 'rm', 'vob',
@@ -110,122 +88,119 @@ class FFMultiConverter(QMainWindow,
                                 'txt' : ['odt'],
                                 'xls' : ['ods'],
                                 'xml' : ['doc', 'odt', 'pdf']}              
-        self.fname = ''
-        QTimer.singleShot(0, self.refresh_comboboxes)
-    
-    def refresh_comboboxes(self):
-        """Add the appropriate values to comboboxes."""
-        # disconnect the signal in order not to be emitted
-        # while adding items to fromComboBox.
-        self.disconnect(self.fromComboBox, 
-                SIGNAL('currentIndexChanged(QString)'), 
-                self.refresh_document_combo)
+        self.fname = ''        
                 
-        self.fromComboBox.clear()
-        self.toComboBox.clear()
-        index = self.typeComboBox.currentIndex()       
-                
-        if index == 0:
-            for ext in self.audio_formats:
-                self.fromComboBox.addItem(ext)
-                self.toComboBox.addItem(ext)        
-        elif index == 1:
-            for ext in self.video_formats:
-                self.fromComboBox.addItem(ext)
-                self.toComboBox.addItem(ext)
-            string = '(Μόνο ήχος)'
-            for ext in self.vid_to_aud_formats:                
-                item = ext + '  '  + string 
-                self.toComboBox.addItem(item)
-        elif index == 2:
-            for ext in self.image_formats:
-                self.fromComboBox.addItem(ext)
-                self.toComboBox.addItem(ext)
-        else:                        
-            # ---Different procedure here because document_formats is
-            # a dictionary.
-            
-            # creation of a sorted list with document_formats extensions
-            _list = []
-            [_list.append(ext) for ext in self.document_formats]
-            _list.sort()            
-            [self.fromComboBox.addItem(ext) for ext in _list]                            
-            
-            text = str(self.fromComboBox.currentText())
-            for ext in self.document_formats[text]:
-                self.toComboBox.addItem(ext)                
+        # connect TabWidget to checkboxes_clicked() because checboxe's behavior 
+        # is different when file type == documents
+        self.TabWidget.currentChanged.connect(self.checkboxes_clicked)
+        # use lambda to pass extra data when signal emmited.
+        self.folderCheckBox.clicked.connect(
+                                        lambda: self.checkboxes_clicked('fol'))
+        self.recursiveCheckBox.clicked.connect(
+                                        lambda: self.checkboxes_clicked('rec'))                                        
+        self.openToolButton.clicked.connect(self.choose_file)
+        self.docFromComboBox.currentIndexChanged.connect(
+                                                      self.refresh_docComboBox)
+        self.convertPushButton.clicked.connect(self.convert)
+        self.convertAction.triggered.connect(self.convert)
+        self.aboutAction.triggered.connect(self.about)
+        self.quitAction.triggered.connect(self.close)
         
-        # reconnect the signal 
-        self.connect(self.fromComboBox, 
-                SIGNAL('currentIndexChanged(QString)'),
-                self.refresh_document_combo)
-                
-        # execute the below method although that no checkbox clicked, 
-        # because of the specificity of typeRadioButton when type
-        # is document files (see the method).
-        self.checkboxes_clicked()
-                
-    def refresh_document_combo(self):
-        """Add the appropriate values to toComboBox when file type
-        is document."""
-        # document_formats is dict, so only some extensions corresponds
-        # to some others.
-        if self.typeComboBox.currentIndex() == 3:
-            self.toComboBox.clear()
-            text = str(self.fromComboBox.currentText())
-            for ext in self.document_formats[text]:
-                self.toComboBox.addItem(ext)       
-                
+        self.TabWidget.setCurrentIndex(0)
+        [self.audFromComboBox.addItem(i) for i in self.audio_formats]
+        [self.audToComboBox.addItem(i) for i in self.audio_formats]
+        [self.vidFromComboBox.addItem(i) for i in self.video_formats]
+        [self.vidToComboBox.addItem(i) for i in self.video_formats]
+        string = self.tr(' (Audio only)')
+        [self.vidToComboBox.addItem(i+string) for i in self.vid_to_aud_formats]
+        [self.imgFromComboBox.addItem(i) for i in self.image_formats]
+        [self.imgToComboBox.addItem(i) for i in self.image_formats]
+        # create a sorted list with document_formats extensions because 
+        # self.document_formats is a dict so values are not sorted
+        _list = []
+        [_list.append(ext) for ext in self.document_formats]
+        _list.sort()         
+        [self.docFromComboBox.addItem(i) for i in _list]
+        # self.refresh_docComboBox() will care about docToComboBox values
+        self.typeRadioButton.setChecked(True) # but disabled        
+        self.dependenciesLabel = QLabel()
+        self.statusBar.addPermanentWidget(self.dependenciesLabel, stretch=1)
+
+        QTimer.singleShot(0, self.check_for_dependencies)                              
+    
     def checkboxes_clicked(self, data=None):
-        """Manage the behavior of checkboxes and radiobuttons.
+        """Manages the behavior of checkboxes and radiobuttons.
         
         Keywords arguments:
         data -- a string to show from which CheckBox the signal emitted.
         """
         # data default value is None because the method can also be called
-        # from self.refresh_comboboxes()
-        fol = self.folderCheckBox
-        rec = self.recursiveCheckBox
-        _type = self.typeRadioButton
-        ext = self.extRadioButton
+        # when TabWidget's tab change.
+        if data == 'fol' and self.recursiveCheckBox.isChecked():
+            self.recursiveCheckBox.setChecked(False)
+        elif data == 'rec' and self.folderCheckBox.isChecked():
+            self.folderCheckBox.setChecked(False)
         
-        index = self.typeComboBox.currentIndex()
-        
-        if data == 'fol' and rec.isChecked():
-            rec.setChecked(False)
-        elif data == 'rec' and fol.isChecked():
-            fol.setChecked(False)
-        
-        enable = bool(rec.isChecked() or fol.isChecked())
-        # set typeRadioButton disabled when type == document files,
-        # because it is not possible to convert every file format to any 
-        # other file format.
+        index = self.TabWidget.currentIndex()
+        enable = bool(self.recursiveCheckBox.isChecked() 
+                                            or self.folderCheckBox.isChecked())
+        self.extRadioButton.setEnabled(enable)  
         if enable and index == 3:
-            _type.setEnabled(False)
-            ext.setChecked(True)
+            # set typeRadioButton disabled when type == document files,
+            # because it is not possible to convert every file format to any 
+            # other file format.            
+            self.typeRadioButton.setEnabled(False)
+            self.extRadioButton.setChecked(True)
         else:
-            _type.setEnabled(enable)
-        ext.setEnabled(enable)        
-        if not (_type.isChecked() or ext.isChecked()):
-            _type.setChecked(True) 
+            self.typeRadioButton.setEnabled(enable)
+            
+    def refresh_docComboBox(self):
+        """Add the appropriate values to docToComboBox."""
+        # document_formats is dict, so only some extensions corresponds
+        # to some others.
+        self.docToComboBox.clear()
+        text = str(self.docFromComboBox.currentText())
+        [self.docToComboBox.addItem(i) for i in self.document_formats[text]]            
             
     def choose_file(self):
         """Uses standard QtDialog to get files name."""
         hold_fname = self.fname
         self.fname = QFileDialog.getOpenFileName(self, 
-                    "FF Multi Converter - Επιλογή αρχείου")
+                                   self.tr("FF Multi Converter - Choose File"))
         self.fname = unicode(self.fname)
         if self.fname:
             self.fromLineEdit.setText(self.fname)
         else:
             self.fname = hold_fname
             
+    def get_extensions(self):
+        """Returns the from and to extensions.
+        
+        Returns: string
+        """
+        index = self.TabWidget.currentIndex()
+        if index == 0:
+            ext_from = unicode(self.audFromComboBox.currentText())
+            ext_to = unicode(self.audToComboBox.currentText())
+        elif index == 1:
+            ext_from = unicode(self.vidFromComboBox.currentText())
+            ext_to = unicode(self.vidToComboBox.currentText())
+            # split from the docsting (Audio Only) if it is appropriate
+            ext_to = ext_to.split(' ')[0]                        
+        elif index == 2:
+            ext_from = unicode(self.imgFromComboBox.currentText())
+            ext_to = unicode(self.imgToComboBox.currentText())
+        elif index == 3:
+            ext_from = unicode(self.docFromComboBox.currentText())
+            ext_to = unicode(self.docToComboBox.currentText())
+        return ext_from, ext_to
+
     def find_type(self):
         """Specifies the current file formats.
         
         Returns: list
         """
-        index = self.typeComboBox.currentIndex()
+        index = self.TabWidget.currentIndex()
         if index == 0:
             type_formats = self.audio_formats            
         elif index == 1:
@@ -241,7 +216,7 @@ class FFMultiConverter(QMainWindow,
         # self.document_formats are not needed.
         # the function is used in self.files_to_conv_list() when the 
         # typeRadioButton is enabled, but this never gonna happens when 
-        # typeComboBox == document files
+        # type == document files
         return type_formats      
         
     def files_to_conv_list(self):
@@ -287,9 +262,12 @@ class FFMultiConverter(QMainWindow,
         files_to_conv.insert(0, self.fname)
         return files_to_conv
         
-    def ok_to_continue(self):
-        ### also add check for dependencies
-        """Check if everything is ok to continue with conversion.
+    def ok_to_continue(self, ext_from, ext_to):
+        """Checks if everything is ok to continue with conversion.
+        
+        Keyword arguments:
+        ext_from -- current file extension
+        ext_to -- the extension for file to be converted to
         
         Checks if: 
          - Theres is no given file
@@ -300,56 +278,55 @@ class FFMultiConverter(QMainWindow,
         
         Returns: boolean        
         """
-        ext_from = str(self.fromComboBox.currentText())
-        ext_to = unicode(self.toComboBox.currentText())        
-        _dir, _file = os.path.split(self.fname)
-        base, real_ext = os.path.splitext(_file)
-        index = self.typeComboBox.currentIndex()
+        _file = os.path.split(self.fname)[-1]
+        real_ext = os.path.splitext(_file)[-1]
+        index = self.TabWidget.currentIndex()
+        
         # give small names to the variables in order to wide use them below
         a = real_ext[1:]
         b = ext_from
         
-        class ValidationError(Exception): pass
-        
         try:
             if self.fname == '':
-                raise ValidationError('Δεν ορίσατε αρχείο για μετατροπή!')
+                raise Exception(self.tr("You must choose a file to convert!"))
             elif not os.path.exists(self.fname):
-                raise ValidationError('Το αρχείο {} δεν υπάρχει!'
-                                                        .format(self.fname))            
+                raise Exception(self.tr('The selected file does not exists!'))
             elif not a == b and not ((a == 'dib' and b == 'bmp') or \
                 (a == 'ps' and b == 'eps') or ((a == 'jpg' or a == 'jpe')\
                 and b == 'jpeg') or (a == 'tiff' and b == 'tif')):
                 # look if real_ext is same type with ext_from and just have
                 # different extension. eg: jpg is same as jpeg
-                raise ValidationError("Η επέκταση του αρχείου δεν είναι {}."\
-                                                    .format(ext_from))
+                raise Exception(self.tr(
+                                "File' s extensions is not %1.").arg(ext_from))
             elif ext_from == ext_to:
-                raise ValidationError('Δεν γίνεται να μετατρέψετε την επέκταση'
-                            ' του αρχείου στην ήδη υπάρχουσα!')
+                raise Exception(self.tr(
+                    'You can not convert the file extension to the existing!'))
             elif (index == 0 or index == 1) and not self.ffmpeg:
-                raise ValidationError('Το πρόγραμμα ffmpeg δεν είναι '
-                    'εγκατεστημένο.\nΔεν μπορείτε να κάνετε μετατροπές video ή'
-                    ' ήχου μέχρι να το εγκαταστήσετε.')
+                raise Exception(self.tr(
+                    'Program FFmpeg is not installed.\nYou will not be able '
+                    'to convert video and audio files until you install it.'))
+            elif index == 2 and not self.pil:
+                raise Exception(self.tr(
+                    'Python Imaging Library (PIL) is not installed.\nYou will '
+                    'not be able to convert image files until you install it.')
+                    )
             elif index == 3 and not self.unoconv:
-                raise ValidationError('Το πρόγραμμα unoconv δεν είναι '
-                'εγκατεστημένο.\nΔεν μπορείτε να κάνετε μετατροπές εγγράφων '
-                'κειμένου μέχρι να το εγκαταστήσετε.')                                
+                raise Exception(self.tr(
+                    'Program unocov is not installed.\nYou will not be able '
+                    'to convert document files until you install it.'))
             return True
-        except ValidationError as e:
-            QMessageBox.warning(self, "FF Multi Converter - Σφάλμα!", 
-                                                                unicode(e))
+        except Exception as e:
+            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+                                                                    unicode(e))
             return False  
             
     def convert(self):
         """Starts the convert procedure."""
-        if not self.ok_to_continue():
+        ext_from, ext_to = self.get_extensions()
+        if not self.ok_to_continue(ext_from, ext_to):
             return
         files_to_conv = self.files_to_conv_list()
-        ext_to = unicode(self.toComboBox.currentText())   
-        # split from the docsting (Μόνο ήχος) if it is appropriate
-        ext_to = ext_to.split(' ')[0]
-        index = self.typeComboBox.currentIndex()
+        index = self.TabWidget.currentIndex()
         delete = self.deleteCheckBox.isChecked()
         
         dialog = ProgressDlg(files_to_conv, ext_to, index, delete)
@@ -364,16 +341,13 @@ class FFMultiConverter(QMainWindow,
         
         Returns: boolean
         """
-        # Add quotations to every dir's or file's name in order to avoid error
-        # in special cases such as spaces or special characters.
-        path = ''
-        for i in from_file.split('/')[1:]:
-            path += '/"' + i + '"'        
-        
-        _dir, _file = os.path.split(path)
+        # Add quotations to path in order to avoid error in special cases 
+        # such as spaces or special characters.
+        from_file = '"' + from_file + '"'        
+        _dir, _file = os.path.split(from_file)
         base = os.path.splitext(_file)[0]
         to_file = _dir + '/' + base + '.' + extension + '"'
-        command = 'ffmpeg -y -i {} {}'.format(path, to_file)
+        command = 'ffmpeg -y -i {} {}'.format(from_file, to_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
         return True if subprocess.call(command) == 0 else False
@@ -405,65 +379,56 @@ class FFMultiConverter(QMainWindow,
         
         Returns: boolean        
         """        
-        # Add quotations to every dir's or file's name in order to avoid error
-        # in special cases such as spaces or special characters.        
-        path = ''
-        for i in from_file.split('/')[1:]:
-            path += '/"' + i + '"'        
-        
-        command = 'unoconv --format={} {}'.format(extension, path)
+        # Add quotations to path in order to avoid error in special cases 
+        # such as spaces or special characters.        
+        from_file = '"' + from_file + '"'                
+        command = 'unoconv --format={} {}'.format(extension, from_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
         return True if subprocess.call(command) == 0 else False                                      
             
     def about(self):
         """Shows an About dialog using qt standard dialog."""
-        QMessageBox.about(self, "Περί FF Multi Converter", 
-            '''<b> FF Multi Converter {0} </b>
-            <p>Μετατροπή μεταξύ διάφορων τύπων αρχείων σε διαφορετικές 
-            επεκτάσεις.
+        link  = 'https://github.com/Ilias95/FF-Multi-Converter/wiki/'
+        link += 'FF-Multi-Converter'
+        QMessageBox.about(self, self.tr("About FF Multi Converter"), self.tr( 
+            '''<b> FF Multi Converter %1 </b>
+            <p>Convert among several file types to other extensions
+            <p><a href="%2">FF Multi Converter</a>
             <p>Copyright &copy; 2011 Ilias Stamatis  
-            <br>Άδεια: GNU GPL3
-            <p>Python {1} - Qt {2} - PyQt {3} on {4}'''.format(__version__, 
-            platform.python_version()[:5], QT_VERSION_STR, PYQT_VERSION_STR,
-            platform.system()))    
+            <br>License: GNU GPL3
+            <p>Python %3 - Qt %4 - PyQt %5 on %6''').arg(__version__).arg(link)
+            .arg(platform.python_version()[:5]).arg(QT_VERSION_STR)
+            .arg(PYQT_VERSION_STR).arg(platform.system()))
     
     def check_for_dependencies(self):
-        """Checks if ffmpeg and unoconv is installed.
-        
-        Returns: two boolean
-        """
+        """Checks if ffmpeg, unoconv and PIL are installed and set 
+        dependenciesLabel status."""
         # subprocess.call() raises an Error if the program is not installed.
         # Not the best way to check if a package is already installed, 
         # but it works.
+        missing = []
         try:
             subprocess.call(['ffmpeg'])
-            ffmpeg = True
+            self.ffmpeg = True
         except:
-            ffmpeg = False
+            self.ffmpeg = False
+            missing.append('FFmpeg')
         try:
             subprocess.call(['unoconv'])
-            unoconv = True
+            self.unoconv = True
         except:
-            unoconv = False  
-        return ffmpeg, unoconv
-            
-    def missing_dependencies(self):
-        """Shows a dialog to inform that some dependencies is not installed."""
-        if not self.ffmpeg and not self.unoconv:
-            QMessageBox.information(self, 'Ελλιπείς εξαρτήσεις', 
-                'Τα πρόγραμματα ffmpeg και unoconv δεν είναι εγκατεστημένα.\n'
-                'Δεν μπορείτε να κάνετε μετατροπές video/ήχου και εγγράφων '
-                'κειμένου μέχρι να τα εγκαταστήσετε.')        
-        elif not self.ffmpeg:
-            QMessageBox.information(self, 'Ελλιπείς εξαρτήσεις', 'Το πρόγραμμα'
-                ' ffmpeg δεν είναι εγκατεστημένο.\nΔεν μπορείτε να κάνετε '
-                'μετατροπές video ή ήχου μέχρι να το εγκαταστήσετε.')
-        elif not self.unoconv:
-            QMessageBox.information(self, 'Ελλιπείς εξαρτήσεις', 'Το πρόγραμμα'
-                ' unoconv δεν είναι εγκατεστημένο.\nΔεν μπορείτε να κάνετε '
-                'μετατροπές εγγράφων κειμένου μέχρι να το εγκαταστήσετε.')
-
+            self.unoconv = False  
+            missing.append('Unoconv')
+        try:
+            import PIL
+            self.pil = True
+        except ImportError:
+            self.pil = False
+            missing.append('PIL')
+        missing = ", ".join(missing) if missing else self.tr('None')
+        status = self.tr('Missing dependencies: ') + missing
+        self.dependenciesLabel.setText(status)
                 
 class ProgressDlg(QDialog):
     
@@ -474,17 +439,17 @@ class ProgressDlg(QDialog):
         files -- list with files to be converted
         ext_to -- the extension to convert to
         index -- number that shows file type
-        delete -- boolean that shows if files must removed after convertion
+        delete -- boolean that shows if files must removed after conversion
         """
         super(ProgressDlg, self).__init__(parent)
-        self.setWindowTitle('FF Multi Converter - Μετατροπή')        
+        self.setWindowTitle(self.tr('FF Multi Converter - Conversion'))   
         self.setGeometry(300, 300, 300, 120)
         self.bar = QProgressBar()
         self.bar.setValue(0)
-        self.stopButton = QPushButton('Διακοπή')
-        self.label = QLabel('Μετατροπή αρχείων...')
+        self.stopButton = QPushButton(self.tr('Stop'))
+        self.label = QLabel(self.tr('Converting files...'))
         
-        self.connect(self.stopButton, SIGNAL('clicked()'), self.reject)
+        self.stopButton.clicked.connect(self.reject)
         
         hlayout = QHBoxLayout()
         hlayout.addStretch()
@@ -504,8 +469,6 @@ class ProgressDlg(QDialog):
         self.index = index
         self.delete = delete
         self.step = 100 / len(files)
-        # ok and error shows the number of files that converted successfully 
-        # or not
         self.ok = 0 
         self.error = 0
         
@@ -517,8 +480,9 @@ class ProgressDlg(QDialog):
         if self.bar.value() >= 100:
             self.timer.stop()
             sum_files = self.ok + self.error
-            QMessageBox.information(self, 'Αναφορά', 'Μετατράπηκαν: {}/{}'
-                    .format(self.ok, sum_files))
+            QMessageBox.information(self, 
+                self.tr('Report'), 
+                self.tr('Converted: %1/%2').arg(self.ok).arg(sum_files))
             self.accept()
             return
         self.convert_a_file()            
@@ -529,18 +493,19 @@ class ProgressDlg(QDialog):
             self.bar.setValue(value)
                                 
     def reject(self):
-        """Use Qt standard dialog to ask whether procedure must stop or not."""
+        """Uses standard dialog to ask whether procedure must stop or not."""
         self.timer.stop()
-        reply = QMessageBox.question(self, 'FF Multi Converter - Διακοπή '
-            'μετατροπής', 'Είστε σίγουρος ότι θέλετε να διακόψετε τη '
-            'διαδικασία;', QMessageBox.Yes|QMessageBox.Cancel)
+        reply = QMessageBox.question(self, 
+            self.tr('FF Multi Converter - Interrupt Conversion'), 
+            self.tr('Are you sure that you want to interrupt the procedure?'), 
+            QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             QDialog.reject(self)
         if reply == QMessageBox.Cancel:
             self.timer.start(100, self)
             
     def convert_a_file(self):
-        """Do the conversions of files using methods of Conversions class."""
+        """Does the conversions of files"""
         if not self.files:
             return
         if self.index == 0 or self.index == 1:
@@ -570,10 +535,18 @@ def main():
     global converter
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
+    
+    # search if there is locale translation avalaible and set the Translators
+    locale = QLocale.system().name()
+    qtTranslator = QTranslator()
+    if qtTranslator.load("qt_" + locale, ":/"):
+        app.installTranslator(qtTranslator)
+    appTranslator = QTranslator()
+    if appTranslator.load("ffmulticonverter_" + locale, ":/"):
+        app.installTranslator(appTranslator)    
+        
     converter = FFMultiConverter()
     converter.show()
-    if not converter.ffmpeg or not converter.unoconv:
-        converter.missing_dependencies()
     app.exec_()    
     
 if __name__ == '__main__':

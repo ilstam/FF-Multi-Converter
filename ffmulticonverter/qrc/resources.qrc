@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-<file alias="ffmulticonverter.png">../icons/ffmulticonverter.png</file>
+<file alias="ffmulticonverter_el.qm">../translations/ffmulticonverter_el.qm</file>
+<file alias="ffmulticonverter.png">../data/ffmulticonverter.png</file>
 </qresource>
 </RCC>
 

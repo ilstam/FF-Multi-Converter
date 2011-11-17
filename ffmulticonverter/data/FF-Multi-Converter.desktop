@@ -1,11 +1,11 @@
 [Desktop Entry]
+Type=Application
 Name=FF Multi Converter
-GenericName=FF Multi Converter
+GenericName=File Format Converter
 Comment=GUI application to convert multiple file formats 
 Encoding=UTF-8
-Exec=/usr/local/bin/ffmulticonverter
+Exec=ffmulticonverter
 Icon=/usr/share/app-install/icons/ffmulticonverter.png
 Terminal=false
-Type=Application
 Categories=
 StartupNotify=false

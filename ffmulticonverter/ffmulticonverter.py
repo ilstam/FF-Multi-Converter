@@ -546,8 +546,8 @@ def main():
     if qtTranslator.load("qt_" + locale, ":/"):
         app.installTranslator(qtTranslator)
     appTranslator = QTranslator()
-    #if appTranslator.load("ffmulticonverter_" + locale, ":/"):
-     #   app.installTranslator(appTranslator)    
+    if appTranslator.load("ffmulticonverter_" + locale, ":/"):
+        app.installTranslator(appTranslator)    
         
     converter = FFMultiConverter()
     converter.show()

@@ -12,7 +12,7 @@ setup(
     packages = ["ffmulticonverter"],
     scripts = ["ffmulticonverter/ffmulticonverter"],
     data_files = data_files,
-    version = "1.1.0",
+    version = "1.1.1",
     description = "GUI File Format Converter",
     author = "Ilias Stamatis",
     author_email = "stamatis.iliass@gmail.com",
@@ -44,6 +44,6 @@ Features:
 * Recursively convert files (same type or extension)
 * Delete original files
 
-Requires: python 2.7, PyQt4, PIL, ffmpeg, unoconv, Open/Libre office suite
+Requires: python2, PyQt4, PIL, ffmpeg, unoconv, Open/Libre office suite
 """
 )

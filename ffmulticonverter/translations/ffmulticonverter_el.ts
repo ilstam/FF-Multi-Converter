@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="el_GR" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="el_GR">
 <context>
     <name>FFMultiConverter</name>
     <message>
@@ -239,7 +240,7 @@ You will not be able to convert document files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter.py" line="449"/>
         <source>Stop</source>
-        <translation>Διακοπή</translation>
+        <translation type="obsolete">Διακοπή</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="450"/>
@@ -259,17 +260,32 @@ You will not be able to convert document files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter.py" line="498"/>
         <source>FF Multi Converter - Interrupt Conversion</source>
-        <translation>FF Multi Converter - Διακοπή μετατροπής</translation>
+        <translation type="obsolete">FF Multi Converter - Διακοπή μετατροπής</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="498"/>
         <source>Are you sure that you want to interrupt the procedure?</source>
-        <translation>Είστε σίγουρος ότι θέλετε να διακόψετε την διαδικασία;</translation>
+        <translation type="obsolete">Είστε σίγουρος ότι θέλετε να διακόψετε την διαδικασία;</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="483"/>
         <source>Report</source>
         <translation>Αναφορά</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter.py" line="449"/>
+        <source>Cancel</source>
+        <translation>Ακύρωση</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter.py" line="498"/>
+        <source>FF Multi Converter - Cancel Conversion</source>
+        <translation>FF-Multi-Converter Διακοπή μετατροπής</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter.py" line="498"/>
+        <source>Are you sure you want to cancel conversion?</source>
+        <translation>Είστε σίγουρος οτι θέλετε να ακυρώσετε την διαδικασία;</translation>
     </message>
 </context>
 <context>

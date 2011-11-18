@@ -1,5 +1,5 @@
 =====================================================
-FF Multi Converter 1.1.0 
+FF Multi Converter 1.1.1 
 =====================================================
 
 Description
@@ -13,7 +13,7 @@ and PIL library for image file convertions. It also offers recursively conversio
 Requirements and Dependencies
 ------------------------------
 To run this program you need:
-python 2.7, PyQt4
+python2, PyQt4
 
 Dependencies:
 Python Imaging Library (PIL), ffmpeg, unoconv, Open/Libre office suite
@@ -22,7 +22,7 @@ The program does NOT require all dependencies to run.
 E.g. you can run the application even if you don't have PIL installed, but you will be able to convert
 any other types except image files.
 
-In an Ubuntu system you can install all requirements and dependencies with the command:
+In an Ubuntu system where Python, PIL and LibreOffice are already installed, you can install the rest with the command:
 	sudo apt-get install python-qt4 ffmpeg unoconv
 
 Python, PIL and OpenOffice are already installed.

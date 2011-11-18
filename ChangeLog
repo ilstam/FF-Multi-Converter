@@ -1,0 +1,32 @@
+
+Version 1.1.1:
+---------------
+
+* Bug with conversion dialog has been fixed.
+  Before this, dialog appeared after the first conversion.
+
+* Compatibility bug with python2.6 has been fixed.
+
+* Small corrections to some labels and greek translation.
+
+Version 1.1.0:
+---------------
+
+* Some part of the programm has been rewritten. 
+
+* The application translated to english which became the primary language. 
+
+* Greek translation available.
+
+* User interface changed. 
+  The three main ComboBoxes replaced by a tabWidget for each file type.
+
+* The dialog to inform for missing dependencies when program starts replaced
+  from a label on statusbar.
+
+* PIL added to dependencies.
+
+Version 1.0.0:
+---------------
+
+* First public release.

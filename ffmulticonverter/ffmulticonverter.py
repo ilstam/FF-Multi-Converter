@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 import platform
 py_version = platform.python_version()
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 if platform.system() != 'Linux':
     exit('Error: The application is available for Linux platforms only.')
@@ -176,7 +176,7 @@ class FFMultiConverter(QMainWindow,
     def get_extensions(self):
         """Returns the from and to extensions.
         
-        Returns: string
+        Returns: 2 strings
         """
         index = self.TabWidget.currentIndex()
         if index == 0:
@@ -265,16 +265,16 @@ class FFMultiConverter(QMainWindow,
     def ok_to_continue(self, ext_from, ext_to):
         """Checks if everything is ok to continue with conversion.
         
-        Keyword arguments:
-        ext_from -- current file extension
-        ext_to -- the extension for file to be converted to
-        
         Checks if: 
          - Theres is no given file
          - Given file exists
          - Given file extension is same with the declared extension
          - Declared from_extension == declared to_extension
          - Missing dependencies for this file type
+
+        Keyword arguments:
+        ext_from -- current file extension
+        ext_to -- the extension for file to be converted to
         
         Returns: boolean        
         """
@@ -330,6 +330,8 @@ class FFMultiConverter(QMainWindow,
         delete = self.deleteCheckBox.isChecked()
         
         dialog = ProgressDlg(files_to_conv, ext_to, index, delete)
+        dialog.show()
+        dialog.main()
         dialog.exec_()  
         
     def convert_video_or_audio(self, from_file, extension):
@@ -347,7 +349,7 @@ class FFMultiConverter(QMainWindow,
         _dir, _file = os.path.split(from_file)
         base = os.path.splitext(_file)[0]
         to_file = _dir + '/' + base + '.' + extension + '"'
-        command = 'ffmpeg -y -i {} {}'.format(from_file, to_file)
+        command = 'ffmpeg -y -i {0} {1}'.format(from_file, to_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
         return True if subprocess.call(command) == 0 else False
@@ -382,7 +384,7 @@ class FFMultiConverter(QMainWindow,
         # Add quotations to path in order to avoid error in special cases 
         # such as spaces or special characters.        
         from_file = '"' + from_file + '"'                
-        command = 'unoconv --format={} {}'.format(extension, from_file)
+        command = 'unoconv --format={0} {1}'.format(extension, from_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
         return True if subprocess.call(command) == 0 else False                                      
@@ -446,7 +448,7 @@ class ProgressDlg(QDialog):
         self.setGeometry(300, 300, 300, 120)
         self.bar = QProgressBar()
         self.bar.setValue(0)
-        self.stopButton = QPushButton(self.tr('Stop'))
+        self.stopButton = QPushButton(self.tr('Cancel'))
         self.label = QLabel(self.tr('Converting files...'))
         
         self.stopButton.clicked.connect(self.reject)
@@ -473,6 +475,8 @@ class ProgressDlg(QDialog):
         self.error = 0
         
         self.timer = QBasicTimer()
+        
+    def main(self):
         self.timer.start(100, self)         
         
     def timerEvent(self, timeout):
@@ -496,8 +500,8 @@ class ProgressDlg(QDialog):
         """Uses standard dialog to ask whether procedure must stop or not."""
         self.timer.stop()
         reply = QMessageBox.question(self, 
-            self.tr('FF Multi Converter - Interrupt Conversion'), 
-            self.tr('Are you sure that you want to interrupt the procedure?'), 
+            self.tr('FF Multi Converter - Cancel Conversion'), 
+            self.tr('Are you sure you want to cancel conversion?'), 
             QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             QDialog.reject(self)
@@ -542,8 +546,8 @@ def main():
     if qtTranslator.load("qt_" + locale, ":/"):
         app.installTranslator(qtTranslator)
     appTranslator = QTranslator()
-    if appTranslator.load("ffmulticonverter_" + locale, ":/"):
-        app.installTranslator(appTranslator)    
+    #if appTranslator.load("ffmulticonverter_" + locale, ":/"):
+     #   app.installTranslator(appTranslator)    
         
     converter = FFMultiConverter()
     converter.show()

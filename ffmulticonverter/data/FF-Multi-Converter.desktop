@@ -7,5 +7,5 @@ Encoding=UTF-8
 Exec=ffmulticonverter
 Icon=/usr/share/app-install/icons/ffmulticonverter.png
 Terminal=false
-Categories=
+Categories=AudioVideo;Office;
 StartupNotify=false

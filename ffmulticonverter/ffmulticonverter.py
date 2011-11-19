@@ -349,7 +349,7 @@ class FFMultiConverter(QMainWindow,
         _dir, _file = os.path.split(from_file)
         base = os.path.splitext(_file)[0]
         to_file = _dir + '/' + base + '.' + extension + '"'
-        command = 'ffmpeg -y -i {0} {1}'.format(from_file, to_file)
+        command = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file, to_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
         return True if subprocess.call(command) == 0 else False
@@ -551,6 +551,7 @@ def main():
         
     converter = FFMultiConverter()
     converter.show()
+    #converter.check_for_dependencies()
     app.exec_()    
     
 if __name__ == '__main__':

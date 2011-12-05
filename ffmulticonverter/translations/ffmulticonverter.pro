@@ -1,4 +1,3 @@
-FORMS        = ../ui_files/ffmulticonverter.ui
-SOURCES      = ../ffmulticonverter.py
+SOURCES      = ../ffmulticonverter.py ../preferences_dlg.py
 TRANSLATIONS = ffmulticonverter_el.ts
 

@@ -1,2 +1,2 @@
-include LICENSE.txt ChangeLog TODO
+include COPYING ChangeLog TODO
 include ffmulticonverter/data/*

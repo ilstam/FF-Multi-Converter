@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # FF Multi Converter's setup.py
 
+import os
 from distutils.core import setup
 
 data_files = [("share/app-install/icons/", ["ffmulticonverter/data/ffmulticonverter.png"]),
@@ -12,7 +13,7 @@ setup(
     packages = ["ffmulticonverter"],
     scripts = ["ffmulticonverter/ffmulticonverter"],
     data_files = data_files,
-    version = "1.1.1",
+    version = "1.2.0",
     description = "GUI File Format Converter",
     author = "Ilias Stamatis",
     author_email = "stamatis.iliass@gmail.com",
@@ -42,8 +43,10 @@ other extensions using ffmpeg, unoconv, and PIL library.
 Features:
 * Converts files in the same folder (same type or extension)
 * Recursively convert files (same type or extension)
-* Delete original files
 
-Requires: python2, PyQt4, PIL, ffmpeg, unoconv, Open/Libre office suite
+Requires: python2, PyQt4, ffmpeg, PIL, unoconv, Open/Libre office suite
 """
 )
+
+if os.path.isdir('build'):
+    os.system('rm -rf build')

@@ -1,14 +1,7 @@
 TODO list for ffmulticonverter
 -------------------------------
 
-* Add choice for target destination.
-  In recursive conversions folders' structure will be recreated.
+* Offer extra options for video conversions.
 
-* Show information while converting files:
-  - Now converting file's name.
-  - Files that converted succesfully.
-
-* Offer choice for shutdown PC when procedure ends.
-
-* Support extra video extensions.
+* Support extra file extensions.
 

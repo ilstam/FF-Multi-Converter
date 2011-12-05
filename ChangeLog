@@ -1,3 +1,16 @@
+Version 1.2.0:
+---------------
+
+* Great part of the program has been rewritten. 
+  The ui fully written by hand. No more use of QtDesigner.
+
+* Output destination added.
+
+* Preferences tab added.
+  New options for saving and naming files.
+
+* New bar added to progress dialog.
+  The new bar shows the progress of each file seperately.
 
 Version 1.1.1:
 ---------------
@@ -12,7 +25,7 @@ Version 1.1.1:
 Version 1.1.0:
 ---------------
 
-* Some part of the programm has been rewritten. 
+* Some part of the program has been rewritten. 
 
 * The application translated to english which became the primary language. 
 

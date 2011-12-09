@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-__version__ = "1.2.0"
+__version__ = "1.3.0 alpha"
 
 import platform
 py_version = platform.python_version()
@@ -39,8 +39,13 @@ except ImportError:
     pass
     # User will be informed about this later
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtCore import (QString, QTimer, QBasicTimer, QLocale, QTranslator, 
+                  QT_VERSION_STR, PYQT_VERSION_STR)
+from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, 
+                  QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, 
+                  QToolButton, QComboBox, QCheckBox, QRadioButton, QPushButton,
+                  QProgressBar, QTabWidget, QIcon, QAction, QKeySequence, 
+                  QFileDialog, QMessageBox)
 import sys
 import os
 import signal

@@ -60,6 +60,58 @@ import preferences_dlg
 import path_generator
 import qrc_resources
         
+class Tab(QWidget):
+    def __init__(self, formats, parent=None):
+        super(Tab, self).__init__(parent=None)
+
+        self.formats = formats        
+        label1 = QLabel(self.tr('Convert from:'))
+        label2 = QLabel(self.tr('Convert to:'))
+        self.fromComboBox = QComboBox()
+        self.toComboBox = QComboBox()        
+        layout = QGridLayout()
+        layout.addWidget(label1, 0, 0)
+        layout.addWidget(self.fromComboBox, 0, 1)
+        layout.addWidget(label2, 1, 0)
+        layout.addWidget(self.toComboBox, 1, 1)           
+        self.setLayout(layout)       
+        
+        self.update_comboboxes() 
+
+    def update_comboboxes(self):                  
+        if len(self.formats) == 2:
+            # this is for video tab where a string must be added
+            _list = []
+            string = self.tr(' (Audio only)')
+            [_list.append(i+string) for i in self.formats[1]]           
+            self.fromComboBox.addItems(self.formats[0])
+            self.toComboBox.addItems(self.formats[0]) 
+            self.toComboBox.addItems(_list) 
+        else:
+            self.fromComboBox.addItems(self.formats)
+            self.toComboBox.addItems(self.formats)  
+            
+class DocumentTab(Tab):
+    def __init__(self, formats, parent=None):
+        super(DocumentTab, self).__init__(formats, parent)
+        self.fromComboBox.currentIndexChanged.connect(self.refresh_toComboBox)
+        self.refresh_toComboBox()
+                
+    def update_comboboxes(self): 
+        # create a sorted list with document_formats extensions because 
+        # self.formats is a dict so values are not sorted
+        _list = []
+        [_list.append(ext) for ext in self.formats]
+        _list.sort()
+        self.fromComboBox.addItems(_list) 
+    
+    def refresh_toComboBox(self):
+        """Add the appropriate values to docToComboBox."""
+        self.toComboBox.clear()
+        text = str(self.fromComboBox.currentText())
+        [self.toComboBox.addItem(i) for i in self.formats[text]]           
+                        
+
 class FFMultiConverter(QMainWindow):
     def __init__(self, parent=None):
         super(FFMultiConverter, self).__init__(parent)
@@ -99,7 +151,7 @@ class FFMultiConverter(QMainWindow):
                                 'txt' : ['odt'],
                                 'xls' : ['ods'],
                                 'xml' : ['doc', 'odt', 'pdf']}              
-        self.fname = ''    # file to convert
+        self.fname = ''  # file to convert
         self.output = '' # output destination         
         
         select_label = QLabel(self.tr('Select file:'))
@@ -120,55 +172,18 @@ class FFMultiConverter(QMainWindow):
         grid1.addWidget(output_label, 1, 0)
         grid1.addWidget(self.toLineEdit, 1, 1)
         grid1.addWidget(self.toToolButton, 1, 2)
-        
-        self.audFromComboBox = QComboBox()
-        self.vidFromComboBox = QComboBox()
-        self.imgFromComboBox = QComboBox()
-        self.docFromComboBox = QComboBox()
-        self.audToComboBox = QComboBox()
-        self.vidToComboBox = QComboBox()
-        self.imgToComboBox = QComboBox()
-        self.docToComboBox = QComboBox()        
-        
-        tabs = [self.tr('Audio'), self.tr('Video'), self.tr('Image'), 
-                self.tr('Documents')]
-        from_boxes = [self.audFromComboBox, self.vidFromComboBox, 
-                                    self.imgFromComboBox, self.docFromComboBox]
-        to_boxes = [self.audToComboBox, self.vidToComboBox, self.imgToComboBox, 
-                                                            self.docToComboBox]
-        labels = [self.tr('Convert from:'), self.tr('Convert to:')]
+             
+        self.audio_tab = Tab(self.audio_formats)
+        self.video_tab = Tab([self.video_formats, self.vid_to_aud_formats])
+        self.image_tab = Tab(self.image_formats)
+        self.document_tab = DocumentTab(self.document_formats)
+        tabs = [self.audio_tab, self.video_tab, self.image_tab, 
+                self.document_tab]
+        tab_names = [self.tr('Audio'), self.tr('Video'), self.tr('Image'),
+                     self.tr('Documents')]                                                                     
         self.TabWidget  = QTabWidget()
-        x = 0
-        for tab in tabs:
-            label1 = QLabel(labels[0])
-            label2 = QLabel(labels[1])
-            box1 = from_boxes[x]
-            box2 = to_boxes[x]
-            tab_layout = QGridLayout()
-            tab_layout.addWidget(label1, 0, 0)
-            tab_layout.addWidget(box1, 0, 1)
-            tab_layout.addWidget(label2, 1, 0)
-            tab_layout.addWidget(box2, 1, 1)            
-            widget = QWidget()
-            widget.setLayout(tab_layout)
-            self.TabWidget.addTab(widget, tab)
-            x += 1
+        [self.TabWidget.addTab(tabs[i[0]], i[1]) for i in enumerate(tab_names)]
         self.TabWidget.setCurrentIndex(0)
-        [self.audFromComboBox.addItem(i) for i in self.audio_formats]
-        [self.audToComboBox.addItem(i) for i in self.audio_formats]
-        [self.vidFromComboBox.addItem(i) for i in self.video_formats]
-        [self.vidToComboBox.addItem(i) for i in self.video_formats]
-        string = self.tr(' (Audio only)')
-        [self.vidToComboBox.addItem(i+string) for i in self.vid_to_aud_formats]
-        [self.imgFromComboBox.addItem(i) for i in self.image_formats]
-        [self.imgToComboBox.addItem(i) for i in self.image_formats]
-        # create a sorted list with document_formats extensions because 
-        # self.document_formats is a dict so values are not sorted
-        _list = []
-        [_list.append(ext) for ext in self.document_formats]
-        _list.sort()         
-        [self.docFromComboBox.addItem(i) for i in _list]
-        self.refresh_docComboBox() # set docToComboBox values
         
         self.folderCheckBox = QCheckBox(self.tr(
                                           'Convert all files\nin this folder'))
@@ -243,8 +258,6 @@ class FFMultiConverter(QMainWindow):
                                           self.checkboxes_clicked('recursive'))
         self.fromToolButton.clicked.connect(self.open_file)
         self.toToolButton.clicked.connect(self.open_dir)
-        self.docFromComboBox.currentIndexChanged.connect(
-                                                      self.refresh_docComboBox)
         self.convertPushButton.clicked.connect(self.convert)         
         
         self.resize(630, 314)
@@ -353,14 +366,6 @@ class FFMultiConverter(QMainWindow):
         else:
             self.typeRadioButton.setEnabled(enable)
             
-    def refresh_docComboBox(self):
-        """Add the appropriate values to docToComboBox."""
-        # document_formats is dict, so only some extensions corresponds
-        # to some others.
-        self.docToComboBox.clear()
-        text = str(self.docFromComboBox.currentText())
-        [self.docToComboBox.addItem(i) for i in self.document_formats[text]]            
-            
     def preferences(self):
         """Opens the preferences dialog."""
         dialog = preferences_dlg.Preferences(self.settings_list)
@@ -429,25 +434,22 @@ class FFMultiConverter(QMainWindow):
         """Returns the from and to extensions.
         
         Returns: 2 strings
-        """
+        """        
         index = self.TabWidget.currentIndex()
         if index == 0:
-            ext_from = unicode(self.audFromComboBox.currentText())
-            ext_to = unicode(self.audToComboBox.currentText())
+            tab = self.audio_tab
         elif index == 1:
-            ext_from = unicode(self.vidFromComboBox.currentText())
-            ext_to = unicode(self.vidToComboBox.currentText())
-            # split from the docsting (Audio Only) if it is appropriate
-            ext_to = ext_to.split(' ')[0]                        
+            tab = self.video_tab
         elif index == 2:
-            ext_from = unicode(self.imgFromComboBox.currentText())
-            ext_to = unicode(self.imgToComboBox.currentText())
+            tab = self.image_tab
         elif index == 3:
-            ext_from = unicode(self.docFromComboBox.currentText())
-            ext_to = unicode(self.docToComboBox.currentText())
-        ext_from = '.' + ext_from
-        ext_to = '.' + ext_to
-            
+            tab = self.document_tab                                            
+        
+        ext_from = '.' + unicode(tab.fromComboBox.currentText())
+        ext_to = '.' + unicode(tab.toComboBox.currentText())                
+        # split from the docsting (Audio Only) if it is appropriate
+        ext_to = ext_to.split(' ')[0]
+        
         return ext_from, ext_to
 
     def find_type(self):
@@ -1042,13 +1044,13 @@ def main():
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
     
     # search if there is locale translation avalaible and set the Translators
-    locale = QLocale.system().name()
+    '''locale = QLocale.system().name()
     qtTranslator = QTranslator()
     if qtTranslator.load("qt_" + locale, ":/"):
         app.installTranslator(qtTranslator)
     appTranslator = QTranslator()
     if appTranslator.load("ffmulticonverter_" + locale, ":/"):
-        app.installTranslator(appTranslator)
+        app.installTranslator(appTranslator)'''
         
     converter = FFMultiConverter()
     converter.show()

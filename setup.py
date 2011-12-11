@@ -5,7 +5,7 @@
 import os
 from distutils.core import setup
 
-data_files = [("share/app-install/icons/", ["ffmulticonverter/data/ffmulticonverter.png"]),
+data_files = [("share/icons/", ["ffmulticonverter/data/ffmulticonverter.png"]),
               ("share/applications/", ["ffmulticonverter/data/FF-Multi-Converter.desktop"])]
 
 setup(

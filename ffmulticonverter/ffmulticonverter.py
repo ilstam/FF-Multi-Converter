@@ -106,7 +106,7 @@ class DocumentTab(Tab):
         self.fromComboBox.addItems(_list) 
     
     def refresh_toComboBox(self):
-        """Add the appropriate values to docToComboBox."""
+        """Add the appropriate values to toComboBox."""
         self.toComboBox.clear()
         text = str(self.fromComboBox.currentText())
         [self.toComboBox.addItem(i) for i in self.formats[text]]           
@@ -1044,13 +1044,14 @@ def main():
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
     
     # search if there is locale translation avalaible and set the Translators
-    '''locale = QLocale.system().name()
+    locale = QLocale.system().name()
+    #locale = ''
     qtTranslator = QTranslator()
     if qtTranslator.load("qt_" + locale, ":/"):
         app.installTranslator(qtTranslator)
     appTranslator = QTranslator()
     if appTranslator.load("ffmulticonverter_" + locale, ":/"):
-        app.installTranslator(appTranslator)'''
+        app.installTranslator(appTranslator)
         
     converter = FFMultiConverter()
     converter.show()

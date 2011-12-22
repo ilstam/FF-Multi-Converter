@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-__version__ = "1.3.0 alpha"
+__version__ = "1.3.0 planning"
 
 import platform
 py_version = platform.python_version()
@@ -40,12 +40,16 @@ except ImportError:
     # User will be informed about this later
 
 from PyQt4.QtCore import (QString, QTimer, QBasicTimer, QLocale, QTranslator, 
-                  QT_VERSION_STR, PYQT_VERSION_STR)
-from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, 
-                  QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, 
-                  QToolButton, QComboBox, QCheckBox, QRadioButton, QPushButton,
-                  QProgressBar, QTabWidget, QIcon, QAction, QKeySequence, 
-                  QFileDialog, QMessageBox)
+                  QSize, QT_VERSION_STR, PYQT_VERSION_STR)
+from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, QFrame,
+                  QGridLayout, QVBoxLayout, QHBoxLayout, QSizePolicy, QLabel, 
+                  QSpacerItem, QLineEdit, QToolButton, QComboBox, QCheckBox, 
+                  QRadioButton, QPushButton, QProgressBar, QTabWidget, QIcon, 
+                  QAction, QKeySequence, QFileDialog, QMessageBox)
+
+#from PyQt4.QtCore import *     
+#from PyQt4.QtGui import *
+                  
 import sys
 import os
 import signal
@@ -59,41 +63,161 @@ import time
 import preferences_dlg
 import path_generator
 import qrc_resources
-        
+
 class Tab(QWidget):
-    def __init__(self, formats, parent=None):
-        super(Tab, self).__init__(parent=None)
+    def __init__(self, parent, formats):
+        super(Tab, self).__init__(parent)
+        self.parent = parent
 
         self.formats = formats        
         label1 = QLabel(self.tr('Convert from:'))
         label2 = QLabel(self.tr('Convert to:'))
         self.fromComboBox = QComboBox()
         self.toComboBox = QComboBox()        
-        layout = QGridLayout()
-        layout.addWidget(label1, 0, 0)
-        layout.addWidget(self.fromComboBox, 0, 1)
-        layout.addWidget(label2, 1, 0)
-        layout.addWidget(self.toComboBox, 1, 1)           
-        self.setLayout(layout)       
+        grid = QGridLayout()
+        grid.addWidget(label1, 0, 0)
+        grid.addWidget(self.fromComboBox, 0, 1)
+        grid.addWidget(label2, 1, 0)
+        grid.addWidget(self.toComboBox, 1, 1)           
+        
+        self.layout = QVBoxLayout()
+        self.layout.addLayout(grid)
+        self.setLayout(self.layout)       
         
         self.update_comboboxes() 
 
     def update_comboboxes(self):                  
-        if len(self.formats) == 2:
-            # this is for video tab where a string must be added
-            _list = []
-            string = self.tr(' (Audio only)')
-            [_list.append(i+string) for i in self.formats[1]]           
-            self.fromComboBox.addItems(self.formats[0])
-            self.toComboBox.addItems(self.formats[0]) 
-            self.toComboBox.addItems(_list) 
-        else:
-            self.fromComboBox.addItems(self.formats)
-            self.toComboBox.addItems(self.formats)  
+        self.fromComboBox.addItems(self.formats)
+        self.toComboBox.addItems(self.formats)  
             
+    def create_invisable_layout(self, labels, widgets):
+        line = QFrame()
+        line.setFrameShape(QFrame.HLine)
+        line.setFrameShadow(QFrame.Sunken)
+        moreButton = QPushButton(self.tr('More'))
+        moreSizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        moreButton.setSizePolicy(moreSizePolicy)
+        moreButton.setCheckable(True)
+        
+        hlayout1 = QHBoxLayout()
+        hlayout1.addWidget(line)
+        hlayout1.addWidget(moreButton)     
+        
+        hlayout2 = QHBoxLayout()
+        for a, b in zip(labels, widgets):
+            a.setText(
+                     '<html><p align="center">{0}</p></html>'.format(a.text()))
+            
+            layout = QVBoxLayout()
+            layout.addWidget(a)
+            try:
+                layout.addWidget(b)
+            except TypeError:
+                layout.addLayout(b)
+            hlayout2.addLayout(layout)        
+        
+        self.frame = QFrame()
+        self.frame.setLayout(hlayout2)
+        self.frame.hide()        
+        
+        self.layout.addLayout(hlayout1)
+        self.layout.addWidget(self.frame)                     
+        
+        moreButton.toggled.connect(self.frame.setVisible)
+        moreButton.clicked.connect(self.resize_parent)
+
+    def resize_parent(self):
+        if self.frame.isVisible(): 
+            self.parent.resize(685, 453)
+        else:                    
+            self.parent.resize(685, 378)            
+            
+            
+class AudioTab(Tab):
+    def __init__(self, parent, formats):
+        super(AudioTab, self).__init__(parent, formats)
+        
+        nochange = self.tr('No Change')
+        self.frequency_values = [nochange, '22050', '44100', '48000']
+        self.bitrate_values = [nochange, '32', '96', '112', '128', '160', 
+                                                           '192', '256', '320']        
+                
+        freqLabel = QLabel(self.tr('Frequency (Hz):'))
+        chanLabel = QLabel(self.tr('Channels:'))
+        bitrateLabel = QLabel(self.tr('Bitrate (kbps):'))
+        
+        self.freqComboBox = QComboBox()
+        self.freqComboBox.addItems(self.frequency_values)                
+        self.chan1RadioButton = QRadioButton('1')  
+        self.chan1RadioButton.setMaximumSize(QSize(51, 16777215))
+        self.chan2RadioButton = QRadioButton('2')
+        self.chan2RadioButton.setMaximumSize(QSize(51, 16777215))        
+        chanlayout = QHBoxLayout()
+        chanlayout.addItem(QSpacerItem(40, 20, QSizePolicy.Preferred, 
+                                                          QSizePolicy.Minimum))
+        chanlayout.addWidget(self.chan1RadioButton)
+        chanlayout.addWidget(self.chan2RadioButton)
+        chanlayout.addItem(QSpacerItem(40, 20, QSizePolicy.Preferred, 
+                                                          QSizePolicy.Minimum))        
+        self.bitrateComboBox = QComboBox()
+        self.bitrateComboBox.addItems(self.bitrate_values)
+        
+        labels = [freqLabel, chanLabel, bitrateLabel]
+        widgets = [self.freqComboBox, chanlayout, self.bitrateComboBox]
+        
+        self.create_invisable_layout(labels, widgets)
+
+
+class VideoTab(Tab):
+    def __init__(self, parent, formats):
+        super(VideoTab, self).__init__(parent, formats)
+        
+        sizeLabel = QLabel(self.tr('Video Size:'))
+        aspectLabel = QLabel(self.tr('Aspect:'))
+        frameLabel = QLabel(self.tr('Frame Rate:'))
+        bitrateLabel = QLabel(self.tr('Bitrate (kbps):'))
+        
+        self.widthLineEdit = QLineEdit()
+        self.widthLineEdit.setMaximumSize(QSize(50, 16777215))
+        self.heightLineEdit = QLineEdit()
+        self.heightLineEdit.setMaximumSize(QSize(50, 16777215))
+        label = QLabel('x')
+        layout1 = QHBoxLayout()
+        layout1.addWidget(self.widthLineEdit)
+        layout1.addWidget(label)
+        layout1.addWidget(self.heightLineEdit)
+        self.aspect1LineEdit = QLineEdit()
+        self.aspect1LineEdit.setMaximumSize(QSize(35, 16777215))
+        self.aspect2LineEdit = QLineEdit()
+        self.aspect2LineEdit.setMaximumSize(QSize(35, 16777215))
+        label = QLabel(':')
+        layout2 = QHBoxLayout()
+        layout2.addWidget(self.aspect1LineEdit)
+        layout2.addWidget(label)
+        layout2.addWidget(self.aspect2LineEdit)        
+        self.frameLineEdit = QLineEdit()
+        self.bitrateLineEdit = QLineEdit()
+        
+        labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
+        widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
+        
+        self.create_invisable_layout(labels, widgets)   
+        
+    def update_comboboxes(self):                  
+        string = self.tr(' (Audio only)')          
+        self.fromComboBox.addItems(self.formats[0])
+        self.toComboBox.addItems(self.formats[0]) 
+        self.toComboBox.addItems([(i+string) for i in self.formats[1]])
+
+class ImageTab(Tab):
+    def __init__(self, parent, formats):
+        super(ImageTab, self).__init__(parent, formats)
+
+
 class DocumentTab(Tab):
-    def __init__(self, formats, parent=None):
-        super(DocumentTab, self).__init__(formats, parent)
+    def __init__(self, parent, formats):
+        super(DocumentTab, self).__init__(parent, formats)
+        
         self.fromComboBox.currentIndexChanged.connect(self.refresh_toComboBox)
         self.refresh_toComboBox()
                 
@@ -173,10 +297,11 @@ class FFMultiConverter(QMainWindow):
         grid1.addWidget(self.toLineEdit, 1, 1)
         grid1.addWidget(self.toToolButton, 1, 2)
              
-        self.audio_tab = Tab(self.audio_formats)
-        self.video_tab = Tab([self.video_formats, self.vid_to_aud_formats])
-        self.image_tab = Tab(self.image_formats)
-        self.document_tab = DocumentTab(self.document_formats)
+        self.audio_tab = AudioTab(self, self.audio_formats)
+        self.video_tab = VideoTab(self, 
+                                 [self.video_formats, self.vid_to_aud_formats])
+        self.image_tab = Tab(self, self.image_formats)
+        self.document_tab = DocumentTab(self, self.document_formats)
         tabs = [self.audio_tab, self.video_tab, self.image_tab, 
                 self.document_tab]
         tab_names = [self.tr('Audio'), self.tr('Video'), self.tr('Image'),
@@ -260,7 +385,7 @@ class FFMultiConverter(QMainWindow):
         self.toToolButton.clicked.connect(self.open_dir)
         self.convertPushButton.clicked.connect(self.convert)         
         
-        self.resize(630, 314)
+        self.resize(685, 378)
         self.setWindowTitle('FF Multi Converter')
         
         QTimer.singleShot(0, self.check_for_dependencies)
@@ -278,9 +403,9 @@ class FFMultiConverter(QMainWindow):
         Returns: QAction
         """
         action = QAction(text, self)
-        if shortcut:
+        if shortcut is not None:
             action.setShortcut(shortcut)
-        if tip:
+        if tip is not None:
             action.setToolTip(tip)
             action.setStatusTip(tip)
         action.triggered.connect(slot)
@@ -710,7 +835,7 @@ class FFMultiConverter(QMainWindow):
             self.libreoffice = True
         else:
             self.libreoffice = False          
-        if not (self.openoffice or self.libreoffice):
+        if not self.openoffice and not self.libreoffice:
             missing.append('Open/Libre Office')        
         try:
             import PIL
@@ -722,6 +847,7 @@ class FFMultiConverter(QMainWindow):
         missing = ", ".join(missing) if missing else self.tr('None')
         status = self.tr('Missing dependencies: ') + missing
         self.dependenciesLabel.setText(status)                            
+
 
 class Progress(QDialog):
     """Does the conversions and shows progress in a dialog."""

@@ -17,16 +17,19 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
+
+from PyQt4.QtGui import (QApplication, QDialog, QWidget, QGridLayout, 
+                  QHBoxLayout, QVBoxLayout, QSpacerItem, QLabel, QRadioButton, 
+                  QCheckBox, QLineEdit, QToolButton, QTabWidget, 
+                  QDialogButtonBox, QFileDialog)                  
 import sys
-from os import getenv
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+import os                  
 
 class Preferences(QDialog):
     
     def __init__(self, settings, parent=None):
         super(Preferences, self).__init__(parent)
-        self.home = getenv('HOME')
+        self.home = os.getenv('HOME')
         
         saveLabel = QLabel(self.tr('<html><b>Save files</b></html>'))
         self.saveto_outRadioButton = QRadioButton(self.tr(
@@ -149,6 +152,7 @@ class Preferences(QDialog):
         self.accept()                    
         
 if __name__ == '__main__':
+    #test dialog
     app = QApplication(sys.argv)
     _list = [True, True, '/home/ilias/kati1', 'prin', 'meta']
     dialog = Preferences(_list)

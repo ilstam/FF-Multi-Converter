@@ -39,16 +39,17 @@ except ImportError:
     pass
     # User will be informed about this later
 
-from PyQt4.QtCore import (QString, QTimer, QBasicTimer, QLocale, QTranslator, 
-                  QSize, QT_VERSION_STR, PYQT_VERSION_STR)
+from PyQt4.QtCore import (QSettings, QString, QRegExp, QTimer, QBasicTimer, 
+                  QLocale, QTranslator, QSize, QT_VERSION_STR,PYQT_VERSION_STR)
 from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, QFrame,
                   QGridLayout, QVBoxLayout, QHBoxLayout, QSizePolicy, QLabel, 
                   QSpacerItem, QLineEdit, QToolButton, QComboBox, QCheckBox, 
                   QRadioButton, QPushButton, QProgressBar, QTabWidget, QIcon, 
-                  QAction, QKeySequence, QFileDialog, QMessageBox)
+                  QAction, QKeySequence, QFileDialog, QMessageBox, 
+                  QRegExpValidator)
 
-from PyQt4.QtCore import *     
-from PyQt4.QtGui import *
+#from PyQt4.QtCore import *     
+#from PyQt4.QtGui import *
                   
 import sys
 import os
@@ -57,15 +58,12 @@ import subprocess
 import shlex
 import shutil
 import pickle
-import re
 import time
 
 import pyqttools
 import preferences_dlg
 import path_generator
 import qrc_resources
-
-pyqttools = pyqttools.Tools()
 
 class Tab(QWidget):
     def __init__(self, parent, formats):
@@ -167,22 +165,18 @@ class VideoTab(Tab):
         frameLabel = QLabel(self.tr('Frame Rate:'))
         bitrateLabel = QLabel(self.tr('Bitrate (kbps):'))
         
-        self.widthLineEdit = pyqttools.create_LineEdit((50, 16777215), 
-                                                                  validator, 4)
-        self.heightLineEdit = pyqttools.create_LineEdit((50, 16777215), 
-                                                                  validator, 4)
+        self.widthLineEdit = self.create_LineEdit((50, 16777215), validator, 4)
+        self.heightLineEdit = self.create_LineEdit((50, 16777215), validator,4)
         label = QLabel('x')
         layout1 = pyqttools.add_to_layout(QHBoxLayout(), self.widthLineEdit, 
                                                     label, self.heightLineEdit)
-        self.aspect1LineEdit = pyqttools.create_LineEdit((35, 16777215), 
-                                                                  validator, 2)                                                            
-        self.aspect2LineEdit = pyqttools.create_LineEdit((35, 16777215), 
-                                                                  validator, 2)
+        self.aspect1LineEdit = self.create_LineEdit((35, 16777215),validator,2)                                                            
+        self.aspect2LineEdit = self.create_LineEdit((35, 16777215),validator,2)
         label = QLabel(':')
         layout2 = pyqttools.add_to_layout(QHBoxLayout(), self.aspect1LineEdit, 
                                                    label, self.aspect2LineEdit)   
-        self.frameLineEdit = pyqttools.create_LineEdit(None, validator, 4)
-        self.bitrateLineEdit = pyqttools.create_LineEdit(None, validator, 6)
+        self.frameLineEdit = self.create_LineEdit(None, validator, 4)
+        self.bitrateLineEdit = self.create_LineEdit(None, validator, 6)
         
         labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
         widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
@@ -194,7 +188,23 @@ class VideoTab(Tab):
         self.fromComboBox.addItems(self.formats[0])
         self.toComboBox.addItems(self.formats[0]) 
         self.toComboBox.addItems([(i+string) for i in self.formats[1]])  
-         
+        
+    def create_LineEdit(self, maxsize, validator, maxlength):
+        """Creates a lineEdit
+        
+        Keyword arguments:
+        maxsize -- maximum size
+        validator -- a regular expression to be added as validator
+        maxlength - maximum length
+        """        
+        lineEdit = QLineEdit()
+        if maxsize is not None:
+            lineEdit.setMaximumSize(QSize(maxsize[0], maxsize[1]))
+        if validator is not None:
+            lineEdit.setValidator(validator)
+        if maxlength is not None:
+            lineEdit.setMaxLength(maxlength)
+        return lineEdit         
 
 class ImageTab(Tab):
     def __init__(self, parent, formats):
@@ -225,11 +235,8 @@ class DocumentTab(Tab):
 
 class FFMultiConverter(QMainWindow):
     def __init__(self, parent=None):
-        super(FFMultiConverter, self).__init__(parent)
-        
+        super(FFMultiConverter, self).__init__(parent)        
         self.home = os.getenv('HOME')
-        self.settings_dir = self.home + '/.ffmulticonverter/'
-        self.settings_file = self.settings_dir + 'settings.data'
                 
         self.audio_formats = ['aac', 'ac3', 'aiff', 'amr', 'asf', 'au', 'avi', 
                               'dvd', 'flac', 'flv', 'm4a', 'm4v', 'mmf', 'mov',
@@ -361,35 +368,16 @@ class FFMultiConverter(QMainWindow):
         self.setWindowTitle('FF Multi Converter')
         
         QTimer.singleShot(0, self.check_for_dependencies)
-        QTimer.singleShot(0, self.load_settings)
-                
-    def load_settings(self):
-        """Loads settings from disk."""
-        try:
-            with open(self.settings_file, 'rb') as a:
-                self.settings_list = pickle.load(a)
-        except IOError:
-            self.settings_list = [True, False, '', '', '']
-            pass        
-        self.set_settings()
-        
-    def save_settings(self):
-        """Saves settings to disk."""
-        if not os.path.exists(self.settings_dir):
-            os.mkdir(self.settings_dir)        
-        
-        with open(self.settings_file, 'wb') as a:
-            pickle.dump(self.settings_list, a)  
-        self.set_settings()
+        QTimer.singleShot(0, self.set_settings)        
         
     def set_settings(self):
         """Sets program settings"""
-        self.saveto_output = self.settings_list[0]
-        
-        self.rebuild_structure = self.settings_list[1]
-        self.default_output = self.settings_list[2]
-        self.prefix = self.settings_list[3]
-        self.suffix = self.settings_list[4]   
+        settings = QSettings()
+        self.saveto_output = settings.value('saveto_output').toBool()
+        self.rebuild_structure = settings.value('rebuild_structure').toBool()
+        self.default_output = settings.value('default_output').toString()
+        self.prefix = settings.value('prefix').toString()
+        self.suffix = settings.value('suffix').toString()
         
         if self.saveto_output:
             if self.toLineEdit.text() == self.tr('Each file to its original '
@@ -435,10 +423,9 @@ class FFMultiConverter(QMainWindow):
             
     def preferences(self):
         """Opens the preferences dialog."""
-        dialog = preferences_dlg.Preferences(self.settings_list)
+        dialog = preferences_dlg.Preferences()
         if dialog.exec_():
-            self.settings_list = dialog.settings
-            self.save_settings()
+            self.set_settings()
             
     def clear(self):
         """Clears the form.
@@ -1098,6 +1085,9 @@ class ValidationError(Exception):
                     
 def main():
     app = QApplication(sys.argv)
+    app.setOrganizationName('ffmulticonverter')
+    app.setOrganizationDomain('sites.google.com/site/ffmulticonverter/')
+    app.setApplicationName('FF Muli Converter')    
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
     
     # search if there is locale translation avalaible and set the Translators

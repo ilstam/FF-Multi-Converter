@@ -47,8 +47,8 @@ from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, QFrame,
                   QRadioButton, QPushButton, QProgressBar, QTabWidget, QIcon, 
                   QAction, QKeySequence, QFileDialog, QMessageBox)
 
-#from PyQt4.QtCore import *     
-#from PyQt4.QtGui import *
+from PyQt4.QtCore import *     
+from PyQt4.QtGui import *
                   
 import sys
 import os
@@ -60,78 +60,68 @@ import pickle
 import re
 import time
 
+import pyqttools
 import preferences_dlg
 import path_generator
 import qrc_resources
+
+pyqttools = pyqttools.Tools()
 
 class Tab(QWidget):
     def __init__(self, parent, formats):
         super(Tab, self).__init__(parent)
         self.parent = parent
-
         self.formats = formats        
+        
         label1 = QLabel(self.tr('Convert from:'))
         label2 = QLabel(self.tr('Convert to:'))
         self.fromComboBox = QComboBox()
         self.toComboBox = QComboBox()        
-        grid = QGridLayout()
-        grid.addWidget(label1, 0, 0)
-        grid.addWidget(self.fromComboBox, 0, 1)
-        grid.addWidget(label2, 1, 0)
-        grid.addWidget(self.toComboBox, 1, 1)           
-        
-        self.layout = QVBoxLayout()
-        self.layout.addLayout(grid)
+        grid = pyqttools.add_to_grid(QGridLayout(), 
+                        [label1, self.fromComboBox], [label2, self.toComboBox])        
+        self.layout = pyqttools.add_to_layout(QVBoxLayout(), grid)
         self.setLayout(self.layout)       
         
         self.update_comboboxes() 
 
-    def update_comboboxes(self):                  
+    def update_comboboxes(self):                 
         self.fromComboBox.addItems(self.formats)
         self.toComboBox.addItems(self.formats)  
             
-    def create_invisable_layout(self, labels, widgets):
+    def create_more_layout(self, labels, widgets):
+        """Creates hidden widget"""
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
-        moreButton = QPushButton(self.tr('More'))
+        self.moreButton = QPushButton(self.tr('More'))
         moreSizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        moreButton.setSizePolicy(moreSizePolicy)
-        moreButton.setCheckable(True)
+        self.moreButton.setSizePolicy(moreSizePolicy)
+        self.moreButton.setCheckable(True)
         
-        hlayout1 = QHBoxLayout()
-        hlayout1.addWidget(line)
-        hlayout1.addWidget(moreButton)     
-        
+        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), line, 
+                                                               self.moreButton)        
         hlayout2 = QHBoxLayout()
         for a, b in zip(labels, widgets):
-            a.setText(
-                     '<html><p align="center">{0}</p></html>'.format(a.text()))
-            
-            layout = QVBoxLayout()
-            layout.addWidget(a)
-            try:
-                layout.addWidget(b)
-            except TypeError:
-                layout.addLayout(b)
+            text = a.text()
+            a.setText('<html><p align="center">{0}</p></html>'.format(text))            
+            layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
             hlayout2.addLayout(layout)        
         
         self.frame = QFrame()
         self.frame.setLayout(hlayout2)
         self.frame.hide()        
+        pyqttools.add_to_layout(self.layout, hlayout1, self.frame)
         
-        self.layout.addLayout(hlayout1)
-        self.layout.addWidget(self.frame)                     
-        
-        moreButton.toggled.connect(self.frame.setVisible)
-        moreButton.clicked.connect(self.resize_parent)
+        self.moreButton.toggled.connect(self.frame.setVisible)
+        self.moreButton.toggled.connect(self.resize_parent)
 
     def resize_parent(self):
-        if self.frame.isVisible(): 
+        """Resizes MainWindow"""
+        if self.frame.isVisible():
             self.parent.resize(685, 453)
-        else:                    
-            self.parent.resize(685, 378)            
-            
+        else:                                
+            self.parent.setMinimumSize(685, 378)
+            self.parent.resize(685, 378)     
             
 class AudioTab(Tab):
     def __init__(self, parent, formats):
@@ -151,63 +141,60 @@ class AudioTab(Tab):
         self.chan1RadioButton = QRadioButton('1')  
         self.chan1RadioButton.setMaximumSize(QSize(51, 16777215))
         self.chan2RadioButton = QRadioButton('2')
-        self.chan2RadioButton.setMaximumSize(QSize(51, 16777215))        
-        chanlayout = QHBoxLayout()
-        chanlayout.addItem(QSpacerItem(40, 20, QSizePolicy.Preferred, 
-                                                          QSizePolicy.Minimum))
-        chanlayout.addWidget(self.chan1RadioButton)
-        chanlayout.addWidget(self.chan2RadioButton)
-        chanlayout.addItem(QSpacerItem(40, 20, QSizePolicy.Preferred, 
-                                                          QSizePolicy.Minimum))        
+        self.chan2RadioButton.setMaximumSize(QSize(51, 16777215))
+        spcr1 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
+        spcr2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
+        chanlayout = pyqttools.add_to_layout(QHBoxLayout(), spcr1, 
+                           self.chan1RadioButton, self.chan2RadioButton, spcr2)
         self.bitrateComboBox = QComboBox()
         self.bitrateComboBox.addItems(self.bitrate_values)
         
         labels = [freqLabel, chanLabel, bitrateLabel]
         widgets = [self.freqComboBox, chanlayout, self.bitrateComboBox]
         
-        self.create_invisable_layout(labels, widgets)
+        self.create_more_layout(labels, widgets)
 
 
 class VideoTab(Tab):
     def __init__(self, parent, formats):
         super(VideoTab, self).__init__(parent, formats)
         
+        pattern = QRegExp(r"\d*")
+        validator = QRegExpValidator(pattern, self)
+        
         sizeLabel = QLabel(self.tr('Video Size:'))
         aspectLabel = QLabel(self.tr('Aspect:'))
         frameLabel = QLabel(self.tr('Frame Rate:'))
         bitrateLabel = QLabel(self.tr('Bitrate (kbps):'))
         
-        self.widthLineEdit = QLineEdit()
-        self.widthLineEdit.setMaximumSize(QSize(50, 16777215))
-        self.heightLineEdit = QLineEdit()
-        self.heightLineEdit.setMaximumSize(QSize(50, 16777215))
+        self.widthLineEdit = pyqttools.create_LineEdit((50, 16777215), 
+                                                                  validator, 4)
+        self.heightLineEdit = pyqttools.create_LineEdit((50, 16777215), 
+                                                                  validator, 4)
         label = QLabel('x')
-        layout1 = QHBoxLayout()
-        layout1.addWidget(self.widthLineEdit)
-        layout1.addWidget(label)
-        layout1.addWidget(self.heightLineEdit)
-        self.aspect1LineEdit = QLineEdit()
-        self.aspect1LineEdit.setMaximumSize(QSize(35, 16777215))
-        self.aspect2LineEdit = QLineEdit()
-        self.aspect2LineEdit.setMaximumSize(QSize(35, 16777215))
+        layout1 = pyqttools.add_to_layout(QHBoxLayout(), self.widthLineEdit, 
+                                                    label, self.heightLineEdit)
+        self.aspect1LineEdit = pyqttools.create_LineEdit((35, 16777215), 
+                                                                  validator, 2)                                                            
+        self.aspect2LineEdit = pyqttools.create_LineEdit((35, 16777215), 
+                                                                  validator, 2)
         label = QLabel(':')
-        layout2 = QHBoxLayout()
-        layout2.addWidget(self.aspect1LineEdit)
-        layout2.addWidget(label)
-        layout2.addWidget(self.aspect2LineEdit)        
-        self.frameLineEdit = QLineEdit()
-        self.bitrateLineEdit = QLineEdit()
+        layout2 = pyqttools.add_to_layout(QHBoxLayout(), self.aspect1LineEdit, 
+                                                   label, self.aspect2LineEdit)   
+        self.frameLineEdit = pyqttools.create_LineEdit(None, validator, 4)
+        self.bitrateLineEdit = pyqttools.create_LineEdit(None, validator, 6)
         
         labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
         widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
         
-        self.create_invisable_layout(labels, widgets)   
+        self.create_more_layout(labels, widgets)   
         
     def update_comboboxes(self):                  
         string = self.tr(' (Audio only)')          
         self.fromComboBox.addItems(self.formats[0])
         self.toComboBox.addItems(self.formats[0]) 
-        self.toComboBox.addItems([(i+string) for i in self.formats[1]])
+        self.toComboBox.addItems([(i+string) for i in self.formats[1]])  
+         
 
 class ImageTab(Tab):
     def __init__(self, parent, formats):
@@ -287,63 +274,48 @@ class FFMultiConverter(QMainWindow):
         self.fromToolButton = QToolButton()
         self.fromToolButton.setText('...')
         self.toToolButton = QToolButton()
-        self.toToolButton.setText('...')
-        
-        grid1 = QGridLayout()
-        grid1.addWidget(select_label, 0, 0)
-        grid1.addWidget(self.fromLineEdit, 0, 1)
-        grid1.addWidget(self.fromToolButton, 0, 2)
-        grid1.addWidget(output_label, 1, 0)
-        grid1.addWidget(self.toLineEdit, 1, 1)
-        grid1.addWidget(self.toToolButton, 1, 2)
+        self.toToolButton.setText('...')        
+        grid1 = pyqttools.add_to_grid(QGridLayout(), 
+                        [select_label, self.fromLineEdit, self.fromToolButton], 
+                        [output_label, self.toLineEdit, self.toToolButton])
              
         self.audio_tab = AudioTab(self, self.audio_formats)
         self.video_tab = VideoTab(self, 
                                  [self.video_formats, self.vid_to_aud_formats])
         self.image_tab = Tab(self, self.image_formats)
         self.document_tab = DocumentTab(self, self.document_formats)
-        tabs = [self.audio_tab, self.video_tab, self.image_tab, 
-                self.document_tab]
+        
+        self.tabs = [self.audio_tab, self.video_tab, self.image_tab, 
+                     self.document_tab]
         tab_names = [self.tr('Audio'), self.tr('Video'), self.tr('Image'),
                      self.tr('Documents')]                                                                     
         self.TabWidget  = QTabWidget()
-        [self.TabWidget.addTab(tabs[i[0]], i[1]) for i in enumerate(tab_names)]
+        for i in enumerate(tab_names):
+            self.TabWidget.addTab(self.tabs[i[0]], i[1])        
         self.TabWidget.setCurrentIndex(0)
         
         self.folderCheckBox = QCheckBox(self.tr(
                                           'Convert all files\nin this folder'))
         self.recursiveCheckBox = QCheckBox(self.tr(
                                                  'Convert files\nrecursively'))
-        self.deleteCheckBox = QCheckBox(self.tr('Delete original'))
-        layout1 = QHBoxLayout()
-        layout1.addWidget(self.folderCheckBox)
-        layout1.addWidget(self.recursiveCheckBox)
-        layout1.addWidget(self.deleteCheckBox)
-        layout1.addStretch()        
+        self.deleteCheckBox = QCheckBox(self.tr('Delete original'))        
+        layout1 = pyqttools.add_to_layout(QHBoxLayout(),self.folderCheckBox, 
+                             self.recursiveCheckBox, self.deleteCheckBox, None)
+        
         self.typeRadioButton = QRadioButton(self.tr('Same type'))
-        self.extRadioButton = QRadioButton(self.tr('Same extension'))
-        layout2 = QHBoxLayout()
-        layout2.addWidget(self.typeRadioButton)
-        layout2.addWidget(self.extRadioButton)
-        layout2.addStretch()
-        layout3 = QVBoxLayout()
-        layout3.addLayout(layout1)
-        layout3.addLayout(layout2)     
         self.typeRadioButton.setEnabled(False)
-        self.extRadioButton.setEnabled(False)        
-        self.typeRadioButton.setChecked(True)        
+        self.typeRadioButton.setChecked(True)
+        self.extRadioButton = QRadioButton(self.tr('Same extension'))
+        self.extRadioButton.setEnabled(False)
+        layout2 = pyqttools.add_to_layout(QHBoxLayout(), self.typeRadioButton, 
+                                                     self.extRadioButton, None)
+        layout3 = pyqttools.add_to_layout(QVBoxLayout(), layout1, layout2)        
 
         self.convertPushButton = QPushButton(self.tr('&Convert'))
-        layout4 = QHBoxLayout()
-        layout4.addStretch()
-        layout4.addWidget(self.convertPushButton)
-        
-        final_layout = QVBoxLayout()
-        final_layout.addLayout(grid1)
-        final_layout.addWidget(self.TabWidget)
-        final_layout.addLayout(layout3)
-        final_layout.addStretch()
-        final_layout.addLayout(layout4)
+        layout4 = pyqttools.add_to_layout(QHBoxLayout(), None, 
+                                                        self.convertPushButton)        
+        final_layout = pyqttools.add_to_layout(QVBoxLayout(), grid1, self.TabWidget,
+                                                        layout3, None, layout4)
         
         self.statusBar = self.statusBar()
         self.dependenciesLabel = QLabel()
@@ -353,30 +325,30 @@ class FFMultiConverter(QMainWindow):
         Widget.setLayout(final_layout)
         self.setCentralWidget(Widget)
                             
-        openAction = self.createAction(self.tr('Open'), self.open_file, 
-                                     QKeySequence.Open, self.tr('Open a file'))
-        convertAction = self.createAction(self.tr('Convert'), self.convert, 
-                                            'Ctrl+M', self.tr('Convert files'))
-        quitAction = self.createAction(self.tr('Quit'), self.close, 'Ctrl+Q', 
-                                                               self.tr('Quit'))
-        clearAction = self.createAction(self.tr('Clear'), self.clear, '', 
-                                                         self.tr('Clear form'))
-        preferencesAction = self.createAction(self.tr('Preferences'), 
-                        self.preferences, 'Alt+Ctrl+P', self.tr('Preferences'))     
-        aboutAction = self.createAction(self.tr('About'), self.about, 'Ctrl+?', 
-                                                              self.tr('About'))
+        openAction = pyqttools.createAction(self, self.tr('Open'), 
+                     self.open_file, QKeySequence.Open, self.tr('Open a file'))
+        convertAction = pyqttools.createAction(self, self.tr('Convert'), 
+                              self.convert, 'Ctrl+M', self.tr('Convert files'))
+        quitAction = pyqttools.createAction(self, self.tr('Quit'), self.close, 
+                                                     'Ctrl+Q', self.tr('Quit'))
+        clearAction = pyqttools.createAction(self, self.tr('Clear'), 
+                                         self.clear, '', self.tr('Clear form'))
+        preferencesAction = pyqttools.createAction(self, 
+                        self.tr('Preferences'), self.preferences, 'Alt+Ctrl+P', 
+                        self.tr('Preferences'))     
+        aboutAction = pyqttools.createAction(self, self.tr('About'), 
+                                        self.about, 'Ctrl+?', self.tr('About'))
                                                                                
         fileMenu = self.menuBar().addMenu(self.tr('File'))
         editMenu = self.menuBar().addMenu(self.tr('Edit'))
         helpMenu = self.menuBar().addMenu(self.tr('Help'))
-        self.addActions(fileMenu, [openAction, convertAction, None,quitAction])
-        self.addActions(editMenu, [clearAction, None, preferencesAction])
-        self.addActions(helpMenu, [aboutAction])
+        pyqttools.addActions(fileMenu, [openAction, convertAction, None, 
+                                                                   quitAction])
+        pyqttools.addActions(editMenu, [clearAction, None, preferencesAction])
+        pyqttools.addActions(helpMenu, [aboutAction])
         
-        # connect TabWidget to checkboxes_clicked() because checboxes' behavior 
-        # is different when file type == documents
         self.TabWidget.currentChanged.connect(self.checkboxes_clicked)
-        # use lambda to pass extra data when signal emmited.
+        self.TabWidget.currentChanged.connect(self.resize_window)
         self.folderCheckBox.clicked.connect(lambda: 
                                              self.checkboxes_clicked('folder'))
         self.recursiveCheckBox.clicked.connect(lambda: 
@@ -390,40 +362,6 @@ class FFMultiConverter(QMainWindow):
         
         QTimer.singleShot(0, self.check_for_dependencies)
         QTimer.singleShot(0, self.load_settings)
-
-    def createAction(self, text, slot, shortcut=None, tip=None):
-        """Creates Actions.
-        
-        Keyword arguments:
-        text -- action's text
-        slot -- slot to connect action
-        shortcut -- action's shortcut
-        tip -- action's tip to display
-        
-        Returns: QAction
-        """
-        action = QAction(text, self)
-        if shortcut is not None:
-            action.setShortcut(shortcut)
-        if tip is not None:
-            action.setToolTip(tip)
-            action.setStatusTip(tip)
-        action.triggered.connect(slot)
-        return action    
-        
-    def addActions(self, target, actions):
-        """Adds actions to menus.
-        
-        Keyword arguments:
-        target -- Menu to add action
-        actions -- list with actions to add
-                   Add separator for None in list
-        """
-        for action in actions:
-            if not action:
-                target.addSeparator()
-            else:
-                target.addAction(action)
                 
     def load_settings(self):
         """Loads settings from disk."""
@@ -464,6 +402,10 @@ class FFMultiConverter(QMainWindow):
             self.toLineEdit.setText(self.tr(
                                            'Each file to its original folder'))
             self.output = 'original'
+    
+    def resize_window(self):
+        """It hides widgets and resizes the window."""
+        [i.moreButton.setChecked(False) for i in self.tabs[:2]]
     
     def checkboxes_clicked(self, data=None):
         """Manages the behavior of checkboxes and radiobuttons.
@@ -787,7 +729,7 @@ class FFMultiConverter(QMainWindow):
                 except OSError:
                     pass
         
-        dialog = Progress(conversion_list, ext_to, index, delete)
+        dialog = Progress(self, conversion_list, ext_to, index, delete)
         dialog.show()   
         dialog.exec_()
             
@@ -863,7 +805,7 @@ class Progress(QDialog):
     # To find the percentage of progress it counts the frames of output file at
     # regular intervals and compares it to the number of frames of input.
     
-    def __init__(self, files, ext_to, index, delete, parent=None):
+    def __init__(self, parent, files, ext_to, index, delete):
         """Constructs the progress dialog.
         
         Keyword arguments:
@@ -873,6 +815,7 @@ class Progress(QDialog):
         delete -- boolean that shows if files must removed after conversion
         """
         super(Progress, self).__init__(parent)
+        self.parent = parent
 
         self.files = files
         self.ext_to = ext_to
@@ -902,28 +845,16 @@ class Progress(QDialog):
         self.shutdownCheckBox = QCheckBox(self.tr('Shutdown after conversion'))
         self.cancelButton = QPushButton(self.tr('Cancel'))    
                 
-        hlayout = QHBoxLayout()
-        hlayout.addStretch()
-        hlayout.addWidget(self.nowLabel)
-        hlayout.addStretch()
-        hlayout2 = QHBoxLayout()
-        hlayout2.addStretch()      
-        hlayout2.addWidget(totalLabel)
-        hlayout2.addStretch()      
-        hlayout3 = QHBoxLayout()
-        hlayout3.addWidget(self.shutdownCheckBox)
-        hlayout3.addStretch()      
-        hlayout4 = QHBoxLayout()
-        hlayout4.addStretch()
-        hlayout4.addWidget(self.cancelButton)        
-        vlayout = QVBoxLayout()
-        vlayout.addLayout(hlayout)
-        vlayout.addWidget(self.nowBar)
-        vlayout.addLayout(hlayout2)
-        vlayout.addWidget(self.totalBar)
-        vlayout.addStretch()
-        vlayout.addLayout(hlayout3)
-        vlayout.addLayout(hlayout4)
+        hlayout = pyqttools.add_to_layout(QHBoxLayout(), None, self.nowLabel, 
+                                                                          None)
+        hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), None, totalLabel,
+                                                                          None)
+        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), 
+                                                   self.shutdownCheckBox, None)
+        hlayout4 = pyqttools.add_to_layout(QHBoxLayout(), None, 
+                                                             self.cancelButton)
+        vlayout = pyqttools.add_to_layout(QVBoxLayout(), hlayout, 
+                self.nowBar, hlayout2, self.totalBar, None, hlayout3, hlayout4)
         self.setLayout(vlayout)
 
         self.cancelButton.clicked.connect(self.reject)

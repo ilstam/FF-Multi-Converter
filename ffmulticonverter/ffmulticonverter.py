@@ -57,7 +57,7 @@ import signal
 import subprocess
 import shlex
 import shutil
-import pickle
+import re
 import time
 
 import pyqttools
@@ -96,8 +96,7 @@ class Tab(QWidget):
         self.moreButton.setSizePolicy(moreSizePolicy)
         self.moreButton.setCheckable(True)
         
-        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), line, 
-                                                               self.moreButton)        
+        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), line,self.moreButton)        
         hlayout2 = QHBoxLayout()
         for a, b in zip(labels, widgets):
             text = a.text()
@@ -120,6 +119,7 @@ class Tab(QWidget):
         else:                                
             self.parent.setMinimumSize(685, 378)
             self.parent.resize(685, 378)     
+
             
 class AudioTab(Tab):
     def __init__(self, parent, formats):
@@ -205,6 +205,7 @@ class VideoTab(Tab):
         if maxlength is not None:
             lineEdit.setMaxLength(maxlength)
         return lineEdit         
+
 
 class ImageTab(Tab):
     def __init__(self, parent, formats):

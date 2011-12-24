@@ -23,7 +23,10 @@ from PyQt4.QtGui import (QApplication, QDialog, QWidget, QGridLayout,
                   QCheckBox, QLineEdit, QToolButton, QTabWidget, 
                   QDialogButtonBox, QFileDialog)                  
 import sys
-import os                  
+import os   
+import pyqttools
+
+pyqttools = pyqttools.Tools()               
 
 class Preferences(QDialog):
     
@@ -36,44 +39,30 @@ class Preferences(QDialog):
                                        'Save all files\nto ouput destination'))
         self.saveto_origRadioButton = QRadioButton(
                              self.tr('Save each file to\nits original folder'))
-        layout1 = QHBoxLayout()
-        layout1.addWidget(self.saveto_outRadioButton)
-        layout1.addWidget(self.saveto_origRadioButton)
-        layout1.addStretch()        
+        layout1 = pyqttools.add_to_layout(QHBoxLayout(), 
+                 self.saveto_outRadioButton, self.saveto_origRadioButton, None)
+                 
         self.rebuildCheckBox = QCheckBox(self.tr('Rebuild files structure'))
         defaultLabel = QLabel(self.tr('Default output destination'))
         self.defaultLineEdit = QLineEdit()
         self.defaultToolButton = QToolButton()
         self.defaultToolButton.setText('...')
-        layout2 = QHBoxLayout()
-        layout2.addWidget(self.defaultLineEdit)
-        layout2.addWidget(self.defaultToolButton)
+        layout2 = pyqttools.add_to_layout(QHBoxLayout(), self.defaultLineEdit, 
+                                                        self.defaultToolButton)
         name_Label = QLabel(self.tr('<html><b>Name files</b></html>'))
         prefixLabel = QLabel(self.tr('Prefix'))
         suffixLabel = QLabel(self.tr('Suffix'))
         self.prefixLineEdit = QLineEdit()
         self.suffixLineEdit = QLineEdit()
-        grid = QGridLayout()
-        grid.addWidget(prefixLabel, 0, 0)
-        grid.addWidget(self.prefixLineEdit, 0, 1)
-        grid.addWidget(suffixLabel, 1, 0)
-        grid.addWidget(self.suffixLineEdit, 1, 1)
-        layout3 = QHBoxLayout()
-        layout3.addLayout(grid)
-        layout3.addStretch()
+        grid = pyqttools.add_to_grid(QGridLayout(), 
+                                            [prefixLabel, self.prefixLineEdit], 
+                                            [suffixLabel, self.suffixLineEdit])
+        layout3 = pyqttools.add_to_layout(QHBoxLayout(), grid, None)
         
-        tabwidget_layout = QVBoxLayout()
-        tabwidget_layout.addWidget(saveLabel)
-        tabwidget_layout.addItem(QSpacerItem(14, 13))
-        tabwidget_layout.addLayout(layout1)
-        tabwidget_layout.addWidget(self.rebuildCheckBox)
-        tabwidget_layout.addItem(QSpacerItem(14, 13))
-        tabwidget_layout.addWidget(defaultLabel)
-        tabwidget_layout.addLayout(layout2)
-        tabwidget_layout.addItem(QSpacerItem(13, 13))
-        tabwidget_layout.addWidget(name_Label)
-        tabwidget_layout.addItem(QSpacerItem(14, 13))
-        tabwidget_layout.addLayout(layout3)          
+        tabwidget_layout = pyqttools.add_to_layout(QVBoxLayout(), saveLabel, 
+               QSpacerItem(14, 13), layout1, self.rebuildCheckBox, 
+               QSpacerItem(14, 13), defaultLabel, layout2, QSpacerItem(13, 13),
+               name_Label, QSpacerItem(14, 13), layout3)       
 
         widget = QWidget()
         widget.setLayout(tabwidget_layout)                       
@@ -84,10 +73,8 @@ class Preferences(QDialog):
                                    QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
         self.buttonBox.button(QDialogButtonBox.Ok).setDefault(True)
         
-        final_layout = QVBoxLayout()
-        final_layout.addWidget(self.TabWidget)
-        final_layout.addStretch()
-        final_layout.addWidget(self.buttonBox)
+        final_layout = pyqttools.add_to_layout(QVBoxLayout(), self.TabWidget,
+                                                          None, self.buttonBox) 
         self.setLayout(final_layout)
         
         self.saveto_outRadioButton.clicked.connect(lambda: 
@@ -148,7 +135,6 @@ class Preferences(QDialog):
         suffix = unicode(self.suffixLineEdit.text())
         self.settings = [saveto_output, rebuild_structure, default_ouput,
                          prefix, suffix]
-
         self.accept()                    
         
 if __name__ == '__main__':

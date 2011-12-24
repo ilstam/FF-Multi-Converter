@@ -18,19 +18,19 @@
 
 from __future__ import unicode_literals
 
+from PyQt4.QtCore import QSettings
 from PyQt4.QtGui import (QApplication, QDialog, QWidget, QGridLayout, 
                   QHBoxLayout, QVBoxLayout, QSpacerItem, QLabel, QRadioButton, 
                   QCheckBox, QLineEdit, QToolButton, QTabWidget, 
-                  QDialogButtonBox, QFileDialog)                  
+                  QDialogButtonBox, QFileDialog) 
+                  
 import sys
 import os   
 import pyqttools
 
-pyqttools = pyqttools.Tools()               
-
 class Preferences(QDialog):
     
-    def __init__(self, settings, parent=None):
+    def __init__(self, parent=None):
         super(Preferences, self).__init__(parent)
         self.home = os.getenv('HOME')
         
@@ -82,14 +82,15 @@ class Preferences(QDialog):
         self.saveto_origRadioButton.clicked.connect(lambda: 
                                           self.radiobutton_changed('original'))
         self.defaultToolButton.clicked.connect(self.open_dir)
-        self.buttonBox.accepted.connect(self.set_settings_list)
+        self.buttonBox.accepted.connect(self.save_settings)
         self.buttonBox.rejected.connect(self.reject)
-        
-        saveto_output = settings[0]
-        rebuild_structure = settings[1]
-        default_ouput = settings[2]
-        prefix = settings[3]
-        suffix = settings[4]
+                
+        settings = QSettings()
+        saveto_output = settings.value('saveto_output').toBool()
+        rebuild_structure = settings.value('rebuild_structure').toBool()
+        default_output = settings.value('default_output').toString()
+        prefix = settings.value('prefix').toString()
+        suffix = settings.value('suffix').toString()
         
         if saveto_output:
             self.saveto_outRadioButton.setChecked(True)
@@ -99,15 +100,15 @@ class Preferences(QDialog):
             self.defaultLineEdit.setEnabled(False)
         if rebuild_structure:
             self.rebuildCheckBox.setChecked(True)
-        if default_ouput:
-            self.defaultLineEdit.setText(default_ouput)
+        if default_output:
+            self.defaultLineEdit.setText(default_output)
         if prefix:
             self.prefixLineEdit.setText(prefix)
         if suffix:
             self.suffixLineEdit.setText(suffix)                          
         
         self.resize(414, 457)
-        self.setWindowTitle(self.tr('Preferences'))                      
+        self.setWindowTitle(self.tr('Preferences'))                     
             
     def radiobutton_changed(self, data):        
         enable = True if data == 'ouput' else False
@@ -124,23 +125,28 @@ class Preferences(QDialog):
             if _dir:
                 self.defaultLineEdit.setText(_dir)
             
-    def set_settings_list(self):
+    def save_settings(self):
         """Defines settings before accept the dialog."""
         saveto_output = True if self.saveto_outRadioButton.isChecked() \
             else False 
         rebuild_structure = self.rebuildCheckBox.isChecked() and \
             self.rebuildCheckBox.isEnabled()
-        default_ouput = unicode(self.defaultLineEdit.text())
+        default_output = unicode(self.defaultLineEdit.text())
         prefix = unicode(self.prefixLineEdit.text())
         suffix = unicode(self.suffixLineEdit.text())
-        self.settings = [saveto_output, rebuild_structure, default_ouput,
-                         prefix, suffix]
+
+        settings = QSettings()
+        settings.setValue('saveto_output', saveto_output)
+        settings.setValue('rebuild_structure', rebuild_structure)
+        settings.setValue('default_output', default_output)
+        settings.setValue('prefix', prefix)
+        settings.setValue('suffix', suffix)
+
         self.accept()                    
         
 if __name__ == '__main__':
     #test dialog
     app = QApplication(sys.argv)
-    _list = [True, True, '/home/ilias/kati1', 'prin', 'meta']
-    dialog = Preferences(_list)
+    dialog = Preferences()
     dialog.show()
     app.exec_()

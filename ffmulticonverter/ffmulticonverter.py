@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Program: FF Multi Converter
-# Purpose: GUI application to convert multiple file formats 
+# Purpose: GUI application to convert multiple file formats
 #
 # Copyright (C) 2011 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -34,7 +34,7 @@ except ImportError:
     exit('Error: You need PyQt4 to run this program.')    
 
 try:
-    from PIL import Image
+    from PythonMagick import Image
 except ImportError:
     pass
     # User will be informed about this later
@@ -48,8 +48,8 @@ from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, QFrame,
                   QAction, QKeySequence, QFileDialog, QMessageBox, 
                   QRegExpValidator)
 
-#from PyQt4.QtCore import *     
-#from PyQt4.QtGui import *
+from PyQt4.QtCore import *     
+from PyQt4.QtGui import *
                   
 import sys
 import os
@@ -86,7 +86,15 @@ class Tab(QWidget):
         self.fromComboBox.addItems(self.formats)
         self.toComboBox.addItems(self.formats)  
             
-    def create_more_layout(self, labels, widgets):
+    def resize_parent(self):
+        """Resizes MainWindow"""
+        if self.frame.isVisible():
+            self.parent.resize(685, 453)
+        else:                                
+            self.parent.setMinimumSize(685, 378)
+            self.parent.resize(685, 378)   
+                
+    def create_more_layout(self, labels, widgets, *extralayout):
         """Creates hidden widget"""
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
@@ -95,14 +103,18 @@ class Tab(QWidget):
         moreSizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.moreButton.setSizePolicy(moreSizePolicy)
         self.moreButton.setCheckable(True)
+        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), line,self.moreButton)
         
-        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), line,self.moreButton)        
         hlayout2 = QHBoxLayout()
         for a, b in zip(labels, widgets):
             text = a.text()
             a.setText('<html><p align="center">{0}</p></html>'.format(text))            
             layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
-            hlayout2.addLayout(layout)        
+            hlayout2.addLayout(layout)
+        
+        if extralayout:
+            for item in extralayout:
+                hlayout2 = pyqttools.add_to_layout(hlayout2, item)
         
         self.frame = QFrame()
         self.frame.setLayout(hlayout2)
@@ -111,20 +123,31 @@ class Tab(QWidget):
         
         self.moreButton.toggled.connect(self.frame.setVisible)
         self.moreButton.toggled.connect(self.resize_parent)
-
-    def resize_parent(self):
-        """Resizes MainWindow"""
-        if self.frame.isVisible():
-            self.parent.resize(685, 453)
-        else:                                
-            self.parent.setMinimumSize(685, 378)
-            self.parent.resize(685, 378)     
+            
+    def create_LineEdit(self, maxsize, validator, maxlength):
+        """Creates a lineEdit
+        
+        Keyword arguments:
+        maxsize -- maximum size
+        validator -- a regular expression to be added as validator
+        maxlength - maximum length
+        """        
+        lineEdit = QLineEdit()
+        if maxsize is not None:
+            lineEdit.setMaximumSize(QSize(maxsize[0], maxsize[1]))
+        if validator is not None:
+            lineEdit.setValidator(validator)
+        if maxlength is not None:
+            lineEdit.setMaxLength(maxlength)
+        return lineEdit     
+        
+    def clear(self):
+        pass
 
             
 class AudioTab(Tab):
     def __init__(self, parent, formats):
-        super(AudioTab, self).__init__(parent, formats)
-        
+        super(AudioTab, self).__init__(parent, formats)        
         nochange = self.tr('No Change')
         self.frequency_values = [nochange, '22050', '44100', '48000']
         self.bitrate_values = [nochange, '32', '96', '112', '128', '160', 
@@ -140,6 +163,10 @@ class AudioTab(Tab):
         self.chan1RadioButton.setMaximumSize(QSize(51, 16777215))
         self.chan2RadioButton = QRadioButton('2')
         self.chan2RadioButton.setMaximumSize(QSize(51, 16777215))
+        self.group = QButtonGroup()
+        self.group.addButton(self.chan1RadioButton)
+        self.group.addButton(self.chan2RadioButton)    
+        self.group.setExclusive(False)        
         spcr1 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         spcr2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         chanlayout = pyqttools.add_to_layout(QHBoxLayout(), spcr1, 
@@ -151,12 +178,18 @@ class AudioTab(Tab):
         widgets = [self.freqComboBox, chanlayout, self.bitrateComboBox]
         
         self.create_more_layout(labels, widgets)
+        
+    def clear(self):
+        """Clear values."""
+        self.freqComboBox.setCurrentIndex(0)
+        self.bitrateComboBox.setCurrentIndex(0)
+        self.chan1RadioButton.setChecked(False)
+        self.chan2RadioButton.setChecked(False)
 
 
 class VideoTab(Tab):
     def __init__(self, parent, formats):
-        super(VideoTab, self).__init__(parent, formats)
-        
+        super(VideoTab, self).__init__(parent, formats)                
         pattern = QRegExp(r"\d*")
         validator = QRegExpValidator(pattern, self)
         
@@ -187,34 +220,44 @@ class VideoTab(Tab):
         string = self.tr(' (Audio only)')          
         self.fromComboBox.addItems(self.formats[0])
         self.toComboBox.addItems(self.formats[0]) 
-        self.toComboBox.addItems([(i+string) for i in self.formats[1]])  
+        self.toComboBox.addItems([(i+string) for i in self.formats[1]])
         
-    def create_LineEdit(self, maxsize, validator, maxlength):
-        """Creates a lineEdit
-        
-        Keyword arguments:
-        maxsize -- maximum size
-        validator -- a regular expression to be added as validator
-        maxlength - maximum length
-        """        
-        lineEdit = QLineEdit()
-        if maxsize is not None:
-            lineEdit.setMaximumSize(QSize(maxsize[0], maxsize[1]))
-        if validator is not None:
-            lineEdit.setValidator(validator)
-        if maxlength is not None:
-            lineEdit.setMaxLength(maxlength)
-        return lineEdit         
+    def clear(self):
+        """Clear values."""
+        lineEdits = [self.widthLineEdit, self.heightLineEdit, 
+                    self.aspect1LineEdit, self.aspect2LineEdit, 
+                    self.frameLineEdit, self.bitrateLineEdit]
+        [i.clear() for i in lineEdits]
 
 
 class ImageTab(Tab):
     def __init__(self, parent, formats):
-        super(ImageTab, self).__init__(parent, formats)
-
+        super(ImageTab, self).__init__(parent, formats)                
+        pattern = QRegExp(r"\d*")
+        validator = QRegExpValidator(pattern, self)        
+        
+        resizeLabel = QLabel(self.tr('Resize:'))        
+        self.widthLineEdit = self.create_LineEdit((50, 16777215), validator, 4)
+        self.heightLineEdit = self.create_LineEdit((50, 16777215), validator,4)
+        label = QLabel('x')
+        layout1 = pyqttools.add_to_layout(QHBoxLayout(), self.widthLineEdit, 
+                                                    label, self.heightLineEdit)
+        spcr1 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        spcr2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        
+        labels = [resizeLabel]
+        widgets = [layout1]
+        
+        self.create_more_layout(labels, widgets, spcr1, spcr2)
+        
+    def clear(self):
+        """Clear values."""
+        lineEdits = [self.widthLineEdit, self.heightLineEdit]
+        [i.clear() for i in lineEdits]
 
 class DocumentTab(Tab):
     def __init__(self, parent, formats):
-        super(DocumentTab, self).__init__(parent, formats)
+        super(DocumentTab, self).__init__(parent, formats)        
         
         self.fromComboBox.currentIndexChanged.connect(self.refresh_toComboBox)
         self.refresh_toComboBox()
@@ -239,21 +282,24 @@ class FFMultiConverter(QMainWindow):
         super(FFMultiConverter, self).__init__(parent)        
         self.home = os.getenv('HOME')
                 
-        self.audio_formats = ['aac', 'ac3', 'aiff', 'amr', 'asf', 'au', 'avi', 
-                              'dvd', 'flac', 'flv', 'm4a', 'm4v', 'mmf', 'mov',
-                              'mp2', 'mp3', 'mp4', 'mpeg', 'ogg', 'rm', 'vob',
-                              'wav', 'webm', 'wma']  
-                              
-        
-        self.video_formats = ['asf', 'avi', 'dvd', 'flv', 'mkv', 'mmf', 
-                              'mov', 'mp4', 'mpeg', 'ogg', 'psp', 'vob', 
+        self.audio_formats = ['aac', 'ac3', 'afc', 'aifc', 'aiff', 'amr', 
+                              'asf', 'au', 'avi', 'dvd', 'flac', 'flv', 'm4a', 
+                              'm4v', 'mka', 'mmf', 'mov', 'mp2', 'mp3', 'mp4', 
+                              'mpeg', 'ogg', 'ra', 'rm', 'spx', 'vob', 'wav', 
+                              'webm', 'wma']  
+                                      
+        self.video_formats = ['asf', 'avi', 'dvd', 'flv', 'm1v', 'm2t', 'm2v', 
+                              'mjpg', 'mkv', 'mmf', 'mov', 'mp4', 'mpeg', 
+                              'mpg', 'ogg', 'ogv', 'psp', 'rm', 'ts', 'vob', 
                               'webm', 'wma', 'wmv']
                               
         self.vid_to_aud_formats = ['aac', 'ac3', 'aiff', 'au', 'flac', 
                                    'mp2' , 'wav']                                                          
                               
-        self.image_formats = ['bmp', 'eps', 'gif', 'jpeg', 'pcx', 'pdf', 'png',
-                              'ppm', 'tif', 'tga']    
+        self.image_formats = ['aai', 'bmp', 'eps', 'fpx', 'gif', 'jbig', 
+                              'jpeg', 'p7', 'pdf', 'picon', 'png', 'pnm', 
+                              'ppm', 'psd', 'rad', 'sgi', 'sid', 'tga', 'tif', 
+                              'webp', 'xpm', 'xwd']   
                               
         self.extra_img_formats = ['dib', 'ps', 'jpg', 'jpe', 'tiff']
                               
@@ -270,8 +316,9 @@ class FFMultiConverter(QMainWindow):
                                 'txt' : ['odt'],
                                 'xls' : ['ods'],
                                 'xml' : ['doc', 'odt', 'pdf']}              
+
         self.fname = ''  # file to convert
-        self.output = '' # output destination         
+        self.output = '' # output destination
         
         select_label = QLabel(self.tr('Select file:'))
         output_label = QLabel(self.tr('Output destination:'))
@@ -290,7 +337,7 @@ class FFMultiConverter(QMainWindow):
         self.audio_tab = AudioTab(self, self.audio_formats)
         self.video_tab = VideoTab(self, 
                                  [self.video_formats, self.vid_to_aud_formats])
-        self.image_tab = Tab(self, self.image_formats)
+        self.image_tab = ImageTab(self, self.image_formats)
         self.document_tab = DocumentTab(self, self.document_formats)
         
         self.tabs = [self.audio_tab, self.video_tab, self.image_tab, 
@@ -322,8 +369,8 @@ class FFMultiConverter(QMainWindow):
         self.convertPushButton = QPushButton(self.tr('&Convert'))
         layout4 = pyqttools.add_to_layout(QHBoxLayout(), None, 
                                                         self.convertPushButton)        
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(), grid1, self.TabWidget,
-                                                        layout3, None, layout4)
+        final_layout = pyqttools.add_to_layout(QVBoxLayout(), grid1, 
+                                        self.TabWidget, layout3, None, layout4)
         
         self.statusBar = self.statusBar()
         self.dependenciesLabel = QLabel()
@@ -333,27 +380,25 @@ class FFMultiConverter(QMainWindow):
         Widget.setLayout(final_layout)
         self.setCentralWidget(Widget)
                             
-        openAction = pyqttools.createAction(self, self.tr('Open'), 
-                     self.open_file, QKeySequence.Open, self.tr('Open a file'))
-        convertAction = pyqttools.createAction(self, self.tr('Convert'), 
-                              self.convert, 'Ctrl+M', self.tr('Convert files'))
-        quitAction = pyqttools.createAction(self, self.tr('Quit'), self.close, 
-                                                     'Ctrl+Q', self.tr('Quit'))
-        clearAction = pyqttools.createAction(self, self.tr('Clear'), 
-                                         self.clear, '', self.tr('Clear form'))
-        preferencesAction = pyqttools.createAction(self, 
-                        self.tr('Preferences'), self.preferences, 'Alt+Ctrl+P', 
-                        self.tr('Preferences'))     
-        aboutAction = pyqttools.createAction(self, self.tr('About'), 
-                                        self.about, 'Ctrl+?', self.tr('About'))
+        openAction = self.create_action(self.tr('Open'), QKeySequence.Open, 
+                                  None, self.tr('Open a file'), self.open_file)
+        convertAction = self.create_action(self.tr('Convert'), 'Ctrl+C', None, 
+                                        self.tr('Convert files'), self.convert)
+        quitAction = self.create_action(self.tr('Quit'), 'Ctrl+Q', None, 
+                                                   self.tr('Quit'), self.close)
+        clearAction = self.create_action(self.tr('Clear'), None, None, 
+                                             self.tr('Clear form'), self.clear)
+        preferencesAction = self.create_action(self.tr('Preferences'), 
+                  'Alt+Ctrl+P', None, self.tr('Preferences'), self.preferences)
+        aboutAction = self.create_action(self.tr('About'), 'Ctrl+?', None, 
+                                                  self.tr('About'), self.about)
                                                                                
         fileMenu = self.menuBar().addMenu(self.tr('File'))
         editMenu = self.menuBar().addMenu(self.tr('Edit'))
         helpMenu = self.menuBar().addMenu(self.tr('Help'))
-        pyqttools.addActions(fileMenu, [openAction, convertAction, None, 
-                                                                   quitAction])
-        pyqttools.addActions(editMenu, [clearAction, None, preferencesAction])
-        pyqttools.addActions(helpMenu, [aboutAction])
+        self.add_actions(fileMenu, [openAction, convertAction, None,quitAction])
+        self.add_actions(editMenu, [clearAction, None, preferencesAction])
+        self.add_actions(helpMenu, [aboutAction])
         
         self.TabWidget.currentChanged.connect(self.checkboxes_clicked)
         self.TabWidget.currentChanged.connect(self.resize_window)
@@ -369,8 +414,61 @@ class FFMultiConverter(QMainWindow):
         self.setWindowTitle('FF Multi Converter')
         
         QTimer.singleShot(0, self.check_for_dependencies)
-        QTimer.singleShot(0, self.set_settings)        
+        QTimer.singleShot(0, self.set_settings)    
+    
+    def create_action(self, text, shortcut=None, icon=None, tip=None,
+                      triggered=None, toggled=None, data=None, 
+                      context=Qt.WindowShortcut):
+        """Creates a QAction"""
+        action = QAction(text, self)
+        if triggered is not None:
+            action.triggered.connect(triggered)
+        if toggled is not None:
+            action.toggled.connect(toggled)
+            action.setCheckable(True)
+        if icon is not None:
+            action.setIcon( icon )
+        if shortcut is not None:
+            action.setShortcut(shortcut)
+        if tip is not None:
+            action.setToolTip(tip)
+            action.setStatusTip(tip)
+        if data is not None:
+            action.setData(to_qvariant(data))
+        action.setShortcutContext(context)
+        return action 
         
+    def add_actions(self, target, actions, insert_before=None):
+        """Adds actions to menus.
+        
+        Keyword arguments:
+        target -- menu to add action
+        actions -- list with actions to add
+        """
+        previous_action = None
+        target_actions = list(target.actions())
+        if target_actions:
+            previous_action = target_actions[-1]
+            if previous_action.isSeparator():
+                previous_action = None
+        for action in actions:
+            if (action is None) and (previous_action is not None):
+                if insert_before is None:
+                    target.addSeparator()
+                else:
+                    target.insertSeparator(insert_before)
+            elif isinstance(action, QMenu):
+                if insert_before is None:
+                    target.addMenu(action)
+                else:
+                    target.insertMenu(insert_before, action)
+            elif isinstance(action, QAction):
+                if insert_before is None:
+                    target.addAction(action)
+                else:
+                    target.insertAction(insert_before, action)
+            previous_action = action                        
+
     def set_settings(self):
         """Sets program settings"""
         settings = QSettings()
@@ -392,9 +490,14 @@ class FFMultiConverter(QMainWindow):
                                            'Each file to its original folder'))
             self.output = 'original'
     
+    def current_tab(self):
+        """Returns current tab."""
+        index = self.TabWidget.currentIndex()
+        return [i for i in self.tabs if self.tabs.index(i) == index][0]
+    
     def resize_window(self):
         """It hides widgets and resizes the window."""
-        [i.moreButton.setChecked(False) for i in self.tabs[:2]]
+        [i.moreButton.setChecked(False) for i in self.tabs[:3]]
     
     def checkboxes_clicked(self, data=None):
         """Manages the behavior of checkboxes and radiobuttons.
@@ -435,14 +538,17 @@ class FFMultiConverter(QMainWindow):
         """
         
         self.fromLineEdit.clear()
-        self.toLineEdit.clear()        
         self.fname = ''
-        self.output = ''        
+        if self.output != 'original':
+            self.toLineEdit.clear()
+            self.output = ''    
         boxes = [self.folderCheckBox, self.recursiveCheckBox, 
                                                            self.deleteCheckBox]              
         for box in boxes:
             box.setChecked(False)
         self.checkboxes_clicked()
+        
+        [i.clear() for i in self.tabs]
 
     def open_file(self):
         """Uses standard QtDialog to get file name."""
@@ -490,21 +596,11 @@ class FFMultiConverter(QMainWindow):
         
         Returns: 2 strings
         """        
-        index = self.TabWidget.currentIndex()
-        if index == 0:
-            tab = self.audio_tab
-        elif index == 1:
-            tab = self.video_tab
-        elif index == 2:
-            tab = self.image_tab
-        elif index == 3:
-            tab = self.document_tab                                            
-        
+        tab = self.current_tab()
         ext_from = '.' + unicode(tab.fromComboBox.currentText())
         ext_to = '.' + unicode(tab.toComboBox.currentText())                
         # split from the docsting (Audio Only) if it is appropriate
-        ext_to = ext_to.split(' ')[0]
-        
+        ext_to = ext_to.split(' ')[0]        
         return ext_from, ext_to
 
     def find_type(self):
@@ -512,19 +608,13 @@ class FFMultiConverter(QMainWindow):
         
         Returns: list
         """
+        tab = self.current_tab()
+        type_formats = tab.formats
         index = self.TabWidget.currentIndex()
-        if index == 0:
-            type_formats = self.audio_formats            
-        elif index == 1:
-            type_formats = self.video_formats            
+        if index == 1:
+            type_formats = self.video_formats
         elif index == 2:
-            type_formats = self.image_formats + self.extra_img_formats
-        else:
-            type_formats = []            
-        # self.document_formats are not needed.
-        # the function is used in self.files_to_conv_list() when the 
-        # typeRadioButton is enabled, but this never gonna happens when 
-        # type == document files
+            type_formats.extend(self.extra_img_formats)
         return type_formats      
         
     def files_to_conv_list(self):        
@@ -673,18 +763,17 @@ class FFMultiConverter(QMainWindow):
                 # different extension. eg: jpg is same as jpeg
                 raise ValidationError(self.tr(
                                 "File' s extensions is not %1.").arg(ext_from))
-            elif ext_from == ext_to:
+            elif ext_from == ext_to and self.output == 'original':
                 raise ValidationError(self.tr(
                     'You can not convert the file extension to the existing!'))
             elif (index == 0 or index == 1) and not self.ffmpeg:
                 raise ValidationError(self.tr(
                     'Program FFmpeg is not installed.\nYou will not be able '
                     'to convert video and audio files until you install it.'))
-            elif index == 2 and not self.pil:
+            elif index == 2 and not self.pmagick:
                 raise ValidationError(self.tr(
-                    'Python Imaging Library (PIL) is not installed.\nYou will '
-                    'not be able to convert image files until you install it.')
-                    )
+                    'PythonMagick is not installed.\nYou will not be able to '
+                    'convert image files until you install it.'))
             elif index == 3 and not (self.openoffice or self.libreoffice):
                 raise ValidationError(self.tr(
                     'Open/Libre office suite is not installed.\nYou will not '
@@ -697,7 +786,7 @@ class FFMultiConverter(QMainWindow):
         except ValidationError as e:
             QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
                                                                     unicode(e))
-            return False  
+            return False
             
     def convert(self):
         """Initialises the Progress dialog."""
@@ -768,11 +857,11 @@ class FFMultiConverter(QMainWindow):
         if not self.openoffice and not self.libreoffice:
             missing.append('Open/Libre Office')        
         try:
-            import PIL
-            self.pil = True
+            from PythonMagick import Image
+            self.pmagick = True
         except ImportError:
-            self.pil = False
-            missing.append('PIL')            
+            self.pmagick = False
+            missing.append('PythonMagick')            
         
         missing = ", ".join(missing) if missing else self.tr('None')
         status = self.tr('Missing dependencies: ') + missing
@@ -997,7 +1086,7 @@ class Progress(QDialog):
             time.sleep(1)       
             frames = self.number_of_frames(to_file)
             now_percent = (frames * 100) / total_frames
-            total_percent = ((now_percent * self.step) / 100) + min_value                    
+            total_percent = ((now_percent * self.step) / 100) + min_value                
             now_val = self.nowBar.value()
             tot_val = self.totalBar.value()
             
@@ -1046,7 +1135,10 @@ class Progress(QDialog):
         Returns: boolean
         """
         try:
-            Image.open(from_file).save(to_file)
+            _from = str(QString(from_file).toUtf8())
+            to = str(QString(to_file).toUtf8())
+            img = Image(_from)
+            img.write(to)
             converted = True
         except:
             converted = False
@@ -1093,7 +1185,7 @@ def main():
     
     # search if there is locale translation avalaible and set the Translators
     locale = QLocale.system().name()
-    #locale = ''
+    locale = ''
     qtTranslator = QTranslator()
     if qtTranslator.load("qt_" + locale, ":/"):
         app.installTranslator(qtTranslator)
@@ -1107,3 +1199,6 @@ def main():
     
 if __name__ == '__main__':
     main()
+
+#image widgets, PythonMagick, clear, 
+#TODO: check if current tab works properly

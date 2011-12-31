@@ -17,12 +17,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """
-A class with some useful methods to automate some parts of ui creation.
+Some useful functions to automate some parts of ui creation.
 """
 
-from PyQt4.QtGui import QWidget, QLayout, QAction, QLineEdit, QSpacerItem
-from PyQt4.QtCore import QSize
- 
+from PyQt4.QtGui import QWidget, QLayout, QSpacerItem
+
 def add_to_layout(layout, *items):
     """Add items to QVBox and QHBox layouts easily.
         
@@ -63,37 +62,3 @@ def add_to_grid(layout, *items):
             y += 1
         x += 1
     return layout
-
-def createAction(parent, text, slot, shortcut=None, tip=None):
-    """Creates Actions.
-        
-    Keyword arguments:
-    parent -- parent
-    text -- action's text
-    slot -- slot to connect action
-    shortcut -- action's shortcut
-    tip -- action's tip to display
-        
-    Returns: QAction
-    """
-    action = QAction(text, parent)
-    if shortcut is not None:
-        action.setShortcut(shortcut)
-    if tip is not None:
-        action.setToolTip(tip)
-        action.setStatusTip(tip)
-    action.triggered.connect(slot)
-    return action    
-        
-def addActions(target, actions):
-    """Adds actions to menus.
-    
-    Keyword arguments:
-    target -- Menu to add action
-    actions -- list with actions to add                
-    """
-    for action in actions:
-        if action is None:
-            target.addSeparator()
-        else:
-            target.addAction(action)

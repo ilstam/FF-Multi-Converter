@@ -34,7 +34,7 @@ except ImportError:
     exit('Error: You need PyQt4 to run this program.')    
 
 try:
-    from PythonMagick import Image
+    import PythonMagick
 except ImportError:
     pass
     # User will be informed about this later
@@ -66,10 +66,9 @@ import path_generator
 import qrc_resources
 
 class Tab(QWidget):
-    def __init__(self, parent, formats):
+    def __init__(self, parent):
         super(Tab, self).__init__(parent)
-        self.parent = parent
-        self.formats = formats        
+        self.parent = parent       
         
         label1 = QLabel(self.tr('Convert from:'))
         label2 = QLabel(self.tr('Convert to:'))
@@ -146,8 +145,14 @@ class Tab(QWidget):
 
             
 class AudioTab(Tab):
-    def __init__(self, parent, formats):
-        super(AudioTab, self).__init__(parent, formats)        
+    def __init__(self, parent):
+        self.formats = ['aac', 'ac3', 'afc', 'aifc', 'aiff', 'amr', 'asf', 
+                        'au', 'avi', 'dvd', 'flac', 'flv', 'm4a', 'm4v', 'mka', 
+                        'mmf', 'mov', 'mp2', 'mp3', 'mp4', 'mpeg', 'ogg', 'ra', 
+                        'rm', 'spx', 'vob', 'wav', 'webm', 'wma']  
+        self._type = 'audio'
+        super(AudioTab, self).__init__(parent)
+        
         nochange = self.tr('No Change')
         self.frequency_values = [nochange, '22050', '44100', '48000']
         self.bitrate_values = [nochange, '32', '96', '112', '128', '160', 
@@ -165,8 +170,7 @@ class AudioTab(Tab):
         self.chan2RadioButton.setMaximumSize(QSize(51, 16777215))
         self.group = QButtonGroup()
         self.group.addButton(self.chan1RadioButton)
-        self.group.addButton(self.chan2RadioButton)    
-        self.group.setExclusive(False)        
+        self.group.addButton(self.chan2RadioButton)           
         spcr1 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         spcr2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         chanlayout = pyqttools.add_to_layout(QHBoxLayout(), spcr1, 
@@ -183,13 +187,44 @@ class AudioTab(Tab):
         """Clear values."""
         self.freqComboBox.setCurrentIndex(0)
         self.bitrateComboBox.setCurrentIndex(0)
+        self.group.setExclusive(False)        
         self.chan1RadioButton.setChecked(False)
         self.chan2RadioButton.setChecked(False)
+        self.group.setExclusive(True)
+        # setExclusive(False) in order to be able to uncheck checkboxes and
+        # then setExclusive(True) so only one radio button can be set
+        
+    def convert(self, parent, from_file, to_file):
+        """Converts the file format of an audio via ffmpeg.
+        
+        Keyword arguments:
+        from_file -- the file to be converted
+        to_file -- the new file
+        delete  -- if True, delete from_file
+        
+        Returns: boolean
+        """
+        # Add quotations to path in order to avoid error in special cases 
+        # such as spaces or special characters.
+        from_file2 = '"' + from_file + '"'
+        to_file = '"' + to_file + '"'
+        command = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file2, to_file)
+        command = str(QString(command).toUtf8())
+        command = shlex.split(command)
+        converted = True if subprocess.call(command) == 0 else False
+        return converted        
 
 
 class VideoTab(Tab):
-    def __init__(self, parent, formats):
-        super(VideoTab, self).__init__(parent, formats)                
+    def __init__(self, parent):
+        self.formats = ['asf', 'avi', 'dvd', 'flv', 'm1v', 'm2t', 'm2v', 
+                        'mjpg', 'mkv', 'mmf', 'mov', 'mp4', 'mpeg', 'mpg', 
+                        'ogg', 'ogv', 'psp', 'rm', 'ts', 'vob', 'webm', 'wma', 
+                        'wmv']
+        self.vid_to_aud = ['aac', 'ac3', 'aiff', 'au', 'flac', 'mp2' , 'wav']
+        self._type = 'video' 
+        super(VideoTab, self).__init__(parent)
+        
         pattern = QRegExp(r"\d*")
         validator = QRegExpValidator(pattern, self)
         
@@ -217,22 +252,121 @@ class VideoTab(Tab):
         self.create_more_layout(labels, widgets)   
         
     def update_comboboxes(self):                  
-        string = self.tr(' (Audio only)')          
-        self.fromComboBox.addItems(self.formats[0])
-        self.toComboBox.addItems(self.formats[0]) 
-        self.toComboBox.addItems([(i+string) for i in self.formats[1]])
+        string = self.tr(' (Audio only)') 
+        self.fromComboBox.addItems(self.formats)
+        self.toComboBox.addItems(self.formats) 
+        self.toComboBox.addItems([(i+string) for i in self.vid_to_aud])
         
     def clear(self):
         """Clear values."""
         lineEdits = [self.widthLineEdit, self.heightLineEdit, 
                     self.aspect1LineEdit, self.aspect2LineEdit, 
                     self.frameLineEdit, self.bitrateLineEdit]
-        [i.clear() for i in lineEdits]
+        for i in lineEdits:
+            i.clear()
 
+    def manage_convert_prcs(self, procedure):
+        if procedure == 'pause':
+            self.convert_prcs.send_signal(signal.SIGSTOP)
+        elif procedure == 'kill':
+            try:
+                self.convert_prcs.kill()
+            except:
+                pass
+        elif procedure == 'continue':
+            try:
+                self.convert_prcs.send_signal(signal.SIGCONT)
+            except:
+                pass   
+
+    def number_of_frames(self, _file):
+        """Counts the number of frames in a video.
+        
+        Returns: integer
+        """
+        cmd = "ffmpeg -i {0} -vcodec copy -f rawvideo -y /dev/null".format(
+                                                                         _file)
+        cmd = str(QString(cmd).toUtf8())
+        exec_cmd = subprocess.Popen(shlex.split(cmd), stderr=subprocess.PIPE)
+        output = unicode(QString(exec_cmd.stderr.read()))
+        for i in output.split('\n'):
+            if 'frame=' in i:
+                frames = re.sub( r'^frame=\s*([0-9]+)\s.*$', r'\1', i)
+        try:
+            frames = int(frames)
+        except NameError:
+            frames = 0
+        return frames
+
+    def convert(self, parent, from_file, to_file):
+        """Converts the file format of a video and update progress info
+        of each file.
+        
+        It starts conversion with subprocess.Popen() and gets the number of 
+        frames in the new video continuously.        
+        Progress is calculated from the percentage of frames of the new file 
+        compared to frames of the original file.
+        
+        Keyword arguments:
+        from_file -- the file to be converted
+        to_file -- the new file
+        delete  -- if True, delete from_file
+        
+        Returns: boolean
+        """
+        # Add quotations to path in order to avoid error in special cases 
+        # such as spaces or special characters. 
+        from_file2 = '"' + from_file + '"'
+        to_file = '"' + to_file + '"'        
+        
+        min_value = parent.totalBar.value()
+        max_value = min_value + parent.step
+        for i in range(2):
+            # do it twice because number_of_frames() fails some times at first 
+            total_frames = self.number_of_frames(from_file2)
+        if total_frames == 0:
+            parent.totalBar.setValue(max_value)
+            return False
+            
+        convert_cmd = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file2, to_file)
+        convert_cmd = str(QString(convert_cmd).toUtf8())        
+        self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
+                
+        while self.convert_prcs.poll() == None:
+            time.sleep(1)       
+            frames = self.number_of_frames(to_file)
+            now_percent = (frames * 100) / total_frames
+            total_percent = ((now_percent * parent.step) / 100) + min_value                
+            now_val = parent.nowBar.value()
+            tot_val = parent.totalBar.value()
+            
+            # processEvents() force the UI to update
+            QApplication.processEvents()
+            if now_percent > now_val and not (now_percent > 100):
+                parent.nowBar.setValue(now_percent)                            
+            if total_percent > tot_val and not (total_percent > max_value):
+                parent.totalBar.setValue(total_percent)
+                
+        parent.totalBar.setValue(max_value)        
+        converted = True if self.convert_prcs.poll() == 0 else False
+        return converted    
+        #nowBar, totalBar, step
+        
 
 class ImageTab(Tab):
-    def __init__(self, parent, formats):
-        super(ImageTab, self).__init__(parent, formats)                
+    def __init__(self, parent):
+        self.formats = ['aai', 'bmp', 'eps', 'fpx', 'gif', 'jbig', 'jpeg', 
+                        'p7', 'pdf', 'picon', 'png', 'pnm', 'ppm', 'psd', 
+                        'rad', 'sgi', 'sid', 'tga', 'tif', 'webp', 'xpm', 
+                        'xwd']
+        self.extra_img_formats = { 'bmp'  : ['dib'],
+                                   'eps'  : ['ps'],
+                                   'jpeg' : ['jpg', 'jpe'],
+                                   'tif'  : ['tiff']
+                                 }
+        self._type = 'image'
+        super(ImageTab, self).__init__(parent)
+                      
         pattern = QRegExp(r"\d*")
         validator = QRegExpValidator(pattern, self)        
         
@@ -253,57 +387,31 @@ class ImageTab(Tab):
     def clear(self):
         """Clear values."""
         lineEdits = [self.widthLineEdit, self.heightLineEdit]
-        [i.clear() for i in lineEdits]
+        for i in lineEdits:
+            i.clear()
+        
+    def convert(self, parent, from_file, to_file):
+        """Converts the file format of an image.
+        
+        from_file -- the file to be converted
+        to_file -- the new file
+        delete  -- if True, delete from_file     
+        
+        Returns: boolean
+        """
+        try:
+            _from = str(QString(from_file).toUtf8())
+            to = str(QString(to_file).toUtf8())
+            img = PythonMagick.Image(_from)
+            img.write(to)
+            converted = True
+        except:
+            converted = False
+        return converted          
 
 class DocumentTab(Tab):
-    def __init__(self, parent, formats):
-        super(DocumentTab, self).__init__(parent, formats)        
-        
-        self.fromComboBox.currentIndexChanged.connect(self.refresh_toComboBox)
-        self.refresh_toComboBox()
-                
-    def update_comboboxes(self): 
-        # create a sorted list with document_formats extensions because 
-        # self.formats is a dict so values are not sorted
-        _list = []
-        [_list.append(ext) for ext in self.formats]
-        _list.sort()
-        self.fromComboBox.addItems(_list) 
-    
-    def refresh_toComboBox(self):
-        """Add the appropriate values to toComboBox."""
-        self.toComboBox.clear()
-        text = str(self.fromComboBox.currentText())
-        [self.toComboBox.addItem(i) for i in self.formats[text]]           
-                        
-
-class FFMultiConverter(QMainWindow):
-    def __init__(self, parent=None):
-        super(FFMultiConverter, self).__init__(parent)        
-        self.home = os.getenv('HOME')
-                
-        self.audio_formats = ['aac', 'ac3', 'afc', 'aifc', 'aiff', 'amr', 
-                              'asf', 'au', 'avi', 'dvd', 'flac', 'flv', 'm4a', 
-                              'm4v', 'mka', 'mmf', 'mov', 'mp2', 'mp3', 'mp4', 
-                              'mpeg', 'ogg', 'ra', 'rm', 'spx', 'vob', 'wav', 
-                              'webm', 'wma']  
-                                      
-        self.video_formats = ['asf', 'avi', 'dvd', 'flv', 'm1v', 'm2t', 'm2v', 
-                              'mjpg', 'mkv', 'mmf', 'mov', 'mp4', 'mpeg', 
-                              'mpg', 'ogg', 'ogv', 'psp', 'rm', 'ts', 'vob', 
-                              'webm', 'wma', 'wmv']
-                              
-        self.vid_to_aud_formats = ['aac', 'ac3', 'aiff', 'au', 'flac', 
-                                   'mp2' , 'wav']                                                          
-                              
-        self.image_formats = ['aai', 'bmp', 'eps', 'fpx', 'gif', 'jbig', 
-                              'jpeg', 'p7', 'pdf', 'picon', 'png', 'pnm', 
-                              'ppm', 'psd', 'rad', 'sgi', 'sid', 'tga', 'tif', 
-                              'webp', 'xpm', 'xwd']   
-                              
-        self.extra_img_formats = ['dib', 'ps', 'jpg', 'jpe', 'tiff']
-                              
-        self.document_formats = {'doc' : ['odt', 'pdf'],
+    def __init__(self, parent):
+        self.formats = {'doc' : ['odt', 'pdf'],
                                 'html' : ['odt'],
                                 'odp' : ['pdf', 'ppt'],
                                 'ods' : ['pdf'],
@@ -315,8 +423,57 @@ class FFMultiConverter(QMainWindow):
                                 'sxw' : ['odt'],
                                 'txt' : ['odt'],
                                 'xls' : ['ods'],
-                                'xml' : ['doc', 'odt', 'pdf']}              
+                                'xml' : ['doc', 'odt', 'pdf']}
+        self._type = 'document'
+        super(DocumentTab, self).__init__(parent)
+        
+        self.fromComboBox.currentIndexChanged.connect(self.refresh_toComboBox)
+        self.refresh_toComboBox()
+                
+    def update_comboboxes(self): 
+        # create a sorted list with document_formats extensions because 
+        # self.formats is a dict so values are not sorted
+        _list = []
+        for ext in self.formats: 
+            _list.append(ext)
+        _list.sort()
+        self.fromComboBox.addItems(_list) 
+    
+    def refresh_toComboBox(self):
+        """Add the appropriate values to toComboBox."""
+        self.toComboBox.clear()
+        text = str(self.fromComboBox.currentText())
+        self.toComboBox.addItems([i for i in self.formats[text]])
+            
+    def convert(self, parent, from_file, to_file):
+        """Converts the file format of a document file.
+        
+        from_file -- the file to be converted
+        to_file -- the new file
+        delete  -- if True, delete from_file     
+        
+        Returns: boolean    
+        """        
+        # Add quotations to path in order to avoid error in special cases 
+        # such as spaces or special characters.        
+        from_file2 = '"' + from_file + '"'
+        _file, extension = os.path.splitext(to_file)
+        command = 'unoconv --format={0} {1}'.format(extension[1:], from_file2)
+        command = str(QString(command).toUtf8())
+        command = shlex.split(command)        
+        converted = True if subprocess.call(command) == 0 else False
+        if converted:
+            # new file saved to same folder as original so it must be moved
+            _file2 = os.path.splitext(from_file)[0]
+            now_created = _file2 + extension
+            shutil.move(now_created, to_file)
+        return converted           
+                        
 
+class FFMultiConverter(QMainWindow):
+    def __init__(self, parent=None):
+        super(FFMultiConverter, self).__init__(parent)        
+        self.home = os.getenv('HOME')                        
         self.fname = ''  # file to convert
         self.output = '' # output destination
         
@@ -334,11 +491,10 @@ class FFMultiConverter(QMainWindow):
                         [select_label, self.fromLineEdit, self.fromToolButton], 
                         [output_label, self.toLineEdit, self.toToolButton])
              
-        self.audio_tab = AudioTab(self, self.audio_formats)
-        self.video_tab = VideoTab(self, 
-                                 [self.video_formats, self.vid_to_aud_formats])
-        self.image_tab = ImageTab(self, self.image_formats)
-        self.document_tab = DocumentTab(self, self.document_formats)
+        self.audio_tab = AudioTab(self)
+        self.video_tab = VideoTab(self)
+        self.image_tab = ImageTab(self)
+        self.document_tab = DocumentTab(self)
         
         self.tabs = [self.audio_tab, self.video_tab, self.image_tab, 
                      self.document_tab]
@@ -474,9 +630,10 @@ class FFMultiConverter(QMainWindow):
         settings = QSettings()
         self.saveto_output = settings.value('saveto_output').toBool()
         self.rebuild_structure = settings.value('rebuild_structure').toBool()
-        self.default_output = settings.value('default_output').toString()
-        self.prefix = settings.value('prefix').toString()
-        self.suffix = settings.value('suffix').toString()
+        self.default_output = unicode(
+                                   settings.value('default_output').toString())
+        self.prefix = unicode(settings.value('prefix').toString())
+        self.suffix = unicode(settings.value('suffix').toString())
         
         if self.saveto_output:
             if self.toLineEdit.text() == self.tr('Each file to its original '
@@ -488,16 +645,18 @@ class FFMultiConverter(QMainWindow):
             self.toLineEdit.setEnabled(False)
             self.toLineEdit.setText(self.tr(
                                            'Each file to its original folder'))
-            self.output = 'original'
+            self.output = None
     
     def current_tab(self):
         """Returns current tab."""
-        index = self.TabWidget.currentIndex()
-        return [i for i in self.tabs if self.tabs.index(i) == index][0]
+        for i in self.tabs:
+            if self.tabs.index(i) == self.TabWidget.currentIndex():
+                return i
     
     def resize_window(self):
         """It hides widgets and resizes the window."""
-        [i.moreButton.setChecked(False) for i in self.tabs[:3]]
+        for i in self.tabs[:3]:
+            i.moreButton.setChecked(False)
     
     def checkboxes_clicked(self, data=None):
         """Manages the behavior of checkboxes and radiobuttons.
@@ -539,25 +698,27 @@ class FFMultiConverter(QMainWindow):
         
         self.fromLineEdit.clear()
         self.fname = ''
-        if self.output != 'original':
+        if self.output is not None:
             self.toLineEdit.clear()
             self.output = ''    
         boxes = [self.folderCheckBox, self.recursiveCheckBox, 
                                                            self.deleteCheckBox]              
         for box in boxes:
             box.setChecked(False)
-        self.checkboxes_clicked()
-        
-        [i.clear() for i in self.tabs]
+        self.checkboxes_clicked()        
+        for i in self.tabs:
+            i.clear()
 
     def open_file(self):
         """Uses standard QtDialog to get file name."""
         all_files = '*'
-        audio_files = " ".join(['*.' + i for i in self.audio_formats])
-        video_files = " ".join(['*.' + i for i in self.video_formats])
-        image_files = " ".join(
-               ['*.' + i for i in self.image_formats + self.extra_img_formats])
-        document_files = " ".join(['*.' + i for i in self.document_formats])
+        audio_files = " ".join(['*.'+i for i in self.audio_tab.formats])
+        video_files = " ".join(['*.'+i for i in self.video_tab.formats])
+        img_formats = self.image_tab.formats
+        for i in self.image_tab.extra_img_formats.values():
+            img_formats.extend(i)
+        image_files = " ".join(['*.'+i for i in img_formats])
+        document_files = " ".join(['*.'+i for i in self.document_tab.formats])
         formats = [all_files, audio_files, video_files, image_files, 
                                                                 document_files]
         strings = [self.tr('All Files'), self.tr('Audio Files'), 
@@ -597,10 +758,10 @@ class FFMultiConverter(QMainWindow):
         Returns: 2 strings
         """        
         tab = self.current_tab()
-        ext_from = '.' + unicode(tab.fromComboBox.currentText())
-        ext_to = '.' + unicode(tab.toComboBox.currentText())                
+        ext_from = unicode(tab.fromComboBox.currentText())
+        ext_to = unicode(tab.toComboBox.currentText())                
         # split from the docsting (Audio Only) if it is appropriate
-        ext_to = ext_to.split(' ')[0]        
+        ext_to = ext_to.split(' ')[0]   
         return ext_from, ext_to
 
     def find_type(self):
@@ -608,13 +769,12 @@ class FFMultiConverter(QMainWindow):
         
         Returns: list
         """
+        index = self.TabWidget.currentIndex()
         tab = self.current_tab()
         type_formats = tab.formats
-        index = self.TabWidget.currentIndex()
-        if index == 1:
-            type_formats = self.video_formats
-        elif index == 2:
-            type_formats.extend(self.extra_img_formats)
+        if index == 2:
+            for i in self.image_tab.extra_img_formats.values():
+                type_formats.extend(i)
         return type_formats      
         
     def files_to_conv_list(self):        
@@ -676,8 +836,6 @@ class FFMultiConverter(QMainWindow):
         create_folders_list = []
         conversion_list = []    
         
-        folder = self.output
-        folder += '/'
         parent_file = files_list[0]        
         parent_dir, parent_name = os.path.split(parent_file)
         parent_base, parent_ext = os.path.split(parent_name)
@@ -688,9 +846,11 @@ class FFMultiConverter(QMainWindow):
             base, ext = os.path.splitext(name)
             _dir += '/'
             
-            y = _dir + self.prefix + base + self.suffix + ext_to
+            y = _dir + self.prefix + base + self.suffix + '.' + ext_to
             
-            if self.saveto_output:                            
+            if self.saveto_output:
+                folder = self.output + '/'
+                
                 if self.rebuild_structure:
                     y = re.sub('^'+parent_dir, '', y)
                     y = folder + y
@@ -736,13 +896,9 @@ class FFMultiConverter(QMainWindow):
         Returns: boolean        
         """
         _file = os.path.split(self.fname)[-1]
-        real_ext = os.path.splitext(_file)[-1]
+        real_ext = os.path.splitext(_file)[-1][1:]
         index = self.TabWidget.currentIndex()
-        
-        # give small names to the variables in order to wide use them below
-        a = real_ext
-        b = ext_from
-        
+
         try:
             if self.fname == '':
                 raise ValidationError(self.tr(
@@ -750,20 +906,24 @@ class FFMultiConverter(QMainWindow):
             elif not os.path.exists(self.fname):
                 raise ValidationError(self.tr(
                                          'The selected file does not exists!'))
-            elif self.output != 'original' and self.output == '':
+            elif self.output is not None and self.output == '':
                 raise ValidationError(self.tr(
                                           'You must choose an output folder!'))
-            elif self.output != 'original' and not os.path.exists(self.output):                
+            elif self.output is not None and not os.path.exists(self.output):                
                 raise ValidationError(self.tr(
                                              'Output folder does not exists!'))
-            elif not a == b and not ((a == '.dib' and b == '.bmp') or \
-                (a == '.ps' and b == '.eps') or ((a == '.jpg' or a == '.jpe')\
-                and b == '.jpeg') or (a == '.tiff' and b == '.tif')):
-                # look if real_ext is same type with ext_from and just have
-                # different extension. eg: jpg is same as jpeg
-                raise ValidationError(self.tr(
-                                "File' s extensions is not %1.").arg(ext_from))
-            elif ext_from == ext_to and self.output == 'original':
+            elif not real_ext == ext_from:
+                error = ValidationError(
+                        self.tr("File' s extensions is not %1.").arg(ext_from))
+                extra = self.image_tab.extra_img_formats
+                if ext_from in extra:
+                    # look if real_ext is same type with ext_from and just have
+                    # different extension. eg: jpg is same as jpeg                    
+                    if not any(i == real_ext for i in extra[ext_from]):
+                        raise error
+                else:
+                    raise error
+            elif ext_from == ext_to and self.output is None:
                 raise ValidationError(self.tr(
                     'You can not convert the file extension to the existing!'))
             elif (index == 0 or index == 1) and not self.ffmpeg:
@@ -783,6 +943,7 @@ class FFMultiConverter(QMainWindow):
                     'Program unocov is not installed.\nYou will not be able '
                     'to convert document files until you install it.'))
             return True
+        
         except ValidationError as e:
             QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
                                                                     unicode(e))
@@ -794,8 +955,7 @@ class FFMultiConverter(QMainWindow):
         if not self.ok_to_continue(ext_from, ext_to):
             return         
         
-        index = self.TabWidget.currentIndex()
-        delete = self.deleteCheckBox.isChecked()                             
+        delete = self.deleteCheckBox.isChecked()                            
         files_to_conv = self.files_to_conv_list()
         create_folders_list, conversion_list = self.build_lists(ext_to, 
                                                                  files_to_conv)
@@ -806,7 +966,7 @@ class FFMultiConverter(QMainWindow):
                 except OSError:
                     pass
         
-        dialog = Progress(self, conversion_list, ext_to, index, delete)
+        dialog = Progress(self, conversion_list, delete)
         dialog.show()   
         dialog.exec_()
             
@@ -857,7 +1017,7 @@ class FFMultiConverter(QMainWindow):
         if not self.openoffice and not self.libreoffice:
             missing.append('Open/Libre Office')        
         try:
-            from PythonMagick import Image
+            import PythonMagick
             self.pmagick = True
         except ImportError:
             self.pmagick = False
@@ -874,7 +1034,7 @@ class Progress(QDialog):
     # One that shows the progress of each file and one for total progress.
     #
     # Audio, image and document conversions don't need much time to complete 
-    # so the first bar just shows 0% at the beggining and 100% when convertion 
+    # so the first bar just shows 0% at the beggining and 100% when conversion 
     # done for every file.
     #    
     # Video conversions may take some time so the first bar takes values.
@@ -882,36 +1042,30 @@ class Progress(QDialog):
     # To find the percentage of progress it counts the frames of output file at
     # regular intervals and compares it to the number of frames of input.
     
-    def __init__(self, parent, files, ext_to, index, delete):
+    def __init__(self, parent, files, delete):
         """Constructs the progress dialog.
         
         Keyword arguments:
         files -- list with files to be converted
-        ext_to -- the extension to convert to
-        index -- number that shows file type
         delete -- boolean that shows if files must removed after conversion
         """
         super(Progress, self).__init__(parent)
         self.parent = parent
 
         self.files = files
-        self.ext_to = ext_to
-        self.index = index
         self.delete = delete
         self.step = 100 / len(files)
         self.ok = 0 
         self.error = 0        
-        ext = self.ext_to
-        if self.index == 0 or (self.index == 1 and (ext == 'aac' or \
-                            ext == 'ac3' or ext == 'aiff' or ext == 'au' \
-                            or ext == 'flac' or ext == 'mp2' or ext == 'wav')):
-            self._type = 'audio'
-        elif self.index == 1:
-            self._type = 'video'
-        elif self.index == 2:
-            self._type = 'image'
-        else:
-            self._type = 'document'
+        
+        self.tab = self.parent.current_tab()
+        self._type = self.tab._type
+        if self._type == 'video':
+            ext_to = os.path.splitext(self.files[0].values()[0])[-1][1:]
+            for i in self.tab.vid_to_aud:
+                if ext_to == i:
+                    self._type == 'audio'
+                    break
 
         self.nowLabel = QLabel(self.tr('In progress: '))
         totalLabel = QLabel(self.tr('Total:'))
@@ -959,13 +1113,12 @@ class Progress(QDialog):
         self.convert_a_file()
         if self._type != 'video':
             value = self.totalBar.value() + self.step
-            self.totalBar.setValue(value)
-                                
+            self.totalBar.setValue(value)                                        
+
     def reject(self):
         """Uses standard dialog to ask whether procedure must stop or not."""
         if self._type == 'video':
-            # pause the procedure
-            self.convert_prcs.send_signal(signal.SIGSTOP)
+            self.tab.manage_convert_prcs('pause')
         else:
             self.timer.stop()
         reply = QMessageBox.question(self, 
@@ -974,19 +1127,11 @@ class Progress(QDialog):
             QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             QDialog.reject(self)
-            ext = self.ext_to
             if self._type == 'video':
-                try:
-                    self.convert_prcs.kill()
-                except:
-                    pass
-                
+                self.tab.manage_convert_prcs('kill')                
         if reply == QMessageBox.Cancel:
             if self._type == 'video':
-                try:
-                    self.convert_prcs.send_signal(signal.SIGCONT)
-                except:
-                    pass
+                self.tab.manage_convert_prcs('continue')
             else:
                 self.timer.start(100, self)
             
@@ -1003,174 +1148,20 @@ class Progress(QDialog):
         
         QApplication.processEvents() # force UI to update
         self.nowBar.setValue(0)
-        
-        if self._type == 'audio':
-            if self.convert_audio(from_file, to_file, self.delete):
-                self.ok += 1
-            else:
-                self.error += 1
-        elif self._type == 'video':
-            if self.convert_video(from_file, to_file, self.delete):
-                self.ok += 1
-            else:
-                self.error += 1
-        elif self._type == 'image':
-            if self.convert_image(from_file, to_file, self.delete):
-                self.ok += 1              
-            else:
-                self.error += 1                
+                
+        if self.tab.convert(self, from_file, to_file):
+            self.ok += 1
+            if self.delete:
+                try:
+                    os.remove(from_file)
+                except OSError:
+                    pass
         else:
-            if self.convert_document_file(from_file, to_file, self.delete):
-                self.ok += 1             
-            else:
-                self.error += 1  
+            self.error += 1
         
-        QApplication.processEvents()
         self.nowBar.setValue(100)
-        self.files.pop(0)        
+        self.files.pop(0)
         
-    def number_of_frames(self, _file):
-        """Counts the number of frames in a video.
-        
-        Returns: integer
-        """
-        cmd = "ffmpeg -i {0} -vcodec copy -f rawvideo -y /dev/null".format(
-                                                                         _file)
-        cmd = str(QString(cmd).toUtf8())
-        exec_cmd = subprocess.Popen(shlex.split(cmd), stderr=subprocess.PIPE)
-        output = unicode(QString(exec_cmd.stderr.read()))
-        for i in output.split('\n'):
-            if 'frame=' in i:
-                frames = re.sub( r'^frame=\s*([0-9]+)\s.*$', r'\1', i)
-        try:
-            frames = int(frames)
-        except:
-            frames = 0
-        return frames
-
-    def convert_video(self, from_file, to_file, delete):
-        """Converts the file format of a video and update progress info
-        of each file.
-        
-        It starts conversion with subprocess.Popen() and gets the number of 
-        frames in the new video continuously.        
-        Progress is calculated from the percentage of frames of the new file 
-        compared to frames of the original file.
-        
-        Keyword arguments:
-        from_file -- the file to be converted
-        to_file -- the new file
-        delete  -- if True, delete from_file
-        
-        Returns: boolean
-        """
-        # Add quotations to path in order to avoid error in special cases 
-        # such as spaces or special characters. 
-        from_file2 = '"' + from_file + '"'
-        to_file = '"' + to_file + '"'        
-        
-        min_value = self.totalBar.value()
-        max_value = min_value + self.step
-        for i in range(2):
-            # do it twice because number_of_frames() fails some times at first 
-            total_frames = self.number_of_frames(from_file2)
-        if total_frames == 0:
-            self.totalBar.setValue(max_value)
-            return False
-            
-        convert_cmd = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file2, to_file)
-        convert_cmd = str(QString(convert_cmd).toUtf8())        
-        self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
-                
-        while self.convert_prcs.poll() == None:
-            time.sleep(1)       
-            frames = self.number_of_frames(to_file)
-            now_percent = (frames * 100) / total_frames
-            total_percent = ((now_percent * self.step) / 100) + min_value                
-            now_val = self.nowBar.value()
-            tot_val = self.totalBar.value()
-            
-            # processEvents() force the UI to update
-            QApplication.processEvents()
-            if now_percent > now_val and not (now_percent > 100):
-                self.nowBar.setValue(now_percent)                            
-            if total_percent > tot_val and not (total_percent > max_value):
-                self.totalBar.setValue(total_percent)
-                
-        self.totalBar.setValue(max_value)        
-        converted = True if self.convert_prcs.poll() == 0 else False
-        if converted and delete:
-            os.remove(from_file)
-        return converted    
-    
-    def convert_audio(self, from_file, to_file, delete):
-        """Converts the file format of an audio via ffmpeg.
-        
-        Keyword arguments:
-        from_file -- the file to be converted
-        to_file -- the new file
-        delete  -- if True, delete from_file
-        
-        Returns: boolean
-        """
-        # Add quotations to path in order to avoid error in special cases 
-        # such as spaces or special characters.
-        from_file2 = '"' + from_file + '"'
-        to_file = '"' + to_file + '"'
-        command = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file2, to_file)
-        command = str(QString(command).toUtf8())
-        command = shlex.split(command)
-        converted = True if subprocess.call(command) == 0 else False
-        if converted and delete:
-            os.remove(from_file)
-        return converted
-        
-    def convert_image(self, from_file, to_file, delete):
-        """Converts the file format of an image.
-        
-        from_file -- the file to be converted
-        to_file -- the new file
-        delete  -- if True, delete from_file     
-        
-        Returns: boolean
-        """
-        try:
-            _from = str(QString(from_file).toUtf8())
-            to = str(QString(to_file).toUtf8())
-            img = Image(_from)
-            img.write(to)
-            converted = True
-        except:
-            converted = False
-        if converted and delete:
-            os.remove(from_file)
-        return converted        
-        
-    def convert_document_file(self, from_file, to_file, delete):
-        """Converts the file format of a document file.
-        
-        from_file -- the file to be converted
-        to_file -- the new file
-        delete  -- if True, delete from_file     
-        
-        Returns: boolean    
-        """        
-        # Add quotations to path in order to avoid error in special cases 
-        # such as spaces or special characters.        
-        from_file2 = '"' + from_file + '"'
-        _file, extension = os.path.splitext(to_file)
-        command = 'unoconv --format={0} {1}'.format(extension[1:], from_file2)
-        command = str(QString(command).toUtf8())
-        command = shlex.split(command)        
-        converted = True if subprocess.call(command) == 0 else False
-        if converted:
-            # new file saved to same folder as original so it must be moved
-            _file2 = os.path.splitext(from_file)[0]
-            now_created = _file2 + extension
-            shutil.move(now_created, to_file)
-            if delete:
-                os.remove(from_file)
-        return converted               
 
 class ValidationError(Exception):
     # used in FFMultiConverter.ok_to_continue()
@@ -1199,6 +1190,3 @@ def main():
     
 if __name__ == '__main__':
     main()
-
-#image widgets, PythonMagick, clear, 
-#TODO: check if current tab works properly

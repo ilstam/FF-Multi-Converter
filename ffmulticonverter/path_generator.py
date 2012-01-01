@@ -16,10 +16,15 @@ This function makes it easy to implement typical "-r|--recursive" and
 Example usages at: http://code.activestate.com/recipes/577230/
 """
 
+from os.path import (join, isdir, islink, abspath, basename, exists, isdir, 
+                    normpath, lexists, realpath)
+import os
+from fnmatch import fnmatch
+from glob import glob
+
+
 def _should_include_path(path, includes, excludes):
     """Return True iff the given path should be included."""
-    from os.path import basename
-    from fnmatch import fnmatch
 
     base = basename(path)
     if includes:
@@ -59,8 +64,6 @@ def _walk(top, topdown=True, onerror=None, follow_symlinks=False):
        within the same tree. This is my understanding of how `find -L
        DIR` works.
     """
-    import os
-    from os.path import join, isdir, islink, abspath
 
     # We may not have read permission for top, in which case we can't
     # get a list of the files the directory contains.  os.path.walk
@@ -189,9 +192,6 @@ def _paths_from_path_patterns(path_patterns, files=True, dirs="never",
                         # under dirs; if none, call on_error(PATH*)
                         # callback
     """
-    from os.path import basename, exists, isdir, join, normpath, abspath, \
-                        lexists, islink, realpath
-    from glob import glob
 
     assert not isinstance(path_patterns, basestring), \
         "'path_patterns' must be a sequence, not a string: %r" % path_patterns

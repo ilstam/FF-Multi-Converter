@@ -6,8 +6,8 @@
 # Copyright (C) 2011 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
+# it under the terms of the GNU General Public License as published by
 # (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -33,23 +33,17 @@ try:
 except ImportError:
     exit('Error: You need PyQt4 to run this program.')    
 
-try:
-    import PythonMagick
-except ImportError:
-    pass
-    # User will be informed about this later
-
-from PyQt4.QtCore import (QSettings, QString, QRegExp, QTimer, QBasicTimer, 
+from PyQt4.QtCore import (Qt, QSettings, QString, QRegExp, QTimer, QBasicTimer,
                   QLocale, QTranslator, QSize, QT_VERSION_STR,PYQT_VERSION_STR)
 from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, QFrame,
                   QGridLayout, QVBoxLayout, QHBoxLayout, QSizePolicy, QLabel, 
                   QSpacerItem, QLineEdit, QToolButton, QComboBox, QCheckBox, 
-                  QRadioButton, QPushButton, QProgressBar, QTabWidget, QIcon, 
-                  QAction, QKeySequence, QFileDialog, QMessageBox, 
-                  QRegExpValidator)
+                  QButtonGroup, QRadioButton, QPushButton, QProgressBar, 
+                  QTabWidget, QIcon, QAction, QMenu, QKeySequence, QShortcut, 
+                  QFileDialog, QMessageBox, QRegExpValidator)
 
-from PyQt4.QtCore import *     
-from PyQt4.QtGui import *
+#from PyQt4.QtCore import *     
+#from PyQt4.QtGui import *
                   
 import sys
 import os
@@ -57,12 +51,12 @@ import signal
 import subprocess
 import shlex
 import shutil
+import glob
 import re
 import time
 
 import pyqttools
 import preferences_dlg
-import path_generator
 import qrc_resources
 
 class Tab(QWidget):
@@ -73,7 +67,7 @@ class Tab(QWidget):
         label1 = QLabel(self.tr('Convert from:'))
         label2 = QLabel(self.tr('Convert to:'))
         self.fromComboBox = QComboBox()
-        self.toComboBox = QComboBox()        
+        self.toComboBox = QComboBox()       
         grid = pyqttools.add_to_grid(QGridLayout(), 
                         [label1, self.fromComboBox], [label2, self.toComboBox])        
         self.layout = pyqttools.add_to_layout(QVBoxLayout(), grid)
@@ -150,7 +144,6 @@ class AudioTab(Tab):
                         'au', 'avi', 'dvd', 'flac', 'flv', 'm4a', 'm4v', 'mka', 
                         'mmf', 'mov', 'mp2', 'mp3', 'mp4', 'mpeg', 'ogg', 'ra', 
                         'rm', 'spx', 'vob', 'wav', 'webm', 'wma']  
-        self._type = 'audio'
         super(AudioTab, self).__init__(parent)
         
         nochange = self.tr('No Change')
@@ -200,15 +193,10 @@ class AudioTab(Tab):
         Keyword arguments:
         from_file -- the file to be converted
         to_file -- the new file
-        delete  -- if True, delete from_file
         
         Returns: boolean
         """
-        # Add quotations to path in order to avoid error in special cases 
-        # such as spaces or special characters.
-        from_file2 = '"' + from_file + '"'
-        to_file = '"' + to_file + '"'
-        command = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file2, to_file)
+        command = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file, to_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
         converted = True if subprocess.call(command) == 0 else False
@@ -222,7 +210,6 @@ class VideoTab(Tab):
                         'ogg', 'ogv', 'psp', 'rm', 'ts', 'vob', 'webm', 'wma', 
                         'wmv']
         self.vid_to_aud = ['aac', 'ac3', 'aiff', 'au', 'flac', 'mp2' , 'wav']
-        self._type = 'video' 
         super(VideoTab, self).__init__(parent)
         
         pattern = QRegExp(r"\d*")
@@ -310,25 +297,22 @@ class VideoTab(Tab):
         Keyword arguments:
         from_file -- the file to be converted
         to_file -- the new file
-        delete  -- if True, delete from_file
         
         Returns: boolean
         """
         # Add quotations to path in order to avoid error in special cases 
-        # such as spaces or special characters. 
-        from_file2 = '"' + from_file + '"'
-        to_file = '"' + to_file + '"'        
+        # such as spaces or special characters.      
         
         min_value = parent.totalBar.value()
         max_value = min_value + parent.step
         for i in range(2):
             # do it twice because number_of_frames() fails some times at first 
-            total_frames = self.number_of_frames(from_file2)
+            total_frames = self.number_of_frames(from_file)
         if total_frames == 0:
             parent.totalBar.setValue(max_value)
             return False
             
-        convert_cmd = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file2, to_file)
+        convert_cmd = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file, to_file)
         convert_cmd = str(QString(convert_cmd).toUtf8())        
         self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
                 
@@ -336,7 +320,7 @@ class VideoTab(Tab):
             time.sleep(1)       
             frames = self.number_of_frames(to_file)
             now_percent = (frames * 100) / total_frames
-            total_percent = ((now_percent * parent.step) / 100) + min_value                
+            total_percent = ((now_percent * parent.step) / 100) + min_value          
             now_val = parent.nowBar.value()
             tot_val = parent.totalBar.value()
             
@@ -364,7 +348,6 @@ class ImageTab(Tab):
                                    'jpeg' : ['jpg', 'jpe'],
                                    'tif'  : ['tiff']
                                  }
-        self._type = 'image'
         super(ImageTab, self).__init__(parent)
                       
         pattern = QRegExp(r"\d*")
@@ -395,19 +378,15 @@ class ImageTab(Tab):
         
         from_file -- the file to be converted
         to_file -- the new file
-        delete  -- if True, delete from_file     
         
         Returns: boolean
-        """
-        try:
-            _from = str(QString(from_file).toUtf8())
-            to = str(QString(to_file).toUtf8())
-            img = PythonMagick.Image(_from)
-            img.write(to)
-            converted = True
-        except:
-            converted = False
-        return converted          
+        """                               
+        command = 'convert {0} {1}'.format(from_file, to_file)
+        command = str(QString(command).toUtf8())
+        command = shlex.split(command)
+        converted = True if subprocess.call(command) == 0 else False
+        return converted       
+
 
 class DocumentTab(Tab):
     def __init__(self, parent):
@@ -424,7 +403,6 @@ class DocumentTab(Tab):
                                 'txt' : ['odt'],
                                 'xls' : ['ods'],
                                 'xml' : ['doc', 'odt', 'pdf']}
-        self._type = 'document'
         super(DocumentTab, self).__init__(parent)
         
         self.fromComboBox.currentIndexChanged.connect(self.refresh_toComboBox)
@@ -449,25 +427,23 @@ class DocumentTab(Tab):
         """Converts the file format of a document file.
         
         from_file -- the file to be converted
-        to_file -- the new file
-        delete  -- if True, delete from_file     
+        to_file -- the new file 
         
         Returns: boolean    
-        """        
-        # Add quotations to path in order to avoid error in special cases 
-        # such as spaces or special characters.        
-        from_file2 = '"' + from_file + '"'
+        """                        
+        from_file2 = from_file[1:-1]
+        to_file = to_file[1:-1]
         _file, extension = os.path.splitext(to_file)
-        command = 'unoconv --format={0} {1}'.format(extension[1:], from_file2)
+        command = 'unoconv --format={0} {1}'.format(extension[1:], from_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)        
         converted = True if subprocess.call(command) == 0 else False
         if converted:
             # new file saved to same folder as original so it must be moved
-            _file2 = os.path.splitext(from_file)[0]
+            _file2 = os.path.splitext(from_file2)[0]
             now_created = _file2 + extension
-            shutil.move(now_created, to_file)
-        return converted           
+            shutil.move(now_created, to_file) 
+        return converted                           
                         
 
 class FFMultiConverter(QMainWindow):
@@ -552,7 +528,8 @@ class FFMultiConverter(QMainWindow):
         fileMenu = self.menuBar().addMenu(self.tr('File'))
         editMenu = self.menuBar().addMenu(self.tr('Edit'))
         helpMenu = self.menuBar().addMenu(self.tr('Help'))
-        self.add_actions(fileMenu, [openAction, convertAction, None,quitAction])
+        self.add_actions(fileMenu, [openAction, convertAction, None, 
+                                                                   quitAction])
         self.add_actions(editMenu, [clearAction, None, preferencesAction])
         self.add_actions(helpMenu, [aboutAction])
         
@@ -570,7 +547,7 @@ class FFMultiConverter(QMainWindow):
         self.setWindowTitle('FF Multi Converter')
         
         QTimer.singleShot(0, self.check_for_dependencies)
-        QTimer.singleShot(0, self.set_settings)    
+        QTimer.singleShot(0, self.set_settings)   
     
     def create_action(self, text, shortcut=None, icon=None, tip=None,
                       triggered=None, toggled=None, data=None, 
@@ -592,7 +569,7 @@ class FFMultiConverter(QMainWindow):
         if data is not None:
             action.setData(to_qvariant(data))
         action.setShortcutContext(context)
-        return action 
+        return action
         
     def add_actions(self, target, actions, insert_before=None):
         """Adds actions to menus.
@@ -623,7 +600,7 @@ class FFMultiConverter(QMainWindow):
                     target.addAction(action)
                 else:
                     target.insertAction(insert_before, action)
-            previous_action = action                        
+            previous_action = action           
 
     def set_settings(self):
         """Sets program settings"""
@@ -775,7 +752,37 @@ class FFMultiConverter(QMainWindow):
         if index == 2:
             for i in self.image_tab.extra_img_formats.values():
                 type_formats.extend(i)
-        return type_formats      
+        return type_formats   
+        
+    def path_generator(self, path_pattern, recursive=True, includes=[]):
+        """Generate a list of paths from a path pattern.
+        
+        Keyword arguments:
+        path_pattern -- a path using the '*' glob pattern
+        recursive    -- boolean that indicates if paths should be recursively 
+                        yielded under given dirs
+        includes     -- is a list of file patterns to include in recursive 
+                        searches
+        """
+        def _should_include(path, includes):
+            """Returns True if the given path should be included."""
+            ext = os.path.splitext(path)[-1]
+            if not includes:
+                return True
+            else:
+                return True if ext in includes else False
+
+        paths = glob.glob(path_pattern)                
+        for path in paths:
+            if not os.path.islink(path) and os.path.isdir(path) and recursive:
+                for dirpath, dirnames, filenames in os.walk(path):
+                    for filename in sorted(filenames):
+                        f = os.path.join(dirpath, filename)
+                        if _should_include(f, includes):
+                            yield f
+
+            elif _should_include(path, includes):
+                yield path
         
     def files_to_conv_list(self):        
         """Generates paths of files to convert.
@@ -801,13 +808,12 @@ class FFMultiConverter(QMainWindow):
         else:
             recursive = True if self.recursiveCheckBox.isChecked() else False
             if self.extRadioButton.isChecked():
-                includes = ['*' + ext]
+                includes = [ext]
             else:
-                for i in formats:
-                    includes.append('*.' + i)          
+                includes.extend(['.' + i for i in formats])
             
-            for i in path_generator._paths_from_path_patterns([_dir], 
-                                       recursive=recursive, includes=includes):
+            for i in self.path_generator(_dir, recursive=recursive, 
+                                                            includes=includes):
                 files_to_conv.append(i)        
         
         # put given file first in list
@@ -930,9 +936,9 @@ class FFMultiConverter(QMainWindow):
                 raise ValidationError(self.tr(
                     'Program FFmpeg is not installed.\nYou will not be able '
                     'to convert video and audio files until you install it.'))
-            elif index == 2 and not self.pmagick:
+            elif index == 2 and not self.imgmagick:
                 raise ValidationError(self.tr(
-                    'PythonMagick is not installed.\nYou will not be able to '
+                    'ImageMagick is not installed.\nYou will not be able to '
                     'convert image files until you install it.'))
             elif index == 3 and not (self.openoffice or self.libreoffice):
                 raise ValidationError(self.tr(
@@ -951,7 +957,7 @@ class FFMultiConverter(QMainWindow):
             
     def convert(self):
         """Initialises the Progress dialog."""
-        ext_from, ext_to = self.get_extensions()          
+        ext_from, ext_to = self.get_extensions()        
         if not self.ok_to_continue(ext_from, ext_to):
             return         
         
@@ -1006,6 +1012,11 @@ class FFMultiConverter(QMainWindow):
         else:
             self.unoconv = False  
             missing.append('unoconv')
+        if self.is_installed('convert'):
+            self.imgmagick = True
+        else:
+            self.imgmagick = False  
+            missing.append('ImageMagick') 
         if self.is_installed('openoffice.org'):
             self.openoffice = True
         else:
@@ -1015,13 +1026,7 @@ class FFMultiConverter(QMainWindow):
         else:
             self.libreoffice = False          
         if not self.openoffice and not self.libreoffice:
-            missing.append('Open/Libre Office')        
-        try:
-            import PythonMagick
-            self.pmagick = True
-        except ImportError:
-            self.pmagick = False
-            missing.append('PythonMagick')            
+            missing.append('Open/Libre Office')                  
         
         missing = ", ".join(missing) if missing else self.tr('None')
         status = self.tr('Missing dependencies: ') + missing
@@ -1058,15 +1063,12 @@ class Progress(QDialog):
         self.ok = 0 
         self.error = 0        
         
-        self.tab = self.parent.current_tab()
-        self._type = self.tab._type
-        if self._type == 'video':
-            ext_to = os.path.splitext(self.files[0].values()[0])[-1][1:]
-            for i in self.tab.vid_to_aud:
-                if ext_to == i:
-                    self._type == 'audio'
-                    break
-
+        self._type = ''
+        ext_to = os.path.splitext(self.files[0].values()[0])[-1][1:]
+        if ext_to in parent.video_tab.formats:
+            if not any(ext_to == i for i in parent.video_tab.vid_to_aud):
+                self._type = 'video'
+        
         self.nowLabel = QLabel(self.tr('In progress: '))
         totalLabel = QLabel(self.tr('Total:'))
         self.nowBar = QProgressBar()
@@ -1118,7 +1120,7 @@ class Progress(QDialog):
     def reject(self):
         """Uses standard dialog to ask whether procedure must stop or not."""
         if self._type == 'video':
-            self.tab.manage_convert_prcs('pause')
+            self.parent.video_tab.manage_convert_prcs('pause')
         else:
             self.timer.stop()
         reply = QMessageBox.question(self, 
@@ -1128,10 +1130,10 @@ class Progress(QDialog):
         if reply == QMessageBox.Yes:
             QDialog.reject(self)
             if self._type == 'video':
-                self.tab.manage_convert_prcs('kill')                
+                self.parent.video_tab.manage_convert_prcs('kill')                
         if reply == QMessageBox.Cancel:
             if self._type == 'video':
-                self.tab.manage_convert_prcs('continue')
+                self.parent.video_tab.manage_convert_prcs('continue')
             else:
                 self.timer.start(100, self)
             
@@ -1149,7 +1151,12 @@ class Progress(QDialog):
         QApplication.processEvents() # force UI to update
         self.nowBar.setValue(0)
                 
-        if self.tab.convert(self, from_file, to_file):
+        # Add quotations to path in order to avoid error in special cases 
+        # such as spaces or special characters.
+        from_file = '"' + from_file + '"'
+        to_file = '"' + to_file + '"'
+        tab = self.parent.current_tab()
+        if tab.convert(self, from_file, to_file):
             self.ok += 1
             if self.delete:
                 try:
@@ -1172,7 +1179,7 @@ def main():
     app.setOrganizationName('ffmulticonverter')
     app.setOrganizationDomain('sites.google.com/site/ffmulticonverter/')
     app.setApplicationName('FF Muli Converter')    
-    app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
+    app.setWindowIcon(QIcon(':/ffmulticonverter.png'))    
     
     # search if there is locale translation avalaible and set the Translators
     locale = QLocale.system().name()
@@ -1186,7 +1193,7 @@ def main():
         
     converter = FFMultiConverter()
     converter.show()
-    app.exec_()    
+    app.exec_()
     
 if __name__ == '__main__':
     main()

@@ -31,7 +31,13 @@ if not (py_version >= '2.6' and py_version < '3'):
 try:
     import PyQt4
 except ImportError:
-    exit('Error: You need PyQt4 to run this program.')    
+    exit('Error: You need PyQt4 to run this program.')   
+    
+try:
+    import PythonMagick
+except ImportError:
+    pass
+    # User will be informed about this later     
 
 from PyQt4.QtCore import (Qt, QSettings, QString, QRegExp, QTimer, QBasicTimer,
                   QLocale, QTranslator, QSize, QT_VERSION_STR,PYQT_VERSION_STR)
@@ -62,7 +68,7 @@ import qrc_resources
 class Tab(QWidget):
     def __init__(self, parent):
         super(Tab, self).__init__(parent)
-        self.parent = parent       
+        self.parent = parent
         
         label1 = QLabel(self.tr('Convert from:'))
         label2 = QLabel(self.tr('Convert to:'))
@@ -132,11 +138,14 @@ class Tab(QWidget):
             lineEdit.setValidator(validator)
         if maxlength is not None:
             lineEdit.setMaxLength(maxlength)
-        return lineEdit     
-        
+        return lineEdit
+
     def clear(self):
         pass
-
+        
+    def ok_to_continue(self):
+        return True        
+        
             
 class AudioTab(Tab):
     def __init__(self, parent):
@@ -186,7 +195,7 @@ class AudioTab(Tab):
         self.group.setExclusive(True)
         # setExclusive(False) in order to be able to uncheck checkboxes and
         # then setExclusive(True) so only one radio button can be set
-        
+    
     def convert(self, parent, from_file, to_file):
         """Converts the file format of an audio via ffmpeg.
         
@@ -212,7 +221,7 @@ class VideoTab(Tab):
         self.vid_to_aud = ['aac', 'ac3', 'aiff', 'au', 'flac', 'mp2' , 'wav']
         super(VideoTab, self).__init__(parent)
         
-        pattern = QRegExp(r"\d*")
+        pattern = QRegExp(r'^[1-9]\d*')
         validator = QRegExpValidator(pattern, self)
         
         sizeLabel = QLabel(self.tr('Video Size:'))
@@ -231,7 +240,7 @@ class VideoTab(Tab):
         layout2 = pyqttools.add_to_layout(QHBoxLayout(), self.aspect1LineEdit, 
                                                    label, self.aspect2LineEdit)   
         self.frameLineEdit = self.create_LineEdit(None, validator, 4)
-        self.bitrateLineEdit = self.create_LineEdit(None, validator, 6)
+        self.bitrateLineEdit = self.create_LineEdit(None, validator, 6)        
         
         labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
         widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
@@ -265,6 +274,49 @@ class VideoTab(Tab):
                 self.convert_prcs.send_signal(signal.SIGCONT)
             except:
                 pass   
+
+    def ok_to_continue(self):
+        width = self.widthLineEdit.text()        
+        height = self.heightLineEdit.text()
+        aspect1 = self.aspect1LineEdit.text()
+        aspect2 = self.aspect2LineEdit.text()
+        try:                
+            if width and not height:
+                raise HeightLineError(self.tr(
+                                        'The size LineEdit may not be empty.'))
+            elif not width and height:
+                raise WidthLineError(self.tr(
+                                        'The size LineEdit may not be empty.'))
+            if width:
+                if int(width) < 50:
+                    raise WidthLineError(self.tr(
+                                     'The size LineEdit must be at least 50.'))
+            if height:
+                if int(height) < 50:
+                    raise HeightLineError(self.tr(
+                                     'The size LineEdit must be at least 50.'))                               
+            if (aspect1 and not aspect2) or (not aspect1 and aspect2):
+                raise AspectLineError(self.tr(
+                                      'The aspect LineEdit may not be empty.'))
+            return True
+        except WidthLineError as e:
+            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+                                                                    unicode(e))
+            self.widthLineEdit.selectAll()
+            self.widthLineEdit.setFocus()
+            return False
+        except HeightLineError as e:
+            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+                                                                    unicode(e))
+            self.heightLineEdit.selectAll()
+            self.heightLineEdit.setFocus()                                                                           
+            return False
+        except AspectLineError as e:
+            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+                                                                    unicode(e))
+            self.aspect2LineEdit.setFocus() if aspect1 and not aspect2 else \
+                                                self.aspect1LineEdit.setFocus()                
+            return False
 
     def number_of_frames(self, _file):
         """Counts the number of frames in a video.
@@ -339,18 +391,24 @@ class VideoTab(Tab):
 
 class ImageTab(Tab):
     def __init__(self, parent):
-        self.formats = ['aai', 'bmp', 'eps', 'fpx', 'gif', 'jbig', 'jpeg', 
-                        'p7', 'pdf', 'picon', 'png', 'pnm', 'ppm', 'psd', 
-                        'rad', 'sgi', 'sid', 'tga', 'tif', 'webp', 'xpm', 
-                        'xwd']
-        self.extra_img_formats = { 'bmp'  : ['dib'],
-                                   'eps'  : ['ps'],
-                                   'jpeg' : ['jpg', 'jpe'],
-                                   'tif'  : ['tiff']
-                                 }
+        self.formats = ['aai', 'bmp', 'cgm', 'dcm', 'dpx', 'emf', 'eps', 'fpx',
+                        'gif', 'jbig', 'jng', 'jpeg', 'mrsid', 'p7', 'pdf', 
+                        'picon', 'png', 'ppm', 'psd', 'rad', 'tga', 'tif', 
+                        'webp', 'wpg', 'xpm']
+        self.extra_img_formats = { 'bmp'   : ['bmp2', 'bmp3', 'dib'],
+                                   'eps'   : ['ps', 'ps2', 'ps3', 'eps2', 
+                                              'eps3', 'epi', 'epsi', 'epsf'],
+                                   'jpeg'  : ['jpg', 'jpe'],
+                                   'mrsid' : ['sid'],
+                                   'pdf'   : ['epdf'],
+                                   'picon' : ['icon'],
+                                   'png'   : ['png24', 'png32'],
+                                   'ppm'   : ['pnm', 'pgm'],
+                                   'tif'   : ['tiff']
+                                 }                               
         super(ImageTab, self).__init__(parent)
                       
-        pattern = QRegExp(r"\d*")
+        pattern = QRegExp(r'^[1-9]\d*')
         validator = QRegExpValidator(pattern, self)        
         
         resizeLabel = QLabel(self.tr('Resize:'))        
@@ -373,6 +431,28 @@ class ImageTab(Tab):
         for i in lineEdits:
             i.clear()
         
+    def ok_to_continue(self):
+        width = self.widthLineEdit.text()
+        height = self.heightLineEdit.text()
+        try:                
+            if width and not height:
+                raise HeightLineError(self.tr(
+                                        'The size LineEdit may not be empty.'))
+            elif not width and height:
+                raise WidthLineError(self.tr(
+                                        'The size LineEdit may not be empty.'))
+            return True
+        except WidthLineError as e:
+            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+                                                                    unicode(e))
+            self.widthLineEdit.setFocus()
+            return False
+        except HeightLineError as e:
+            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+                                                                    unicode(e))
+            self.heightLineEdit.setFocus()
+            return False
+        
     def convert(self, parent, from_file, to_file):
         """Converts the file format of an image.
         
@@ -381,28 +461,32 @@ class ImageTab(Tab):
         
         Returns: boolean
         """                               
-        command = 'convert {0} {1}'.format(from_file, to_file)
-        command = str(QString(command).toUtf8())
-        command = shlex.split(command)
-        converted = True if subprocess.call(command) == 0 else False
-        return converted       
+        _from = str(QString(from_file).toUtf8())[1:-1]
+        to = str(QString(to_file).toUtf8())[1:-1]   
+        try:
+            img = PythonMagick.Image(_from)
+            img.write(to)
+            converted = True
+        except (RuntimeError, Exception):
+            converted = False
+        return converted
 
 
 class DocumentTab(Tab):
     def __init__(self, parent):
         self.formats = {'doc' : ['odt', 'pdf'],
-                                'html' : ['odt'],
-                                'odp' : ['pdf', 'ppt'],
-                                'ods' : ['pdf'],
-                                'odt' : ['doc', 'html', 'pdf', 'rtf', 'sxw', 
-                                         'txt', 'xml'],
-                                'ppt' : ['odp'],
-                                'rtf' : ['odt'],
-                                'sdw' : ['odt'],
-                                'sxw' : ['odt'],
-                                'txt' : ['odt'],
-                                'xls' : ['ods'],
-                                'xml' : ['doc', 'odt', 'pdf']}
+                       'html' : ['odt'],
+                        'odp' : ['pdf', 'ppt'],
+                        'ods' : ['pdf'],
+                        'odt' : ['doc', 'html', 'pdf', 'rtf', 'sxw', 'txt', 
+                                 'xml'],
+                        'ppt' : ['odp'],
+                        'rtf' : ['odt'],
+                        'sdw' : ['odt'],
+                        'sxw' : ['odt'],
+                        'txt' : ['odt'],
+                        'xls' : ['ods'],
+                        'xml' : ['doc', 'odt', 'pdf']}
         super(DocumentTab, self).__init__(parent)
         
         self.fromComboBox.currentIndexChanged.connect(self.refresh_toComboBox)
@@ -904,6 +988,7 @@ class FFMultiConverter(QMainWindow):
         _file = os.path.split(self.fname)[-1]
         real_ext = os.path.splitext(_file)[-1][1:]
         index = self.TabWidget.currentIndex()
+        tab = self.current_tab()
 
         try:
             if self.fname == '':
@@ -936,9 +1021,9 @@ class FFMultiConverter(QMainWindow):
                 raise ValidationError(self.tr(
                     'Program FFmpeg is not installed.\nYou will not be able '
                     'to convert video and audio files until you install it.'))
-            elif index == 2 and not self.imgmagick:
+            elif index == 2 and not self.pmagick:
                 raise ValidationError(self.tr(
-                    'ImageMagick is not installed.\nYou will not be able to '
+                    'PythonMagick is not installed.\nYou will not be able to '
                     'convert image files until you install it.'))
             elif index == 3 and not (self.openoffice or self.libreoffice):
                 raise ValidationError(self.tr(
@@ -948,6 +1033,8 @@ class FFMultiConverter(QMainWindow):
                 raise ValidationError(self.tr(
                     'Program unocov is not installed.\nYou will not be able '
                     'to convert document files until you install it.'))
+            if not tab.ok_to_continue():
+                return False
             return True
         
         except ValidationError as e:
@@ -1012,11 +1099,6 @@ class FFMultiConverter(QMainWindow):
         else:
             self.unoconv = False  
             missing.append('unoconv')
-        if self.is_installed('convert'):
-            self.imgmagick = True
-        else:
-            self.imgmagick = False  
-            missing.append('ImageMagick') 
         if self.is_installed('openoffice.org'):
             self.openoffice = True
         else:
@@ -1026,7 +1108,13 @@ class FFMultiConverter(QMainWindow):
         else:
             self.libreoffice = False          
         if not self.openoffice and not self.libreoffice:
-            missing.append('Open/Libre Office')                  
+            missing.append('Open/Libre Office') 
+        try:
+            import PythonMagick
+            self.pmagick = True
+        except ImportError:
+            self.pmagick = False
+            missing.append('PythonMagick')                             
         
         missing = ", ".join(missing) if missing else self.tr('None')
         status = self.tr('Missing dependencies: ') + missing
@@ -1170,9 +1258,11 @@ class Progress(QDialog):
         self.files.pop(0)
         
 
-class ValidationError(Exception):
-    # used in FFMultiConverter.ok_to_continue()
-    pass
+# declare Exception classes here because of an Error with QtLinguist
+class ValidationError(Exception): pass
+class HeightLineError(Exception): pass
+class WidthLineError(Exception): pass
+class AspectLineError(Exception): pass    
                     
 def main():
     app = QApplication(sys.argv)
@@ -1183,7 +1273,7 @@ def main():
     
     # search if there is locale translation avalaible and set the Translators
     locale = QLocale.system().name()
-    locale = ''
+    #locale = ''
     qtTranslator = QTranslator()
     if qtTranslator.load("qt_" + locale, ":/"):
         app.installTranslator(qtTranslator)

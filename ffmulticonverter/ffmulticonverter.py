@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-__version__ = "1.3.0 planning"
+__version__ = "1.3.0 Alpha"
 
 import platform
 py_version = platform.python_version()
@@ -66,6 +66,7 @@ import preferences_dlg
 import qrc_resources
 
 class Tab(QWidget):
+    """Standard ui and methods for each tab."""
     def __init__(self, parent):
         super(Tab, self).__init__(parent)
         self.parent = parent
@@ -81,7 +82,8 @@ class Tab(QWidget):
         
         self.update_comboboxes() 
 
-    def update_comboboxes(self):                 
+    def update_comboboxes(self):    
+        """Add items to comboboxes."""
         self.fromComboBox.addItems(self.formats)
         self.toComboBox.addItems(self.formats)  
             
@@ -128,8 +130,10 @@ class Tab(QWidget):
         
         Keyword arguments:
         maxsize -- maximum size
-        validator -- a regular expression to be added as validator
+        validator -- a QValidator
         maxlength - maximum length
+        
+        Returns: QLineEdit
         """        
         lineEdit = QLineEdit()
         if maxsize is not None:
@@ -144,10 +148,11 @@ class Tab(QWidget):
         pass
         
     def ok_to_continue(self):
-        return True        
+        return True
         
             
 class AudioTab(Tab):
+    """The responsible tab for audio conversions."""
     def __init__(self, parent):
         self.formats = ['aac', 'ac3', 'afc', 'aifc', 'aiff', 'amr', 'asf', 
                         'au', 'avi', 'dvd', 'flac', 'flv', 'm4a', 'm4v', 'mka', 
@@ -195,6 +200,30 @@ class AudioTab(Tab):
         self.group.setExclusive(True)
         # setExclusive(False) in order to be able to uncheck checkboxes and
         # then setExclusive(True) so only one radio button can be set
+        
+    def get_data(self):
+        """Collects audio tab data.
+        
+        Returns: tuple
+        """       
+        if self.freqComboBox.currentIndex() == 0:
+            frequency = ''
+        else:
+            frequency = ' -ar {0} '.format(self.freqComboBox.currentText())                
+        
+        if self.chan1RadioButton.isChecked():
+            channels = ' -ac 1 '
+        elif self.chan2RadioButton.isChecked():
+            channels = ' -ac 2 '
+        else:
+            channels = ''
+        
+        if self.bitrateComboBox.currentIndex() == 0:
+            bitrate = ''
+        else:
+            bitrate = ' -ab {0}k '.format(self.bitrateComboBox.currentText())
+        
+        return frequency, channels, bitrate        
     
     def convert(self, parent, from_file, to_file):
         """Converts the file format of an audio via ffmpeg.
@@ -205,6 +234,7 @@ class AudioTab(Tab):
         
         Returns: boolean
         """
+        #frequency, channels, bitrate = self.get_data()
         command = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file, to_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
@@ -213,6 +243,7 @@ class AudioTab(Tab):
 
 
 class VideoTab(Tab):
+    """The responsible tab for video conversions."""
     def __init__(self, parent):
         self.formats = ['asf', 'avi', 'dvd', 'flv', 'm1v', 'm2t', 'm2v', 
                         'mjpg', 'mkv', 'mmf', 'mov', 'mp4', 'mpeg', 'mpg', 
@@ -246,8 +277,9 @@ class VideoTab(Tab):
         widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
         
         self.create_more_layout(labels, widgets)   
-        
-    def update_comboboxes(self):                  
+
+    def update_comboboxes(self):   
+        """Add items to comboboxes."""
         string = self.tr(' (Audio only)') 
         self.fromComboBox.addItems(self.formats)
         self.toComboBox.addItems(self.formats) 
@@ -261,21 +293,15 @@ class VideoTab(Tab):
         for i in lineEdits:
             i.clear()
 
-    def manage_convert_prcs(self, procedure):
-        if procedure == 'pause':
-            self.convert_prcs.send_signal(signal.SIGSTOP)
-        elif procedure == 'kill':
-            try:
-                self.convert_prcs.kill()
-            except:
-                pass
-        elif procedure == 'continue':
-            try:
-                self.convert_prcs.send_signal(signal.SIGCONT)
-            except:
-                pass   
-
     def ok_to_continue(self):
+        """Checks if everything is ok with videotab to continue with conversion
+        
+        Checks if:
+         - One lineEdit is active and its pair is empty.
+         - One of the size lineEdits has a value less than 50.
+                
+        Returns: boolean
+        """
         width = self.widthLineEdit.text()        
         height = self.heightLineEdit.text()
         aspect1 = self.aspect1LineEdit.text()
@@ -314,12 +340,107 @@ class VideoTab(Tab):
         except AspectLineError as e:
             QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
                                                                     unicode(e))
-            self.aspect2LineEdit.setFocus() if aspect1 and not aspect2 else \
-                                                self.aspect1LineEdit.setFocus()                
+            self.aspect2LineEdit.setFocus() if aspect1 and not aspect2 \
+                                           else self.aspect1LineEdit.setFocus()                
             return False
+            
+    def get_data(self):
+        """Collects video tab data.
+        
+        Returns: tuple
+        """
+        if not self.widthLineEdit.text():
+            size = ''
+        else:
+            width = self.widthLineEdit.text()
+            height = self.heightLineEdit.text()
+            size = ' -s {0}x{1} '.format(width, height)
+        
+        if not self.aspect1LineEdit.text():
+            aspect = ''
+        else:
+            aspect1 = self.aspect1LineEdit.text()
+            aspect2 = self.aspect2LineEdit.text()
+            aspect = ' -aspect {0}:{1} '.format(aspect1, aspect2)
 
-    def number_of_frames(self, _file):
-        """Counts the number of frames in a video.
+        if not self.frameLineEdit.text():
+            framerate = ''
+        else:
+            framerate = ' -r {0} '.format(self.frameLineEdit.text())
+            
+        if not self.bitrateLineEdit.text():
+            bitrate = ''
+        else:
+            bitrate = ' -b {0}k '.format(self.bitrateLineEdit.text())        
+        
+        return size, aspect, framerate, bitrate            
+
+    def manage_convert_prcs(self, procedure):
+        """Sends the appropriate signal to self.convert_prcss (process).
+        
+        Keyword arguments:
+        procedure -- a string
+                     if 'pause'    : send SIGSTOP signal
+                     if 'continue' : send SIGCONT signal
+                     if 'kill'     : kill process
+        """
+        if procedure == 'pause':
+            self.convert_prcs.send_signal(signal.SIGSTOP)
+        elif procedure == 'continue':
+            self.convert_prcs.send_signal(signal.SIGCONT)
+        elif procedure == 'kill':
+            self.convert_prcs.kill() 
+
+    def count_newfile_frames(self, _file):
+        """Counts the number of frames of the new file.
+        
+        if new-file fps are greater than old-file fps then returns old_file fps
+        
+        Returns: integer
+        """
+        
+        for i in range(2):
+            # do it twice because get_frames() fails some times at first 
+            old_file_frames = self.get_frames(_file)
+        old_file_duration = self.get_duration(_file)
+        old_file_fps = old_file_frames / old_file_duration        
+        new_file_fps = self.frameLineEdit.text()
+        try:
+            new_file_fps = int(new_file_fps)
+        except ValueError:
+            new_file_fps = 0        
+        
+        if not new_file_fps or new_file_fps >= old_file_fps:
+            new_file_frames = old_file_frames
+        else:
+            new_file_frames = new_file_fps * old_file_duration
+        
+        return new_file_frames            
+
+    def get_duration(self, _file):
+        """Returns the number of seconds of a video.
+        
+        Returns: integer
+        """
+        cmd = "ffmpeg -i {0} 2>&1".format(_file)
+        cmd = str(QString(cmd).toUtf8())
+        exec_cmd = subprocess.Popen(shlex.split(cmd), stderr=subprocess.PIPE)
+        output = unicode(QString(exec_cmd.stderr.read()))
+        for i in output.split('\n'):
+            if 'Duration:' in i:
+                duration = re.sub( r'^\s*Duration:\s*([0-9:]+).*$', r'\1', i)
+        try:
+            hours, mins, secs = duration.split(':')
+            hours = int(hours)
+            mins = int(mins)
+            secs = int(secs)
+            secs += (hours * 3600) + (mins * 60)
+            return secs
+        except (NameError, ValueError, Exception):
+            return None
+
+    def get_frames(self, _file):
+        """Returns the number of frames of a video.
         
         Returns: integer
         """
@@ -333,7 +454,7 @@ class VideoTab(Tab):
                 frames = re.sub( r'^frame=\s*([0-9]+)\s.*$', r'\1', i)
         try:
             frames = int(frames)
-        except NameError:
+        except (NameError, ValueError, Exception):
             frames = 0
         return frames
 
@@ -351,37 +472,33 @@ class VideoTab(Tab):
         to_file -- the new file
         
         Returns: boolean
-        """
-        # Add quotations to path in order to avoid error in special cases 
-        # such as spaces or special characters.      
-        
+        """            
+        #size, aspect, framerate, bitrate = self.get_data()
         min_value = parent.totalBar.value()
-        max_value = min_value + parent.step
-        for i in range(2):
-            # do it twice because number_of_frames() fails some times at first 
-            total_frames = self.number_of_frames(from_file)
-        if total_frames == 0:
-            parent.totalBar.setValue(max_value)
-            return False
-            
+        max_value = min_value + parent.step            
+        total_frames = self.count_newfile_frames(from_file)            
         convert_cmd = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file, to_file)
         convert_cmd = str(QString(convert_cmd).toUtf8())        
         self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
+        
+        if total_frames == 0:
+            while self.convert_prcs.poll() == None:
+                time.sleep(1)
+        else:
+            while self.convert_prcs.poll() == None:
+                time.sleep(1)       
+                frames = self.get_frames(to_file)
+                now_percent = (frames * 100) / total_frames
+                total_percent = ((now_percent * parent.step) / 100) + min_value          
+                now_val = parent.nowBar.value()
+                tot_val = parent.totalBar.value()
                 
-        while self.convert_prcs.poll() == None:
-            time.sleep(1)       
-            frames = self.number_of_frames(to_file)
-            now_percent = (frames * 100) / total_frames
-            total_percent = ((now_percent * parent.step) / 100) + min_value          
-            now_val = parent.nowBar.value()
-            tot_val = parent.totalBar.value()
-            
-            # processEvents() force the UI to update
-            QApplication.processEvents()
-            if now_percent > now_val and not (now_percent > 100):
-                parent.nowBar.setValue(now_percent)                            
-            if total_percent > tot_val and not (total_percent > max_value):
-                parent.totalBar.setValue(total_percent)
+                # processEvents() force the UI to update
+                QApplication.processEvents()
+                if now_percent > now_val and not (now_percent > 100):
+                    parent.nowBar.setValue(now_percent)                            
+                if total_percent > tot_val and not (total_percent > max_value):
+                    parent.totalBar.setValue(total_percent)
                 
         parent.totalBar.setValue(max_value)        
         converted = True if self.convert_prcs.poll() == 0 else False
@@ -390,6 +507,7 @@ class VideoTab(Tab):
         
 
 class ImageTab(Tab):
+    """The responsible tab for image conversions."""
     def __init__(self, parent):
         self.formats = ['aai', 'bmp', 'cgm', 'dcm', 'dpx', 'emf', 'eps', 'fpx',
                         'gif', 'jbig', 'jng', 'jpeg', 'mrsid', 'p7', 'pdf', 
@@ -432,6 +550,13 @@ class ImageTab(Tab):
             i.clear()
         
     def ok_to_continue(self):
+        """Checks if everything is ok with audiotab to continue with conversion
+        
+        Checks if:
+         - One lineEdit is active and its pair is empty.
+                
+        Returns: boolean
+        """        
         width = self.widthLineEdit.text()
         height = self.heightLineEdit.text()
         try:                
@@ -452,15 +577,31 @@ class ImageTab(Tab):
                                                                     unicode(e))
             self.heightLineEdit.setFocus()
             return False
+
+    def get_data(self):
+        """Collects image tab data.
+        
+        Returns: QString
+        """       
+        if not self.widthLineEdit.text():
+            size = ''
+        else:
+            width = self.widthLineEdit.text()
+            height = self.heightLineEdit.text()
+            size = '{0}x{1}'.format(width, height)
+        
+        return size 
         
     def convert(self, parent, from_file, to_file):
         """Converts the file format of an image.
         
+        Keyword arguments:
         from_file -- the file to be converted
         to_file -- the new file
         
         Returns: boolean
         """                               
+        #size = self.get_data()
         _from = str(QString(from_file).toUtf8())[1:-1]
         to = str(QString(to_file).toUtf8())[1:-1]   
         try:
@@ -473,6 +614,7 @@ class ImageTab(Tab):
 
 
 class DocumentTab(Tab):
+    """The responsible tab for document conversions."""
     def __init__(self, parent):
         self.formats = {'doc' : ['odt', 'pdf'],
                        'html' : ['odt'],
@@ -492,7 +634,8 @@ class DocumentTab(Tab):
         self.fromComboBox.currentIndexChanged.connect(self.refresh_toComboBox)
         self.refresh_toComboBox()
                 
-    def update_comboboxes(self): 
+    def update_comboboxes(self):
+        """Add items to comboboxes."""
         # create a sorted list with document_formats extensions because 
         # self.formats is a dict so values are not sorted
         _list = []
@@ -510,8 +653,9 @@ class DocumentTab(Tab):
     def convert(self, parent, from_file, to_file):
         """Converts the file format of a document file.
         
+        Keyword arguments:
         from_file -- the file to be converted
-        to_file -- the new file 
+        to_file -- the new file
         
         Returns: boolean    
         """                        
@@ -531,6 +675,7 @@ class DocumentTab(Tab):
                         
 
 class FFMultiConverter(QMainWindow):
+    """Main Windows' ui and methods"""
     def __init__(self, parent=None):
         super(FFMultiConverter, self).__init__(parent)        
         self.home = os.getenv('HOME')                        
@@ -824,9 +969,9 @@ class FFMultiConverter(QMainWindow):
         # split from the docsting (Audio Only) if it is appropriate
         ext_to = ext_to.split(' ')[0]   
         return ext_from, ext_to
-
-    def find_type(self):
-        """Specifies the current file formats.
+        
+    def current_formats(self):
+        """Returns the file formats of current tab.
         
         Returns: list
         """
@@ -836,7 +981,7 @@ class FFMultiConverter(QMainWindow):
         if index == 2:
             for i in self.image_tab.extra_img_formats.values():
                 type_formats.extend(i)
-        return type_formats   
+        return type_formats         
         
     def path_generator(self, path_pattern, recursive=True, includes=[]):
         """Generate a list of paths from a path pattern.
@@ -867,7 +1012,7 @@ class FFMultiConverter(QMainWindow):
 
             elif _should_include(path, includes):
                 yield path
-        
+
     def files_to_conv_list(self):        
         """Generates paths of files to convert.
         
@@ -881,7 +1026,7 @@ class FFMultiConverter(QMainWindow):
         base, ext = os.path.splitext(file_name)
         _dir += '/*'
                 
-        formats = self.find_type()
+        formats = self.current_formats()
         files_to_conv = []
         includes = []
                 
@@ -912,7 +1057,7 @@ class FFMultiConverter(QMainWindow):
         1.conversion_list -- list with dicts to show where each file must be 
                              saved. 
         Example:
-        [{/foo/bar.png : /foo/foo2/bar.png}, {/f/bar2.png : /f/foo2/bar2.png}]
+        [{/foo/bar.png : "/foo/bar.png"}, {/f/bar2.png : "/foo2/bar.png"}]
         2.create_folders_list -- a list with folders that must be created
         
         Keyword arguments:
@@ -931,10 +1076,10 @@ class FFMultiConverter(QMainWindow):
         parent_base, parent_ext = os.path.split(parent_name)
         parent_dir += '/'
                         
-        for i in files_list:
-            _dir, name = os.path.split(i)
+        for _file in files_list:
+            _dir, name = os.path.split(_file)
             base, ext = os.path.splitext(name)
-            _dir += '/'
+            _dir += '/'            
             
             y = _dir + self.prefix + base + self.suffix + '.' + ext_to
             
@@ -962,11 +1107,19 @@ class FFMultiConverter(QMainWindow):
                     y = re.sub('^'+_dir, '', y)
                     y = folder + y
         
+            if os.path.exists(y):
+                _dir2, _name2 = os.path.split(y)
+                y = _dir2 + '/~' + _name2
+            # Add quotations to path in order to avoid error in special cases 
+            # such as spaces or special characters.
+            _file = '"' + _file + '"'
+            y = '"' + y + '"'                
+            
             _dict = {}
-            _dict[i] = y
+            _dict[_file] = y
             conversion_list.append(_dict)
-        
-        return create_folders_list, conversion_list     
+
+        return create_folders_list, conversion_list             
         
     def ok_to_continue(self, ext_from, ext_to):
         """Checks if everything is ok to continue with conversion.
@@ -976,7 +1129,6 @@ class FFMultiConverter(QMainWindow):
          - Given file exists
          - Given output destination exists
          - Given file extension is same with the declared extension
-         - Declared from_extension == declared to_extension
          - Missing dependencies for this file type
 
         Keyword arguments:
@@ -1014,9 +1166,6 @@ class FFMultiConverter(QMainWindow):
                         raise error
                 else:
                     raise error
-            elif ext_from == ext_to and self.output is None:
-                raise ValidationError(self.tr(
-                    'You can not convert the file extension to the existing!'))
             elif (index == 0 or index == 1) and not self.ffmpeg:
                 raise ValidationError(self.tr(
                     'Program FFmpeg is not installed.\nYou will not be able '
@@ -1152,7 +1301,7 @@ class Progress(QDialog):
         self.error = 0        
         
         self._type = ''
-        ext_to = os.path.splitext(self.files[0].values()[0])[-1][1:]
+        ext_to = os.path.splitext(self.files[0].values()[0][1:-1])[-1][1:]
         if ext_to in parent.video_tab.formats:
             if not any(ext_to == i for i in parent.video_tab.vid_to_aud):
                 self._type = 'video'
@@ -1226,23 +1375,19 @@ class Progress(QDialog):
                 self.timer.start(100, self)
             
     def convert_a_file(self):
-        """Starts the conversion procedure depending to file type."""
+        """Starts the conversion procedure."""
         if not self.files:
             return
         from_file = self.files[0].keys()[0]
         to_file = self.files[0].values()[0]
         
         text = '.../' + from_file.split('/')[-1] if len(from_file) > 40 \
-                                                            else from_file
+                                                 else from_file
         self.nowLabel.setText(self.tr('In progress: ') + text)
         
         QApplication.processEvents() # force UI to update
         self.nowBar.setValue(0)
-                
-        # Add quotations to path in order to avoid error in special cases 
-        # such as spaces or special characters.
-        from_file = '"' + from_file + '"'
-        to_file = '"' + to_file + '"'
+                        
         tab = self.parent.current_tab()
         if tab.convert(self, from_file, to_file):
             self.ok += 1
@@ -1273,7 +1418,7 @@ def main():
     
     # search if there is locale translation avalaible and set the Translators
     locale = QLocale.system().name()
-    #locale = ''
+    locale = ''
     qtTranslator = QTranslator()
     if qtTranslator.load("qt_" + locale, ":/"):
         app.installTranslator(qtTranslator)

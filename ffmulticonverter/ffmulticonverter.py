@@ -3,7 +3,7 @@
 # Program: FF Multi Converter
 # Purpose: GUI application to convert multiple file formats
 #
-# Copyright (C) 2011 Ilias Stamatis <stamatis.iliass@gmail.com>
+# Copyright (C) 2011-2012 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # the Free Software Foundation, either version 3 of the License, or
@@ -20,24 +20,7 @@
 
 from __future__ import unicode_literals
 
-__version__ = "1.3.0 Alpha"
-
-import platform
-py_version = platform.python_version()
-
-if not (py_version >= '2.6' and py_version < '3'):
-    exit('Error: You need python 2.6 or python2.7 to run this program.')
-    
-try:
-    import PyQt4
-except ImportError:
-    exit('Error: You need PyQt4 to run this program.')   
-    
-try:
-    import PythonMagick
-except ImportError:
-    pass
-    # User will be informed about this later     
+__version__ = "1.3.0 Beta"
 
 from PyQt4.QtCore import (Qt, QSettings, QString, QRegExp, QTimer, QBasicTimer,
                   QLocale, QTranslator, QSize, QT_VERSION_STR,PYQT_VERSION_STR)
@@ -46,11 +29,8 @@ from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, QFrame,
                   QSpacerItem, QLineEdit, QToolButton, QComboBox, QCheckBox, 
                   QButtonGroup, QRadioButton, QPushButton, QProgressBar, 
                   QTabWidget, QIcon, QAction, QMenu, QKeySequence, QShortcut, 
-                  QFileDialog, QMessageBox, QRegExpValidator)
+                  QFileDialog, QMessageBox, QRegExpValidator)                  
 
-#from PyQt4.QtCore import *     
-#from PyQt4.QtGui import *
-                  
 import sys
 import os
 import signal
@@ -60,10 +40,23 @@ import shutil
 import glob
 import re
 import time
+import platform
 
 import pyqttools
 import preferences_dlg
 import qrc_resources
+
+try:
+    import PythonMagick
+except ImportError:
+    pass
+
+
+class ValidationError(Exception): pass
+class HeightLineError(ValidationError): pass
+class WidthLineError(ValidationError): pass
+class AspectLineError(ValidationError): pass
+
 
 class Tab(QWidget):
     """Standard ui and methods for each tab."""
@@ -234,8 +227,9 @@ class AudioTab(Tab):
         
         Returns: boolean
         """
-        #frequency, channels, bitrate = self.get_data()
-        command = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file, to_file)
+        frequency, channels, bitrate = self.get_data()
+        command = 'ffmpeg -y -i {0}{1}{2}{3} {4}'.format(
+                              from_file, frequency, channels, bitrate, to_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
         converted = True if subprocess.call(command) == 0 else False
@@ -369,11 +363,11 @@ class VideoTab(Tab):
             framerate = ' -r {0} '.format(self.frameLineEdit.text())
             
         if not self.bitrateLineEdit.text():
-            bitrate = ''
+            bitrate = ' -sameq '
         else:
             bitrate = ' -b {0}k '.format(self.bitrateLineEdit.text())        
         
-        return size, aspect, framerate, bitrate            
+        return size, aspect, framerate, bitrate 
 
     def manage_convert_prcs(self, procedure):
         """Sends the appropriate signal to self.convert_prcss (process).
@@ -473,11 +467,12 @@ class VideoTab(Tab):
         
         Returns: boolean
         """            
-        #size, aspect, framerate, bitrate = self.get_data()
         min_value = parent.totalBar.value()
         max_value = min_value + parent.step            
-        total_frames = self.count_newfile_frames(from_file)            
-        convert_cmd = 'ffmpeg -y -i {0} -sameq {1}'.format(from_file, to_file)
+        total_frames = self.count_newfile_frames(from_file)
+        size, aspect, framerate, bitrate = self.get_data()
+        convert_cmd = 'ffmpeg -y -i {0}{1}{2}{3}{4} {5}'.format(
+                          from_file, size, aspect, framerate, bitrate, to_file)
         convert_cmd = str(QString(convert_cmd).toUtf8())        
         self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
         
@@ -493,7 +488,6 @@ class VideoTab(Tab):
                 now_val = parent.nowBar.value()
                 tot_val = parent.totalBar.value()
                 
-                # processEvents() force the UI to update
                 QApplication.processEvents()
                 if now_percent > now_val and not (now_percent > 100):
                     parent.nowBar.setValue(now_percent)                            
@@ -503,7 +497,6 @@ class VideoTab(Tab):
         parent.totalBar.setValue(max_value)        
         converted = True if self.convert_prcs.poll() == 0 else False
         return converted    
-        #nowBar, totalBar, step
         
 
 class ImageTab(Tab):
@@ -601,11 +594,13 @@ class ImageTab(Tab):
         
         Returns: boolean
         """                               
-        #size = self.get_data()
         _from = str(QString(from_file).toUtf8())[1:-1]
         to = str(QString(to_file).toUtf8())[1:-1]   
+        size = str(self.get_data())
         try:
             img = PythonMagick.Image(_from)
+            if size:
+                img.transform(size)
             img.write(to)
             converted = True
         except (RuntimeError, Exception):
@@ -679,8 +674,8 @@ class FFMultiConverter(QMainWindow):
     def __init__(self, parent=None):
         super(FFMultiConverter, self).__init__(parent)        
         self.home = os.getenv('HOME')                        
-        self.fname = ''  # file to convert
-        self.output = '' # output destination
+        self.fname = ''
+        self.output = ''
         
         select_label = QLabel(self.tr('Select file:'))
         output_label = QLabel(self.tr('Output destination:'))
@@ -1079,18 +1074,15 @@ class FFMultiConverter(QMainWindow):
         for _file in files_list:
             _dir, name = os.path.split(_file)
             base, ext = os.path.splitext(name)
-            _dir += '/'            
-            
+            _dir += '/'                        
             y = _dir + self.prefix + base + self.suffix + '.' + ext_to
             
             if self.saveto_output:
-                folder = self.output + '/'
-                
+                folder = self.output + '/'                
                 if self.rebuild_structure:
                     y = re.sub('^'+parent_dir, '', y)
                     y = folder + y
-                    rel_path_files_list.append(y)
-                    
+                    rel_path_files_list.append(y)                    
                     for z in rel_path_files_list:
                         folder_to_create = os.path.split(z)[0]
                         folders.append(folder_to_create) 
@@ -1101,8 +1093,7 @@ class FFMultiConverter(QMainWindow):
                             create_folders_list.append(fol)                    
                     create_folders_list.sort()
                     # remove first folder because it already exists.
-                    create_folders_list.pop(0)                                                             
-                
+                    create_folders_list.pop(0)                                                                             
                 else:
                     y = re.sub('^'+_dir, '', y)
                     y = folder + y
@@ -1220,7 +1211,7 @@ class FFMultiConverter(QMainWindow):
             '''<b> FF Multi Converter %1 </b>
             <p>Convert among several file types to other extensions
             <p><a href="%2">FF Multi Converter</a>
-            <p>Copyright &copy; 2011 Ilias Stamatis  
+            <p>Copyright &copy; 2011-2012 Ilias Stamatis  
             <br>License: GNU GPL3
             <p>Python %3 - Qt %4 - PyQt %5 on %6''').arg(__version__).arg(link)
             .arg(platform.python_version()[:5]).arg(QT_VERSION_STR)
@@ -1401,13 +1392,7 @@ class Progress(QDialog):
         
         self.nowBar.setValue(100)
         self.files.pop(0)
-        
 
-# declare Exception classes here because of an Error with QtLinguist
-class ValidationError(Exception): pass
-class HeightLineError(Exception): pass
-class WidthLineError(Exception): pass
-class AspectLineError(Exception): pass    
                     
 def main():
     app = QApplication(sys.argv)

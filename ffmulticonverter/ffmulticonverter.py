@@ -28,8 +28,8 @@ from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, QFrame,
                   QGridLayout, QVBoxLayout, QHBoxLayout, QSizePolicy, QLabel, 
                   QSpacerItem, QLineEdit, QToolButton, QComboBox, QCheckBox, 
                   QButtonGroup, QRadioButton, QPushButton, QProgressBar, 
-                  QTabWidget, QIcon, QAction, QMenu, QKeySequence, QShortcut, 
-                  QFileDialog, QMessageBox, QRegExpValidator)                  
+                  QTabWidget, QIcon, QAction, QMenu, QKeySequence, QFileDialog, 
+                  QMessageBox, QRegExpValidator)                  
 
 import sys
 import os
@@ -137,12 +137,28 @@ class Tab(QWidget):
             lineEdit.setMaxLength(maxlength)
         return lineEdit
 
+    def change_to_current_index(self, fname):
+        ext = os.path.splitext(fname)[-1][1:]
+        try:
+            i = self.formats.index(ext)
+            self.fromComboBox.setCurrentIndex(i)
+        except ValueError:
+            index = self.parent.TabWidget.currentIndex()
+            if index == 2:
+                if ext in self.extra_img_formats_list:
+                    for x in self.extra_img_formats_dict:
+                        for y in self.extra_img_formats_dict[x]:
+                            if y == ext:
+                                i = self.formats.index(x)
+                                self.fromComboBox.setCurrentIndex(i)
+                                break
+                
     def clear(self):
         pass
         
     def ok_to_continue(self):
-        return True
-        
+        return True    
+
             
 class AudioTab(Tab):
     """The responsible tab for audio conversions."""
@@ -251,7 +267,7 @@ class VideoTab(Tab):
         
         sizeLabel = QLabel(self.tr('Video Size:'))
         aspectLabel = QLabel(self.tr('Aspect:'))
-        frameLabel = QLabel(self.tr('Frame Rate:'))
+        frameLabel = QLabel(self.tr('Frame Rate (fps):'))
         bitrateLabel = QLabel(self.tr('Bitrate (kbps):'))
         
         self.widthLineEdit = self.create_LineEdit((50, 16777215), validator, 4)
@@ -394,27 +410,26 @@ class VideoTab(Tab):
         """
         
         for i in range(2):
-            # do it twice because get_frames() fails some times at first 
+            # do it twice because get_frames() fails some times at first time
             old_file_frames = self.get_frames(_file)
         old_file_duration = self.get_duration(_file)
-        old_file_fps = old_file_frames / old_file_duration        
-        new_file_fps = self.frameLineEdit.text()
-        try:
-            new_file_fps = int(new_file_fps)
-        except ValueError:
-            new_file_fps = 0        
+        if old_file_frames == 0 or old_file_duration is None:
+            return 0
         
+        old_file_fps = old_file_frames / old_file_duration        
+        text = self.frameLineEdit.text()            
+        new_file_fps = int(text) if text else 0
         if not new_file_fps or new_file_fps >= old_file_fps:
             new_file_frames = old_file_frames
         else:
             new_file_frames = new_file_fps * old_file_duration
         
-        return new_file_frames            
+        return new_file_frames
 
     def get_duration(self, _file):
         """Returns the number of seconds of a video.
         
-        Returns: integer
+        Returns: integer or None
         """
         cmd = "ffmpeg -i {0} 2>&1".format(_file)
         cmd = str(QString(cmd).toUtf8())
@@ -442,33 +457,30 @@ class VideoTab(Tab):
                                                                          _file)
         cmd = str(QString(cmd).toUtf8())
         exec_cmd = subprocess.Popen(shlex.split(cmd), stderr=subprocess.PIPE)
-        output = unicode(QString(exec_cmd.stderr.read()))
+        try:
+            output = unicode(QString(exec_cmd.stderr.read()))
+        except IOError:
+            #[Errno 4] Interrupted system call
+            return 0
         for i in output.split('\n'):
             if 'frame=' in i:
                 frames = re.sub( r'^frame=\s*([0-9]+)\s.*$', r'\1', i)
+        
         try:
             frames = int(frames)
-        except (NameError, ValueError, Exception):
+        except (NameError, ValueError):
             frames = 0
         return frames
 
     def convert(self, parent, from_file, to_file):
-        """Converts the file format of a video and update progress info
-        of each file.
-        
-        It starts conversion with subprocess.Popen() and gets the number of 
-        frames in the new video continuously.        
-        Progress is calculated from the percentage of frames of the new file 
-        compared to frames of the original file.
-        
+        """Converts the file format of a video via ffmpeg.
+                
         Keyword arguments:
         from_file -- the file to be converted
         to_file -- the new file
         
         Returns: boolean
-        """            
-        min_value = parent.totalBar.value()
-        max_value = min_value + parent.step            
+        """                     
         total_frames = self.count_newfile_frames(from_file)
         size, aspect, framerate, bitrate = self.get_data()
         convert_cmd = 'ffmpeg -y -i {0}{1}{2}{3}{4} {5}'.format(
@@ -477,27 +489,18 @@ class VideoTab(Tab):
         self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
         
         if total_frames == 0:
-            while self.convert_prcs.poll() == None:
+            while self.convert_prcs.poll() is None:
                 time.sleep(1)
+            #self.convert_prcs.wait()
         else:
-            while self.convert_prcs.poll() == None:
-                time.sleep(1)       
+            while self.convert_prcs.poll() is None:
+                time.sleep(1) #deter python loop as quickly as possible
                 frames = self.get_frames(to_file)
-                now_percent = (frames * 100) / total_frames
-                total_percent = ((now_percent * parent.step) / 100) + min_value          
-                now_val = parent.nowBar.value()
-                tot_val = parent.totalBar.value()
+                parent.refresh_progress_bars(frames, total_frames)
                 
-                QApplication.processEvents()
-                if now_percent > now_val and not (now_percent > 100):
-                    parent.nowBar.setValue(now_percent)                            
-                if total_percent > tot_val and not (total_percent > max_value):
-                    parent.totalBar.setValue(total_percent)
-                
-        parent.totalBar.setValue(max_value)        
         converted = True if self.convert_prcs.poll() == 0 else False
-        return converted    
-        
+        return converted
+
 
 class ImageTab(Tab):
     """The responsible tab for image conversions."""
@@ -506,17 +509,20 @@ class ImageTab(Tab):
                         'gif', 'jbig', 'jng', 'jpeg', 'mrsid', 'p7', 'pdf', 
                         'picon', 'png', 'ppm', 'psd', 'rad', 'tga', 'tif', 
                         'webp', 'wpg', 'xpm']
-        self.extra_img_formats = { 'bmp'   : ['bmp2', 'bmp3', 'dib'],
-                                   'eps'   : ['ps', 'ps2', 'ps3', 'eps2', 
-                                              'eps3', 'epi', 'epsi', 'epsf'],
-                                   'jpeg'  : ['jpg', 'jpe'],
-                                   'mrsid' : ['sid'],
-                                   'pdf'   : ['epdf'],
-                                   'picon' : ['icon'],
-                                   'png'   : ['png24', 'png32'],
-                                   'ppm'   : ['pnm', 'pgm'],
-                                   'tif'   : ['tiff']
-                                 }                               
+        self.extra_img_formats_dict = { 'bmp'   : ['bmp2', 'bmp3', 'dib'],
+                                        'eps'   : ['ps', 'ps2', 'ps3', 'eps2', 
+                                                'eps3', 'epi', 'epsi', 'epsf'],
+                                        'jpeg'  : ['jpg', 'jpe'],
+                                        'mrsid' : ['sid'],
+                                        'pdf'   : ['epdf'],
+                                        'picon' : ['icon'],
+                                        'png'   : ['png24', 'png32'],
+                                        'ppm'   : ['pnm', 'pgm'],
+                                        'tif'   : ['tiff']
+                                       }
+        self.extra_img_formats_list = []
+        for i in self.extra_img_formats_dict.values():
+            self.extra_img_formats_list.extend(i)
         super(ImageTab, self).__init__(parent)
                       
         pattern = QRegExp(r'^[1-9]\d*')
@@ -774,8 +780,7 @@ class FFMultiConverter(QMainWindow):
         QTimer.singleShot(0, self.set_settings)   
     
     def create_action(self, text, shortcut=None, icon=None, tip=None,
-                      triggered=None, toggled=None, data=None, 
-                      context=Qt.WindowShortcut):
+                      triggered=None, toggled=None, context=Qt.WindowShortcut):
         """Creates a QAction"""
         action = QAction(text, self)
         if triggered is not None:
@@ -790,8 +795,6 @@ class FFMultiConverter(QMainWindow):
         if tip is not None:
             action.setToolTip(tip)
             action.setStatusTip(tip)
-        if data is not None:
-            action.setData(to_qvariant(data))
         action.setShortcutContext(context)
         return action
         
@@ -909,15 +912,14 @@ class FFMultiConverter(QMainWindow):
         self.checkboxes_clicked()        
         for i in self.tabs:
             i.clear()
-
+    
     def open_file(self):
         """Uses standard QtDialog to get file name."""
         all_files = '*'
         audio_files = " ".join(['*.'+i for i in self.audio_tab.formats])
         video_files = " ".join(['*.'+i for i in self.video_tab.formats])
-        img_formats = self.image_tab.formats
-        for i in self.image_tab.extra_img_formats.values():
-            img_formats.extend(i)
+        img_formats = self.image_tab.formats[:]
+        img_formats.extend(self.image_tab.extra_img_formats_list)
         image_files = " ".join(['*.'+i for i in img_formats])
         document_files = " ".join(['*.'+i for i in self.document_tab.formats])
         formats = [all_files, audio_files, video_files, image_files, 
@@ -937,6 +939,8 @@ class FFMultiConverter(QMainWindow):
         if fname:
             self.fname = fname
             self.fromLineEdit.setText(self.fname)
+            tab = self.current_tab()
+            tab.change_to_current_index(self.fname)
             
     def open_dir(self):
         """Uses standard QtDialog to get directory name."""
@@ -972,10 +976,9 @@ class FFMultiConverter(QMainWindow):
         """
         index = self.TabWidget.currentIndex()
         tab = self.current_tab()
-        type_formats = tab.formats
+        type_formats = tab.formats[:]
         if index == 2:
-            for i in self.image_tab.extra_img_formats.values():
-                type_formats.extend(i)
+            type_formats.extend(self.image_tab.extra_img_formats_list)
         return type_formats         
         
     def path_generator(self, path_pattern, recursive=True, includes=[]):
@@ -1149,7 +1152,7 @@ class FFMultiConverter(QMainWindow):
             elif not real_ext == ext_from:
                 error = ValidationError(
                         self.tr("File' s extensions is not %1.").arg(ext_from))
-                extra = self.image_tab.extra_img_formats
+                extra = self.image_tab.extra_img_formats_dict
                 if ext_from in extra:
                     # look if real_ext is same type with ext_from and just have
                     # different extension. eg: jpg is same as jpeg                    
@@ -1200,7 +1203,7 @@ class FFMultiConverter(QMainWindow):
                     pass
         
         dialog = Progress(self, conversion_list, delete)
-        dialog.show()   
+        dialog.show() 
         dialog.exec_()
             
     def about(self):
@@ -1250,7 +1253,7 @@ class FFMultiConverter(QMainWindow):
         if not self.openoffice and not self.libreoffice:
             missing.append('Open/Libre Office') 
         try:
-            import PythonMagick
+            PythonMagick # PythonMagick has imported earlier
             self.pmagick = True
         except ImportError:
             self.pmagick = False
@@ -1367,7 +1370,7 @@ class Progress(QDialog):
             
     def convert_a_file(self):
         """Starts the conversion procedure."""
-        if not self.files:
+        if not self.files: 
             return
         from_file = self.files[0].keys()[0]
         to_file = self.files[0].values()[0]
@@ -1378,20 +1381,46 @@ class Progress(QDialog):
         
         QApplication.processEvents() # force UI to update
         self.nowBar.setValue(0)
+        self.min_value = self.totalBar.value()
+        self.max_value = self.min_value + self.step
                         
         tab = self.parent.current_tab()
         if tab.convert(self, from_file, to_file):
             self.ok += 1
             if self.delete:
                 try:
-                    os.remove(from_file)
+                    os.remove(from_file[1:-1])
                 except OSError:
                     pass
         else:
             self.error += 1
-        
+            
+        if self._type == 'video':
+            self.totalBar.setValue(self.max_value)        
         self.nowBar.setValue(100)
+        
         self.files.pop(0)
+        
+    def refresh_progress_bars(self, frames, total_frames):
+        """Counts the progress rates and sets the progress bars.
+        
+        Progress is calculated from the percentage of frames of the new file 
+        compared to frames of the original file.
+        
+        Keyword arguments:
+        frames -- number of frames of new created file
+        total_frames -- number of total frames of the original file
+        """        
+        assert total_frames > 0
+        now_percent = (frames * 100) / total_frames
+        total_percent = ((now_percent * self.step) / 100) + self.min_value
+        
+        QApplication.processEvents()
+        if now_percent > self.nowBar.value() and not (now_percent > 100):
+            self.nowBar.setValue(now_percent)                            
+        if total_percent > self.totalBar.value() and not \
+                                              (total_percent > self.max_value):
+            self.totalBar.setValue(total_percent)    
 
                     
 def main():
@@ -1403,7 +1432,7 @@ def main():
     
     # search if there is locale translation avalaible and set the Translators
     locale = QLocale.system().name()
-    locale = ''
+    #locale = ''
     qtTranslator = QTranslator()
     if qtTranslator.load("qt_" + locale, ":/"):
         app.installTranslator(qtTranslator)

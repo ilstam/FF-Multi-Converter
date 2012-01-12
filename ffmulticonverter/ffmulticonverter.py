@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-__version__ = "1.3.0 Beta"
+__version__ = '1.3.0 Beta'
 
 from PyQt4.QtCore import (Qt, QSettings, QString, QRegExp, QTimer, QBasicTimer,
                   QLocale, QTranslator, QSize, QT_VERSION_STR,PYQT_VERSION_STR)
@@ -336,19 +336,19 @@ class VideoTab(Tab):
                                       'The aspect LineEdit may not be empty.'))
             return True
         except WidthLineError as e:
-            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'), 
                                                                     unicode(e))
             self.widthLineEdit.selectAll()
             self.widthLineEdit.setFocus()
             return False
         except HeightLineError as e:
-            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'), 
                                                                     unicode(e))
             self.heightLineEdit.selectAll()
             self.heightLineEdit.setFocus()                                                                           
             return False
         except AspectLineError as e:
-            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'), 
                                                                     unicode(e))
             self.aspect2LineEdit.setFocus() if aspect1 and not aspect2 \
                                            else self.aspect1LineEdit.setFocus()                
@@ -431,7 +431,7 @@ class VideoTab(Tab):
         
         Returns: integer or None
         """
-        cmd = "ffmpeg -i {0} 2>&1".format(_file)
+        cmd = 'ffmpeg -i {0} 2>&1'.format(_file)
         cmd = str(QString(cmd).toUtf8())
         exec_cmd = subprocess.Popen(shlex.split(cmd), stderr=subprocess.PIPE)
         output = unicode(QString(exec_cmd.stderr.read()))
@@ -453,7 +453,7 @@ class VideoTab(Tab):
         
         Returns: integer
         """
-        cmd = "ffmpeg -i {0} -vcodec copy -f rawvideo -y /dev/null".format(
+        cmd = 'ffmpeg -i {0} -vcodec copy -f rawvideo -y /dev/null'.format(
                                                                          _file)
         cmd = str(QString(cmd).toUtf8())
         exec_cmd = subprocess.Popen(shlex.split(cmd), stderr=subprocess.PIPE)
@@ -567,12 +567,12 @@ class ImageTab(Tab):
                                         'The size LineEdit may not be empty.'))
             return True
         except WidthLineError as e:
-            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'), 
                                                                     unicode(e))
             self.widthLineEdit.setFocus()
             return False
         except HeightLineError as e:
-            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'), 
                                                                     unicode(e))
             self.heightLineEdit.setFocus()
             return False
@@ -745,7 +745,7 @@ class FFMultiConverter(QMainWindow):
         openAction = self.create_action(self.tr('Open'), QKeySequence.Open, 
                                   None, self.tr('Open a file'), self.open_file)
         convertAction = self.create_action(self.tr('Convert'), 'Ctrl+C', None, 
-                                        self.tr('Convert files'), self.convert)
+                               self.tr('Convert files'), self.start_conversion)
         quitAction = self.create_action(self.tr('Quit'), 'Ctrl+Q', None, 
                                                    self.tr('Quit'), self.close)
         clearAction = self.create_action(self.tr('Clear'), None, None, 
@@ -771,7 +771,7 @@ class FFMultiConverter(QMainWindow):
                                           self.checkboxes_clicked('recursive'))
         self.fromToolButton.clicked.connect(self.open_file)
         self.toToolButton.clicked.connect(self.open_dir)
-        self.convertPushButton.clicked.connect(self.convert)         
+        self.convertPushButton.clicked.connect(convertAction.triggered)
         
         self.resize(685, 378)
         self.setWindowTitle('FF Multi Converter')
@@ -916,12 +916,12 @@ class FFMultiConverter(QMainWindow):
     def open_file(self):
         """Uses standard QtDialog to get file name."""
         all_files = '*'
-        audio_files = " ".join(['*.'+i for i in self.audio_tab.formats])
-        video_files = " ".join(['*.'+i for i in self.video_tab.formats])
+        audio_files = ' '.join(['*.'+i for i in self.audio_tab.formats])
+        video_files = ' '.join(['*.'+i for i in self.video_tab.formats])
         img_formats = self.image_tab.formats[:]
         img_formats.extend(self.image_tab.extra_img_formats_list)
-        image_files = " ".join(['*.'+i for i in img_formats])
-        document_files = " ".join(['*.'+i for i in self.document_tab.formats])
+        image_files = ' '.join(['*.'+i for i in img_formats])
+        document_files = ' '.join(['*.'+i for i in self.document_tab.formats])
         formats = [all_files, audio_files, video_files, image_files, 
                                                                 document_files]
         strings = [self.tr('All Files'), self.tr('Audio Files'), 
@@ -934,7 +934,7 @@ class FFMultiConverter(QMainWindow):
         filters = filters[:-2] # remove last ';;'
         
         fname = QFileDialog.getOpenFileName(self, self.tr(
-                       "FF Multi Converter - Choose File"), self.home, filters)
+                       'FF Multi Converter - Choose File'), self.home, filters)
         fname = unicode(fname)
         if fname:
             self.fname = fname
@@ -946,16 +946,16 @@ class FFMultiConverter(QMainWindow):
         """Uses standard QtDialog to get directory name."""
         if self.toLineEdit.isEnabled():
             output = QFileDialog.getExistingDirectory(self, self.tr(
-                  "FF Multi Converter - Choose output destination"), self.home)
+                  'FF Multi Converter - Choose output destination'), self.home)
             output = unicode(output)
             if output:
                 self.output = output
                 self.toLineEdit.setText(self.output)
         else:
             return QMessageBox.warning(self, self.tr(
-                "FF Multi Converter - Save Location!"), self.tr(
-                   "You have chosen to save every file to its original folder."
-                   "\nYou can change this from preferences."))
+                'FF Multi Converter - Save Location!'), self.tr(
+                   'You have chosen to save every file to its original folder.'
+                   '\nYou can change this from preferences.'))
             
     def get_extensions(self):
         """Returns the from and to extensions.
@@ -1181,11 +1181,11 @@ class FFMultiConverter(QMainWindow):
             return True
         
         except ValidationError as e:
-            QMessageBox.warning(self, self.tr("FF Multi Converter - Error!"), 
+            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'), 
                                                                     unicode(e))
             return False
             
-    def convert(self):
+    def start_conversion(self):
         """Initialises the Progress dialog."""
         ext_from, ext_to = self.get_extensions()        
         if not self.ok_to_continue(ext_from, ext_to):
@@ -1210,7 +1210,7 @@ class FFMultiConverter(QMainWindow):
         """Shows an About dialog using qt standard dialog."""
         link  = 'https://github.com/Ilias95/FF-Multi-Converter/wiki/'
         link += 'FF-Multi-Converter'
-        QMessageBox.about(self, self.tr("About FF Multi Converter"), self.tr( 
+        QMessageBox.about(self, self.tr('About FF Multi Converter'), self.tr( 
             '''<b> FF Multi Converter %1 </b>
             <p>Convert among several file types to other extensions
             <p><a href="%2">FF Multi Converter</a>
@@ -1255,17 +1255,17 @@ class FFMultiConverter(QMainWindow):
         try:
             PythonMagick # PythonMagick has imported earlier
             self.pmagick = True
-        except ImportError:
+        except NameError:
             self.pmagick = False
             missing.append('PythonMagick')                             
         
-        missing = ", ".join(missing) if missing else self.tr('None')
+        missing = ', '.join(missing) if missing else self.tr('None')
         status = self.tr('Missing dependencies: ') + missing
         self.dependenciesLabel.setText(status)                            
 
 
 class Progress(QDialog):
-    """Does the conversions and shows progress in a dialog."""
+    """Shows conversion progress in a dialog."""
     # There are two bars in the dialog. 
     # One that shows the progress of each file and one for total progress.
     #
@@ -1434,10 +1434,10 @@ def main():
     locale = QLocale.system().name()
     #locale = ''
     qtTranslator = QTranslator()
-    if qtTranslator.load("qt_" + locale, ":/"):
+    if qtTranslator.load('qt_' + locale, ':/'):
         app.installTranslator(qtTranslator)
     appTranslator = QTranslator()
-    if appTranslator.load("ffmulticonverter_" + locale, ":/"):
+    if appTranslator.load('ffmulticonverter_' + locale, ':/'):
         app.installTranslator(appTranslator)
         
     converter = FFMultiConverter()

@@ -24,7 +24,7 @@ from PyQt4.QtGui import QWidget, QLayout, QSpacerItem
 
 def add_to_layout(layout, *items):
     """Add items to QVBox and QHBox layouts easily.
-        
+
     Keyword arguments:
     layout -- a layout (QVBox or QHBox)
     *items -- list with items to be added
@@ -38,27 +38,27 @@ def add_to_layout(layout, *items):
             layout.addItem(item)
         elif item is None:
             layout.addStretch()
+        else:
+            raise TypeError("Argument of wrong type!")
     return layout
 
 def add_to_grid(layout, *items):
     """Add items to a QGrid layout easily.
-        
+
     Keyword arguments:
     layout -- a QGridLayout
     *items -- list with lists of items to be added.
               items in the same list will be added to the same line
     """
-    # for know it just only adds only 1 item per cell.
-    x = 0
-    for _list in items:
-        y = 0
-        for item in _list:
+    # for now it adds only 1 item per cell.
+    for x, _list in enumerate(items):
+        for y, item in enumerate(_list):
             if isinstance(item, QWidget):
                 layout.addWidget(item, x, y)
             elif isinstance(item, QLayout):
                 layout.addLayout(item, x, y)
             elif isinstance(item, QSpacerItem):
                 layout.addItem(item, x, y)
-            y += 1
-        x += 1
+            else:
+                raise TypeError("Argument of wrong type!")
     return layout

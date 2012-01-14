@@ -1203,7 +1203,7 @@ class FFMultiConverter(QMainWindow):
                     pass
 
         dialog = Progress(self, conversion_list, delete)
-        dialog.show()
+        dialog.setWindowModality(2)
         dialog.exec_()
 
     def about(self):

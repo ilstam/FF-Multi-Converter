@@ -38,6 +38,8 @@ def add_to_layout(layout, *items):
             layout.addItem(item)
         elif item is None:
             layout.addStretch()
+        else:
+            raise TypeError("Argument of wrong type!")
     return layout
 
 def add_to_grid(layout, *items):

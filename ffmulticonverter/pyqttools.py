@@ -51,16 +51,14 @@ def add_to_grid(layout, *items):
               items in the same list will be added to the same line
     """
     # for know it just only adds only 1 item per cell.
-    x = 0
-    for _list in items:
-        y = 0
-        for item in _list:
+    for x, _list in enumerate(items):
+        for y, item in enumerate(_list):
             if isinstance(item, QWidget):
                 layout.addWidget(item, x, y)
             elif isinstance(item, QLayout):
                 layout.addLayout(item, x, y)
             elif isinstance(item, QSpacerItem):
                 layout.addItem(item, x, y)
-            y += 1
-        x += 1
+            else:
+                raise TypeError("Argument of wrong type!")
     return layout

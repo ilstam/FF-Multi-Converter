@@ -24,7 +24,7 @@ from PyQt4.QtGui import QWidget, QLayout, QSpacerItem
 
 def add_to_layout(layout, *items):
     """Add items to QVBox and QHBox layouts easily.
-        
+
     Keyword arguments:
     layout -- a layout (QVBox or QHBox)
     *items -- list with items to be added
@@ -42,7 +42,7 @@ def add_to_layout(layout, *items):
 
 def add_to_grid(layout, *items):
     """Add items to a QGrid layout easily.
-        
+
     Keyword arguments:
     layout -- a QGridLayout
     *items -- list with lists of items to be added.

@@ -50,7 +50,7 @@ def add_to_grid(layout, *items):
     *items -- list with lists of items to be added.
               items in the same list will be added to the same line
     """
-    # for know it just only adds only 1 item per cell.
+    # for now it adds only 1 item per cell.
     for x, _list in enumerate(items):
         for y, item in enumerate(_list):
             if isinstance(item, QWidget):

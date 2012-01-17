@@ -141,7 +141,11 @@ class Tab(QWidget):
         ext = os.path.splitext(fname)[-1][1:]
         try:
             i = self.formats.index(ext)
-            self.fromComboBox.setCurrentIndex(i)
+        except AttributeError:
+            #in DocumentTab
+            for index, _format in enumerate(sorted(self.formats)):
+                if _format == ext:
+                    i = index
         except ValueError:
             index = self.parent.TabWidget.currentIndex()
             if index == 2:
@@ -150,8 +154,11 @@ class Tab(QWidget):
                         for y in self.extra_img_formats_dict[x]:
                             if y == ext:
                                 i = self.formats.index(x)
-                                self.fromComboBox.setCurrentIndex(i)
                                 break
+        try:
+            self.fromComboBox.setCurrentIndex(i)
+        except NameError:
+            pass
 
     def clear(self):
         pass
@@ -491,7 +498,7 @@ class VideoTab(Tab):
         if total_frames == 0:
             while self.convert_prcs.poll() is None:
                 time.sleep(1)
-            #self.convert_prcs.wait()
+                QApplication.processEvents()
         else:
             while self.convert_prcs.poll() is None:
                 time.sleep(1) #deter python loop as quickly as possible
@@ -707,8 +714,8 @@ class FFMultiConverter(QMainWindow):
         tab_names = [self.tr('Audio'), self.tr('Video'), self.tr('Image'),
                      self.tr('Documents')]
         self.TabWidget  = QTabWidget()
-        for i in enumerate(tab_names):
-            self.TabWidget.addTab(self.tabs[i[0]], i[1])
+        for num, tab in enumerate(tab_names):
+            self.TabWidget.addTab(self.tabs[num], tab)
         self.TabWidget.setCurrentIndex(0)
 
         self.folderCheckBox = QCheckBox(self.tr(
@@ -976,9 +983,12 @@ class FFMultiConverter(QMainWindow):
         """
         index = self.TabWidget.currentIndex()
         tab = self.current_tab()
-        type_formats = tab.formats[:]
-        if index == 2:
-            type_formats.extend(self.image_tab.extra_img_formats_list)
+        if index == 3:
+            type_formats = tab.formats.keys()
+        else:
+            type_formats = tab.formats[:]
+            if index == 2:
+                type_formats.extend(self.image_tab.extra_img_formats_list)
         return type_formats
 
     def path_generator(self, path_pattern, recursive=True, includes=[]):
@@ -1203,7 +1213,7 @@ class FFMultiConverter(QMainWindow):
                     pass
 
         dialog = Progress(self, conversion_list, delete)
-        dialog.setWindowModality(2)
+        dialog.show()
         dialog.exec_()
 
     def about(self):
@@ -1378,9 +1388,9 @@ class Progress(QDialog):
         text = '.../' + from_file.split('/')[-1] if len(from_file) > 40 \
                                                  else from_file
         self.nowLabel.setText(self.tr('In progress: ') + text)
-
-        QApplication.processEvents() # force UI to update
         self.nowBar.setValue(0)
+        QApplication.processEvents()
+
         self.min_value = self.totalBar.value()
         self.max_value = self.min_value + self.step
 
@@ -1398,6 +1408,7 @@ class Progress(QDialog):
         if self._type == 'video':
             self.totalBar.setValue(self.max_value)
         self.nowBar.setValue(100)
+        QApplication.processEvents()
 
         self.files.pop(0)
 
@@ -1415,12 +1426,12 @@ class Progress(QDialog):
         now_percent = (frames * 100) / total_frames
         total_percent = ((now_percent * self.step) / 100) + self.min_value
 
-        QApplication.processEvents()
         if now_percent > self.nowBar.value() and not (now_percent > 100):
             self.nowBar.setValue(now_percent)
         if total_percent > self.totalBar.value() and not \
                                               (total_percent > self.max_value):
             self.totalBar.setValue(total_percent)
+        QApplication.processEvents() # force UI to update
 
 
 def main():

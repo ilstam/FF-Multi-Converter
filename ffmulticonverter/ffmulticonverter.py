@@ -64,8 +64,8 @@ class Tab(QWidget):
         super(Tab, self).__init__(parent)
         self.parent = parent
 
-        label1 = QLabel(self.tr('Convert from:'))
-        label2 = QLabel(self.tr('Convert to:'))
+        label1 = QLabel(QApplication.translate('Tab', 'Convert from:'))
+        label2 = QLabel(QApplication.translate('Tab', 'Convert to:'))
         self.fromComboBox = QComboBox()
         self.toComboBox = QComboBox()
         grid = pyqttools.add_to_grid(QGridLayout(),
@@ -93,7 +93,7 @@ class Tab(QWidget):
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
-        self.moreButton = QPushButton(self.tr('More'))
+        self.moreButton = QPushButton(QApplication.translate('Tab', 'More'))
         moreSizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.moreButton.setSizePolicy(moreSizePolicy)
         self.moreButton.setCheckable(True)
@@ -322,7 +322,7 @@ class VideoTab(Tab):
         width = self.widthLineEdit.text()
         height = self.heightLineEdit.text()
         aspect1 = self.aspect1LineEdit.text()
-        aspect2 = self.aspect2LineEdit.text()
+        aspect2 = self.aspect2LineEdit.text()      
         try:
             if width and not height:
                 raise HeightLineError(self.tr(
@@ -343,20 +343,20 @@ class VideoTab(Tab):
                                       'The aspect LineEdit may not be empty.'))
             return True
         except WidthLineError as e:
-            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'),
-                                                                    unicode(e))
+            QMessageBox.warning(self, 'FF Multi Converter - ' + \
+                                                 self.tr('Error!'), unicode(e))
             self.widthLineEdit.selectAll()
             self.widthLineEdit.setFocus()
             return False
         except HeightLineError as e:
-            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'),
-                                                                    unicode(e))
+            QMessageBox.warning(self, 'FF Multi Converter - ' + \
+                                                 self.tr('Error!'), unicode(e))
             self.heightLineEdit.selectAll()
             self.heightLineEdit.setFocus()
             return False
         except AspectLineError as e:
-            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'),
-                                                                    unicode(e))
+            QMessageBox.warning(self, 'FF Multi Converter - ' + \
+                                                 self.tr('Error!'), unicode(e))
             self.aspect2LineEdit.setFocus() if aspect1 and not aspect2 \
                                            else self.aspect1LineEdit.setFocus()
             return False
@@ -535,7 +535,7 @@ class ImageTab(Tab):
         pattern = QRegExp(r'^[1-9]\d*')
         validator = QRegExpValidator(pattern, self)
 
-        resizeLabel = QLabel(self.tr('Resize:'))
+        resizeLabel = QLabel(self.tr('Image Size:'))
         self.widthLineEdit = self.create_LineEdit((50, 16777215), validator, 4)
         self.heightLineEdit = self.create_LineEdit((50, 16777215), validator,4)
         label = QLabel('x')
@@ -574,13 +574,13 @@ class ImageTab(Tab):
                                         'The size LineEdit may not be empty.'))
             return True
         except WidthLineError as e:
-            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'),
-                                                                    unicode(e))
+            QMessageBox.warning(self, 'FF Multi Converter - ' + \
+                                                 self.tr('Error!'), unicode(e))
             self.widthLineEdit.setFocus()
             return False
         except HeightLineError as e:
-            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'),
-                                                                    unicode(e))
+            QMessageBox.warning(self, 'FF Multi Converter - ' + \
+                                                 self.tr('Error!'), unicode(e))
             self.heightLineEdit.setFocus()
             return False
 
@@ -682,10 +682,10 @@ class DocumentTab(Tab):
         return converted
 
 
-class FFMultiConverter(QMainWindow):
+class MainWindow(QMainWindow):
     """Main Windows' ui and methods"""
     def __init__(self, parent=None):
-        super(FFMultiConverter, self).__init__(parent)
+        super(MainWindow, self).__init__(parent)
         self.home = os.getenv('HOME')
         self.fname = ''
         self.output = ''
@@ -711,7 +711,7 @@ class FFMultiConverter(QMainWindow):
 
         self.tabs = [self.audio_tab, self.video_tab, self.image_tab,
                      self.document_tab]
-        tab_names = [self.tr('Audio'), self.tr('Video'), self.tr('Image'),
+        tab_names = [self.tr('Audio'), self.tr('Videos'), self.tr('Images'),
                      self.tr('Documents')]
         self.TabWidget  = QTabWidget()
         for num, tab in enumerate(tab_names):
@@ -940,8 +940,8 @@ class FFMultiConverter(QMainWindow):
             filters += string + ' ({0});;'.format(extensions)
         filters = filters[:-2] # remove last ';;'
 
-        fname = QFileDialog.getOpenFileName(self, self.tr(
-                       'FF Multi Converter - Choose File'), self.home, filters)
+        fname = QFileDialog.getOpenFileName(self, 'FF Multi Converter - ' + \
+                                    self.tr('Choose File'), self.home, filters)
         fname = unicode(fname)
         if fname:
             self.fname = fname
@@ -952,15 +952,15 @@ class FFMultiConverter(QMainWindow):
     def open_dir(self):
         """Uses standard QtDialog to get directory name."""
         if self.toLineEdit.isEnabled():
-            output = QFileDialog.getExistingDirectory(self, self.tr(
-                  'FF Multi Converter - Choose output destination'), self.home)
+            output = QFileDialog.getExistingDirectory(self, 'FF Multi '
+              'Converter - ' + self.tr('Choose output destination'), self.home)
             output = unicode(output)
             if output:
                 self.output = output
                 self.toLineEdit.setText(self.output)
         else:
-            return QMessageBox.warning(self, self.tr(
-                'FF Multi Converter - Save Location!'), self.tr(
+            return QMessageBox.warning(self, 'FF Multi Converter - ' + \
+                    self.tr('Save Location!'), self.tr(
                    'You have chosen to save every file to its original folder.'
                    '\nYou can change this from preferences.'))
 
@@ -1191,8 +1191,8 @@ class FFMultiConverter(QMainWindow):
             return True
 
         except ValidationError as e:
-            QMessageBox.warning(self, self.tr('FF Multi Converter - Error!'),
-                                                                    unicode(e))
+            QMessageBox.warning(self, 'FF Multi Converter - ' + \
+                                                 self.tr('Error!'), unicode(e))
             return False
 
     def start_conversion(self):
@@ -1218,17 +1218,17 @@ class FFMultiConverter(QMainWindow):
 
     def about(self):
         """Shows an About dialog using qt standard dialog."""
-        link  = 'https://github.com/Ilias95/FF-Multi-Converter/wiki/'
-        link += 'FF-Multi-Converter'
-        QMessageBox.about(self, self.tr('About FF Multi Converter'), self.tr(
-            '''<b> FF Multi Converter %1 </b>
-            <p>Convert among several file types to other extensions
-            <p><a href="%2">FF Multi Converter</a>
+        link = 'https://sites.google.com/site/ffmulticonverter/'
+        msg = self.tr('Convert among several file types to other extensions')
+        QMessageBox.about(self, self.tr('About') + ' FF Multi Converter', 
+            '''<b> FF Multi Converter {0} </b>
+            <p>{1}
+            <p><a href="{2}">FF Multi Converter - Home Page</a>
             <p>Copyright &copy; 2011-2012 Ilias Stamatis
             <br>License: GNU GPL3
-            <p>Python %3 - Qt %4 - PyQt %5 on %6''').arg(__version__).arg(link)
-            .arg(platform.python_version()[:5]).arg(QT_VERSION_STR)
-            .arg(PYQT_VERSION_STR).arg(platform.system()))
+            <p>Python {3} - Qt {4} - PyQt {5} on {6}'''
+            .format(__version__, msg, link, platform.python_version()[:5], 
+            QT_VERSION_STR, PYQT_VERSION_STR, platform.system()))
 
     def is_installed(self, program):
         """Checks if program is installed."""
@@ -1279,14 +1279,14 @@ class Progress(QDialog):
     # There are two bars in the dialog.
     # One that shows the progress of each file and one for total progress.
     #
-    # Audio, image and document conversions don't need much time to complete
-    # so the first bar just shows 0% at the beggining and 100% when conversion
-    # done for every file.
+    # Audio, image and document conversions don't need much time to be 
+    # completed so the first bar just shows 0% at the beggining and 100% when 
+    # conversion done for every file.
     #
     # Video conversions may take some time so the first bar takes values.
-    # The numbers of frames are equal in input and output file.
-    # To find the percentage of progress it counts the frames of output file at
-    # regular intervals and compares it to the number of frames of input.
+    # To find the percentage of progress it counts the frames of output file 
+    # at regular intervals and compares it to the number of final file 
+    # expected frames.
 
     def __init__(self, parent, files, delete):
         """Constructs the progress dialog.
@@ -1334,7 +1334,7 @@ class Progress(QDialog):
         self.cancelButton.clicked.connect(self.reject)
 
         self.resize(435, 190)
-        self.setWindowTitle(self.tr('FF Multi Converter - Conversion'))
+        self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
 
         self.timer = QBasicTimer()
         self.timer.start(100, self)
@@ -1365,7 +1365,7 @@ class Progress(QDialog):
         else:
             self.timer.stop()
         reply = QMessageBox.question(self,
-            self.tr('FF Multi Converter - Cancel Conversion'),
+            'FF Multi Converter - ' + self.tr('Cancel Conversion'),
             self.tr('Are you sure you want to cancel conversion?'),
             QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
@@ -1449,9 +1449,10 @@ def main():
         app.installTranslator(qtTranslator)
     appTranslator = QTranslator()
     if appTranslator.load('ffmulticonverter_' + locale, ':/'):
+    #if appTranslator.load('translations/ffmulticonverter_el.qm'):
         app.installTranslator(appTranslator)
 
-    converter = FFMultiConverter()
+    converter = MainWindow()
     converter.show()
     app.exec_()
 

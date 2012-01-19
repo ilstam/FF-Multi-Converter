@@ -34,7 +34,7 @@ class Preferences(QDialog):
         super(Preferences, self).__init__(parent)
         self.home = os.getenv('HOME')
 
-        saveLabel = QLabel(self.tr('<html><b>Save files</b></html>'))
+        saveLabel = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
         self.saveto_outRadioButton = QRadioButton(self.tr(
                                        'Save all files\nto ouput destination'))
         self.saveto_origRadioButton = QRadioButton(
@@ -49,9 +49,9 @@ class Preferences(QDialog):
         self.defaultToolButton.setText('...')
         layout2 = pyqttools.add_to_layout(QHBoxLayout(), self.defaultLineEdit,
                                                         self.defaultToolButton)
-        name_Label = QLabel(self.tr('<html><b>Name files</b></html>'))
-        prefixLabel = QLabel(self.tr('Prefix'))
-        suffixLabel = QLabel(self.tr('Suffix'))
+        name_Label = QLabel('<html><b>' + self.tr('Name files') +'</b></html>')
+        prefixLabel = QLabel(self.tr('Prefix:'))
+        suffixLabel = QLabel(self.tr('Suffix:'))
         self.prefixLineEdit = QLineEdit()
         self.suffixLineEdit = QLineEdit()
         grid = pyqttools.add_to_grid(QGridLayout(),
@@ -118,9 +118,8 @@ class Preferences(QDialog):
     def open_dir(self):
         if self.defaultLineEdit.isEnabled():
             """Uses standard QtDialog to get directory name."""
-            _dir = QFileDialog.getExistingDirectory(self, self.tr(
-                         "FF Multi Converter - Choose default output destination"),
-                        self.home)
+            _dir = QFileDialog.getExistingDirectory(self, 'FF Multi Converter '
+                '- ' + self.tr('Choose default output destination'), self.home)
             _dir = unicode(_dir)
             if _dir:
                 self.defaultLineEdit.setText(_dir)

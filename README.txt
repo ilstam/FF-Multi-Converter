@@ -1,32 +1,31 @@
 =====================================================
-FF Multi Converter 1.2.0 
+FF Multi Converter 1.3.0 Beta
 =====================================================
 
 Description
 ------------
-FF Multi Converter is a GUI application that converts multiple file formats to different extensions,
-using and combining other programs. The application supports Audio, Video, Image and Document file formats.
-It uses ffmpeg for audio/video files, unoconv for document files (which uses the OpenOffice's UNO bindings) 
-and PIL library for image file convertions. It also offers recursively conversions (same type or extension).
+FF Multi Converter is a simple graphical application that enables you to convert audio, video, image and document files
+between all popular formats, using and combining other programs. It uses ffmpeg for audio/video files, unoconv for document files (which uses the OpenOffice's UNO bindings) and PythonMagick library for image file conversions. 
+It offers extra options such as to configure Frequency, Channels, Bitrate on audio conversions, Size, Aspect, Frame Rate, Bitrate on video conversions and Size on images. Recursive conversions are also available.
+
+The goal of FF Multi Converter is to gather all multimedia types in one application and provide conversions for them easily through a user friendly interface. Extra options will be gradually added.
 
 
-Requirements and Dependencies
-------------------------------
-To run this program you need:
-python2, PyQt4
+Dependencies
+-------------
+python (>= 2.6) & (< 3.0) 
+PyQt4
 
-Dependencies:
-ffmpeg, Python Imaging Library (PIL), unoconv, Open/Libre office suite
+Optional dependencies
+----------------------
+ffmpeg
+PythonMagick
+unoconv
+Open/Libre office
 
-The program does NOT require all dependencies to run. 
-E.g. you can run the application even if you don't have PIL installed, but you will be able to convert
+The program does NOT require the optional dependencies to run. 
+E.g. you can run the application even if you don't have PythonMagick installed, but you will be able to convert
 any other types except image files.
-
-In an Ubuntu system where Python, PIL and LibreOffice are already installed, you can install the rest with the command:
-	sudo apt-get install python-qt4 ffmpeg unoconv
-
-Python, PIL and OpenOffice are already installed.
-
 
 Installation
 -------------

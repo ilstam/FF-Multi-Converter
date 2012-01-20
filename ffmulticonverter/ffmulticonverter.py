@@ -991,8 +991,8 @@ class MainWindow(QMainWindow):
                 type_formats.extend(self.image_tab.extra_img_formats_list)
         return type_formats
 
-    def path_generator(self, path_pattern, recursive=True, includes=[]):
-        """Generate a list of paths from a path pattern.
+    def create_paths_list(self, path_pattern, recursive=True, includes=[]):
+        """Creates a list of paths from a path pattern.
 
         Keyword arguments:
         path_pattern -- a path using the '*' glob pattern
@@ -1000,6 +1000,8 @@ class MainWindow(QMainWindow):
                         yielded under given dirs
         includes     -- is a list of file patterns to include in recursive
                         searches
+                        
+        Returns: list
         """
         def _should_include(path, includes):
             """Returns True if the given path should be included."""
@@ -1008,7 +1010,8 @@ class MainWindow(QMainWindow):
                 return True
             else:
                 return True if ext in includes else False
-
+        
+        paths_list = []
         paths = glob.glob(path_pattern)
         for path in paths:
             if not os.path.islink(path) and os.path.isdir(path) and recursive:
@@ -1016,10 +1019,12 @@ class MainWindow(QMainWindow):
                     for filename in sorted(filenames):
                         f = os.path.join(dirpath, filename)
                         if _should_include(f, includes):
-                            yield f
+                            paths_list.append(f)
 
             elif _should_include(path, includes):
-                yield path
+                paths_list.append(path)
+                
+        return paths_list
 
     def files_to_conv_list(self):
         """Generates paths of files to convert.
@@ -1033,25 +1038,18 @@ class MainWindow(QMainWindow):
         _dir, file_name = os.path.split(self.fname)
         base, ext = os.path.splitext(file_name)
         _dir += '/*'
-
         formats = self.current_formats()
-        files_to_conv = []
-        includes = []
 
         if not (self.folderCheckBox.isChecked() or \
-                                          self.recursiveCheckBox.isChecked()):
+                                           self.recursiveCheckBox.isChecked()):
             files_to_conv = [self.fname]
 
         else:
             recursive = True if self.recursiveCheckBox.isChecked() else False
-            if self.extRadioButton.isChecked():
-                includes = [ext]
-            else:
-                includes.extend(['.' + i for i in formats])
-
-            for i in self.path_generator(_dir, recursive=recursive,
-                                                            includes=includes):
-                files_to_conv.append(i)
+            includes = [ext] if self.extRadioButton.isChecked() else \
+                                                     ['.' + i for i in formats]            
+            files_to_conv = self.create_paths_list(_dir, recursive=recursive, 
+                                                             includes=includes)
 
         # put given file first in list
         files_to_conv.remove(self.fname)
@@ -1332,7 +1330,7 @@ class Progress(QDialog):
         self.setLayout(vlayout)
 
         self.cancelButton.clicked.connect(self.reject)
-
+    
         self.resize(435, 190)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
 
@@ -1441,15 +1439,12 @@ def main():
     app.setApplicationName('FF Muli Converter')
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
 
-    # search if there is locale translation avalaible and set the Translators
     locale = QLocale.system().name()
-    #locale = ''
     qtTranslator = QTranslator()
     if qtTranslator.load('qt_' + locale, ':/'):
         app.installTranslator(qtTranslator)
     appTranslator = QTranslator()
     if appTranslator.load('ffmulticonverter_' + locale, ':/'):
-    #if appTranslator.load('translations/ffmulticonverter_el.qm'):
         app.installTranslator(appTranslator)
 
     converter = MainWindow()

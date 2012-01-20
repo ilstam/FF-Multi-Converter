@@ -19,7 +19,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-from __future__ import division
+#from __future__ import division
 
 __version__ = '1.3.0 Beta'
 
@@ -420,7 +420,7 @@ class VideoTab(Tab):
             # do it twice because get_frames() fails some times at first time
             old_file_frames = self.get_frames(_file)
         old_file_duration = self.get_duration(_file)
-        if old_file_frames == 0 or old_file_duration is None:
+        if old_file_frames == 0 or old_file_duration == 0:
             return 0
 
         old_file_fps = old_file_frames / old_file_duration
@@ -436,7 +436,7 @@ class VideoTab(Tab):
     def get_duration(self, _file):
         """Returns the number of seconds of a video.
 
-        Returns: integer or None
+        Returns: integer
         """
         cmd = 'ffmpeg -i {0} 2>&1'.format(_file)
         cmd = str(QString(cmd).toUtf8())
@@ -453,8 +453,8 @@ class VideoTab(Tab):
             secs += (hours * 3600) + (mins * 60)
             return secs
         except (NameError, ValueError, Exception):
-            return None
-
+            return 0
+            
     def get_frames(self, _file):
         """Returns the number of frames of a video.
 
@@ -973,10 +973,7 @@ class MainWindow(QMainWindow):
         ext_from = unicode(tab.fromComboBox.currentText())
         ext_to = unicode(tab.toComboBox.currentText())
         # split from the docsting (Audio Only) if it is appropriate
-        print 'EDW! ', ext_to        
         ext_to = ext_to.split(' ')[0]
-        print ext_to.split(' ')
-        print 'EDW2! ', ext_to
         return ext_from, ext_to
 
     def current_formats(self):
@@ -1395,8 +1392,7 @@ class Progress(QDialog):
         self.min_value = self.totalBar.value()
         self.max_value = self.min_value + self.step
 
-        tab = self.parent.current_tab()
-        print to_file        
+        tab = self.parent.current_tab()   
         if tab.convert(self, from_file, to_file):
             self.ok += 1
             if self.delete:

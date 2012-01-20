@@ -18,7 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import absolute_import
 from __future__ import unicode_literals
+from __future__ import division
 
 __version__ = '1.3.0 Beta'
 
@@ -263,9 +265,8 @@ class VideoTab(Tab):
     """The responsible tab for video conversions."""
     def __init__(self, parent):
         self.formats = ['asf', 'avi', 'dvd', 'flv', 'm1v', 'm2t', 'm2v',
-                        'mjpg', 'mkv', 'mmf', 'mov', 'mp4', 'mpeg', 'mpg',
-                        'ogg', 'ogv', 'psp', 'rm', 'ts', 'vob', 'webm', 'wma',
-                        'wmv']
+                        'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'ogg', 'ogv', 
+                        'psp', 'rm', 'ts', 'vob', 'webm', 'wma', 'wmv']
         self.vid_to_aud = ['aac', 'ac3', 'aiff', 'au', 'flac', 'mp2' , 'wav']
         super(VideoTab, self).__init__(parent)
 
@@ -297,7 +298,7 @@ class VideoTab(Tab):
 
     def update_comboboxes(self):
         """Add items to comboboxes."""
-        string = self.tr(' (Audio only)')
+        string = ' ' + self.tr('(Audio only)')
         self.fromComboBox.addItems(self.formats)
         self.toComboBox.addItems(self.formats)
         self.toComboBox.addItems([(i+string) for i in self.vid_to_aud])
@@ -973,7 +974,10 @@ class MainWindow(QMainWindow):
         ext_from = unicode(tab.fromComboBox.currentText())
         ext_to = unicode(tab.toComboBox.currentText())
         # split from the docsting (Audio Only) if it is appropriate
+        print 'EDW! ', ext_to        
         ext_to = ext_to.split(' ')[0]
+        print ext_to.split(' ')
+        print 'EDW2! ', ext_to
         return ext_from, ext_to
 
     def current_formats(self):
@@ -1393,6 +1397,7 @@ class Progress(QDialog):
         self.max_value = self.min_value + self.step
 
         tab = self.parent.current_tab()
+        print to_file        
         if tab.convert(self, from_file, to_file):
             self.ok += 1
             if self.delete:
@@ -1421,8 +1426,8 @@ class Progress(QDialog):
         total_frames -- number of total frames of the original file
         """
         assert total_frames > 0
-        now_percent = (frames * 100) / total_frames
-        total_percent = ((now_percent * self.step) / 100) + self.min_value
+        now_percent = int((frames * 100) / total_frames)
+        total_percent = int(((now_percent * self.step) / 100) + self.min_value)
 
         if now_percent > self.nowBar.value() and not (now_percent > 100):
             self.nowBar.setValue(now_percent)

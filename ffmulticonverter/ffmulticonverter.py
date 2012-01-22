@@ -1143,6 +1143,15 @@ class MainWindow(QMainWindow):
         index = self.TabWidget.currentIndex()
         tab = self.current_tab()
 
+        extension_error = False        
+        if not real_ext == ext_from:
+            extra = self.image_tab.extra_img_formats_dict
+            if ext_from in extra:
+                # look if real_ext is same type with ext_from and just have
+                # different extension. eg: jpg is same as jpeg
+                if not any(i == real_ext for i in extra[ext_from]):
+                    error = True
+            
         try:
             if self.fname == '':
                 raise ValidationError(self.tr(
@@ -1156,17 +1165,9 @@ class MainWindow(QMainWindow):
             elif self.output is not None and not os.path.exists(self.output):
                 raise ValidationError(self.tr(
                                              'Output folder does not exists!'))
-            elif not real_ext == ext_from:
-                error = ValidationError(
-                        self.tr("File' s extensions is not %1.").arg(ext_from))
-                extra = self.image_tab.extra_img_formats_dict
-                if ext_from in extra:
-                    # look if real_ext is same type with ext_from and just have
-                    # different extension. eg: jpg is same as jpeg
-                    if not any(i == real_ext for i in extra[ext_from]):
-                        raise error
-                else:
-                    raise error
+            elif not real_ext == ext_from and extension_error:
+                raise ValidationError(self.tr(
+                                "File' s extensions is not %1.").arg(ext_from))
             elif (index == 0 or index == 1) and not self.ffmpeg:
                 raise ValidationError(self.tr(
                     'Program FFmpeg is not installed.\nYou will not be able '

@@ -19,11 +19,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-#from __future__ import division
+from __future__ import division
 
 __version__ = '1.3.0 Beta'
 
-from PyQt4.QtCore import (Qt, QSettings, QString, QRegExp, QTimer, QBasicTimer,
+from PyQt4.QtCore import (Qt, QSettings, QString, pyqtSignal, QRegExp, QTimer, 
                   QLocale, QTranslator, QSize, QT_VERSION_STR,PYQT_VERSION_STR)
 from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, QFrame,
                   QGridLayout, QVBoxLayout, QHBoxLayout, QSizePolicy, QLabel,
@@ -36,6 +36,7 @@ import sys
 import os
 import signal
 import subprocess
+import threading
 import shlex
 import shutil
 import glob
@@ -496,17 +497,15 @@ class VideoTab(Tab):
         self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
 
         if total_frames == 0:
-            while self.convert_prcs.poll() is None:
-                time.sleep(1)
-                QApplication.processEvents()
+            self.convert_prcs.wait()
         else:
             while self.convert_prcs.poll() is None:
                 time.sleep(1) #deter python loop as quickly as possible
                 frames = self.get_frames(to_file)
-                parent.refresh_progress_bars(frames, total_frames)
+                parent.refr_bars_signal.emit(frames, total_frames)
 
         converted = True if self.convert_prcs.poll() == 0 else False
-        return converted
+        return converted            
 
 
 class ImageTab(Tab):
@@ -1211,7 +1210,6 @@ class MainWindow(QMainWindow):
                     pass
 
         dialog = Progress(self, conversion_list, delete)
-        dialog.show()
         dialog.exec_()
 
     def about(self):
@@ -1285,6 +1283,9 @@ class Progress(QDialog):
     # To find the percentage of progress it counts the frames of output file 
     # at regular intervals and compares it to the number of final file 
     # expected frames.
+    
+    file_converted_signal = pyqtSignal()
+    refr_bars_signal = pyqtSignal(int, int)
 
     def __init__(self, parent, files, delete):
         """Constructs the progress dialog.
@@ -1330,19 +1331,25 @@ class Progress(QDialog):
         self.setLayout(vlayout)
 
         self.cancelButton.clicked.connect(self.reject)
+        self.file_converted_signal.connect(self.file_converted)
+        self.refr_bars_signal.connect(self.refresh_progress_bars)
     
         self.resize(435, 190)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
+        
+        self.manage_conversions()
 
-        self.timer = QBasicTimer()
-        self.timer.start(100, self)
+    def file_converted(self):        
+        self.totalBar.setValue(self.max_value)
+        self.nowBar.setValue(100)
+        QApplication.processEvents()
+        self.files.pop(0)
+        self.manage_conversions()
 
-    def timerEvent(self, timeout):
-        """Event handler for self.timer."""
+    def manage_conversions(self):
         if not self.files:
             self.totalBar.setValue(100)
         if self.totalBar.value() >= 100:
-            self.timer.stop()
             if self.shutdownCheckBox.isChecked():
                 cmd = str(QString('shutdown -h now').toUtf8())
                 subprocess.call(shlex.split(cmd))
@@ -1351,17 +1358,13 @@ class Progress(QDialog):
                        self.tr('Converted: %1/%2').arg(self.ok).arg(sum_files))
             self.accept()
             return
-        self.convert_a_file()
-        if self._type != 'video':
-            value = self.totalBar.value() + self.step
-            self.totalBar.setValue(value)
-
+        else:    
+            self.convert_a_file()
+                
     def reject(self):
         """Uses standard dialog to ask whether procedure must stop or not."""
         if self._type == 'video':
             self.parent.video_tab.manage_convert_prcs('pause')
-        else:
-            self.timer.stop()
         reply = QMessageBox.question(self,
             'FF Multi Converter - ' + self.tr('Cancel Conversion'),
             self.tr('Are you sure you want to cancel conversion?'),
@@ -1372,9 +1375,7 @@ class Progress(QDialog):
                 self.parent.video_tab.manage_convert_prcs('kill')
         if reply == QMessageBox.Cancel:
             if self._type == 'video':
-                self.parent.video_tab.manage_convert_prcs('continue')
-            else:
-                self.timer.start(100, self)
+                self.parent.video_tab.manage_convert_prcs('continue')                
 
     def convert_a_file(self):
         """Starts the conversion procedure."""
@@ -1387,28 +1388,24 @@ class Progress(QDialog):
                                                  else from_file
         self.nowLabel.setText(self.tr('In progress: ') + text)
         self.nowBar.setValue(0)
-        QApplication.processEvents()
 
         self.min_value = self.totalBar.value()
         self.max_value = self.min_value + self.step
 
-        tab = self.parent.current_tab()   
-        if tab.convert(self, from_file, to_file):
-            self.ok += 1
-            if self.delete:
-                try:
-                    os.remove(from_file[1:-1])
-                except OSError:
-                    pass
-        else:
-            self.error += 1
-
-        if self._type == 'video':
-            self.totalBar.setValue(self.max_value)
-        self.nowBar.setValue(100)
-        QApplication.processEvents()
-
-        self.files.pop(0)
+        def convert():
+            tab = self.parent.current_tab()   
+            if tab.convert(self, from_file, to_file):
+                self.ok += 1
+                if self.delete:
+                    try:
+                        os.remove(from_file[1:-1])
+                    except OSError:
+                        pass
+            else:
+                self.error += 1
+            self.file_converted_signal.emit()
+            
+        threading.Thread(target=convert).start()
 
     def refresh_progress_bars(self, frames, total_frames):
         """Counts the progress rates and sets the progress bars.
@@ -1429,7 +1426,6 @@ class Progress(QDialog):
         if total_percent > self.totalBar.value() and not \
                                               (total_percent > self.max_value):
             self.totalBar.setValue(total_percent)
-        QApplication.processEvents() # force UI to update
 
 
 def main():

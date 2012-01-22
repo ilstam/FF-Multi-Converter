@@ -1150,7 +1150,7 @@ class MainWindow(QMainWindow):
                 # look if real_ext is same type with ext_from and just have
                 # different extension. eg: jpg is same as jpeg
                 if not any(i == real_ext for i in extra[ext_from]):
-                    error = True
+                    extension_error = True
             
         try:
             if self.fname == '':

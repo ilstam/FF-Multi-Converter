@@ -1340,7 +1340,8 @@ class Progress(QDialog):
         
         self.manage_conversions()
 
-    def file_converted(self):        
+    def file_converted(self):
+        """Sets progress bars values"""        
         self.totalBar.setValue(self.max_value)
         self.nowBar.setValue(100)
         QApplication.processEvents()
@@ -1348,6 +1349,9 @@ class Progress(QDialog):
         self.manage_conversions()
 
     def manage_conversions(self):
+        """Checks whether all files have been converted.
+        If not, it will allow convert_a_file() to convert the next file.
+        """                
         if not self.files:
             self.totalBar.setValue(100)
         if self.totalBar.value() >= 100:
@@ -1379,7 +1383,7 @@ class Progress(QDialog):
                 self.parent.video_tab.manage_convert_prcs('continue')                
 
     def convert_a_file(self):
-        """Starts the conversion procedure."""
+        """Starts the conversion procedure in a second thread."""
         if not self.files:
             return
         from_file = self.files[0].keys()[0]
@@ -1393,7 +1397,7 @@ class Progress(QDialog):
         self.min_value = self.totalBar.value()
         self.max_value = self.min_value + self.step
 
-        def convert():
+        def convert():            
             tab = self.parent.current_tab()   
             if tab.convert(self, from_file, to_file):
                 self.ok += 1

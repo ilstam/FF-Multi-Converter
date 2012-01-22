@@ -63,6 +63,7 @@ class Progress(QDialog):
         self.step = 100 / len(files)
         self.ok = 0
         self.error = 0
+        self.running = True
 
         self._type = ''
         ext_to = os.path.splitext(self.files[0].values()[0][1:-1])[-1][1:]
@@ -112,6 +113,8 @@ class Progress(QDialog):
         """Checks whether all files have been converted.
         If not, it will allow convert_a_file() to convert the next file.
         """
+        if not self.running:
+            return
         if not self.files:
             self.totalBar.setValue(100)
         if self.totalBar.value() >= 100:
@@ -130,6 +133,8 @@ class Progress(QDialog):
         """Uses standard dialog to ask whether procedure must stop or not."""
         if self._type == 'video':
             self.parent.video_tab.manage_convert_prcs('pause')
+        else:
+            self.running = False
         reply = QMessageBox.question(self,
             'FF Multi Converter - ' + self.tr('Cancel Conversion'),
             self.tr('Are you sure you want to cancel conversion?'),
@@ -138,9 +143,14 @@ class Progress(QDialog):
             QDialog.reject(self)
             if self._type == 'video':
                 self.parent.video_tab.manage_convert_prcs('kill')
+            else:
+                return
         if reply == QMessageBox.Cancel:
             if self._type == 'video':
                 self.parent.video_tab.manage_convert_prcs('continue')
+            else:
+                self.running = True
+                self.manage_conversions()
 
     def convert_a_file(self):
         """Starts the conversion procedure in a second thread."""

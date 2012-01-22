@@ -19,8 +19,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-
-__version__ = '1.3.0 Beta'
+from __init__ import __version__
 
 from PyQt4.QtCore import (Qt, QSettings, QTimer,
                   QLocale, QTranslator, QT_VERSION_STR,PYQT_VERSION_STR)
@@ -45,7 +44,6 @@ try:
     import PythonMagick
 except ImportError:
     pass
-
 
 class ValidationError(Exception): pass
 

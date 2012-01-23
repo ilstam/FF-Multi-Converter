@@ -33,7 +33,7 @@ import shutil
 import re
 import time
 
-import ffmulticonverter
+import data
 import pyqttools
 
 try:
@@ -42,7 +42,7 @@ except ImportError:
     pass
 
 class ValidationError(Exception): pass
-class HeightLineError(ffmulticonverter.ValidationError): pass
+class HeightLineError(ValidationError): pass
 class WidthLineError(ValidationError): pass
 class AspectLineError(ValidationError): pass
 
@@ -158,10 +158,7 @@ class Tab(QWidget):
 class AudioTab(Tab):
     """The responsible tab for audio conversions."""
     def __init__(self, parent):
-        self.formats = ['aac', 'ac3', 'afc', 'aifc', 'aiff', 'amr', 'asf',
-                        'au', 'avi', 'dvd', 'flac', 'flv', 'm4a', 'm4v', 'mka',
-                        'mmf', 'mov', 'mp2', 'mp3', 'mp4', 'mpeg', 'ogg', 'ra',
-                        'rm', 'spx', 'vob', 'wav', 'webm', 'wma']
+        self.formats = data.audio_formats
         super(AudioTab, self).__init__(parent)
 
         nochange = self.tr('No Change')
@@ -250,10 +247,8 @@ class AudioTab(Tab):
 class VideoTab(Tab):
     """The responsible tab for video conversions."""
     def __init__(self, parent):
-        self.formats = ['asf', 'avi', 'dvd', 'flv', 'm1v', 'm2t', 'm2v',
-                        'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'ogg', 'ogv',
-                        'psp', 'rm', 'ts', 'vob', 'webm', 'wma', 'wmv']
-        self.vid_to_aud = ['aac', 'ac3', 'aiff', 'au', 'flac', 'mp2' , 'wav']
+        self.formats = data.video_formats
+        self.vid_to_aud = data.vid_to_aud
         super(VideoTab, self).__init__(parent)
 
         pattern = QRegExp(r'^[1-9]\d*')
@@ -497,21 +492,8 @@ class VideoTab(Tab):
 class ImageTab(Tab):
     """The responsible tab for image conversions."""
     def __init__(self, parent):
-        self.formats = ['aai', 'bmp', 'cgm', 'dcm', 'dpx', 'emf', 'eps', 'fpx',
-                        'gif', 'jbig', 'jng', 'jpeg', 'mrsid', 'p7', 'pdf',
-                        'picon', 'png', 'ppm', 'psd', 'rad', 'tga', 'tif',
-                        'webp', 'wpg', 'xpm']
-        self.extra_img_formats_dict = { 'bmp'   : ['bmp2', 'bmp3', 'dib'],
-                                        'eps'   : ['ps', 'ps2', 'ps3', 'eps2',
-                                                'eps3', 'epi', 'epsi', 'epsf'],
-                                        'jpeg'  : ['jpg', 'jpe'],
-                                        'mrsid' : ['sid'],
-                                        'pdf'   : ['epdf'],
-                                        'picon' : ['icon'],
-                                        'png'   : ['png24', 'png32'],
-                                        'ppm'   : ['pnm', 'pgm'],
-                                        'tif'   : ['tiff']
-                                       }
+        self.formats = data.image_formats
+        self.extra_img_formats_dict = data.extra_img_formats_dict
         self.extra_img_formats_list = []
         for i in self.extra_img_formats_dict.values():
             self.extra_img_formats_list.extend(i)
@@ -609,19 +591,7 @@ class ImageTab(Tab):
 class DocumentTab(Tab):
     """The responsible tab for document conversions."""
     def __init__(self, parent):
-        self.formats = {'doc' : ['odt', 'pdf'],
-                       'html' : ['odt'],
-                        'odp' : ['pdf', 'ppt'],
-                        'ods' : ['pdf'],
-                        'odt' : ['doc', 'html', 'pdf', 'rtf', 'sxw', 'txt',
-                                 'xml'],
-                        'ppt' : ['odp'],
-                        'rtf' : ['odt'],
-                        'sdw' : ['odt'],
-                        'sxw' : ['odt'],
-                        'txt' : ['odt'],
-                        'xls' : ['ods'],
-                        'xml' : ['doc', 'odt', 'pdf']}
+        self.formats = data.document_formats
         super(DocumentTab, self).__init__(parent)
 
         self.fromComboBox.currentIndexChanged.connect(self.refresh_toComboBox)

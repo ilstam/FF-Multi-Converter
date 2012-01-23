@@ -19,7 +19,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-from __init__ import __version__
+from data import __version__
 
 from PyQt4.QtCore import (Qt, QSettings, QTimer,
                   QLocale, QTranslator, QT_VERSION_STR,PYQT_VERSION_STR)

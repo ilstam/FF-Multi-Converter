@@ -28,7 +28,6 @@ import subprocess
 import threading
 import shlex
 
-import ffmulticonverter
 import pyqttools
 
 class Progress(QDialog):

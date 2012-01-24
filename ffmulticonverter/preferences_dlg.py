@@ -34,34 +34,31 @@ class Preferences(QDialog):
         super(Preferences, self).__init__(parent)
         self.home = os.getenv('HOME')
 
-        saveLabel = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')       
+        saveLabel = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
         self.saveto_outRadioButton = QRadioButton(self.tr(
                                        'Save all files\nto ouput destination'))
         self.saveto_origRadioButton = QRadioButton(
                              self.tr('Save each file to\nits original folder'))
         self.group = QButtonGroup()
         self.group.addButton(self.saveto_outRadioButton)
-        self.group.addButton(self.saveto_origRadioButton) 
+        self.group.addButton(self.saveto_origRadioButton)
         saving_dest_layout = pyqttools.add_to_layout(QHBoxLayout(),
-                 self.saveto_outRadioButton, self.saveto_origRadioButton, None)               
+                 self.saveto_outRadioButton, self.saveto_origRadioButton, None)
 
         exist_Label = QLabel(self.tr('Existing files:'))
-        self.exst_overwriteRadioButton = QRadioButton(self.tr('Overwrite'))
-        self.exst_skipRadioButton = QRadioButton(self.tr('Skip'))
         self.exst_add_prefixRadioButton = QRadioButton(self.tr(
                                                              "Add '~' prefix"))
-        self.exst_add_prefixRadioButton.setChecked(True)
-        exist_layout = pyqttools.add_to_layout(QHBoxLayout(), 
-               self.exst_add_prefixRadioButton, self.exst_overwriteRadioButton, 
-               self.exst_skipRadioButton)
+        self.exst_overwriteRadioButton = QRadioButton(self.tr('Overwrite'))
+        exist_layout = pyqttools.add_to_layout(QHBoxLayout(),
+               self.exst_add_prefixRadioButton, self.exst_overwriteRadioButton)
 
         self.rebuildCheckBox = QCheckBox(self.tr('Rebuild files structure'))
-        defaultLabel = QLabel(self.tr('Default output destination'))
+        defaultLabel = QLabel(self.tr('Default output destination:'))
         self.defaultLineEdit = QLineEdit()
         self.defaultToolButton = QToolButton()
         self.defaultToolButton.setText('...')
-        deafult_fol_layout = pyqttools.add_to_layout(QHBoxLayout(), self.defaultLineEdit,
-                                                        self.defaultToolButton)
+        deafult_fol_layout = pyqttools.add_to_layout(QHBoxLayout(),
+                                  self.defaultLineEdit, self.defaultToolButton)
         name_Label = QLabel('<html><b>' + self.tr('Name files') +'</b></html>')
         prefixLabel = QLabel(self.tr('Prefix:'))
         suffixLabel = QLabel(self.tr('Suffix:'))
@@ -75,8 +72,9 @@ class Preferences(QDialog):
         tabwidget_layout = pyqttools.add_to_layout(QVBoxLayout(), saveLabel,
                QSpacerItem(14, 13), saving_dest_layout, self.rebuildCheckBox,
                QSpacerItem(14, 13), exist_Label, exist_layout,
-               QSpacerItem(14, 13), defaultLabel, deafult_fol_layout, QSpacerItem(13, 13),
-               name_Label, QSpacerItem(14, 13), prefix_layout)
+               QSpacerItem(14, 13), defaultLabel, deafult_fol_layout,
+               QSpacerItem(13, 13), name_Label, QSpacerItem(14, 13),
+               prefix_layout)
 
         widget = QWidget()
         widget.setLayout(tabwidget_layout)
@@ -102,7 +100,7 @@ class Preferences(QDialog):
         settings = QSettings()
         saveto_output = settings.value('saveto_output').toBool()
         rebuild_structure = settings.value('rebuild_structure').toBool()
-        existing_files = settings.value('existing_files').toString()  
+        overwrite_existing = settings.value('overwrite_existing').toBool()
         default_output = settings.value('default_output').toString()
         prefix = settings.value('prefix').toString()
         suffix = settings.value('suffix').toString()
@@ -115,12 +113,10 @@ class Preferences(QDialog):
             self.defaultLineEdit.setEnabled(False)
         if rebuild_structure:
             self.rebuildCheckBox.setChecked(True)
-        if existing_files == '1':
+        if overwrite_existing:
             self.exst_overwriteRadioButton.setChecked(True)
-        elif existing_files == '2':
-            self.exst_skipRadioButton.setChecked(True)
         else:
-            self.exst_add_prefixRadioButton.setChecked(True)       
+            self.exst_add_prefixRadioButton.setChecked(True)
         if default_output:
             self.defaultLineEdit.setText(default_output)
         if prefix:
@@ -151,12 +147,8 @@ class Preferences(QDialog):
             else False
         rebuild_structure = self.rebuildCheckBox.isChecked() and \
             self.rebuildCheckBox.isEnabled()
-        if self.exst_overwriteRadioButton.isChecked():
-            existing_files = '1'
-        elif self.exst_skipRadioButton.isChecked():
-            existing_files = '2'
-        else:
-            existing_files = '3'
+        overwrite_existing = True if \
+                          self.exst_overwriteRadioButton.isChecked() else False
         default_output = unicode(self.defaultLineEdit.text())
         prefix = unicode(self.prefixLineEdit.text())
         suffix = unicode(self.suffixLineEdit.text())
@@ -164,7 +156,7 @@ class Preferences(QDialog):
         settings = QSettings()
         settings.setValue('saveto_output', saveto_output)
         settings.setValue('rebuild_structure', rebuild_structure)
-        settings.setValue('existing_files', existing_files)
+        settings.setValue('overwrite_existing', overwrite_existing)
         settings.setValue('default_output', default_output)
         settings.setValue('prefix', prefix)
         settings.setValue('suffix', suffix)

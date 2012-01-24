@@ -206,6 +206,7 @@ class MainWindow(QMainWindow):
         settings = QSettings()
         self.saveto_output = settings.value('saveto_output').toBool()
         self.rebuild_structure = settings.value('rebuild_structure').toBool()
+        self.overwrite_existing = settings.value('overwrite_existing').toBool()
         self.default_output = unicode(
                                    settings.value('default_output').toString())
         self.prefix = unicode(settings.value('prefix').toString())
@@ -475,10 +476,11 @@ class MainWindow(QMainWindow):
                     y = folder + y
 
             if os.path.exists(y):
-                _dir2, _name2 = os.path.split(y)
-                y = _dir2 + '/~' + _name2
-            # Add quotations to path in order to avoid error in special cases
-            # such as spaces or special characters.
+                if not self.overwrite_existing:
+                    _dir2, _name2 = os.path.split(y)
+                    y = _dir2 + '/~' + _name2
+            # Add quotations to path in order to avoid error in special
+            # cases such as spaces or special characters.
             _file = '"' + _file + '"'
             y = '"' + y + '"'
 

@@ -578,12 +578,14 @@ class ImageTab(Tab):
         to = str(QString(to_file).toUtf8())[1:-1]
         size = str(self.get_data())
         try:
+            if os.path.exists(to):
+                os.remove(to)
             img = PythonMagick.Image(_from)
             if size:
                 img.transform(size)
             img.write(to)
             converted = True
-        except (RuntimeError, Exception):
+        except (RuntimeError, OSError, Exception):
             converted = False
         return converted
 
@@ -622,16 +624,22 @@ class DocumentTab(Tab):
 
         Returns: boolean
         """
-        from_file2 = from_file[1:-1]
+        from_file = from_file[1:-1]
         to_file = to_file[1:-1]
         _file, extension = os.path.splitext(to_file)
-        command = 'unoconv --format={0} {1}'.format(extension[1:], from_file)
+        moved_file = _file + os.path.splitext(from_file)[-1]
+        if os.path.exists(moved_file):
+            moved_file = _file + '~~' + os.path.splitext(from_file)[-1]
+        shutil.copy(from_file, moved_file)
+
+        command = 'unoconv --format={0} {1}'.format(extension[1:],
+                                                        '"' + moved_file + '"')
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
         converted = True if subprocess.call(command) == 0 else False
-        if converted:
-            # new file saved to same folder as original so it must be moved
-            _file2 = os.path.splitext(from_file2)[0]
-            now_created = _file2 + extension
-            shutil.move(now_created, to_file)
+
+        os.remove(moved_file)
+        final_file = os.path.splitext(moved_file)[0] + extension
+        shutil.move(final_file, to_file)
+
         return converted

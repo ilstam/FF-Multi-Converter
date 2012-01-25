@@ -38,7 +38,7 @@ import tabs
 import progress
 import pyqttools
 import preferences_dlg
-import qrc_resources
+import qrc_resources.qrc_resources
 
 try:
     import PythonMagick

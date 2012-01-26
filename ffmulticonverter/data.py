@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from __init__ import __version__
-
 #Supported formats
 
 audio_formats = ['aac', 'ac3', 'afc', 'aifc', 'aiff', 'amr', 'asf', 'au',

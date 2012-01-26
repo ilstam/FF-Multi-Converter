@@ -19,7 +19,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-from data import __version__
+from __init__ import __version__
 
 from PyQt4.QtCore import (Qt, QSettings, QTimer,
                   QLocale, QTranslator, QT_VERSION_STR,PYQT_VERSION_STR)
@@ -30,14 +30,13 @@ from PyQt4.QtGui import (QApplication, QMainWindow, QWidget, QGridLayout,
 
 import sys
 import os
-import glob
-import re
 import platform
 
 import tabs
 import progress
 import pyqttools
 import preferences_dlg
+import path_builders
 import qrc_resources.qrc_resources
 
 try:
@@ -336,8 +335,8 @@ class MainWindow(QMainWindow):
         Returns: 2 strings
         """
         tab = self.current_tab()
-        ext_from = unicode(tab.fromComboBox.currentText())
-        ext_to = unicode(tab.toComboBox.currentText())
+        ext_from = '.' + unicode(tab.fromComboBox.currentText())
+        ext_to = '.' + unicode(tab.toComboBox.currentText())
         # split from the docsting (Audio Only) if it is appropriate
         ext_to = ext_to.split(' ')[0]
         return ext_from, ext_to
@@ -356,41 +355,6 @@ class MainWindow(QMainWindow):
             if index == 2:
                 type_formats.extend(self.image_tab.extra_img_formats_list)
         return type_formats
-
-    def create_paths_list(self, path_pattern, recursive=True, includes=[]):
-        """Creates a list of paths from a path pattern.
-
-        Keyword arguments:
-        path_pattern -- a path using the '*' glob pattern
-        recursive    -- boolean that indicates if paths should be recursively
-                        yielded under given dirs
-        includes     -- is a list of file patterns to include in recursive
-                        searches
-
-        Returns: list
-        """
-        def _should_include(path, includes):
-            """Returns True if the given path should be included."""
-            ext = os.path.splitext(path)[-1]
-            if not includes:
-                return True
-            else:
-                return True if ext in includes else False
-
-        paths_list = []
-        paths = glob.glob(path_pattern)
-        for path in paths:
-            if not os.path.islink(path) and os.path.isdir(path) and recursive:
-                for dirpath, dirnames, filenames in os.walk(path):
-                    for filename in sorted(filenames):
-                        f = os.path.join(dirpath, filename)
-                        if _should_include(f, includes):
-                            paths_list.append(f)
-
-            elif _should_include(path, includes):
-                paths_list.append(path)
-
-        return paths_list
 
     def files_to_conv_list(self):
         """Generates paths of files to convert.
@@ -413,82 +377,15 @@ class MainWindow(QMainWindow):
         else:
             recursive = True if self.recursiveCheckBox.isChecked() else False
             includes = [ext] if self.extRadioButton.isChecked() else \
-                                                     ['.' + i for i in formats]
-            files_to_conv = self.create_paths_list(_dir, recursive=recursive,
+                                                     [i for i in formats]
+            files_to_conv = path_builders.create_paths_list(_dir, recursive,
                                                              includes=includes)
 
-        # put given file first in list
-        files_to_conv.remove(self.fname)
-        files_to_conv.insert(0, self.fname)
+            # put given file first in list
+            files_to_conv.remove(self.fname)
+            files_to_conv.insert(0, self.fname)
 
         return files_to_conv
-
-    def build_lists(self, ext_to, files_list):
-        """Creates two lists:
-
-        1.conversion_list -- list with dicts to show where each file must be
-                             saved.
-        Example:
-        [{/foo/bar.png : "/foo/bar.png"}, {/f/bar2.png : "/foo2/bar.png"}]
-        2.create_folders_list -- a list with folders that must be created
-
-        Keyword arguments:
-        ext_to       -- the extension to which each file must be converted to
-        files_list   -- list with files to be converted
-
-        Returns: two lists
-        """
-        rel_path_files_list = []
-        folders = []
-        create_folders_list = []
-        conversion_list = []
-
-        parent_file = files_list[0]
-        parent_dir, parent_name = os.path.split(parent_file)
-        parent_base, parent_ext = os.path.split(parent_name)
-        parent_dir += '/'
-
-        for _file in files_list:
-            _dir, name = os.path.split(_file)
-            base, ext = os.path.splitext(name)
-            _dir += '/'
-            y = _dir + self.prefix + base + self.suffix + '.' + ext_to
-
-            if self.saveto_output:
-                folder = self.output + '/'
-                if self.rebuild_structure:
-                    y = re.sub('^'+parent_dir, '', y)
-                    y = folder + y
-                    rel_path_files_list.append(y)
-                    for z in rel_path_files_list:
-                        folder_to_create = os.path.split(z)[0]
-                        folders.append(folder_to_create)
-
-                    # remove list from duplicates
-                    for fol in folders:
-                        if not fol in create_folders_list:
-                            create_folders_list.append(fol)
-                    create_folders_list.sort()
-                    # remove first folder because it already exists.
-                    create_folders_list.pop(0)
-                else:
-                    y = re.sub('^'+_dir, '', y)
-                    y = folder + y
-
-            if os.path.exists(y):
-                if not self.overwrite_existing:
-                    _dir2, _name2 = os.path.split(y)
-                    y = _dir2 + '/~' + _name2
-            # Add quotations to path in order to avoid error in special
-            # cases such as spaces or special characters.
-            _file = '"' + _file + '"'
-            y = '"' + y + '"'
-
-            _dict = {}
-            _dict[_file] = y
-            conversion_list.append(_dict)
-
-        return create_folders_list, conversion_list
 
     def ok_to_continue(self, ext_from, ext_to):
         """Checks if everything is ok to continue with conversion.
@@ -566,11 +463,12 @@ class MainWindow(QMainWindow):
         ext_from, ext_to = self.get_extensions()
         if not self.ok_to_continue(ext_from, ext_to):
             return
-
-        delete = self.deleteCheckBox.isChecked()
+            
         files_to_conv = self.files_to_conv_list()
-        create_folders_list, conversion_list = self.build_lists(ext_to,
-                                                                 files_to_conv)
+        create_folders_list, conversion_list = path_builders.build_lists(
+           files_to_conv, ext_to, self.prefix, self.suffix, self.output,
+           self.saveto_output, self.rebuild_structure, self.overwrite_existing)
+        print conversion_list
         if create_folders_list:
             for i in create_folders_list:
                 try:
@@ -578,6 +476,7 @@ class MainWindow(QMainWindow):
                 except OSError:
                     pass
 
+        delete = self.deleteCheckBox.isChecked()
         dialog = progress.Progress(self, conversion_list, delete)
         dialog.exec_()
 

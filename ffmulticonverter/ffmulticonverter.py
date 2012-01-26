@@ -463,12 +463,11 @@ class MainWindow(QMainWindow):
         ext_from, ext_to = self.get_extensions()
         if not self.ok_to_continue(ext_from, ext_to):
             return
-            
+
         files_to_conv = self.files_to_conv_list()
         create_folders_list, conversion_list = path_builders.build_lists(
            files_to_conv, ext_to, self.prefix, self.suffix, self.output,
            self.saveto_output, self.rebuild_structure, self.overwrite_existing)
-        print conversion_list
         if create_folders_list:
             for i in create_folders_list:
                 try:

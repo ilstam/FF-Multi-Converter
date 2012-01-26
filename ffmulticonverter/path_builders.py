@@ -26,6 +26,14 @@ class PathError(Exception): pass
 class IncludesError(Exception): pass
 class ExtToError(Exception): pass
 
+def _should_include(path, includes):
+    """Returns True if the given path should be included."""
+    ext = os.path.splitext(path)[-1]
+    if not includes:
+        return True
+    else:
+        return True if ext in includes else False
+
 def create_paths_list(path_pattern, recursive=True, includes=[]):
     """Creates a list of paths from a path pattern.
 
@@ -41,14 +49,6 @@ def create_paths_list(path_pattern, recursive=True, includes=[]):
         raise PathError('path must end with an asterisk (*)')
     if not all(i.startswith('.') for i in includes):
         raise IncludesError('all includes must start with a dot (.)')
-    
-    def _should_include(path, includes):
-        """Returns True if the given path should be included."""
-        ext = os.path.splitext(path)[-1]
-        if not includes:
-            return True
-        else:
-            return True if ext in includes else False
 
     paths_list = []
     paths = glob.glob(path_pattern)
@@ -63,15 +63,15 @@ def create_paths_list(path_pattern, recursive=True, includes=[]):
         elif _should_include(path, includes):
             paths_list.append(path)
 
-    return paths_list    
+    return paths_list
 
-def build_lists(files_list, ext_to, prefix, suffix, output, 
+def build_lists(files_list, ext_to, prefix, suffix, output,
                         saveto_output, rebuild_structure, overwrite_existing):
     """Creates two lists:
 
     1.conversion_list -- list with dicts to show where each file must be saved
     Example: [{/foo/bar.png : "/foo/bar.png"}, {/f/bar2.png : "/foo2/bar.png"}]
-    
+
     2.create_folders_list -- a list with folders that must be created
 
     Keyword arguments:
@@ -88,8 +88,8 @@ def build_lists(files_list, ext_to, prefix, suffix, output,
     Returns: two lists
     """
     if not ext_to.startswith('.'):
-        raise ExtToError('ext_to must start with a dot (.)')        
-        
+        raise ExtToError('ext_to must start with a dot (.)')
+
     rel_path_files_list = []
     folders = []
     create_folders_list = []
@@ -140,4 +140,3 @@ def build_lists(files_list, ext_to, prefix, suffix, output,
         conversion_list.append(_dict)
 
     return create_folders_list, conversion_list
-        

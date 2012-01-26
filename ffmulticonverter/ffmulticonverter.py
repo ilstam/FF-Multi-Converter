@@ -533,7 +533,7 @@ class MainWindow(QMainWindow):
             missing.append('PythonMagick')
 
         missing = ', '.join(missing) if missing else self.tr('None')
-        status = self.tr('Missing dependencies: ') + missing
+        status = self.tr('Missing dependencies:') + ' ' + missing
         self.dependenciesLabel.setText(status)
 
 

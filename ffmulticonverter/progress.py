@@ -30,6 +30,7 @@ import shlex
 
 import pyqttools
 
+
 class Progress(QDialog):
     """Shows conversion progress in a dialog."""
     # There are two bars in the dialog.
@@ -142,8 +143,7 @@ class Progress(QDialog):
             QDialog.reject(self)
             if self._type == 'video':
                 self.parent.video_tab.manage_convert_prcs('kill')
-            else:
-                return
+            self.thread.join()
         if reply == QMessageBox.Cancel:
             if self._type == 'video':
                 self.parent.video_tab.manage_convert_prcs('continue')
@@ -160,7 +160,7 @@ class Progress(QDialog):
 
         text = '.../' + from_file.split('/')[-1] if len(from_file) > 40 \
                                                  else from_file
-        self.nowLabel.setText(self.tr('In progress: ') + text)
+        self.nowLabel.setText(self.tr('In progress:') + ' ' + text)
         self.nowBar.setValue(0)
 
         self.min_value = self.totalBar.value()
@@ -179,7 +179,8 @@ class Progress(QDialog):
                 self.error += 1
             self.file_converted_signal.emit()
 
-        threading.Thread(target=convert).start()
+        self.thread = threading.Thread(target=convert)
+        self.thread.start()
 
     def refresh_progress_bars(self, frames, total_frames):
         """Counts the progress rates and sets the progress bars.

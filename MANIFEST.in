@@ -1,2 +1,8 @@
-include COPYING ChangeLog TODO
+include AUTHORS COPYING ChangeLog
 include ffmulticonverter/data/*
+include ffmulticonverter/qrc_resources/*
+include ffmulticonverter/locale/*
+exclude ffmulticonverter/locale/*qm
+recursive-exclude ffmulticonverter *pyc
+recursive-include tests *
+recursive-exclude tests *pyc

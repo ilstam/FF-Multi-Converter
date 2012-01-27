@@ -10,7 +10,7 @@ data_files = [('share/icons/', ['ffmulticonverter/data/ffmulticonverter.png']),
 
 setup(
     name = 'ffmulticonverter',
-    packages = ['ffmulticonverter'],
+    packages = ['ffmulticonverter', 'ffmulticonverter/qrc_resources'],
     scripts = ['ffmulticonverter/ffmulticonverter'],
     data_files = data_files,
     version = ffmulticonverter.__version__,

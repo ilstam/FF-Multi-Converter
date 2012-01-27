@@ -2,51 +2,54 @@
 # -*- coding: utf-8 -*-
 # FF Multi Converter's setup.py
 
-import os
+import ffmulticonverter
 from distutils.core import setup
 
-data_files = [("share/icons/", ["ffmulticonverter/data/ffmulticonverter.png"]),
-              ("share/applications/", ["ffmulticonverter/data/FF-Multi-Converter.desktop"])]
+data_files = [('share/icons/', ['ffmulticonverter/data/ffmulticonverter.png']),
+              ('share/applications/', ['ffmulticonverter/data/FF-Multi-Converter.desktop'])]
 
 setup(
-    name = "ffmulticonverter",
-    packages = ["ffmulticonverter"],
-    scripts = ["ffmulticonverter/ffmulticonverter"],
+    name = 'ffmulticonverter',
+    packages = ['ffmulticonverter'],
+    scripts = ['ffmulticonverter/ffmulticonverter'],
     data_files = data_files,
-    version = "1.2.0",
-    description = "GUI File Format Converter",
-    author = "Ilias Stamatis",
-    author_email = "stamatis.iliass@gmail.com",
-    license = "GNU GPL3",
+    version = ffmulticonverter.__version__,
+    description = 'GUI File Format Converter',
+    author = 'Ilias Stamatis',
+    author_email = 'stamatis.iliass@gmail.com',
+    license = 'GNU GPL3',
     platforms = 'Linux',
-    url = "https://github.com/Ilias95/FF-Multi-Converter/wiki/FF-Multi-Converter",
-    download_url = "http://pypi.python.org/pypi/ffmulticonverter",
-    keywords = ["convert", "file format", "extension"],
+    url = 'https://sites.google.com/site/ffmulticonverter/',
+    download_url = 'https://sites.google.com/site/ffmulticonverter/download',
+    keywords = ['convert', 'file format', 'extension', 'audio', 'video',
+                                                         'images', 'document'],
     classifiers = [
-        "Programming Language :: Python",
-        "License :: OSI Approved :: GNU General Public License (GPL)",
-        "Operating System :: POSIX :: Linux",
-        "Development Status :: 4 - Beta",
-        "Environment :: X11 Applications :: Qt",
-        "Natural Language :: English",
-        "Natural Language :: Greek",
-        "Intended Audience :: End Users/Desktop",
-        "Topic :: Multimedia :: Sound/Audio :: Conversion",
-        "Topic :: Utilities"],
+        'Programming Language :: Python',
+        'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Operating System :: POSIX :: Linux',
+        'Development Status :: 4 - Beta',
+        'Environment :: X11 Applications :: Qt',
+        'Natural Language :: English',
+        'Natural Language :: Greek',
+        'Natural Language :: Turkish',
+        'Intended Audience :: End Users/Desktop',
+        'Topic :: Multimedia :: Video :: Conversion',
+        'Topic :: Multimedia :: Sound/Audio :: Conversion',
+        'Topic :: Utilities'],
     long_description = """
-File Format Multi Converter
----------------------------
+FF Multi Converter
+-------------------
 
-GUI application that converts audio, video, image and document file formats to
-other extensions using ffmpeg, unoconv, and PIL library.
+Graphical application that enables you to convert audio, video, image and
+document files between all popular formats using ffmpeg, unoconv, and PythonMagick.
 
 Features:
-* Converts files in the same folder (same type or extension)
-* Recursively convert files (same type or extension)
+* Conversions for several file formats.
+* Options to configure Frequency, Channels, Bitrate on audio conversions,
+  Size, Aspect, Frame Rate, Bitrate on video conversions and Size on images.
+* Options for saving and naming files.
+* Recursive conversions.
 
-Requires: python2, PyQt4, ffmpeg, PIL, unoconv, Open/Libre office suite
+Requires: python2, PyQt4, ffmpeg, PythonMagick, unoconv, Open/Libre office
 """
 )
-
-if os.path.isdir('build'):
-    os.system('rm -rf build')

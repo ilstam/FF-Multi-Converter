@@ -26,7 +26,6 @@ from PyQt4.QtGui import (QApplication, QWidget, QFrame, QGridLayout,
                   QPushButton, QMessageBox, QRegExpValidator)
 
 import os
-import signal
 import subprocess
 import shlex
 import shutil
@@ -226,27 +225,37 @@ class AudioTab(Tab):
 
         return frequency, channels, bitrate
 
-    def convert(self, parent, from_file, to_file):
-        """Converts the file format of an audio via ffmpeg.
-
-        Keyword arguments:
-        from_file -- the file to be converted
-        to_file -- the new file
+    def start_conversion(self, parent, from_file, to_file):
+        """Starts the conversion procedure.
 
         Returns: boolean
         """
         frequency, channels, bitrate = self.get_data()
+        self.convert_audio(from_file, to_file, frequency, channels, bitrate)
+        return True if self.convert_prcs.poll() == 0 else False
+
+    def convert_audio(self, from_file, to_file, frequency='', channels='',
+                                                                   bitrate=''):
+        """Converts the file format of an audio via ffmpeg.
+
+        Keyword arguments:
+        from_file -- the file to be converted
+        to_file -- new file's location
+        """
+        assert from_file.startswith('"') and from_file.endswith('"')
+        assert to_file.startswith('"') and to_file.endswith('"')
+
         command = 'ffmpeg -y -i {0}{1}{2}{3} {4}'.format(
                               from_file, frequency, channels, bitrate, to_file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
-        converted = True if subprocess.call(command) == 0 else False
-        return converted
+        self.convert_prcs = subprocess.Popen(command)
+        self.convert_prcs.wait()
 
 
 class VideoTab(Tab):
     """The responsible tab for video conversions."""
-    def __init__(self, parent):
+    def __init__(self, parent=None):
         self.formats = data.video_formats
         self.vid_to_aud = data.vid_to_aud
         super(VideoTab, self).__init__(parent)
@@ -374,22 +383,6 @@ class VideoTab(Tab):
 
         return size, aspect, framerate, bitrate
 
-    def manage_convert_prcs(self, procedure):
-        """Sends the appropriate signal to self.convert_prcss (process).
-
-        Keyword arguments:
-        procedure -- a string
-                     if 'pause'    : send SIGSTOP signal
-                     if 'continue' : send SIGCONT signal
-                     if 'kill'     : kill process
-        """
-        if procedure == 'pause':
-            self.convert_prcs.send_signal(signal.SIGSTOP)
-        elif procedure == 'continue':
-            self.convert_prcs.send_signal(signal.SIGCONT)
-        elif procedure == 'kill':
-            self.convert_prcs.kill()
-
     def count_newfile_frames(self, _file):
         """Counts the number of frames of the new file.
 
@@ -461,22 +454,14 @@ class VideoTab(Tab):
             frames = 0
         return frames
 
-    def convert(self, parent, from_file, to_file):
-        """Converts the file format of a video via ffmpeg.
-
-        Keyword arguments:
-        from_file -- the file to be converted
-        to_file -- the new file
+    def start_conversion(self, parent, from_file, to_file):
+        """Starts the conversion procedure.
 
         Returns: boolean
         """
         total_frames = self.count_newfile_frames(from_file)
         size, aspect, framerate, bitrate = self.get_data()
-        convert_cmd = 'ffmpeg -y -i {0}{1}{2}{3}{4} {5}'.format(
-                          from_file, size, aspect, framerate, bitrate, to_file)
-        convert_cmd = str(QString(convert_cmd).toUtf8())
-        self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
-
+        self.convert_video(from_file, to_file, size, aspect, framerate,bitrate)
         if total_frames == 0:
             self.convert_prcs.wait()
         else:
@@ -485,8 +470,24 @@ class VideoTab(Tab):
                 frames = self.get_frames(to_file)
                 parent.refr_bars_signal.emit(frames, total_frames)
 
-        converted = True if self.convert_prcs.poll() == 0 else False
-        return converted
+        return True if self.convert_prcs.poll() == 0 else False
+
+    def convert_video(self, from_file, to_file, size='', aspect='',
+                                 framerate='', bitrate=' -sameq ', test=False):
+        """Converts the file format of a video via ffmpeg.
+
+        Keyword arguments:
+        from_file -- the file to be converted
+        to_file   -- the new file
+        test      -- Boolean, this is for testing purposes
+        """
+        assert from_file.startswith('"') and from_file.endswith('"')
+        assert to_file.startswith('"') and to_file.endswith('"')
+
+        convert_cmd = 'ffmpeg -y -i {0}{1}{2}{3}{4} {5}'.format(
+                          from_file, size, aspect, framerate, bitrate, to_file)
+        convert_cmd = str(QString(convert_cmd).toUtf8())
+        self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
 
 
 class ImageTab(Tab):
@@ -565,7 +566,17 @@ class ImageTab(Tab):
 
         return size
 
-    def convert(self, parent, from_file, to_file):
+    def start_conversion(self, parent, from_file, to_file):
+        """Starts the conversion procedure.
+
+        Returns: boolean
+        """
+        from_file = str(QString(from_file).toUtf8())[1:-1]
+        to_file = str(QString(to_file).toUtf8())[1:-1]
+        size = str(self.get_data())
+        return self.convert_image(from_file, to_file, size)
+
+    def convert_image(self, from_file, to_file, size):
         """Converts the file format of an image.
 
         Keyword arguments:
@@ -574,20 +585,19 @@ class ImageTab(Tab):
 
         Returns: boolean
         """
-        _from = str(QString(from_file).toUtf8())[1:-1]
-        to = str(QString(to_file).toUtf8())[1:-1]
-        size = str(self.get_data())
+        assert not (from_file.startswith('"') or from_file.endswith('"'))
+        assert not (to_file.startswith('"') or to_file.endswith('"'))
+
         try:
-            if os.path.exists(to):
-                os.remove(to)
-            img = PythonMagick.Image(_from)
+            if os.path.exists(to_file):
+                os.remove(to_file)
+            img = PythonMagick.Image(from_file)
             if size:
                 img.transform(size)
-            img.write(to)
-            converted = True
+            img.write(to_file)
+            return True
         except (RuntimeError, OSError, Exception):
-            converted = False
-        return converted
+            return False
 
 
 class DocumentTab(Tab):
@@ -615,12 +625,8 @@ class DocumentTab(Tab):
         text = str(self.fromComboBox.currentText())
         self.toComboBox.addItems([i for i in self.formats[text]])
 
-    def convert(self, parent, from_file, to_file):
-        """Converts the file format of a document file.
-
-        Keyword arguments:
-        from_file -- the file to be converted
-        to_file -- the new file
+    def start_conversion(self, parent, from_file, to_file):
+        """Starts the conversion procedure.
 
         Returns: boolean
         """
@@ -632,14 +638,26 @@ class DocumentTab(Tab):
             moved_file = _file + '~~' + os.path.splitext(from_file)[-1]
         shutil.copy(from_file, moved_file)
 
-        command = 'unoconv --format={0} {1}'.format(extension[1:],
-                                                        '"' + moved_file + '"')
-        command = str(QString(command).toUtf8())
-        command = shlex.split(command)
-        converted = True if subprocess.call(command) == 0 else False
-
+        converted = self.convert_document('"'+moved_file+'"', extension[1:])
         os.remove(moved_file)
         final_file = os.path.splitext(moved_file)[0] + extension
         shutil.move(final_file, to_file)
 
         return converted
+
+    def convert_document(self, _file, extension):
+        """Converts the file format of a document file.
+
+        Keyword arguments:
+        _file -- the file to be converted
+        extension -- the extension to convert to
+
+        Returns: boolean
+        """
+        assert _file.startswith('"') and _file.endswith('"')
+        assert not extension.startswith('.')
+
+        command = 'unoconv --format={0} {1}'.format(extension, _file)
+        command = str(QString(command).toUtf8())
+        command = shlex.split(command)
+        return True if subprocess.call(command) == 0 else False

@@ -22,6 +22,8 @@ Version 1.3.0:
 
 * Options for exisisting files.
 
+* Progress dialog's modality issue solved.
+
 * Turkish translation.
 
 Version 1.2.0:

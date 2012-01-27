@@ -24,12 +24,12 @@ from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
                   QLabel, QCheckBox, QPushButton, QProgressBar, QMessageBox)
 
 import os
-import subprocess
+import signal
 import threading
+import subprocess
 import shlex
 
 import pyqttools
-
 
 class Progress(QDialog):
     """Shows conversion progress in a dialog."""
@@ -57,6 +57,7 @@ class Progress(QDialog):
         """
         super(Progress, self).__init__(parent)
         self.parent = parent
+        self.tab = self.parent.current_tab()
 
         self.files = files
         self.delete = delete
@@ -67,9 +68,9 @@ class Progress(QDialog):
 
         self._type = ''
         ext_to = os.path.splitext(self.files[0].values()[0][1:-1])[-1][1:]
-        if ext_to in parent.video_tab.formats:
-            if not any(ext_to == i for i in parent.video_tab.vid_to_aud):
-                self._type = 'video'
+        if ext_to in parent.video_tab.formats or \
+                                            ext_to in parent.audio_tab.formats:
+            self._type = 'audiovideo'
 
         self.nowLabel = QLabel(self.tr('In progress: '))
         totalLabel = QLabel(self.tr('Total:'))
@@ -131,8 +132,8 @@ class Progress(QDialog):
 
     def reject(self):
         """Uses standard dialog to ask whether procedure must stop or not."""
-        if self._type == 'video':
-            self.parent.video_tab.manage_convert_prcs('pause')
+        if self._type == 'audiovideo':
+            self.tab.convert_prcs.send_signal(signal.SIGSTOP) #pause
         else:
             self.running = False
         reply = QMessageBox.question(self,
@@ -141,12 +142,12 @@ class Progress(QDialog):
             QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             QDialog.reject(self)
-            if self._type == 'video':
-                self.parent.video_tab.manage_convert_prcs('kill')
+            if self._type == 'audiovideo':
+                self.tab.convert_prcs.kill() #kill
             self.thread.join()
         if reply == QMessageBox.Cancel:
-            if self._type == 'video':
-                self.parent.video_tab.manage_convert_prcs('continue')
+            if self._type == 'audiovideo':
+                self.tab.convert_prcs.send_signal(signal.SIGCONT) #continue
             else:
                 self.running = True
                 self.manage_conversions()
@@ -167,8 +168,7 @@ class Progress(QDialog):
         self.max_value = self.min_value + self.step
 
         def convert():
-            tab = self.parent.current_tab()
-            if tab.convert(self, from_file, to_file):
+            if self.tab.start_conversion(self, from_file, to_file):
                 self.ok += 1
                 if self.delete:
                     try:

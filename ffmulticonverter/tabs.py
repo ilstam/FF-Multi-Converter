@@ -242,6 +242,7 @@ class AudioTab(Tab):
         from_file -- the file to be converted
         to_file -- new file's location
         """
+        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
         assert from_file.startswith('"') and from_file.endswith('"')
         assert to_file.startswith('"') and to_file.endswith('"')
 
@@ -481,6 +482,7 @@ class VideoTab(Tab):
         to_file   -- the new file
         test      -- Boolean, this is for testing purposes
         """
+        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
         assert from_file.startswith('"') and from_file.endswith('"')
         assert to_file.startswith('"') and to_file.endswith('"')
 
@@ -571,8 +573,6 @@ class ImageTab(Tab):
 
         Returns: boolean
         """
-        from_file = str(QString(from_file).toUtf8())[1:-1]
-        to_file = str(QString(to_file).toUtf8())[1:-1]
         size = str(self.get_data())
         return self.convert_image(from_file, to_file, size)
 
@@ -585,9 +585,12 @@ class ImageTab(Tab):
 
         Returns: boolean
         """
-        assert not (from_file.startswith('"') or from_file.endswith('"'))
-        assert not (to_file.startswith('"') or to_file.endswith('"'))
+        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
+        assert from_file.startswith('"') and from_file.endswith('"')
+        assert to_file.startswith('"') and to_file.endswith('"')
 
+        from_file = str(QString(from_file).toUtf8())[1:-1]
+        to_file = str(QString(to_file).toUtf8())[1:-1]
         try:
             if os.path.exists(to_file):
                 os.remove(to_file)
@@ -654,6 +657,7 @@ class DocumentTab(Tab):
 
         Returns: boolean
         """
+        assert isinstance(_file, unicode)
         assert _file.startswith('"') and _file.endswith('"')
         assert not extension.startswith('.')
 

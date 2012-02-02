@@ -7,16 +7,13 @@ Version 1.3.0:
 
 * PIL has been replaced from PythonMagick.
 
-* Extra file extensions added:
+* Extra file extensions:
     Audio:  afc, aifc, mka, ra, spx
     Videos: m1v, m2t, m2v, mpg, ogv, rm, ts
     Images: aai, cgm, dcm, dpx, emf, fpx, jbig, jng, 
             mrsid, p7, picon, psd, rad, webp, wpg, xpm
 
-* Extra conversion options added:
-    Audio:  Frequency, Channels, Bitrate
-    Videos: Size, Aspect, Frame Rate, Bitrate
-    Images: Size
+* Common conversion options for each file type has been added.
 
 * Automatic file extension recognition.
 

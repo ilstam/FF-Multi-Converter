@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2011 Ilias Stamatis <stamatis.iliass@gmail.com>
+# Copyright (C) 2011-2012 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This module is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

@@ -45,8 +45,8 @@ document files between all popular formats using ffmpeg, unoconv, and PythonMagi
 
 Features:
 * Conversions for several file formats.
-* Options to configure Frequency, Channels, Bitrate on audio conversions,
-  Size, Aspect, Frame Rate, Bitrate on video conversions and Size on images.
+* Very easy to use interface.
+* Access to common conversion options.
 * Options for saving and naming files.
 * Recursive conversions.
 

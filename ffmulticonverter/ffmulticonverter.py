@@ -354,7 +354,7 @@ class MainWindow(QMainWindow):
             type_formats = tab.formats[:]
             if index == 2:
                 type_formats.extend(self.image_tab.extra_img_formats_list)
-        return type_formats
+        return ['.' + i for i in type_formats]
 
     def files_to_conv_list(self):
         """Generates paths of files to convert.
@@ -375,9 +375,8 @@ class MainWindow(QMainWindow):
             files_to_conv = [self.fname]
 
         else:
-            recursive = True if self.recursiveCheckBox.isChecked() else False
-            includes = [ext] if self.extRadioButton.isChecked() else \
-                                                     [i for i in formats]
+            recursive = bool(self.recursiveCheckBox.isChecked())
+            includes = [ext] if self.extRadioButton.isChecked() else formats
             files_to_conv = path_builders.create_paths_list(_dir, recursive,
                                                              includes=includes)
 

@@ -128,7 +128,7 @@ class Preferences(QDialog):
         self.setWindowTitle(self.tr('Preferences'))
 
     def radiobutton_changed(self, data):
-        enable = True if data == 'ouput' else False
+        enable = bool(data == 'ouput')
         self.rebuildCheckBox.setEnabled(enable)
         self.defaultLineEdit.setEnabled(enable)
 
@@ -143,12 +143,10 @@ class Preferences(QDialog):
 
     def save_settings(self):
         """Defines settings before accept the dialog."""
-        saveto_output = True if self.saveto_outRadioButton.isChecked() \
-            else False
-        rebuild_structure = self.rebuildCheckBox.isChecked() and \
-            self.rebuildCheckBox.isEnabled()
-        overwrite_existing = True if \
-                          self.exst_overwriteRadioButton.isChecked() else False
+        saveto_output = bool(self.saveto_outRadioButton.isChecked())
+        rebuild_structure = bool(self.rebuildCheckBox.isChecked() and \
+                                              self.rebuildCheckBox.isEnabled())
+        overwrite_existing = bool(self.exst_overwriteRadioButton.isChecked())
         default_output = unicode(self.defaultLineEdit.text())
         prefix = unicode(self.prefixLineEdit.text())
         suffix = unicode(self.suffixLineEdit.text())

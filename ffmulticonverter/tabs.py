@@ -232,7 +232,7 @@ class AudioTab(Tab):
         """
         frequency, channels, bitrate = self.get_data()
         self.convert_audio(from_file, to_file, frequency, channels, bitrate)
-        return True if self.convert_prcs.poll() == 0 else False
+        return self.convert_prcs.poll() == 0
 
     def convert_audio(self, from_file, to_file, frequency='', channels='',
                                                                    bitrate=''):
@@ -471,7 +471,7 @@ class VideoTab(Tab):
                 frames = self.get_frames(to_file)
                 parent.refr_bars_signal.emit(frames, total_frames)
 
-        return True if self.convert_prcs.poll() == 0 else False
+        return self.convert_prcs.poll() == 0
 
     def convert_video(self, from_file, to_file, size='', aspect='',
                                  framerate='', bitrate=' -sameq ', test=False):
@@ -664,4 +664,4 @@ class DocumentTab(Tab):
         command = 'unoconv --format={0} {1}'.format(extension, _file)
         command = str(QString(command).toUtf8())
         command = shlex.split(command)
-        return True if subprocess.call(command) == 0 else False
+        return subprocess.call(command) == 0

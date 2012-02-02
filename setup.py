@@ -44,11 +44,11 @@ Graphical application that enables you to convert audio, video, image and
 document files between all popular formats using ffmpeg, unoconv, and PythonMagick.
 
 Features:
-* Conversions for several file formats.
-* Very easy to use interface.
-* Access to common conversion options.
-* Options for saving and naming files.
-* Recursive conversions.
+- Conversions for several file formats.
+- Very easy to use interface.
+- Access to common conversion options.
+- Options for saving and naming files.
+- Recursive conversions.
 
 Requires: python2, PyQt4, ffmpeg, PythonMagick, unoconv
 """

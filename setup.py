@@ -50,6 +50,6 @@ Features:
 * Options for saving and naming files.
 * Recursive conversions.
 
-Requires: python2, PyQt4, ffmpeg, PythonMagick, unoconv, Open/Libre office
+Requires: python2, PyQt4, ffmpeg, PythonMagick, unoconv
 """
 )

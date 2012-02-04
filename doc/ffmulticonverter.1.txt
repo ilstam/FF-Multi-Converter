@@ -1,0 +1,34 @@
+==================
+ ffmulticonverter
+==================
+
+-----------------------------------------------------------------------------
+GUI application which converts multiple file formats to different extensions
+-----------------------------------------------------------------------------
+
+:Author: Ilias Stamatis <stamatis.iliass@gmail.com>
+:Date:   February 03, 2012
+:Version: 1.3.0
+:Manual section: 1
+
+SYNOPSIS
+========
+
+``ffmulticonverter``
+
+DESCRIPTION
+===========
+
+FF Multi Converter is a simple graphical application which enables you to convert audio, video, image and document files
+between all popular formats, using and combining other programs. It uses ffmpeg for audio/video files, unoconv for document files
+and PythonMagick library for image file conversions. 
+
+OPTIONS
+=======
+
+Currently ffmulticonverter doesn't receive any options.
+
+HOMEPAGE
+========
+
+https://sites.google.com/site/ffmulticonverter/

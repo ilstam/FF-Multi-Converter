@@ -75,8 +75,13 @@ class Tab(QWidget):
             self.parent.setMinimumSize(685, 378)
             self.parent.resize(685, 378)
 
-    def create_more_layout(self, labels, widgets, *extralayout):
-        """Creates hidden widget"""
+    def create_hidden_layout(self, layout):
+        """Creates hidden widget
+
+        Creates a QFrame and a QPushButton.
+        Clicking the button for the first time the frame will be displayed and 
+        by clicking it again the fraim will be hidden.        
+        """
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
@@ -84,26 +89,15 @@ class Tab(QWidget):
         moreSizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.moreButton.setSizePolicy(moreSizePolicy)
         self.moreButton.setCheckable(True)
-        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), line,self.moreButton)
-
-        hlayout2 = QHBoxLayout()
-        for a, b in zip(labels, widgets):
-            text = a.text()
-            a.setText('<html><p align="center">{0}</p></html>'.format(text))
-            layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
-            hlayout2.addLayout(layout)
-
-        if extralayout:
-            for item in extralayout:
-                hlayout2 = pyqttools.add_to_layout(hlayout2, item)
-
+        hlayout = pyqttools.add_to_layout(QHBoxLayout(), line, self.moreButton)  
+        
         self.frame = QFrame()
-        self.frame.setLayout(hlayout2)
+        self.frame.setLayout(layout)
         self.frame.hide()
-        pyqttools.add_to_layout(self.layout, hlayout1, self.frame)
+        pyqttools.add_to_layout(self.layout, hlayout, self.frame)
 
         self.moreButton.toggled.connect(self.frame.setVisible)
-        self.moreButton.toggled.connect(self.resize_parent)
+        self.moreButton.toggled.connect(self.resize_parent)        
 
     def create_LineEdit(self, maxsize, validator, maxlength):
         """Creates a lineEdit
@@ -188,7 +182,14 @@ class AudioTab(Tab):
         labels = [freqLabel, chanLabel, bitrateLabel]
         widgets = [self.freqComboBox, chanlayout, self.bitrateComboBox]
 
-        self.create_more_layout(labels, widgets)
+        final_layout = QHBoxLayout()
+        for a, b in zip(labels, widgets):
+            text = a.text()
+            a.setText('<html><p align="center">{0}</p></html>'.format(text))
+            layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
+            final_layout.addLayout(layout)
+
+        self.create_hidden_layout(final_layout)
 
     def clear(self):
         """Clear values."""
@@ -285,7 +286,14 @@ class VideoTab(Tab):
         labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
         widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
 
-        self.create_more_layout(labels, widgets)
+        final_layout = QHBoxLayout()
+        for a, b in zip(labels, widgets):
+            text = a.text()
+            a.setText('<html><p align="center">{0}</p></html>'.format(text))
+            layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
+            final_layout.addLayout(layout)
+
+        self.create_hidden_layout(final_layout)
 
     def update_comboboxes(self):
         """Add items to comboboxes."""
@@ -506,6 +514,8 @@ class ImageTab(Tab):
         validator = QRegExpValidator(pattern, self)
 
         resizeLabel = QLabel(self.tr('Image Size:'))
+        resizeLabel.setText('<html><p align="center">{0}</p></html>'.format(
+                                                           resizeLabel.text()))
         self.widthLineEdit = self.create_LineEdit((50, 16777215), validator, 4)
         self.heightLineEdit = self.create_LineEdit((50, 16777215), validator,4)
         label = QLabel('x')
@@ -514,10 +524,11 @@ class ImageTab(Tab):
         spcr1 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         spcr2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        labels = [resizeLabel]
-        widgets = [layout1]
+        vlayout = pyqttools.add_to_layout(QVBoxLayout(), resizeLabel, layout1)
+        final_layout = pyqttools.add_to_layout(QHBoxLayout(), vlayout, spcr1, 
+                                                                         spcr2)
 
-        self.create_more_layout(labels, widgets, spcr1, spcr2)
+        self.create_hidden_layout(final_layout)
 
     def clear(self):
         """Clear values."""

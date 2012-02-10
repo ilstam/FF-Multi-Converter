@@ -67,9 +67,7 @@ class Progress(QDialog):
         self.running = True
 
         self._type = ''
-        ext_to = os.path.splitext(self.files[0].values()[0][1:-1])[-1][1:]
-        if ext_to in parent.video_tab.formats or \
-                                            ext_to in parent.audio_tab.formats:
+        if self.tab.name == 'Audio' or self.tab.name == 'Video':
             self._type = 'audiovideo'
 
         self.nowLabel = QLabel(self.tr('In progress: '))

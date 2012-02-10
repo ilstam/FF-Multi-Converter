@@ -534,8 +534,8 @@ class VideoTab(Tab):
         """
         total_frames = self.count_newfile_frames(from_file)
         size, aspect, framerate, videobitrate, frequency, channels, \
-                                                 audiobitrate = self.get_data()        
-        self.convert_video(from_file, to_file, size, aspect, framerate, 
+                                                 audiobitrate = self.get_data()
+        self.convert_video(from_file, to_file, size, aspect, framerate,
                                videobitrate, frequency, channels, audiobitrate)
         if total_frames == 0:
             self.convert_prcs.wait()
@@ -560,7 +560,7 @@ class VideoTab(Tab):
         assert to_file.startswith('"') and to_file.endswith('"')
 
         convert_cmd = 'ffmpeg -y -i {0}{1}{2}{3}{4}{5}{6}{7} {8}'.format(
-                   from_file, size, aspect, framerate, videobitrate, frequency, 
+                   from_file, size, aspect, framerate, videobitrate, frequency,
                                                channels, audiobitrate, to_file)
         convert_cmd = str(QString(convert_cmd).toUtf8())
         self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))

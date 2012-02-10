@@ -247,8 +247,8 @@ class MainWindow(QMainWindow):
         elif data == 'recursive' and self.folderCheckBox.isChecked():
             self.folderCheckBox.setChecked(False)
 
-        enable = bool(self.recursiveCheckBox.isChecked()
-                                            or self.folderCheckBox.isChecked())
+        enable = self.recursiveCheckBox.isChecked() or \
+                                                self.folderCheckBox.isChecked()
         self.extRadioButton.setEnabled(enable)
         if enable and self.current_tab().name == 'Documents':
             # set typeRadioButton disabled when type == document files,
@@ -373,7 +373,7 @@ class MainWindow(QMainWindow):
             files_to_conv = [self.fname]
 
         else:
-            recursive = bool(self.recursiveCheckBox.isChecked())
+            recursive = self.recursiveCheckBox.isChecked()
             includes = [ext] if self.extRadioButton.isChecked() else formats
             files_to_conv = path_builders.create_paths_list(_dir, recursive,
                                                              includes=includes)
@@ -527,7 +527,7 @@ def main():
     app.setApplicationName('FF Muli Converter')
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
 
-    locale = QLocale.system().name()
+    locale = ''#QLocale.system().name()
     qtTranslator = QTranslator()
     if qtTranslator.load('qt_' + locale, ':/'):
         app.installTranslator(qtTranslator)

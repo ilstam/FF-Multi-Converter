@@ -143,10 +143,9 @@ class Preferences(QDialog):
 
     def save_settings(self):
         """Defines settings before accept the dialog."""
-        saveto_output = bool(self.saveto_outRadioButton.isChecked())
-        rebuild_structure = bool(self.rebuildCheckBox.isChecked() and \
-                                              self.rebuildCheckBox.isEnabled())
-        overwrite_existing = bool(self.exst_overwriteRadioButton.isChecked())
+        saveto_output = self.saveto_outRadioButton.isChecked()
+        rebuild_structure = self.rebuildCheckBox.isChecked() and self.rebuildCheckBox.isEnabled()
+        overwrite_existing = self.exst_overwriteRadioButton.isChecked()
         default_output = unicode(self.defaultLineEdit.text())
         prefix = unicode(self.prefixLineEdit.text())
         suffix = unicode(self.suffixLineEdit.text())

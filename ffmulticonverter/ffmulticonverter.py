@@ -247,11 +247,10 @@ class MainWindow(QMainWindow):
         elif data == 'recursive' and self.folderCheckBox.isChecked():
             self.folderCheckBox.setChecked(False)
 
-        index = self.TabWidget.currentIndex()
         enable = bool(self.recursiveCheckBox.isChecked()
                                             or self.folderCheckBox.isChecked())
         self.extRadioButton.setEnabled(enable)
-        if enable and index == 3:
+        if enable and self.current_tab().name == 'Documents':
             # set typeRadioButton disabled when type == document files,
             # because it is not possible to convert every file format to any
             # other file format.
@@ -346,13 +345,12 @@ class MainWindow(QMainWindow):
 
         Returns: list
         """
-        index = self.TabWidget.currentIndex()
         tab = self.current_tab()
-        if index == 3:
+        if tab.name == 'Documents':
             type_formats = tab.formats.keys()
         else:
             type_formats = tab.formats[:]
-            if index == 2:
+            if tab.name == 'Images':
                 type_formats.extend(self.image_tab.extra_img_formats_list)
         return ['.' + i for i in type_formats]
 
@@ -404,8 +402,8 @@ class MainWindow(QMainWindow):
         """
         _file = os.path.split(self.fname)[-1]
         real_ext = os.path.splitext(_file)[-1][1:]
-        index = self.TabWidget.currentIndex()
         tab = self.current_tab()
+        name = tab.name
 
         extension_error = False
         if not real_ext == ext_from:
@@ -432,19 +430,15 @@ class MainWindow(QMainWindow):
             elif not real_ext == ext_from and extension_error:
                 raise ValidationError(self.tr(
                                 "File' s extensions is not %1.").arg(ext_from))
-            elif (index == 0 or index == 1) and not self.ffmpeg:
+            elif (name == 'Audio' or name == 'Video') and not self.ffmpeg:
                 raise ValidationError(self.tr(
                     'Program FFmpeg is not installed.\nYou will not be able '
                     'to convert video and audio files until you install it.'))
-            elif index == 2 and not self.pmagick:
+            elif name == 'Images' and not self.pmagick:
                 raise ValidationError(self.tr(
                     'PythonMagick is not installed.\nYou will not be able to '
                     'convert image files until you install it.'))
-            elif index == 3 and not (self.openoffice or self.libreoffice):
-                raise ValidationError(self.tr(
-                    'Open/Libre office suite is not installed.\nYou will not '
-                    'be able to convert document files until you install it.'))
-            elif index == 3 and not self.unoconv:
+            elif name == 'Documents' == 3 and not self.unoconv:
                 raise ValidationError(self.tr(
                     'Program unocov is not installed.\nYou will not be able '
                     'to convert document files until you install it.'))
@@ -514,16 +508,6 @@ class MainWindow(QMainWindow):
         else:
             self.unoconv = False
             missing.append('unoconv')
-        if self.is_installed('openoffice.org'):
-            self.openoffice = True
-        else:
-            self.openoffice = False
-        if self.is_installed('libreoffice'):
-            self.libreoffice = True
-        else:
-            self.libreoffice = False
-        if not self.openoffice and not self.libreoffice:
-            missing.append('Open/Libre Office')
         try:
             PythonMagick # PythonMagick has imported earlier
             self.pmagick = True
@@ -543,7 +527,7 @@ def main():
     app.setApplicationName('FF Muli Converter')
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
 
-    locale = ''#QLocale.system().name()
+    locale = QLocale.system().name()
     qtTranslator = QTranslator()
     if qtTranslator.load('qt_' + locale, ':/'):
         app.installTranslator(qtTranslator)

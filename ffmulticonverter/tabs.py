@@ -70,6 +70,7 @@ class Tab(QWidget):
     def resize_parent(self):
         """Resizes MainWindow"""
         if self.frame.isVisible():
+            self.parent.setMinimumSize(685, 453)
             self.parent.resize(685, 453)
         else:
             self.parent.setMinimumSize(685, 378)
@@ -79,8 +80,8 @@ class Tab(QWidget):
         """Creates hidden widget
 
         Creates a QFrame and a QPushButton.
-        Clicking the button for the first time the frame will be displayed and 
-        by clicking it again the fraim will be hidden.        
+        Clicking the button for the first time the frame will be displayed and
+        by clicking it again the fraim will be hidden.
         """
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
@@ -89,15 +90,15 @@ class Tab(QWidget):
         moreSizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.moreButton.setSizePolicy(moreSizePolicy)
         self.moreButton.setCheckable(True)
-        hlayout = pyqttools.add_to_layout(QHBoxLayout(), line, self.moreButton)  
-        
+        hlayout = pyqttools.add_to_layout(QHBoxLayout(), line, self.moreButton)
+
         self.frame = QFrame()
         self.frame.setLayout(layout)
         self.frame.hide()
         pyqttools.add_to_layout(self.layout, hlayout, self.frame)
 
         self.moreButton.toggled.connect(self.frame.setVisible)
-        self.moreButton.toggled.connect(self.resize_parent)        
+        self.moreButton.toggled.connect(self.resize_parent)
 
     def create_LineEdit(self, maxsize, validator, maxlength):
         """Creates a lineEdit
@@ -525,7 +526,7 @@ class ImageTab(Tab):
         spcr2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         vlayout = pyqttools.add_to_layout(QVBoxLayout(), resizeLabel, layout1)
-        final_layout = pyqttools.add_to_layout(QHBoxLayout(), vlayout, spcr1, 
+        final_layout = pyqttools.add_to_layout(QHBoxLayout(), vlayout, spcr1,
                                                                          spcr2)
 
         self.create_hidden_layout(final_layout)

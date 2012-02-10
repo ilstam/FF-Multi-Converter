@@ -3,22 +3,17 @@
 <context>
     <name>AudioTab</name>
     <message>
-        <location filename="../tabs.py" line="164"/>
-        <source>No Change</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tabs.py" line="169"/>
+        <location filename="../tabs.py" line="162"/>
         <source>Frequency (Hz):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="170"/>
+        <location filename="../tabs.py" line="163"/>
         <source>Channels:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="171"/>
+        <location filename="../tabs.py" line="164"/>
         <source>Bitrate (kbps):</source>
         <translation type="unfinished"></translation>
     </message>
@@ -26,17 +21,17 @@
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../tabs.py" line="540"/>
+        <location filename="../tabs.py" line="621"/>
         <source>The size LineEdit may not be empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="549"/>
+        <location filename="../tabs.py" line="630"/>
         <source>Error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="505"/>
+        <location filename="../tabs.py" line="583"/>
         <source>Image Size:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -146,7 +141,7 @@ recursively</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="486"/>
+        <location filename="../ffmulticonverter.py" line="479"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -171,117 +166,111 @@ recursively</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="299"/>
+        <location filename="../ffmulticonverter.py" line="298"/>
         <source>All Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="299"/>
+        <location filename="../ffmulticonverter.py" line="298"/>
         <source>Audio Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="300"/>
+        <location filename="../ffmulticonverter.py" line="299"/>
         <source>Video Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="300"/>
+        <location filename="../ffmulticonverter.py" line="299"/>
         <source>Image Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="301"/>
+        <location filename="../ffmulticonverter.py" line="300"/>
         <source>Document Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="308"/>
+        <location filename="../ffmulticonverter.py" line="307"/>
         <source>Choose File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="320"/>
+        <location filename="../ffmulticonverter.py" line="319"/>
         <source>Choose output destination</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="327"/>
+        <location filename="../ffmulticonverter.py" line="326"/>
         <source>Save Location!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="327"/>
+        <location filename="../ffmulticonverter.py" line="326"/>
         <source>You have chosen to save every file to its original folder.
 You can change this from preferences.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="422"/>
+        <location filename="../ffmulticonverter.py" line="419"/>
         <source>You must choose a file to convert!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="425"/>
+        <location filename="../ffmulticonverter.py" line="422"/>
         <source>The selected file does not exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="428"/>
+        <location filename="../ffmulticonverter.py" line="425"/>
         <source>You must choose an output folder!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="431"/>
+        <location filename="../ffmulticonverter.py" line="428"/>
         <source>Output folder does not exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="434"/>
+        <location filename="../ffmulticonverter.py" line="431"/>
         <source>File&apos; s extensions is not %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="437"/>
+        <location filename="../ffmulticonverter.py" line="434"/>
         <source>Program FFmpeg is not installed.
 You will not be able to convert video and audio files until you install it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="441"/>
+        <location filename="../ffmulticonverter.py" line="438"/>
         <source>PythonMagick is not installed.
 You will not be able to convert image files until you install it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="445"/>
-        <source>Open/Libre office suite is not installed.
-You will not be able to convert document files until you install it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter.py" line="449"/>
+        <location filename="../ffmulticonverter.py" line="442"/>
         <source>Program unocov is not installed.
 You will not be able to convert document files until you install it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="457"/>
+        <location filename="../ffmulticonverter.py" line="450"/>
         <source>Error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="485"/>
+        <location filename="../ffmulticonverter.py" line="478"/>
         <source>Convert among several file types to other extensions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="535"/>
+        <location filename="../ffmulticonverter.py" line="518"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter.py" line="536"/>
+        <location filename="../ffmulticonverter.py" line="519"/>
         <source>Missing dependencies:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -364,52 +353,52 @@ its original folder</source>
 <context>
     <name>Progress</name>
     <message>
-        <location filename="../progress.py" line="74"/>
+        <location filename="../progress.py" line="73"/>
         <source>In progress: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../progress.py" line="75"/>
+        <location filename="../progress.py" line="74"/>
         <source>Total:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../progress.py" line="80"/>
+        <location filename="../progress.py" line="79"/>
         <source>Shutdown after conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../progress.py" line="81"/>
+        <location filename="../progress.py" line="80"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../progress.py" line="125"/>
+        <location filename="../progress.py" line="124"/>
         <source>Report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../progress.py" line="125"/>
+        <location filename="../progress.py" line="124"/>
         <source>Converted: %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../progress.py" line="138"/>
+        <location filename="../progress.py" line="137"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../progress.py" line="100"/>
+        <location filename="../progress.py" line="99"/>
         <source>Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../progress.py" line="138"/>
+        <location filename="../progress.py" line="137"/>
         <source>Cancel Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../progress.py" line="163"/>
+        <location filename="../progress.py" line="162"/>
         <source>In progress:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -417,66 +406,86 @@ its original folder</source>
 <context>
     <name>Tab</name>
     <message>
-        <location filename="../tabs.py" line="55"/>
+        <location filename="../tabs.py" line="58"/>
         <source>Convert from:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="56"/>
+        <location filename="../tabs.py" line="59"/>
         <source>Convert to:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="84"/>
+        <location filename="../tabs.py" line="93"/>
         <source>More</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tabs.py" line="53"/>
+        <source>No Change</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>VideoTab</name>
     <message>
-        <location filename="../tabs.py" line="257"/>
+        <location filename="../tabs.py" line="268"/>
         <source>Video Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="258"/>
+        <location filename="../tabs.py" line="269"/>
         <source>Aspect:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="259"/>
+        <location filename="../tabs.py" line="270"/>
         <source>Frame Rate (fps):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="260"/>
-        <source>Bitrate (kbps):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../tabs.py" line="313"/>
+        <location filename="../tabs.py" line="376"/>
         <source>The size LineEdit may not be empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="321"/>
+        <location filename="../tabs.py" line="384"/>
         <source>The size LineEdit must be at least 50.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="324"/>
+        <location filename="../tabs.py" line="387"/>
         <source>The aspect LineEdit may not be empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="340"/>
+        <location filename="../tabs.py" line="403"/>
         <source>Error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tabs.py" line="282"/>
+        <location filename="../tabs.py" line="336"/>
         <source>(Audio only)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tabs.py" line="271"/>
+        <source>Video Bitrate (kbps):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tabs.py" line="296"/>
+        <source>Frequency (Hz):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tabs.py" line="297"/>
+        <source>Channels:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tabs.py" line="298"/>
+        <source>Audio Bitrate (kbps):</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

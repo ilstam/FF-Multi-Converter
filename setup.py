@@ -5,8 +5,9 @@
 import ffmulticonverter
 from distutils.core import setup
 
-data_files = [('share/icons/', ['ffmulticonverter/data/ffmulticonverter.png']),
-              ('share/applications/', ['ffmulticonverter/data/FF-Multi-Converter.desktop'])]
+data_files = [('share/applications/', ['data/FF-Multi-Converter.desktop']),
+              ('share/icons/', ['data/ffmulticonverter.png']),
+              ('share/man/man1', ['doc/ffmulticonverter.1'])]
 
 setup(
     name = 'ffmulticonverter',
@@ -40,15 +41,15 @@ setup(
 FF Multi Converter
 -------------------
 
-Graphical application that enables you to convert audio, video, image and
+Graphical application which enables you to convert audio, video, image and
 document files between all popular formats using ffmpeg, unoconv, and PythonMagick.
 
 Features:
-- Conversions for several file formats.
-- Very easy to use interface.
-- Access to common conversion options.
-- Options for saving and naming files.
-- Recursive conversions.
+ - Conversions for several file formats.
+ - Very easy to use interface.
+ - Access to common conversion options.
+ - Options for saving and naming files.
+ - Recursive conversions.
 
 Requires: python2, PyQt4, ffmpeg, PythonMagick, unoconv
 """

@@ -50,6 +50,10 @@ class Tab(QWidget):
     def __init__(self, parent):
         super(Tab, self).__init__(parent)
         self.parent = parent
+        nochange = self.tr('No Change')
+        self.frequency_values = [nochange, '22050', '44100', '48000']
+        self.bitrate_values = [nochange, '32', '96', '112', '128', '160',
+                                                           '192', '256', '320']
 
         label1 = QLabel(QApplication.translate('Tab', 'Convert from:'))
         label2 = QLabel(QApplication.translate('Tab', 'Convert to:'))
@@ -70,11 +74,11 @@ class Tab(QWidget):
     def resize_parent(self):
         """Resizes MainWindow"""
         if self.frame.isVisible():
-            self.parent.setMinimumSize(685, 453)
-            self.parent.resize(685, 453)
+            height = 520 if self.parent.current_tab().name == 'Video' else 453
         else:
-            self.parent.setMinimumSize(685, 378)
-            self.parent.resize(685, 378)
+            height = 378
+        self.parent.setMinimumSize(700, height)
+        self.parent.resize(700, height)
 
     def create_hidden_layout(self, layout):
         """Creates hidden widget
@@ -152,13 +156,9 @@ class Tab(QWidget):
 class AudioTab(Tab):
     """The responsible tab for audio conversions."""
     def __init__(self, parent):
+        self.name = 'Audio'
         self.formats = data.audio_formats
         super(AudioTab, self).__init__(parent)
-
-        nochange = self.tr('No Change')
-        self.frequency_values = [nochange, '22050', '44100', '48000']
-        self.bitrate_values = [nochange, '32', '96', '112', '128', '160',
-                                                           '192', '256', '320']
 
         freqLabel = QLabel(self.tr('Frequency (Hz):'))
         chanLabel = QLabel(self.tr('Channels:'))
@@ -259,6 +259,7 @@ class AudioTab(Tab):
 class VideoTab(Tab):
     """The responsible tab for video conversions."""
     def __init__(self, parent=None):
+        self.name = 'Video'
         self.formats = data.video_formats
         self.vid_to_aud = data.vid_to_aud
         super(VideoTab, self).__init__(parent)
@@ -269,7 +270,7 @@ class VideoTab(Tab):
         sizeLabel = QLabel(self.tr('Video Size:'))
         aspectLabel = QLabel(self.tr('Aspect:'))
         frameLabel = QLabel(self.tr('Frame Rate (fps):'))
-        bitrateLabel = QLabel(self.tr('Bitrate (kbps):'))
+        bitrateLabel = QLabel(self.tr('Video Bitrate (kbps):'))
 
         self.widthLineEdit = self.create_LineEdit((50, 16777215), validator, 4)
         self.heightLineEdit = self.create_LineEdit((50, 16777215), validator,4)
@@ -287,13 +288,49 @@ class VideoTab(Tab):
         labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
         widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
 
-        final_layout = QHBoxLayout()
+        videosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
             text = a.text()
             a.setText('<html><p align="center">{0}</p></html>'.format(text))
             layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
-            final_layout.addLayout(layout)
+            videosettings_layout.addLayout(layout)
+            
+        freqLabel = QLabel(self.tr('Frequency (Hz):'))
+        chanLabel = QLabel(self.tr('Channels:'))
+        bitrateLabel = QLabel(self.tr('Audio Bitrate (kbps):'))
 
+        self.freqComboBox = QComboBox()
+        self.freqComboBox.addItems(self.frequency_values)
+        self.chan1RadioButton = QRadioButton('1')
+        self.chan1RadioButton.setMaximumSize(QSize(51, 16777215))
+        self.chan2RadioButton = QRadioButton('2')
+        self.chan2RadioButton.setMaximumSize(QSize(51, 16777215))
+        self.group = QButtonGroup()
+        self.group.addButton(self.chan1RadioButton)
+        self.group.addButton(self.chan2RadioButton)
+        spcr1 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
+        spcr2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
+        chanlayout = pyqttools.add_to_layout(QHBoxLayout(), spcr1,
+                           self.chan1RadioButton, self.chan2RadioButton, spcr2)
+        self.bitrateComboBox = QComboBox()
+        self.bitrateComboBox.addItems(self.bitrate_values)
+
+        labels = [freqLabel, chanLabel, bitrateLabel]
+        widgets = [self.freqComboBox, chanlayout, self.bitrateComboBox]  
+
+        audiosettings_layout = QHBoxLayout()
+        for a, b in zip(labels, widgets):
+            text = a.text()
+            a.setText('<html><p align="center">{0}</p></html>'.format(text))
+            layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
+            audiosettings_layout.addLayout(layout)          
+
+        line = QFrame()
+        line.setFrameShape(QFrame.HLine)
+        line.setFrameShadow(QFrame.Sunken)
+
+        final_layout = pyqttools.add_to_layout(QVBoxLayout(), 
+                              videosettings_layout, line, audiosettings_layout)
         self.create_hidden_layout(final_layout)
 
     def update_comboboxes(self):
@@ -504,6 +541,7 @@ class VideoTab(Tab):
 class ImageTab(Tab):
     """The responsible tab for image conversions."""
     def __init__(self, parent):
+        self.name = 'Images'
         self.formats = data.image_formats
         self.extra_img_formats_dict = data.extra_img_formats_dict
         self.extra_img_formats_list = []
@@ -618,6 +656,7 @@ class ImageTab(Tab):
 class DocumentTab(Tab):
     """The responsible tab for document conversions."""
     def __init__(self, parent):
+        self.name = 'Documents'
         self.formats = data.document_formats
         super(DocumentTab, self).__init__(parent)
 

@@ -133,8 +133,7 @@ class Tab(QWidget):
                 if _format == ext:
                     i = index
         except ValueError:
-            index = self.parent.TabWidget.currentIndex()
-            if index == 2:
+            if self.parent.current_tab().name == 'Images':
                 if ext in self.extra_img_formats_list:
                     for x in self.extra_img_formats_dict:
                         for y in self.extra_img_formats_dict[x]:
@@ -294,7 +293,7 @@ class VideoTab(Tab):
             a.setText('<html><p align="center">{0}</p></html>'.format(text))
             layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
             videosettings_layout.addLayout(layout)
-            
+
         freqLabel = QLabel(self.tr('Frequency (Hz):'))
         chanLabel = QLabel(self.tr('Channels:'))
         bitrateLabel = QLabel(self.tr('Audio Bitrate (kbps):'))
@@ -316,20 +315,20 @@ class VideoTab(Tab):
         self.bitrateComboBox.addItems(self.bitrate_values)
 
         labels = [freqLabel, chanLabel, bitrateLabel]
-        widgets = [self.freqComboBox, chanlayout, self.bitrateComboBox]  
+        widgets = [self.freqComboBox, chanlayout, self.bitrateComboBox]
 
         audiosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
             text = a.text()
             a.setText('<html><p align="center">{0}</p></html>'.format(text))
             layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
-            audiosettings_layout.addLayout(layout)          
+            audiosettings_layout.addLayout(layout)
 
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
 
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(), 
+        final_layout = pyqttools.add_to_layout(QVBoxLayout(),
                               videosettings_layout, line, audiosettings_layout)
         self.create_hidden_layout(final_layout)
 
@@ -347,6 +346,15 @@ class VideoTab(Tab):
                     self.frameLineEdit, self.bitrateLineEdit]
         for i in lineEdits:
             i.clear()
+
+        self.freqComboBox.setCurrentIndex(0)
+        self.bitrateComboBox.setCurrentIndex(0)
+        self.group.setExclusive(False)
+        self.chan1RadioButton.setChecked(False)
+        self.chan2RadioButton.setChecked(False)
+        self.group.setExclusive(True)
+        # setExclusive(False) in order to be able to uncheck checkboxes and
+        # then setExclusive(True) so only one radio button can be set
 
     def ok_to_continue(self):
         """Checks if everything is ok with videotab to continue with conversion

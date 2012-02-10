@@ -21,7 +21,7 @@ setup(
     license = 'GNU GPL3',
     platforms = 'Linux',
     url = 'https://sites.google.com/site/ffmulticonverter/',
-    download_url = 'https://sites.google.com/site/ffmulticonverter/download',
+    download_url = 'https://github.com/Ilias95/FF-Multi-Converter/downloads',
     keywords = ['convert', 'file format', 'extension', 'audio', 'video',
                                                          'images', 'document'],
     classifiers = [

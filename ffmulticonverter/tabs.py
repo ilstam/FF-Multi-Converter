@@ -235,8 +235,7 @@ class AudioTab(Tab):
         self.convert_audio(from_file, to_file, frequency, channels, bitrate)
         return self.convert_prcs.poll() == 0
 
-    def convert_audio(self, from_file, to_file, frequency='', channels='',
-                                                                   bitrate=''):
+    def convert_audio(self, from_file, to_file, frequency, channels, bitrate):
         """Converts the file format of an audio via ffmpeg.
 
         Keyword arguments:
@@ -432,11 +431,30 @@ class VideoTab(Tab):
             framerate = ' -r {0} '.format(self.frameLineEdit.text())
 
         if not self.bitrateLineEdit.text():
-            bitrate = ' -sameq '
+            videobitrate = ' -sameq '
         else:
-            bitrate = ' -b {0}k '.format(self.bitrateLineEdit.text())
+            videobitrate = ' -b {0}k '.format(self.bitrateLineEdit.text())
 
-        return size, aspect, framerate, bitrate
+        if self.freqComboBox.currentIndex() == 0:
+            frequency = ''
+        else:
+            frequency = ' -ar {0} '.format(self.freqComboBox.currentText())
+
+        if self.chan1RadioButton.isChecked():
+            channels = ' -ac 1 '
+        elif self.chan2RadioButton.isChecked():
+            channels = ' -ac 2 '
+        else:
+            channels = ''
+
+        if self.bitrateComboBox.currentIndex() == 0:
+            audiobitrate = ''
+        else:
+            audiobitrate = ' -ab {0}k '.format(
+                                            self.bitrateComboBox.currentText())
+
+        return size, aspect, framerate, videobitrate, frequency, channels, \
+                                                                   audiobitrate
 
     def count_newfile_frames(self, _file):
         """Counts the number of frames of the new file.
@@ -515,8 +533,10 @@ class VideoTab(Tab):
         Returns: boolean
         """
         total_frames = self.count_newfile_frames(from_file)
-        size, aspect, framerate, bitrate = self.get_data()
-        self.convert_video(from_file, to_file, size, aspect, framerate,bitrate)
+        size, aspect, framerate, videobitrate, frequency, channels, \
+                                                 audiobitrate = self.get_data()        
+        self.convert_video(from_file, to_file, size, aspect, framerate, 
+                               videobitrate, frequency, channels, audiobitrate)
         if total_frames == 0:
             self.convert_prcs.wait()
         else:
@@ -527,21 +547,21 @@ class VideoTab(Tab):
 
         return self.convert_prcs.poll() == 0
 
-    def convert_video(self, from_file, to_file, size='', aspect='',
-                                 framerate='', bitrate=' -sameq ', test=False):
+    def convert_video(self, from_file, to_file, size, aspect, framerate,
+                              videobitrate, frequency, channels, audiobitrate):
         """Converts the file format of a video via ffmpeg.
 
         Keyword arguments:
         from_file -- the file to be converted
         to_file   -- the new file
-        test      -- Boolean, this is for testing purposes
         """
         assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
         assert from_file.startswith('"') and from_file.endswith('"')
         assert to_file.startswith('"') and to_file.endswith('"')
 
-        convert_cmd = 'ffmpeg -y -i {0}{1}{2}{3}{4} {5}'.format(
-                          from_file, size, aspect, framerate, bitrate, to_file)
+        convert_cmd = 'ffmpeg -y -i {0}{1}{2}{3}{4}{5}{6}{7} {8}'.format(
+                   from_file, size, aspect, framerate, videobitrate, frequency, 
+                                               channels, audiobitrate, to_file)
         convert_cmd = str(QString(convert_cmd).toUtf8())
         self.convert_prcs = subprocess.Popen(shlex.split(convert_cmd))
 

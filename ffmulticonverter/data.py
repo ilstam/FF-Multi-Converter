@@ -8,9 +8,9 @@ audio_formats = ['aac', 'ac3', 'afc', 'aifc', 'aiff', 'amr', 'asf', 'au',
                  'mov', 'mp2', 'mp3', 'mp4', 'mpeg', 'ogg', 'ra', 'rm', 'spx',
                  'vob', 'wav', 'webm', 'wma']
 
-video_formats = ['asf', 'avi', 'dvd', 'flv', 'm1v', 'm2t', 'm2v', 'mkv', 'mov',
-                 'mp4', 'mpeg', 'mpg', 'ogg', 'ogv', 'psp', 'rm', 'ts', 'vob',
-                 'webm', 'wma', 'wmv']
+video_formats = ['asf', 'avi', 'dvd', 'flv', 'm2t', 'mkv', 'mov', 'mp4',
+                 'mpeg', 'mpg', 'ogg', 'ogv', 'psp', 'rm', 'ts', 'vob', 'webm',
+                 'wmv']
 
 vid_to_aud = ['aac', 'ac3', 'aiff', 'au', 'flac', 'mp2' , 'wav']
 

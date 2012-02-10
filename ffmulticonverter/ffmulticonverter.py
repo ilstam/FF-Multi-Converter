@@ -74,10 +74,10 @@ class MainWindow(QMainWindow):
         self.document_tab = tabs.DocumentTab(self)
 
         self.tabs = [self.audio_tab, self.video_tab, self.image_tab,
-                     self.document_tab]
+                                                             self.document_tab]
         tab_names = [self.tr('Audio'), self.tr('Videos'), self.tr('Images'),
-                     self.tr('Documents')]
-        self.TabWidget  = QTabWidget()
+                                                          self.tr('Documents')]
+        self.TabWidget = QTabWidget()
         for num, tab in enumerate(tab_names):
             self.TabWidget.addTab(self.tabs[num], tab)
         self.TabWidget.setCurrentIndex(0)
@@ -144,7 +144,7 @@ class MainWindow(QMainWindow):
         self.toToolButton.clicked.connect(self.open_dir)
         self.convertPushButton.clicked.connect(convertAction.triggered)
 
-        self.resize(685, 378)
+        self.resize(700, 378)
         self.setWindowTitle('FF Multi Converter')
 
         QTimer.singleShot(0, self.check_for_dependencies)
@@ -543,7 +543,7 @@ def main():
     app.setApplicationName('FF Muli Converter')
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
 
-    locale = QLocale.system().name()
+    locale = ''#QLocale.system().name()
     qtTranslator = QTranslator()
     if qtTranslator.load('qt_' + locale, ':/'):
         app.installTranslator(qtTranslator)

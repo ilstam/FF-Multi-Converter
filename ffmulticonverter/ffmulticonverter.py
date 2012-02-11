@@ -527,7 +527,7 @@ def main():
     app.setApplicationName('FF Muli Converter')
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
 
-    locale = ''#QLocale.system().name()
+    locale = QLocale.system().name()
     qtTranslator = QTranslator()
     if qtTranslator.load('qt_' + locale, ':/'):
         app.installTranslator(qtTranslator)

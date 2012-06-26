@@ -16,9 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from PyQt4.QtCore import QTimer
 from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QGridLayout,
                   QSpacerItem, QLineEdit, QLabel, QPushButton, QListWidget,
-                  QListWidgetItem, QDialogButtonBox, QMessageBox, QSizePolicy)
+                  QListWidgetItem, QDialogButtonBox, QMessageBox, QSizePolicy,
+                  QFileDialog)
 
 import os
 import sys
@@ -40,8 +42,8 @@ class ShowPresets(QDialog):
     def __init__(self, parent=None):
         super(ShowPresets, self).__init__(parent)
         self.original_presets_file = '/usr/share/ffmulticonverter/presets.xml'
-        config_folder = os.getenv('HOME') + '/.config/ffmulticonverter/'
-        self.current_presets_file = config_folder + 'presets.xml'
+        self.config_folder = os.getenv('HOME') + '/.config/ffmulticonverter/'
+        self.current_presets_file = self.config_folder + 'presets.xml'
 
         self.presListWidget = QListWidget()
         labelLabel = QLabel(self.tr('Preset label'))
@@ -81,20 +83,23 @@ class ShowPresets(QDialog):
         self.presListWidget.currentRowChanged.connect(self.show_preset)
         addButton.clicked.connect(self.add_preset)
         self.deleteButton.clicked.connect(self.delete_preset)
+        self.delete_allButton.clicked.connect(self.delete_all_presets)
         self.editButton.clicked.connect(self.edit_preset)
 
         self.resize(410, 410)
         self.setWindowTitle(self.tr('Edit Presets'))
+        
+        QTimer.singleShot(0, self.load_xml)
+        QTimer.singleShot(0, self.fill_LineEdit)
 
+    def load_xml(self):
         try:
             self.tree = etree.parse(self.current_presets_file)
         except IOError:
             self.tree = etree.parse(self.original_presets_file)
-            if not os.path.exists(config_folder):
-                os.makedirs(config_folder)
+            if not os.path.exists(self.config_folder):
+                os.makedirs(self.config_folder)
         self.root = self.tree.getroot()
-
-        self.fill_LineEdit()
 
     def set_buttons_clear_lineEdits(self):
         enable = bool(self.presListWidget)
@@ -160,6 +165,15 @@ class ShowPresets(QDialog):
             self.save_tree()
             self.fill_LineEdit()
 
+    def delete_all_presets(self):
+        reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
+            'Delete Preset'), 'Are you sure that you want to delete all '
+            'presets?', QMessageBox.Yes|QMessageBox.Cancel)        
+        if reply == QMessageBox.Yes:        
+            self.root.clear()
+            self.save_tree()
+            self.fill_LineEdit()            
+
     def edit_preset(self):
         elem = self.presListWidget.currentItem().xml_element
         dialog = AddorEditPreset(elem, True)
@@ -178,7 +192,44 @@ class ShowPresets(QDialog):
                 etree.ElementTree(self.root).write(_file)
             except:
                 pass
-
+    
+    def import_presets(self):
+        title = 'FF Multi Converter - Import'
+        reply = QMessageBox.question(self, title, 'All current presets will be '
+                'deleted.\nAre you sure that you want to continue?',
+                QMessageBox.Yes|QMessageBox.Cancel)
+        if reply == QMessageBox.Yes:
+            fname = QFileDialog.getOpenFileName(self, title)
+            if fname:
+                msg = 'Succesful import!'
+                try:
+                    self.tree = etree.parse(fname)        
+                except:
+                    msg = 'Import failed!'    
+                else:
+                    self.root = self.tree.getroot()                                
+                    self.save_tree()                
+                QMessageBox.information(self, title, msg)                
+    
+    def export_presets(self):
+        fname = QFileDialog.getSaveFileName(self,'FF Multi Converter - Export '
+                                                              'presets','.xml')
+        if fname:
+            self.load_xml()
+            with open(fname, 'w') as _file:
+                try:
+                    etree.ElementTree(self.root).write(_file)
+                except:
+                    pass                                                   
+    
+    def reset(self):
+        reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
+            'Delete Preset'), 'Are you sure that you want to restore the '
+            'default presets?', QMessageBox.Yes|QMessageBox.Cancel)
+        if reply == QMessageBox.Yes:        
+            if os.path.exists(self.current_presets_file):
+                os.remove(self.current_presets_file)
+                
 
 class AddorEditPreset(QDialog):
     def __init__(self, xml_element, edit=False, parent=None):

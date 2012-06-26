@@ -116,8 +116,8 @@ class MainWindow(QMainWindow):
                                self.tr('Convert files'), self.start_conversion)
         quitAction = c_act(self, self.tr('Quit'), 'Ctrl+Q', None, self.tr(
                                                            'Quit'), self.close)
-        presetsAction = c_act(self, self.tr('Edit Presets'), 'Ctrl+P', None,
-                                         self.tr('Edit Presets'), self.presets)
+        edit_presetsAction = c_act(self, self.tr('Edit Presets'), 'Ctrl+P',
+                                   None, self.tr('Edit Presets'), self.presets)
         importAction = c_act(self, self.tr('Import'), None, None,
                                 self.tr('Import presets'), self.import_presets)
         exportAction = c_act(self, self.tr('Export'), None, None,
@@ -133,11 +133,11 @@ class MainWindow(QMainWindow):
 
         fileMenu = self.menuBar().addMenu(self.tr('File'))
         editMenu = self.menuBar().addMenu(self.tr('Edit'))
-        presetsMenu = editMenu.addMenu(self.tr('Presets'))
+        presetsMenu = self.menuBar().addMenu(self.tr('Presets'))
         helpMenu = self.menuBar().addMenu(self.tr('Help'))
         pyqttools.add_actions(fileMenu, [openAction, convertAction, None,
                                                                    quitAction])
-        pyqttools.add_actions(presetsMenu, [presetsAction, importAction,
+        pyqttools.add_actions(presetsMenu, [edit_presetsAction, importAction,
                                                     exportAction, resetAction])
         pyqttools.add_actions(editMenu, [clearAction, None, preferencesAction])
         pyqttools.add_actions(helpMenu, [aboutAction])

@@ -20,7 +20,9 @@
 Some useful functions to automate some parts of ui creation.
 """
 
-from PyQt4.QtGui import QWidget, QLayout, QSpacerItem
+from PyQt4.QtCore import QSize, Qt
+from PyQt4.QtGui import (QWidget, QLayout, QSpacerItem, QAction, QMenu, 
+                        QLineEdit)
 
 def add_to_layout(layout, *items):
     """Add items to QVBox and QHBox layouts easily.
@@ -62,3 +64,72 @@ def add_to_grid(layout, *items):
             else:
                 raise TypeError("Argument of wrong type!")
     return layout
+
+def create_action(parent, text, shortcut=None, icon=None, tip=None,
+                  triggered=None, toggled=None, context=Qt.WindowShortcut):
+    """Creates a QAction"""
+    action = QAction(text, parent)
+    if triggered is not None:
+        action.triggered.connect(triggered)
+    if toggled is not None:
+        action.toggled.connect(toggled)
+        action.setCheckable(True)
+    if icon is not None:
+        action.setIcon( icon )
+    if shortcut is not None:
+        action.setShortcut(shortcut)
+    if tip is not None:
+        action.setToolTip(tip)
+        action.setStatusTip(tip)
+    action.setShortcutContext(context)
+    return action
+
+def add_actions(target, actions, insert_before=None):
+    """Adds actions to menus.
+
+    Keyword arguments:
+    target -- menu to add action
+    actions -- list with actions to add
+    """
+    previous_action = None
+    target_actions = list(target.actions())
+    if target_actions:
+        previous_action = target_actions[-1]
+        if previous_action.isSeparator():
+            previous_action = None
+    for action in actions:
+        if (action is None) and (previous_action is not None):
+            if insert_before is None:
+                target.addSeparator()
+            else:
+                target.insertSeparator(insert_before)
+        elif isinstance(action, QMenu):
+            if insert_before is None:
+                target.addMenu(action)
+            else:
+                target.insertMenu(insert_before, action)
+        elif isinstance(action, QAction):
+            if insert_before is None:
+                target.addAction(action)
+            else:
+                target.insertAction(insert_before, action)
+        previous_action = action
+
+def create_LineEdit(maxsize, validator, maxlength):
+    """Creates a lineEdit
+
+    Keyword arguments:
+    maxsize -- maximum size
+    validator -- a QValidator
+    maxlength - maximum length
+
+    Returns: QLineEdit
+    """
+    lineEdit = QLineEdit()
+    if maxsize is not None:
+        lineEdit.setMaximumSize(QSize(maxsize[0], maxsize[1]))
+    if validator is not None:
+        lineEdit.setValidator(validator)
+    if maxlength is not None:
+        lineEdit.setMaxLength(maxlength)
+    return lineEdit

@@ -33,6 +33,7 @@ import os
 #import time
 
 import pyqttools
+import presets_dlgs
 
 #try:
 #    import PythonMagick
@@ -157,6 +158,7 @@ class AudioVideoTab(QWidget):
         self.setLayout(final_layout)
 
 
+        self.presetButton.clicked.connect(self.choose_preset)        
         self.defaultButton.clicked.connect(self.set_default_command)
         self.moreButton.toggled.connect(self.frame.setVisible)
         self.moreButton.toggled.connect(self.resize_parent)
@@ -201,6 +203,12 @@ class AudioVideoTab(QWidget):
     def set_default_command(self):
         self.clear()
         self.commandLineEdit.setText(self.default_command)
+        
+    def choose_preset(self):
+        dialog = presets_dlgs.ShowPresets()
+        if dialog.exec_() and dialog.the_command is not None:
+                self.commandLineEdit.setText(dialog.the_command)
+                self.commandLineEdit.home(False)        
 
 
 class ImageTab(QWidget):

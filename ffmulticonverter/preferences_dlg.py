@@ -28,8 +28,8 @@ import sys
 import os
 import pyqttools
 
-class Preferences(QDialog):
 
+class Preferences(QDialog):
     def __init__(self, parent=None):
         super(Preferences, self).__init__(parent)
         self.home = os.getenv('HOME')
@@ -144,7 +144,8 @@ class Preferences(QDialog):
     def save_settings(self):
         """Defines settings before accept the dialog."""
         saveto_output = self.saveto_outRadioButton.isChecked()
-        rebuild_structure = self.rebuildCheckBox.isChecked() and self.rebuildCheckBox.isEnabled()
+        rebuild_structure = self.rebuildCheckBox.isChecked() and \
+                                               self.rebuildCheckBox.isEnabled()
         overwrite_existing = self.exst_overwriteRadioButton.isChecked()
         default_output = unicode(self.defaultLineEdit.text())
         prefix = unicode(self.prefixLineEdit.text())
@@ -159,6 +160,7 @@ class Preferences(QDialog):
         settings.setValue('suffix', suffix)
 
         self.accept()
+
 
 if __name__ == '__main__':
     #test dialog

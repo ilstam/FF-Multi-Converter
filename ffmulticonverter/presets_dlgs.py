@@ -230,6 +230,13 @@ class ShowPresets(QDialog):
             if os.path.exists(self.current_presets_file):
                 os.remove(self.current_presets_file)
                 
+    def accept(self):
+        self.the_command = None
+        if self.presListWidget:
+            self.the_command = self.presListWidget.currentItem()\
+                                                           .xml_element[1].text
+        QDialog.accept(self)
+
 
 class AddorEditPreset(QDialog):
     def __init__(self, xml_element, edit=False, parent=None):

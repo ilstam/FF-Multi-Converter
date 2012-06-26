@@ -122,7 +122,8 @@ class MainWindow(QMainWindow):
                                 self.tr('Import presets'), self.import_presets)
         exportAction = c_act(self, self.tr('Export'), None, None,
                                 self.tr('Export presets'), self.export_presets)
-
+        resetAction = c_act(self, self.tr('Reset'), None, None,
+                                  self.tr('Reset presets'), self.reset_presets)                                
         clearAction = c_act(self, self.tr('Clear'), None, None,
                                              self.tr('Clear form'), self.clear)
         preferencesAction = c_act(self, self.tr('Preferences'), 'Alt+Ctrl+P',
@@ -137,7 +138,7 @@ class MainWindow(QMainWindow):
         pyqttools.add_actions(fileMenu, [openAction, convertAction, None,
                                                                    quitAction])
         pyqttools.add_actions(presetsMenu, [presetsAction, importAction,
-                                                                 exportAction])
+                                                    exportAction, resetAction])
         pyqttools.add_actions(editMenu, [clearAction, None, preferencesAction])
         pyqttools.add_actions(helpMenu, [aboutAction])
 
@@ -286,10 +287,13 @@ class MainWindow(QMainWindow):
         dialog.exec_()
 
     def import_presets(self):
-        print 'import'
+        presets_dlgs.ShowPresets().import_presets()
 
     def export_presets(self):
-        print 'export'
+        presets_dlgs.ShowPresets().export_presets()
+        
+    def reset_presets(self):
+        presets_dlgs.ShowPresets().reset()
 
     def ok_to_continue(self):
         """Checks if everything is ok to continue with conversion.

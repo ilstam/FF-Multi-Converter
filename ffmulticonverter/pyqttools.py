@@ -61,6 +61,8 @@ def add_to_grid(layout, *items):
                 layout.addLayout(item, x, y)
             elif isinstance(item, QSpacerItem):
                 layout.addItem(item, x, y)
+            elif item is None:
+                pass
             else:
                 raise TypeError("Argument of wrong type!")
     return layout

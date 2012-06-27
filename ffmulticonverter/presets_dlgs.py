@@ -62,16 +62,12 @@ class ShowPresets(QDialog):
         okButton = QPushButton(self.tr('OK'))
         okButton.setDefault(True)
 
-        grid = QGridLayout()
-        grid.addWidget(self.delete_allButton, 0, 0, 1, 1)
-        grid.addWidget(addButton, 0, 1, 1, 1)
-        grid.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding,
-                                              QSizePolicy.Minimum), 1, 2, 1, 1)
-        grid.addWidget(self.deleteButton, 1, 0, 1, 1)
-        grid.addWidget(self.editButton, 1, 1, 1, 1)
-        grid.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding,
-                                             QSizePolicy.Minimum),  0, 2, 1, 1)
-        grid.addWidget(okButton, 1, 3, 1, 1)
+        spc1 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        spc2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        grid = pyqttools.add_to_grid(QGridLayout(), [self.delete_allButton, 
+            addButton, spc1, None], [self.deleteButton, self.editButton, spc2, 
+            okButton])
 
         final_layout = pyqttools.add_to_layout(QVBoxLayout(), 
             self.presListWidget, labelLabel, self.labelLineEdit, commandLabel, 

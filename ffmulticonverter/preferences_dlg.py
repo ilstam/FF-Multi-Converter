@@ -69,17 +69,28 @@ class Preferences(QDialog):
                                             [suffixLabel, self.suffixLineEdit])
         prefix_layout = pyqttools.add_to_layout(QHBoxLayout(), grid, None)
 
-        tabwidget_layout = pyqttools.add_to_layout(QVBoxLayout(), saveLabel,
+        tabwidget1_layout = pyqttools.add_to_layout(QVBoxLayout(), saveLabel,
                QSpacerItem(14, 13), saving_dest_layout, self.rebuildCheckBox,
                QSpacerItem(14, 13), exist_Label, exist_layout,
                QSpacerItem(14, 13), defaultLabel, deafult_fol_layout,
                QSpacerItem(13, 13), name_Label, QSpacerItem(14, 13),
                prefix_layout)
 
-        widget = QWidget()
-        widget.setLayout(tabwidget_layout)
-        self.TabWidget  = QTabWidget()
-        self.TabWidget.addTab(widget, self.tr('General'))
+        ffmpegLabel = QLabel('<html><b>' + self.tr('FFmpeg') +'</b></html>')
+        default_commandLabel = QLabel(self.tr('Default command:'))
+        self.commandLineEdit = QLineEdit()
+
+        tabwidget2_layout = pyqttools.add_to_layout(QVBoxLayout(), ffmpegLabel,
+               QSpacerItem(14, 13), default_commandLabel, self.commandLineEdit,
+               None)
+
+        widget1 = QWidget()
+        widget1.setLayout(tabwidget1_layout)
+        widget2 = QWidget()
+        widget2.setLayout(tabwidget2_layout)
+        self.TabWidget = QTabWidget()
+        self.TabWidget.addTab(widget1, self.tr('General'))
+        self.TabWidget.addTab(widget2, self.tr('Audio/Video'))
 
         self.buttonBox = QDialogButtonBox(
                                    QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
@@ -104,6 +115,7 @@ class Preferences(QDialog):
         default_output = settings.value('default_output').toString()
         prefix = settings.value('prefix').toString()
         suffix = settings.value('suffix').toString()
+        default_command = settings.value('default_command').toString()
 
         if saveto_output:
             self.saveto_outRadioButton.setChecked(True)
@@ -123,6 +135,10 @@ class Preferences(QDialog):
             self.prefixLineEdit.setText(prefix)
         if suffix:
             self.suffixLineEdit.setText(suffix)
+        if default_command:
+            self.commandLineEdit.setText(default_command)
+        else:
+            self.commandLineEdit.setText('-sameq -ab 320k -ar 48000 -ac 2')
 
         self.resize(414, 457)
         self.setWindowTitle(self.tr('Preferences'))
@@ -150,6 +166,7 @@ class Preferences(QDialog):
         default_output = unicode(self.defaultLineEdit.text())
         prefix = unicode(self.prefixLineEdit.text())
         suffix = unicode(self.suffixLineEdit.text())
+        default_command = unicode(self.commandLineEdit.text())
 
         settings = QSettings()
         settings.setValue('saveto_output', saveto_output)
@@ -158,6 +175,7 @@ class Preferences(QDialog):
         settings.setValue('default_output', default_output)
         settings.setValue('prefix', prefix)
         settings.setValue('suffix', suffix)
+        settings.setValue('default_command', default_command)
 
         self.accept()
 

@@ -52,8 +52,6 @@ class AudioVideoTab(QWidget):
                         'mkv', 'mmf', 'mov', 'mp3', 'mp4', 'mpg',
                         'ogg', 'ogv', 'psp', 'rm', 'spx', 'vob',
                         'wav', 'webm', 'wma', 'wmv']
-        self.default_command = '-sameq -ab 320k -ar 48000 -ac 2'
-
 
         nochange = self.tr('No Change')
         frequency_values = [nochange, '22050', '44100', '48000']
@@ -80,14 +78,14 @@ class AudioVideoTab(QWidget):
         frameLabel = QLabel(self.tr('Frame Rate (fps):'))
         bitrateLabel = QLabel(self.tr('Video Bitrate (kbps):'))
 
-        self.widthLineEdit = pyqttools.create_LineEdit((50, 16777215), 
+        self.widthLineEdit = pyqttools.create_LineEdit((50, 16777215),
                                                                   validator, 4)
-        self.heightLineEdit = pyqttools.create_LineEdit((50, 16777215), 
+        self.heightLineEdit = pyqttools.create_LineEdit((50, 16777215),
                                                                    validator,4)
         label = QLabel('x')
         layout1 = pyqttools.add_to_layout(QHBoxLayout(), self.widthLineEdit,
                                                     label, self.heightLineEdit)
-        self.aspect1LineEdit = pyqttools.create_LineEdit((35, 16777215), 
+        self.aspect1LineEdit = pyqttools.create_LineEdit((35, 16777215),
                                                                    validator,2)
         self.aspect2LineEdit = pyqttools.create_LineEdit((35, 16777215),
                                                                    validator,2)
@@ -158,12 +156,10 @@ class AudioVideoTab(QWidget):
         self.setLayout(final_layout)
 
 
-        self.presetButton.clicked.connect(self.choose_preset)        
+        self.presetButton.clicked.connect(self.choose_preset)
         self.defaultButton.clicked.connect(self.set_default_command)
         self.moreButton.toggled.connect(self.frame.setVisible)
         self.moreButton.toggled.connect(self.resize_parent)
-
-        self.set_default_command()
 
     def resize_parent(self):
         """Resizes MainWindow"""
@@ -202,13 +198,13 @@ class AudioVideoTab(QWidget):
 
     def set_default_command(self):
         self.clear()
-        self.commandLineEdit.setText(self.default_command)
-        
+        self.commandLineEdit.setText(self.parent.default_command)
+
     def choose_preset(self):
         dialog = presets_dlgs.ShowPresets()
         if dialog.exec_() and dialog.the_command is not None:
                 self.commandLineEdit.setText(dialog.the_command)
-                self.commandLineEdit.home(False)        
+                self.commandLineEdit.home(False)
 
 
 class ImageTab(QWidget):
@@ -237,9 +233,9 @@ class ImageTab(QWidget):
                                                         self.extComboBox, None)
 
         sizeLabel = QLabel(self.tr('Image Size:'))
-        self.widthLineEdit = pyqttools.create_LineEdit((50, 16777215), 
+        self.widthLineEdit = pyqttools.create_LineEdit((50, 16777215),
                                                                   validator, 4)
-        self.heightLineEdit = pyqttools.create_LineEdit((50, 16777215), 
+        self.heightLineEdit = pyqttools.create_LineEdit((50, 16777215),
                                                                    validator,4)
         label = QLabel('x')
         label.setMaximumWidth(25)

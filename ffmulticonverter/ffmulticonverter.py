@@ -123,7 +123,7 @@ class MainWindow(QMainWindow):
         exportAction = c_act(self, self.tr('Export'), None, None,
                                 self.tr('Export presets'), self.export_presets)
         resetAction = c_act(self, self.tr('Reset'), None, None,
-                                  self.tr('Reset presets'), self.reset_presets)                                
+                                  self.tr('Reset presets'), self.reset_presets)
         clearAction = c_act(self, self.tr('Clear'), None, None,
                                              self.tr('Clear form'), self.clear)
         preferencesAction = c_act(self, self.tr('Preferences'), 'Alt+Ctrl+P',
@@ -159,6 +159,7 @@ class MainWindow(QMainWindow):
 
         QTimer.singleShot(0, self.check_for_dependencies)
         QTimer.singleShot(0, self.set_settings)
+        QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
 
     def checkboxes_clicked(self, data=None):
         """Manages the behavior of checkboxes and radiobuttons.
@@ -203,17 +204,17 @@ class MainWindow(QMainWindow):
 
         self.audiovideo_tab.clear()
         self.image_tab.clear()
-        
+
     def resize_window(self):
         """Hides widgets of AudioVideo tab and resizes the window."""
-        self.tabs[0].moreButton.setChecked(False)    
-    
+        self.tabs[0].moreButton.setChecked(False)
+
     def current_tab(self):
         """Returns current tab."""
         for i in self.tabs:
             if self.tabs.index(i) == self.TabWidget.currentIndex():
-                return i       
-                
+                return i
+
     def set_settings(self):
         """Sets program settings"""
         settings = QSettings()
@@ -224,6 +225,8 @@ class MainWindow(QMainWindow):
                                    settings.value('default_output').toString())
         self.prefix = unicode(settings.value('prefix').toString())
         self.suffix = unicode(settings.value('suffix').toString())
+        self.default_command = unicode(
+                                  settings.value('default_command').toString())
 
         if self.saveto_output:
             if self.output is None or self.toLineEdit.text() == '':
@@ -234,7 +237,7 @@ class MainWindow(QMainWindow):
             self.toLineEdit.setEnabled(False)
             self.toLineEdit.setText(self.tr(
                                            'Each file to its original folder'))
-            self.output = None                
+            self.output = None
 
     def open_file(self):
         """Uses standard QtDialog to get file name."""
@@ -291,7 +294,7 @@ class MainWindow(QMainWindow):
 
     def export_presets(self):
         presets_dlgs.ShowPresets().export_presets()
-        
+
     def reset_presets(self):
         presets_dlgs.ShowPresets().reset()
 

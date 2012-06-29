@@ -225,6 +225,7 @@ class MainWindow(QMainWindow):
                                    settings.value('default_output').toString())
         self.prefix = unicode(settings.value('prefix').toString())
         self.suffix = unicode(settings.value('suffix').toString())
+        self.avconv_prefered = settings.value('avconv_prefered').toBool() 
         self.default_command = unicode(
                                   settings.value('default_command').toString())
 
@@ -362,11 +363,10 @@ class MainWindow(QMainWindow):
         """Checks if dependencies are installed and set dependenciesLabel
         status."""
         missing = []
-        if self.is_installed('ffmpeg'):
-            self.ffmpeg = True
-        else:
-            self.ffmpeg = False
-            missing.append('FFmpeg')
+        self.ffmpeg = self.is_installed('ffmpeg')
+        self.avconv = self.is_installed('avconv')        
+        if not self.ffmpeg and not self.avconv:
+            missing.append('FFmpeg/avconv')
         if self.is_installed('unoconv'):
             self.unoconv = True
         else:

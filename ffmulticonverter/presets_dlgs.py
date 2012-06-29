@@ -65,12 +65,12 @@ class ShowPresets(QDialog):
         spc1 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         spc2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        grid = pyqttools.add_to_grid(QGridLayout(), [self.delete_allButton, 
-            addButton, spc1, None], [self.deleteButton, self.editButton, spc2, 
+        grid = pyqttools.add_to_grid(QGridLayout(), [self.delete_allButton,
+            addButton, spc1, None], [self.deleteButton, self.editButton, spc2,
             okButton])
 
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(), 
-            self.presListWidget, labelLabel, self.labelLineEdit, commandLabel, 
+        final_layout = pyqttools.add_to_layout(QVBoxLayout(),
+            self.presListWidget, labelLabel, self.labelLineEdit, commandLabel,
             self.commandLineEdit, extLabel, self.extLineEdit, grid)
 
         self.setLayout(final_layout)
@@ -84,14 +84,14 @@ class ShowPresets(QDialog):
 
         self.resize(410, 410)
         self.setWindowTitle(self.tr('Edit Presets'))
-        
+
         QTimer.singleShot(0, self.load_xml)
         QTimer.singleShot(0, self.fill_LineEdit)
 
     def load_xml(self):
         try:
             self.tree = etree.parse(self.current_presets_file)
-        except IOError:
+        except (etree.ParseError, IOError):
             self.tree = etree.parse(self.original_presets_file)
             if not os.path.exists(self.config_folder):
                 os.makedirs(self.config_folder)
@@ -164,11 +164,11 @@ class ShowPresets(QDialog):
     def delete_all_presets(self):
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
             'Delete Preset'), 'Are you sure that you want to delete all '
-            'presets?', QMessageBox.Yes|QMessageBox.Cancel)        
-        if reply == QMessageBox.Yes:        
+            'presets?', QMessageBox.Yes|QMessageBox.Cancel)
+        if reply == QMessageBox.Yes:
             self.root.clear()
             self.save_tree()
-            self.fill_LineEdit()            
+            self.fill_LineEdit()
 
     def edit_preset(self):
         elem = self.presListWidget.currentItem().xml_element
@@ -188,7 +188,7 @@ class ShowPresets(QDialog):
                 etree.ElementTree(self.root).write(_file)
             except:
                 pass
-    
+
     def import_presets(self):
         title = 'FF Multi Converter - Import'
         reply = QMessageBox.question(self, title, 'All current presets will be '
@@ -199,14 +199,14 @@ class ShowPresets(QDialog):
             if fname:
                 msg = 'Succesful import!'
                 try:
-                    self.tree = etree.parse(fname)        
+                    self.tree = etree.parse(fname)
                 except:
-                    msg = 'Import failed!'    
+                    msg = 'Import failed!'
                 else:
-                    self.root = self.tree.getroot()                                
-                    self.save_tree()                
-                QMessageBox.information(self, title, msg)                
-    
+                    self.root = self.tree.getroot()
+                    self.save_tree()
+                QMessageBox.information(self, title, msg)
+
     def export_presets(self):
         fname = QFileDialog.getSaveFileName(self,'FF Multi Converter - Export '
                                                               'presets','.xml')
@@ -216,16 +216,16 @@ class ShowPresets(QDialog):
                 try:
                     etree.ElementTree(self.root).write(_file)
                 except:
-                    pass                                                   
-    
+                    pass
+
     def reset(self):
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
             'Delete Preset'), 'Are you sure that you want to restore the '
             'default presets?', QMessageBox.Yes|QMessageBox.Cancel)
-        if reply == QMessageBox.Yes:        
+        if reply == QMessageBox.Yes:
             if os.path.exists(self.current_presets_file):
                 os.remove(self.current_presets_file)
-                
+
     def accept(self):
         self.the_command = None
         if self.presListWidget:
@@ -281,34 +281,34 @@ class AddorEditPreset(QDialog):
         self.ext_text = str(self.extLineEdit.text()).strip()
 
         if not self.name_text:
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'), 
+            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
                 self.tr("Preset name can't be left blank."))
             self.nameLineEdit.setFocus()
             return False
         if not re.match('^[A-Za-z0-9]*$', self.name_text):
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'), 
+            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
                 self.tr('Preset name must be one word and contain only letters '
                 'and digits.'))
             self.nameLineEdit.selectAll()
             self.nameLineEdit.setFocus()
             return False
         if not self.label_text:
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'), 
+            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
                 self.tr("Preset label can't be left blank."))
             self.labelLineEdit.setFocus()
             return False
         if not self.command_text:
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'), 
+            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
                 self.tr("Command label can't be left blank."))
             self.commandLineEdit.setFocus()
             return False
         if not self.ext_text:
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'), 
+            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
                 self.tr("Extension label can't be left blank."))
             self.extLineEdit.setFocus()
             return False
         if len(self.ext_text.split()) != 1 or self.ext_text[0] == '.':
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'), 
+            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
                 self.tr("Extension must be one word and must not start with a"
                 " dot."))
             self.extLineEdit.selectAll()

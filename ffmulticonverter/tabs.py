@@ -150,7 +150,7 @@ class AudioVideoTab(QWidget):
 
         self.frame = QFrame()
         self.frame.setLayout(hidden_layout)
-        #self.frame.hide()
+        self.frame.hide()
 
         final_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout1,
                                                 hlayout2, hlayout3, self.frame)

@@ -26,6 +26,7 @@ from PyQt4.QtGui import (QApplication, QWidget, QFrame, QVBoxLayout,
                   QMessageBox, QRegExpValidator)
 
 import os
+import re
 #import subprocess
 #import shlex
 #import shutil
@@ -122,11 +123,11 @@ class AudioVideoTab(QWidget):
         spcr2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         chanlayout = pyqttools.add_to_layout(QHBoxLayout(), spcr1,
                            self.chan1RadioButton, self.chan2RadioButton, spcr2)
-        self.bitrateComboBox = QComboBox()
-        self.bitrateComboBox.addItems(bitrate_values)
+        self.audio_bitrateComboBox = QComboBox()
+        self.audio_bitrateComboBox.addItems(bitrate_values)
 
         labels = [freqLabel, chanLabel, bitrateLabel]
-        widgets = [self.freqComboBox, chanlayout, self.bitrateComboBox]
+        widgets = [self.freqComboBox, chanlayout, self.audio_bitrateComboBox]
 
         audiosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
@@ -149,7 +150,7 @@ class AudioVideoTab(QWidget):
 
         self.frame = QFrame()
         self.frame.setLayout(hidden_layout)
-        self.frame.hide()
+        #self.frame.hide()
 
         final_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout1,
                                                 hlayout2, hlayout3, self.frame)
@@ -160,6 +161,26 @@ class AudioVideoTab(QWidget):
         self.defaultButton.clicked.connect(self.set_default_command)
         self.moreButton.toggled.connect(self.frame.setVisible)
         self.moreButton.toggled.connect(self.resize_parent)
+        self.widthLineEdit.textChanged.connect(
+                                  lambda: self.command_elements_change('size'))
+        self.heightLineEdit.textChanged.connect(
+                                  lambda: self.command_elements_change('size'))
+        self.aspect1LineEdit.textChanged.connect(
+                                lambda: self.command_elements_change('aspect'))
+        self.aspect2LineEdit.textChanged.connect(
+                                lambda: self.command_elements_change('aspect'))
+        self.frameLineEdit.textChanged.connect(
+                                lambda: self.command_elements_change('frames'))
+        self.bitrateLineEdit.textChanged.connect(
+                         lambda: self.command_elements_change('video_bitrate'))
+        self.freqComboBox.currentIndexChanged.connect(
+                             lambda: self.command_elements_change('frequency'))
+        self.audio_bitrateComboBox.currentIndexChanged.connect(
+                         lambda: self.command_elements_change('audio_bitrate'))
+        self.chan1RadioButton.clicked.connect(
+                             lambda: self.command_elements_change('channels1'))
+        self.chan2RadioButton.clicked.connect(
+                             lambda: self.command_elements_change('channels2'))
 
     def resize_parent(self):
         """Resizes MainWindow"""
@@ -176,7 +197,7 @@ class AudioVideoTab(QWidget):
             i.clear()
 
         self.freqComboBox.setCurrentIndex(0)
-        self.bitrateComboBox.setCurrentIndex(0)
+        self.audio_bitrateComboBox.setCurrentIndex(0)
         self.group.setExclusive(False)
         self.chan1RadioButton.setChecked(False)
         self.chan2RadioButton.setChecked(False)
@@ -205,6 +226,85 @@ class AudioVideoTab(QWidget):
         if dialog.exec_() and dialog.the_command is not None:
                 self.commandLineEdit.setText(dialog.the_command)
                 self.commandLineEdit.home(False)
+
+    def remove_consecutive_spaces(self, string):
+        temp = string
+        string = ''
+        for i in temp.split():
+            if i:
+                string += i + ' '
+        return string[:-1]
+
+    def command_elements_change(self, widget):
+        command = str(self.commandLineEdit.text())
+
+        if widget == 'size':
+            text1 = self.widthLineEdit.text()
+            text2 = self.heightLineEdit.text()
+
+            if (text1 or text2) and not (text1 and text2):
+                return
+            f = re.sub(r'^.*(-s\s+\d+x\d+).*$', r'\1', command)
+            if re.match(r'^.*(-s\s+\d+x\d+).*$', f):
+                command = command.replace(f, '').strip()
+            if text1 and text2:
+                command += ' -s {0}x{1}'.format(text1, text2)
+
+        elif widget == 'aspect':
+            text1 = self.aspect1LineEdit.text()
+            text2 = self.aspect2LineEdit.text()
+
+            if (text1 or text2) and not (text1 and text2):
+                return
+            f = re.sub(r'^.*(-aspect\s+\d+:\d+).*$', r'\1', command)
+            if re.match(r'^.*(-aspect\s+\d+:\d+).*$', f):
+                command = command.replace(f, '').strip()
+            if text1 and text2:
+                command += ' -aspect {0}:{1}'.format(text1, text2)
+
+        elif widget == 'frames':
+            text = self.frameLineEdit.text()
+            f = re.sub(r'^.*(-r\s+\d+).*$', r'\1', command)
+            if re.match(r'^.*(-r\s+\d+).*$', f):
+                command = command.replace(f, '').strip()
+            if text:
+                command += ' -r {0}'.format(text)
+
+        elif widget == 'video_bitrate':
+            text = self.bitrateLineEdit.text()
+            f = re.sub(r'^.*(-b\s+\d+k).*$', r'\1', command)
+            if re.match(r'^.*(-b\s+\d+k).*$', f):
+                command = command.replace(f, '')
+            if text:
+                command += ' -b {0}k'.format(text)
+            command = command.replace('-sameq', '').strip()
+
+        elif widget == 'frequency':
+            text = self.freqComboBox.currentText()
+            f = re.sub(r'^.*(-ar\s+\d+).*$', r'\1', command)
+            if re.match(r'^.*(-ar\s+\d+).*$', f):
+                command = command.replace(f, '').strip()
+            if text != 'No Change':
+                command += ' -ar {0}'.format(text)
+
+        elif widget == 'audio_bitrate':
+            text = self.audio_bitrateComboBox.currentText()
+            f = re.sub(r'^.*(-ab\s+\d+k).*$', r'\1', command)
+            if re.match(r'^.*(-ab\s+\d+k).*$', f):
+                command = command.replace(f, '').strip()
+            if text != 'No Change':
+                command += ' -ab {0}k'.format(text)
+
+        elif widget in ('channels1', 'channels2'):
+            text = self.chan1RadioButton.text() if widget == 'channels1' \
+                                            else self.chan2RadioButton.text()
+            f = re.sub(r'^.*(-ac\s+\d+).*$', r'\1', command)
+            if re.match(r'^.*(-ac\s+\d+).*$', f):
+                command = command.replace(f, '').strip()
+            command += ' -ac {0}'.format(text)
+
+        self.commandLineEdit.clear()
+        self.commandLineEdit.setText(self.remove_consecutive_spaces(command))
 
 
 class ImageTab(QWidget):

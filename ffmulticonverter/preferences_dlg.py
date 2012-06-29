@@ -94,7 +94,6 @@ class Preferences(QDialog):
 
         self.buttonBox = QDialogButtonBox(
                                    QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
-        self.buttonBox.button(QDialogButtonBox.Ok).setDefault(True)
 
         final_layout = pyqttools.add_to_layout(QVBoxLayout(), self.TabWidget,
                                                           None, self.buttonBox)

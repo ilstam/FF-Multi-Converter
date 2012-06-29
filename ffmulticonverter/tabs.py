@@ -19,7 +19,7 @@
 from __future__ import unicode_literals
 from __future__ import division
 
-from PyQt4.QtCore import QString, QRegExp, QSize
+from PyQt4.QtCore import QRegExp, QSize
 from PyQt4.QtGui import (QApplication, QWidget, QFrame, QVBoxLayout,
                   QHBoxLayout, QSizePolicy, QLabel, QSpacerItem, QLineEdit,
                   QComboBox, QButtonGroup, QRadioButton, QPushButton,
@@ -27,19 +27,10 @@ from PyQt4.QtGui import (QApplication, QWidget, QFrame, QVBoxLayout,
 
 import os
 import re
-#import subprocess
-#import shlex
-#import shutil
-#import re
-#import time
 
 import pyqttools
 import presets_dlgs
 
-#try:
-#    import PythonMagick
-#except ImportError:
-#    pass
 
 class ValidationError(Exception): pass
 
@@ -218,16 +209,24 @@ class AudioVideoTab(QWidget):
         return True
 
     def set_default_command(self):
+        """Sets the default value to self.commandLineEdit"""
         self.clear()
         self.commandLineEdit.setText(self.parent.default_command)
 
     def choose_preset(self):
+        """Opens the presets dialog and set the appropriate value to
+           commandLineEdit.
+        """
         dialog = presets_dlgs.ShowPresets()
         if dialog.exec_() and dialog.the_command is not None:
                 self.commandLineEdit.setText(dialog.the_command)
                 self.commandLineEdit.home(False)
 
     def remove_consecutive_spaces(self, string):
+        """Removes any consecutive spaces from a string.
+
+        Returns: String
+        """
         temp = string
         string = ''
         for i in temp.split():
@@ -236,6 +235,7 @@ class AudioVideoTab(QWidget):
         return string[:-1]
 
     def command_elements_change(self, widget):
+        """Fill commandLineEdit with the appropriate command parameters."""
         command = str(self.commandLineEdit.text())
 
         if widget == 'size':
@@ -345,6 +345,7 @@ class ImageTab(QWidget):
         self.setLayout(final_layout)
 
     def clear(self):
+        """Clear lineEdits"""
         self.widthLineEdit.clear()
         self.heightLineEdit.clear()
 

@@ -86,9 +86,10 @@ class ShowPresets(QDialog):
         self.setWindowTitle(self.tr('Edit Presets'))
 
         QTimer.singleShot(0, self.load_xml)
-        QTimer.singleShot(0, self.fill_LineEdit)
+        QTimer.singleShot(0, self.fill_presListWidget)
 
     def load_xml(self):
+        """Loads xml tree and sets xml root."""
         try:
             self.tree = etree.parse(self.current_presets_file)
         except (etree.ParseError, IOError):
@@ -98,6 +99,7 @@ class ShowPresets(QDialog):
         self.root = self.tree.getroot()
 
     def set_buttons_clear_lineEdits(self):
+        """Manage button's behavior."""
         enable = bool(self.presListWidget)
         self.editButton.setEnabled(enable)
         self.deleteButton.setEnabled(enable)
@@ -107,7 +109,8 @@ class ShowPresets(QDialog):
             self.commandLineEdit.clear()
             self.extLineEdit.clear()
 
-    def fill_LineEdit(self):
+    def fill_presListWidget(self):
+        """Fill presListWidget with the appropriate values."""
         self.presListWidget.clear()
         for i in sorted([y.tag for y in self.root]):
             elem = self.root.find(i)
@@ -116,6 +119,7 @@ class ShowPresets(QDialog):
         self.set_buttons_clear_lineEdits()
 
     def show_preset(self):
+        """Fill LineEdits."""
         try:
             xml_elem = self.presListWidget.currentItem().xml_element
         except AttributeError:
@@ -127,6 +131,7 @@ class ShowPresets(QDialog):
         self.extLineEdit.setText(xml_elem[2].text)
 
     def add_preset(self):
+        """Open AddorEditPreset() dialog and add a preset xml root."""
         dialog = AddorEditPreset(None, False)
         if dialog.exec_():
             element = etree.Element(dialog.name_text)
@@ -145,9 +150,10 @@ class ShowPresets(QDialog):
                                                        .index(dialog.name_text)
             self.root.insert(index, element)
             self.save_tree()
-            self.fill_LineEdit()
+            self.fill_presListWidget()
 
     def delete_preset(self):
+        """Delete a preset from xml root."""
         try:
             xml_elem = self.presListWidget.currentItem().xml_element
         except AttributeError:
@@ -159,18 +165,20 @@ class ShowPresets(QDialog):
         if reply == QMessageBox.Yes:
             self.root.remove(xml_elem)
             self.save_tree()
-            self.fill_LineEdit()
+            self.fill_presListWidget()
 
     def delete_all_presets(self):
+        """Clears xml root."""
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
             'Delete Preset'), 'Are you sure that you want to delete all '
             'presets?', QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             self.root.clear()
             self.save_tree()
-            self.fill_LineEdit()
+            self.fill_presListWidget()
 
     def edit_preset(self):
+        """Edit a preset and update xml root."""
         elem = self.presListWidget.currentItem().xml_element
         dialog = AddorEditPreset(elem, True)
 
@@ -180,9 +188,10 @@ class ShowPresets(QDialog):
             elem[1].text = dialog.command_text
             elem[2].text = dialog.ext_text
             self.save_tree()
-            self.fill_LineEdit()
+            self.fill_presListWidget()
 
     def save_tree(self):
+        """Save xml tree."""
         with open(self.current_presets_file, 'w') as _file:
             try:
                 etree.ElementTree(self.root).write(_file)
@@ -190,6 +199,7 @@ class ShowPresets(QDialog):
                 pass
 
     def import_presets(self):
+        """Import an xml tree."""
         title = 'FF Multi Converter - Import'
         reply = QMessageBox.question(self, title, 'All current presets will be '
                 'deleted.\nAre you sure that you want to continue?',
@@ -208,6 +218,7 @@ class ShowPresets(QDialog):
                 QMessageBox.information(self, title, msg)
 
     def export_presets(self):
+        """Export the xml tree."""        
         fname = QFileDialog.getSaveFileName(self,'FF Multi Converter - Export '
                                                               'presets','.xml')
         if fname:
@@ -219,6 +230,7 @@ class ShowPresets(QDialog):
                     pass
 
     def reset(self):
+        """Import the default xml tree."""
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
             'Delete Preset'), 'Are you sure that you want to restore the '
             'default presets?', QMessageBox.Yes|QMessageBox.Cancel)
@@ -275,6 +287,14 @@ class AddorEditPreset(QDialog):
         self.setWindowTitle(title)
 
     def validation(self):
+        """Checks if everything is ok to continue
+
+        Checks if:
+        - Any lineEdit is empty.
+        - Preset name and extesnsion meet the qualifications
+
+        Returns: boolean
+        """        
         self.name_text = str(self.nameLineEdit.text()).strip()
         self.label_text = str(self.labelLineEdit.text()).strip()
         self.command_text = str(self.commandLineEdit.text()).strip()

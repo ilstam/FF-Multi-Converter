@@ -286,6 +286,7 @@ class MainWindow(QMainWindow):
             self.set_settings()
 
     def presets(self):
+        """Opens the presets dialog."""
         dialog = presets_dlgs.ShowPresets()
         dialog.exec_()
 

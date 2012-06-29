@@ -79,10 +79,16 @@ class Preferences(QDialog):
         ffmpegLabel = QLabel('<html><b>' + self.tr('FFmpeg') +'</b></html>')
         default_commandLabel = QLabel(self.tr('Default command:'))
         self.commandLineEdit = QLineEdit()
+        useLabel = QLabel(self.tr('Use:'))
+        self.ffmpegRadioButton = QRadioButton(self.tr('FFmpeg'))
+        self.avconvRadioButton = QRadioButton(self.tr('avconv'))
+
+        hlayout = pyqttools.add_to_layout(QHBoxLayout(),
+                                self.ffmpegRadioButton, self.avconvRadioButton)
 
         tabwidget2_layout = pyqttools.add_to_layout(QVBoxLayout(), ffmpegLabel,
-               QSpacerItem(14, 13), default_commandLabel, self.commandLineEdit,
-               None)
+                QSpacerItem(14, 13), useLabel, hlayout, QSpacerItem(14, 13),
+                default_commandLabel, self.commandLineEdit, None)
 
         widget1 = QWidget()
         widget1.setLayout(tabwidget1_layout)
@@ -114,6 +120,7 @@ class Preferences(QDialog):
         default_output = settings.value('default_output').toString()
         prefix = settings.value('prefix').toString()
         suffix = settings.value('suffix').toString()
+        avconv_prefered = settings.value('avconv_prefered').toBool()
         default_command = settings.value('default_command').toString()
 
         if saveto_output:
@@ -134,10 +141,14 @@ class Preferences(QDialog):
             self.prefixLineEdit.setText(prefix)
         if suffix:
             self.suffixLineEdit.setText(suffix)
+        if avconv_prefered:
+            self.avconvRadioButton.setChecked(True)
+        else:
+            self.ffmpegRadioButton.setChecked(True)
         if default_command:
             self.commandLineEdit.setText(default_command)
         else:
-            self.commandLineEdit.setText('-sameq -ab 320k -ar 48000 -ac 2')
+            self.commandLineEdit.setText('-ab 320k -ar 48000 -ac 2')
 
         self.resize(414, 457)
         self.setWindowTitle(self.tr('Preferences'))
@@ -165,6 +176,7 @@ class Preferences(QDialog):
         default_output = unicode(self.defaultLineEdit.text())
         prefix = unicode(self.prefixLineEdit.text())
         suffix = unicode(self.suffixLineEdit.text())
+        avconv_prefered = self.avconvRadioButton.isChecked()
         default_command = unicode(self.commandLineEdit.text())
 
         settings = QSettings()
@@ -174,6 +186,7 @@ class Preferences(QDialog):
         settings.setValue('default_output', default_output)
         settings.setValue('prefix', prefix)
         settings.setValue('suffix', suffix)
+        settings.setValue('avconv_prefered', avconv_prefered)
         settings.setValue('default_command', default_command)
 
         self.accept()

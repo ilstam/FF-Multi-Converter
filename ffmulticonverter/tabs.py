@@ -193,7 +193,7 @@ class AudioVideoTab(QWidget):
         """Clear values."""
         lineEdits = [self.commandLineEdit, self.widthLineEdit,
             self.heightLineEdit, self.aspect1LineEdit, self.aspect2LineEdit,
-            self.frameLineEdit, self.bitrateLineEdit]
+            self.frameLineEdit, self.bitrateLineEdit, self.extLineEdit]
         for i in lineEdits:
             i.clear()
 

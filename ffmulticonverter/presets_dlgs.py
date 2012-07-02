@@ -91,7 +91,10 @@ class ShowPresets(QDialog):
         try:
             self.tree = etree.parse(self.current_presets_file)
         except (etree.ParseError, IOError):
-            self.tree = etree.parse(self.original_presets_file)
+            try:
+                self.tree = etree.parse(self.original_presets_file)
+            except IOError:
+                self.tree = etree.parse('../data/presets.xml')
             if not os.path.exists(self.config_folder):
                 os.makedirs(self.config_folder)
         self.root = self.tree.getroot()

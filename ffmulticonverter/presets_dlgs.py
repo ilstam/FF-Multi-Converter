@@ -17,13 +17,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt4.QtCore import QTimer
-from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QGridLayout,
-                  QSpacerItem, QLineEdit, QLabel, QPushButton, QListWidget,
-                  QListWidgetItem, QDialogButtonBox, QMessageBox, QSizePolicy,
-                  QFileDialog)
+from PyQt4.QtGui import (QDialog, QVBoxLayout, QGridLayout, QSpacerItem,
+                  QLineEdit, QLabel, QPushButton, QListWidget, QListWidgetItem,
+                  QDialogButtonBox, QMessageBox, QSizePolicy, QFileDialog)
 
 import os
-import sys
 import re
 import xml.etree.ElementTree as etree
 
@@ -218,7 +216,7 @@ class ShowPresets(QDialog):
                 QMessageBox.information(self, title, msg)
 
     def export_presets(self):
-        """Export the xml tree."""        
+        """Export the xml tree."""
         fname = QFileDialog.getSaveFileName(self,'FF Multi Converter - Export '
                                                               'presets','.xml')
         if fname:
@@ -243,6 +241,8 @@ class ShowPresets(QDialog):
         if self.presListWidget:
             self.the_command = self.presListWidget.currentItem()\
                                                            .xml_element[1].text
+            self.the_extension = self.presListWidget.currentItem()\
+                                                           .xml_element[2].text
         QDialog.accept(self)
 
 
@@ -294,7 +294,7 @@ class AddorEditPreset(QDialog):
         - Preset name and extesnsion meet the qualifications
 
         Returns: boolean
-        """        
+        """
         self.name_text = str(self.nameLineEdit.text()).strip()
         self.label_text = str(self.labelLineEdit.text()).strip()
         self.command_text = str(self.commandLineEdit.text()).strip()
@@ -329,8 +329,8 @@ class AddorEditPreset(QDialog):
             return False
         if len(self.ext_text.split()) != 1 or self.ext_text[0] == '.':
             QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
-                self.tr("Extension must be one word and must not start with a"
-                " dot."))
+                self.tr('Extension must be one word and must not start with a'
+                ' dot.'))
             self.extLineEdit.selectAll()
             self.extLineEdit.setFocus()
             return False
@@ -343,6 +343,8 @@ class AddorEditPreset(QDialog):
 
 if __name__ == '__main__':
     #test dialog
+    from PyQt4.QtGui import QApplication
+    import sys
     app = QApplication(sys.argv)
     dialog = ShowPresets()
     dialog.show()

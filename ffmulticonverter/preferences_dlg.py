@@ -31,6 +31,7 @@ import pyqttools
 class Preferences(QDialog):
     def __init__(self, parent=None):
         super(Preferences, self).__init__(parent)
+        self.parent = parent
         self.home = os.getenv('HOME')
 
         saveLabel = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
@@ -148,6 +149,13 @@ class Preferences(QDialog):
             self.commandLineEdit.setText(default_command)
         else:
             self.commandLineEdit.setText('-ab 320k -ar 48000 -ac 2')
+
+        if not self.parent.ffmpeg:
+            self.avconvRadioButton.setChecked(True)            
+            self.ffmpegRadioButton.setEnabled(False)
+        if not self.parent.avconv:
+            self.ffmpegRadioButton.setChecked(True)
+            self.avconvRadioButton.setEnabled(False)
 
         self.resize(414, 457)
         self.setWindowTitle(self.tr('Preferences'))

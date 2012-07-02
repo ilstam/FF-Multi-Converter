@@ -35,6 +35,7 @@ import glob
 import platform
 
 import tabs
+import progress
 import pyqttools
 import preferences_dlg
 import presets_dlgs
@@ -333,6 +334,20 @@ class MainWindow(QMainWindow):
                                                  self.tr('Error!'), unicode(e))
             return False
 
+    def get_extension(self):
+        tab = self.current_tab()
+        if tab.name == 'AudioVideo':
+            if self.audiovideo_tab.extLineEdit.isEnabled():
+                ext_to = self.audiovideo_tab.extLineEdit.text()
+            else:
+                ext_to = self.audiovideo_tab.extComboBox.currentText()
+        elif tab.name == 'Images':
+            ext_to = tab.extComboBox.currentText()
+        else:
+            ext_to = str(tab.convertComboBox.currentText()).split()[-1]
+
+        return str('.' + ext_to)
+
     def current_formats(self):
         """Returns the file formats of current tab.
 
@@ -500,28 +515,22 @@ class MainWindow(QMainWindow):
         if not self.ok_to_continue():
             return
 
-        if self.audiovideo_tab.extLineEdit.isEnabled():
-            ext_to = '.' + str(self.audiovideo_tab.extLineEdit.text())
-        else:
-            ext_to = '.' + str(self.audiovideo_tab.extComboBox.currentText())
-
+        ext_to = self.get_extension()
         files_to_conv = self.files_to_conv_list()
         conversion_list, create_folders_list = self.build_lists(
            files_to_conv, ext_to, self.prefix, self.suffix, self.output,
            self.saveto_output, self.rebuild_structure, self.overwrite_existing)
 
-#        if create_folders_list:
-#            for i in create_folders_list:
-#                try:
-#                    os.mkdir(i)
-#                except OSError:
-#                    pass
-#
+        if create_folders_list:
+            for i in create_folders_list:
+                try:
+                    os.mkdir(i)
+                except OSError:
+                    pass
+
 #        delete = self.deleteCheckBox.isChecked()
 #        dialog = progress.Progress(self, conversion_list, delete)
 #        dialog.exec_()
-
-        print 'CONVERT!!!'
 
     def about(self):
         """Shows an About dialog using qt standard dialog."""

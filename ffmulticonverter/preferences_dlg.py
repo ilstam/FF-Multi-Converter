@@ -151,7 +151,7 @@ class Preferences(QDialog):
             self.commandLineEdit.setText('-ab 320k -ar 48000 -ac 2')
 
         if not self.parent.ffmpeg:
-            self.avconvRadioButton.setChecked(True)            
+            self.avconvRadioButton.setChecked(True)
             self.ffmpegRadioButton.setEnabled(False)
         if not self.parent.avconv:
             self.ffmpegRadioButton.setChecked(True)

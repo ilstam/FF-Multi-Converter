@@ -19,12 +19,11 @@
 from __future__ import unicode_literals
 
 from PyQt4.QtCore import QSettings
-from PyQt4.QtGui import (QApplication, QDialog, QWidget, QGridLayout,
-                  QHBoxLayout, QVBoxLayout, QSpacerItem, QLabel, QRadioButton,
-                  QButtonGroup, QCheckBox, QLineEdit, QToolButton, QTabWidget,
+from PyQt4.QtGui import (QDialog, QWidget, QGridLayout, QHBoxLayout,
+                  QVBoxLayout, QSpacerItem, QLabel, QRadioButton, QButtonGroup,
+                  QCheckBox, QLineEdit, QToolButton, QTabWidget,
                   QDialogButtonBox, QFileDialog)
 
-import sys
 import os
 import pyqttools
 
@@ -194,6 +193,8 @@ class Preferences(QDialog):
 
 if __name__ == '__main__':
     #test dialog
+    from PyQt4.QtGui import QApplication
+    import sys
     app = QApplication(sys.argv)
     dialog = Preferences()
     dialog.show()

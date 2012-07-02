@@ -30,6 +30,8 @@ from PyQt4.QtGui import (QApplication, QMainWindow, QWidget, QGridLayout,
 
 import os
 import sys
+import re
+import glob
 import platform
 
 import tabs
@@ -331,10 +333,194 @@ class MainWindow(QMainWindow):
                                                  self.tr('Error!'), unicode(e))
             return False
 
+    def current_formats(self):
+        """Returns the file formats of current tab.
+
+        Returns: list
+        """
+        tab = self.current_tab()
+        if tab.name == 'Documents':
+            type_formats = tab.formats.keys()
+        elif tab.name == 'Images':
+            type_formats = tab.formats[:] + tab.extra_img
+        else:
+            type_formats = tab.formats[:] + tab.extra_formats
+            if tab.extLineEdit.isEnabled():
+                type_formats.append(str(tab.extLineEdit.text()))
+        return ['.' + i for i in type_formats]
+
+    def should_include(self, path, includes):
+        """Returns True if the given path should be included."""
+        ext = os.path.splitext(path)[-1]
+        if not includes:
+            return True
+        else:
+            return ext in includes
+
+    def create_paths_list(self, path_pattern, recursive=True, includes=[]):
+        """Creates a list of paths from a path pattern.
+
+        Keyword arguments:
+        path_pattern -- an str path using the '*' glob pattern
+        recursive    -- if True, include files recursively
+                        if False, include only files in the same folder
+        includes     -- list of file patterns to include in recursive searches
+
+        Returns: list
+        """
+        assert path_pattern.endswith('*'), 'path must end with an asterisk (*)'
+        assert all(i.startswith('.') for i in includes), \
+                                       'all includes must start with a dot (.)'
+
+        paths_list = []
+        paths = glob.glob(path_pattern)
+        for path in paths:
+            if not os.path.islink(path) and os.path.isdir(path) and recursive:
+                for dirpath, dirnames, filenames in os.walk(path):
+                    for filename in sorted(filenames):
+                        f = os.path.join(dirpath, filename)
+                        if self.should_include(f, includes):
+                            paths_list.append(f)
+
+            elif self.should_include(path, includes):
+                paths_list.append(path)
+
+        return paths_list
+
+    def files_to_conv_list(self):
+        """Generates paths of files to convert.
+
+        Creates:
+        1.files_to_conv -- list with files that must be converted
+        The list will contain only the _file if conversion is no recursive
+
+        Returns: list
+        """
+        _dir, file_name = os.path.split(self.fname)
+        base, ext = os.path.splitext(file_name)
+        _dir += '/*'
+        formats = self.current_formats()
+
+        if not (self.folderCheckBox.isChecked() or \
+                                           self.recursiveCheckBox.isChecked()):
+            files_to_conv = [self.fname]
+
+        else:
+            recursive = self.recursiveCheckBox.isChecked()
+            includes = [ext] if self.extRadioButton.isChecked() else formats
+            files_to_conv = self.create_paths_list(_dir, recursive,
+                                                             includes=includes)
+
+            # put given file first in list
+            files_to_conv.remove(self.fname)
+            files_to_conv.insert(0, self.fname)
+
+        return files_to_conv
+
+    def build_lists(self, files_list, ext_to, prefix, suffix, output,
+                         saveto_output, rebuild_structure, overwrite_existing):
+        """Creates two lists:
+
+        1.conversion_list -- list with dicts to show where each file must be
+                             saved
+        Example:
+        [{/foo/bar.png : "/foo/bar.png"}, {/f/bar2.png : "/foo2/bar.png"}]
+
+        2.create_folders_list -- a list with folders that must be created
+
+        Keyword arguments:
+        files_list -- list with files to be converted
+        ext_to     -- the extension to which each file must be converted to
+        prefix     -- string that will be added as a prefix to all filenames
+        suffix     -- string that will be added as a suffix to all filenames
+        output     -- the output folder
+        saveto_output -- if True, files will be saved at ouput
+                       if False, each file will be saved at its original folder
+        rebuild_structure  -- if True, file's structure will be rebuild
+        overwrite_existing -- if False, a '~' will be added as prefix to
+                              filenames
+
+        Returns: two lists
+        """
+        assert ext_to.startswith('.'), 'ext_to must start with a dot (.)'
+
+        rel_path_files_list = []
+        folders = []
+        create_folders_list = []
+        conversion_list = []
+
+        parent_file = files_list[0]
+        parent_dir, parent_name = os.path.split(parent_file)
+        parent_base, parent_ext = os.path.split(parent_name)
+        parent_dir += '/'
+
+        for _file in files_list:
+            _dir, name = os.path.split(_file)
+            base, ext = os.path.splitext(name)
+            _dir += '/'
+            y = _dir + prefix + base + suffix + ext_to
+
+            if saveto_output:
+                folder = output + '/'
+                if rebuild_structure:
+                    y = re.sub('^'+parent_dir, '', y)
+                    y = folder + y
+                    rel_path_files_list.append(y)
+                    for z in rel_path_files_list:
+                        folder_to_create = os.path.split(z)[0]
+                        folders.append(folder_to_create)
+
+                    # remove list from duplicates
+                    for fol in folders:
+                        if not fol in create_folders_list:
+                            create_folders_list.append(fol)
+                    create_folders_list.sort()
+                    # remove first folder because it already exists.
+                    create_folders_list.pop(0)
+                else:
+                    y = re.sub('^'+_dir, '', y)
+                    y = folder + y
+
+            if os.path.exists(y) and not overwrite_existing:
+                _dir2, _name2 = os.path.split(y)
+                y = _dir2 + '/~' + _name2
+            # Add quotations to path in order to avoid error in special
+            # cases such as spaces or special characters.
+            _file = '"' + _file + '"'
+            y = '"' + y + '"'
+
+            _dict = {}
+            _dict[_file] = y
+            conversion_list.append(_dict)
+
+        return conversion_list, create_folders_list
 
     def start_conversion(self):
+        """Initialises the Progress dialog."""
         if not self.ok_to_continue():
             return
+
+        if self.audiovideo_tab.extLineEdit.isEnabled():
+            ext_to = '.' + str(self.audiovideo_tab.extLineEdit.text())
+        else:
+            ext_to = '.' + str(self.audiovideo_tab.extComboBox.currentText())
+
+        files_to_conv = self.files_to_conv_list()
+        conversion_list, create_folders_list = self.build_lists(
+           files_to_conv, ext_to, self.prefix, self.suffix, self.output,
+           self.saveto_output, self.rebuild_structure, self.overwrite_existing)
+
+#        if create_folders_list:
+#            for i in create_folders_list:
+#                try:
+#                    os.mkdir(i)
+#                except OSError:
+#                    pass
+#
+#        delete = self.deleteCheckBox.isChecked()
+#        dialog = progress.Progress(self, conversion_list, delete)
+#        dialog.exec_()
+
         print 'CONVERT!!!'
 
     def about(self):

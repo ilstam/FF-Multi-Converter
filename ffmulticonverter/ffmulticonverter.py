@@ -31,8 +31,8 @@ from PyQt4.QtGui import (QApplication, QMainWindow, QWidget, QGridLayout,
 import os
 import sys
 import platform
-import tabs
 
+import tabs
 import pyqttools
 import preferences_dlg
 import presets_dlgs

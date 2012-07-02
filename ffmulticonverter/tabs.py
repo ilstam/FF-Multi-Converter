@@ -55,9 +55,13 @@ class AudioVideoTab(QWidget):
 
         converttoLabel = QLabel(self.tr('Convert to:'))
         self.extComboBox = QComboBox()
-        self.extComboBox.addItems(self.formats)
+        self.extComboBox.addItems(self.formats + [self.tr('Other')])
+        self.extComboBox.setMinimumWidth(130)
+        self.extLineEdit = QLineEdit()
+        self.extLineEdit.setMaximumWidth(85)
+        self.extLineEdit.setEnabled(False)
         hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), converttoLabel,
-                                                           self.extComboBox)
+                                      None, self.extComboBox, self.extLineEdit)
         commandLabel = QLabel(self.tr('Command:'))
         self.commandLineEdit = QLineEdit()
         self.presetButton = QPushButton(self.tr('Preset'))
@@ -148,6 +152,7 @@ class AudioVideoTab(QWidget):
         self.setLayout(final_layout)
 
 
+        self.extComboBox.currentIndexChanged.connect(self.set_line_enable)
         self.presetButton.clicked.connect(self.choose_preset)
         self.defaultButton.clicked.connect(self.set_default_command)
         self.moreButton.toggled.connect(self.frame.setVisible)
@@ -179,6 +184,11 @@ class AudioVideoTab(QWidget):
         self.parent.setMinimumSize(660, height)
         self.parent.resize(660, height)
 
+    def set_line_enable(self):
+        """Enable or disable self.extLineEdit."""
+        self.extLineEdit.setEnabled(
+                          self.extComboBox.currentIndex() == len(self.formats))
+
     def clear(self):
         """Clear values."""
         lineEdits = [self.commandLineEdit, self.widthLineEdit,
@@ -201,6 +211,21 @@ class AudioVideoTab(QWidget):
 
         Returns: boolean
         """
+        if not self.parent.ffmpeg and not self.parent.avconv:
+            QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
+                'Error!'), self.tr('Neither ffmpeg nor avconv are installed.'
+                '\nYou will not be able to convert document files until you '
+                'install one of them.'))
+            return False
+        if self.extLineEdit.isEnabled():
+            text = str(self.extLineEdit.text()).strip()
+            if len(text.split()) != 1 or text[0] == '.':
+                QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
+                    'Error!'), self.tr('Extension must be one word and must '
+                    'not start with a dot.'))
+                self.extLineEdit.selectAll()
+                self.extLineEdit.setFocus()
+                return False
         if not self.commandLineEdit.text():
             QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
                 'Error!'), self.tr('The command LineEdit may not be empty.'))
@@ -221,6 +246,12 @@ class AudioVideoTab(QWidget):
         if dialog.exec_() and dialog.the_command is not None:
                 self.commandLineEdit.setText(dialog.the_command)
                 self.commandLineEdit.home(False)
+                find = self.extComboBox.findText(dialog.the_extension)
+                if find >= 0:
+                    self.extComboBox.setCurrentIndex(find)
+                else:
+                    self.extComboBox.setCurrentIndex(len(self.formats))
+                    self.extLineEdit.setText(dialog.the_extension)
 
     def remove_consecutive_spaces(self, string):
         """Removes any consecutive spaces from a string.

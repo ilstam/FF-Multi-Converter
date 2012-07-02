@@ -225,7 +225,7 @@ class MainWindow(QMainWindow):
                                    settings.value('default_output').toString())
         self.prefix = unicode(settings.value('prefix').toString())
         self.suffix = unicode(settings.value('suffix').toString())
-        self.avconv_prefered = settings.value('avconv_prefered').toBool() 
+        self.avconv_prefered = settings.value('avconv_prefered').toBool()
         self.default_command = unicode(
                                   settings.value('default_command').toString())
 
@@ -282,7 +282,7 @@ class MainWindow(QMainWindow):
 
     def preferences(self):
         """Opens the preferences dialog."""
-        dialog = preferences_dlg.Preferences()
+        dialog = preferences_dlg.Preferences(self)
         if dialog.exec_():
             self.set_settings()
 
@@ -364,7 +364,7 @@ class MainWindow(QMainWindow):
         status."""
         missing = []
         self.ffmpeg = self.is_installed('ffmpeg')
-        self.avconv = self.is_installed('avconv')        
+        self.avconv = self.is_installed('avconv')
         if not self.ffmpeg and not self.avconv:
             missing.append('FFmpeg/avconv')
         if self.is_installed('unoconv'):

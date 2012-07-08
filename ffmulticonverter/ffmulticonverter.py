@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Program: FF Multi Converter
 # Purpose: GUI application to convert multiple file formats
@@ -528,9 +528,9 @@ class MainWindow(QMainWindow):
                 except OSError:
                     pass
 
-#        delete = self.deleteCheckBox.isChecked()
-#        dialog = progress.Progress(self, conversion_list, delete)
-#        dialog.exec_()
+        delete = self.deleteCheckBox.isChecked()
+        dialog = progress.Progress(self, conversion_list, delete)
+        dialog.exec_()
 
     def about(self):
         """Shows an About dialog using qt standard dialog."""

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011-2012 Ilias Stamatis <stamatis.iliass@gmail.com>
@@ -21,7 +21,7 @@ Some useful functions to automate some parts of ui creation.
 """
 
 from PyQt4.QtCore import QSize, Qt
-from PyQt4.QtGui import (QWidget, QLayout, QSpacerItem, QAction, QMenu, 
+from PyQt4.QtGui import (QWidget, QLayout, QSpacerItem, QAction, QMenu,
                         QLineEdit)
 
 def add_to_layout(layout, *items):

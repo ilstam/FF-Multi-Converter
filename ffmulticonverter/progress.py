@@ -19,13 +19,13 @@
 from __future__ import unicode_literals
 from __future__ import division
 
-from PyQt4.QtCore import QString, QTimer, pyqtSignal
+from PyQt4.QtCore import QTimer, pyqtSignal
 from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
-                  QLabel, QCheckBox, QPushButton, QProgressBar, QMessageBox)
+                  QFrame, QLabel, QPushButton, QProgressBar, QMessageBox,
+                  QTextEdit, QCommandLinkButton, QSizePolicy)
 
 import os
 import signal
-import subprocess
 import threading
 
 import pyqttools
@@ -35,7 +35,7 @@ class Progress(QDialog):
     file_converted_signal = pyqtSignal()
     refr_bars_signal = pyqtSignal(int)
 
-    def __init__(self, parent, files, delete):
+    def __init__(self, parent, files, delete, test=False):
         """Constructs the progress dialog.
 
         Keyword arguments:
@@ -44,11 +44,13 @@ class Progress(QDialog):
         """
         super(Progress, self).__init__(parent)
         self.parent = parent
-        self.tab = self.parent.current_tab()
+        if not test:
+            self.tab = self.parent.current_tab()
 
         self.files = files
         self.delete = delete
-        self.step = int(100 / len(files))
+        if not test:
+            self.step = int(100 / len(files))
         self.ok = 0
         self.error = 0
         self.running = True
@@ -59,29 +61,51 @@ class Progress(QDialog):
         self.nowBar.setValue(0)
         self.totalBar = QProgressBar()
         self.totalBar.setValue(0)
-        self.shutdownCheckBox = QCheckBox(self.tr('Shutdown after conversion'))
         self.cancelButton = QPushButton(self.tr('Cancel'))
+
+        detailsButton = QCommandLinkButton(self.tr('Details'))
+        detailsButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
+        detailsButton.setCheckable(True)
+        detailsButton.setMaximumWidth(113)
+        line = QFrame()
+        line.setFrameShape(QFrame.HLine)
+        line.setFrameShadow(QFrame.Sunken)
+        self.textEdit = QTextEdit()
+        self.textEdit.setReadOnly(True)
+        self.frame = QFrame()
+        frame_layout = pyqttools.add_to_layout(QHBoxLayout(), self.textEdit)
+        self.frame.setLayout(frame_layout)
+        self.frame.hide()
 
         hlayout = pyqttools.add_to_layout(QHBoxLayout(), None, self.nowLabel,
                                                                           None)
         hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), None, totalLabel,
                                                                           None)
-        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(),
-                                                   self.shutdownCheckBox, None)
-        hlayout4 = pyqttools.add_to_layout(QHBoxLayout(), None,
+        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), detailsButton, line)
+        hlayout4 = pyqttools.add_to_layout(QHBoxLayout(), self.frame)
+        hlayout5 = pyqttools.add_to_layout(QHBoxLayout(), None,
                                                              self.cancelButton)
-        vlayout = pyqttools.add_to_layout(QVBoxLayout(), hlayout,
-                self.nowBar, hlayout2, self.totalBar, None, hlayout3, hlayout4)
+        vlayout = pyqttools.add_to_layout(QVBoxLayout(), hlayout, self.nowBar,
+                  hlayout2, self.totalBar, None, hlayout3, hlayout4, hlayout5)
         self.setLayout(vlayout)
 
+        detailsButton.toggled.connect(self.resize_dialog)
+        detailsButton.toggled.connect(self.frame.setVisible)
         self.cancelButton.clicked.connect(self.reject)
         self.file_converted_signal.connect(self.file_converted)
         self.refr_bars_signal.connect(self.refresh_progress_bars)
 
-        self.resize(435, 190)
+        self.resize(484, 200)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
 
-        QTimer.singleShot(0, self.manage_conversions)
+        if not test:
+            QTimer.singleShot(0, self.manage_conversions)
+
+    def resize_dialog(self):
+        """Resizes Dialog"""
+        height = 200 if self.frame.isVisible() else 366
+        self.setMinimumSize(484, height)
+        self.resize(484, height)
 
     def manage_conversions(self):
         """Checks whether all files have been converted.
@@ -92,9 +116,6 @@ class Progress(QDialog):
         if not self.files:
             self.totalBar.setValue(100)
         if self.totalBar.value() >= 100:
-            if self.shutdownCheckBox.isChecked():
-                cmd = str(QString('shutdown -h now').toUtf8())
-                subprocess.call(cmd.split())
             sum_files = self.ok + self.error
             QMessageBox.information(self, self.tr('Report'),
                        self.tr('Converted: %1/%2').arg(self.ok).arg(sum_files))
@@ -184,6 +205,6 @@ if __name__ == '__main__':
     #test dialog
     import sys
     app = QApplication(sys.argv)
-    dialog = Progress(None, [], False)
+    dialog = Progress(None, [], False, test=True)
     dialog.show()
     app.exec_()

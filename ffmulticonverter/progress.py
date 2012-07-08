@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011-2012 Ilias Stamatis <stamatis.iliass@gmail.com>
@@ -19,34 +19,21 @@
 from __future__ import unicode_literals
 from __future__ import division
 
-from PyQt4.QtCore import QString, pyqtSignal
+from PyQt4.QtCore import QString, QTimer, pyqtSignal
 from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
                   QLabel, QCheckBox, QPushButton, QProgressBar, QMessageBox)
 
 import os
 import signal
-import threading
 import subprocess
-import shlex
+import threading
 
 import pyqttools
 
-class Progress(QDialog):
-    """Shows conversion progress in a dialog."""
-    # There are two bars in the dialog.
-    # One that shows the progress of each file and one for total progress.
-    #
-    # Audio, image and document conversions don't need much time to be
-    # completed so the first bar just shows 0% at the beggining and 100% when
-    # conversion done for every file.
-    #
-    # Video conversions may take some time so the first bar takes values.
-    # To find the percentage of progress it counts the frames of output file
-    # at regular intervals and compares it to the number of final file
-    # expected frames.
 
+class Progress(QDialog):
     file_converted_signal = pyqtSignal()
-    refr_bars_signal = pyqtSignal(int, int)
+    refr_bars_signal = pyqtSignal(int)
 
     def __init__(self, parent, files, delete):
         """Constructs the progress dialog.
@@ -65,10 +52,6 @@ class Progress(QDialog):
         self.ok = 0
         self.error = 0
         self.running = True
-
-        self._type = ''
-        if self.tab.name == 'Audio' or self.tab.name == 'Video':
-            self._type = 'audiovideo'
 
         self.nowLabel = QLabel(self.tr('In progress: '))
         totalLabel = QLabel(self.tr('Total:'))
@@ -98,15 +81,7 @@ class Progress(QDialog):
         self.resize(435, 190)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
 
-        self.manage_conversions()
-
-    def file_converted(self):
-        """Sets progress bars values"""
-        self.totalBar.setValue(self.max_value)
-        self.nowBar.setValue(100)
-        QApplication.processEvents()
-        self.files.pop(0)
-        self.manage_conversions()
+        QTimer.singleShot(0, self.manage_conversions)
 
     def manage_conversions(self):
         """Checks whether all files have been converted.
@@ -119,7 +94,7 @@ class Progress(QDialog):
         if self.totalBar.value() >= 100:
             if self.shutdownCheckBox.isChecked():
                 cmd = str(QString('shutdown -h now').toUtf8())
-                subprocess.call(shlex.split(cmd))
+                subprocess.call(cmd.split())
             sum_files = self.ok + self.error
             QMessageBox.information(self, self.tr('Report'),
                        self.tr('Converted: %1/%2').arg(self.ok).arg(sum_files))
@@ -128,10 +103,19 @@ class Progress(QDialog):
         else:
             self.convert_a_file()
 
+    def file_converted(self):
+        """Sets progress bars values"""
+        self.totalBar.setValue(self.max_value)
+        self.nowBar.setValue(100)
+        QApplication.processEvents()
+        self.files.pop(0)
+        self.manage_conversions()
+
     def reject(self):
         """Uses standard dialog to ask whether procedure must stop or not."""
-        if self._type == 'audiovideo':
-            self.tab.convert_prcs.send_signal(signal.SIGSTOP) #pause
+        if self.tab.name == 'AudioVideo':
+            self.tab.process.send_signal(signal.SIGSTOP) #pause
+            #os.kill(self.tab.process.pid, signal.SIGSTOP)
         else:
             self.running = False
         reply = QMessageBox.question(self,
@@ -140,12 +124,13 @@ class Progress(QDialog):
             QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             QDialog.reject(self)
-            if self._type == 'audiovideo':
-                self.tab.convert_prcs.kill() #kill
+            if self.tab.name == 'AudioVideo':
+                self.tab.process.kill() #kill
             self.thread.join()
         if reply == QMessageBox.Cancel:
-            if self._type == 'audiovideo':
-                self.tab.convert_prcs.send_signal(signal.SIGCONT) #continue
+            if self.tab.name == 'AudioVideo':
+                self.tab.process.send_signal(signal.SIGCONT) #continue
+                #os.kill(self.tab.process.pid, signal.SIGCONT)
             else:
                 self.running = True
                 self.manage_conversions()
@@ -166,7 +151,13 @@ class Progress(QDialog):
         self.max_value = self.min_value + self.step
 
         def convert():
-            if self.tab.start_conversion(self, from_file, to_file):
+            if self.tab.name == 'AudioVideo':
+                parameters = (self, from_file, to_file,
+                           self.tab.commandLineEdit.text(), self.parent.ffmpeg)
+            else:
+                parameters = (from_file, to_file)
+
+            if self.tab.convert(*parameters):
                 self.ok += 1
                 if self.delete:
                     try:
@@ -175,23 +166,13 @@ class Progress(QDialog):
                         pass
             else:
                 self.error += 1
+
             self.file_converted_signal.emit()
 
         self.thread = threading.Thread(target=convert)
         self.thread.start()
 
-    def refresh_progress_bars(self, frames, total_frames):
-        """Counts the progress rates and sets the progress bars.
-
-        Progress is calculated from the percentage of frames of the new file
-        compared to frames of the original file.
-
-        Keyword arguments:
-        frames -- number of frames of new created file
-        total_frames -- number of total frames of the original file
-        """
-        assert total_frames > 0
-        now_percent = int((frames * 100) / total_frames)
+    def refresh_progress_bars(self, now_percent):
         total_percent = int(((now_percent * self.step) / 100) + self.min_value)
 
         if now_percent > self.nowBar.value() and not (now_percent > 100):
@@ -199,3 +180,12 @@ class Progress(QDialog):
         if total_percent > self.totalBar.value() and not \
                                               (total_percent > self.max_value):
             self.totalBar.setValue(total_percent)
+
+
+if __name__ == '__main__':
+    #test dialog
+    import sys
+    app = QApplication(sys.argv)
+    dialog = Progress(None, [], False)
+    dialog.show()
+    app.exec_()

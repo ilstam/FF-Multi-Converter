@@ -372,7 +372,7 @@ class AudioVideoTab(QWidget):
                                                               command, to_file)
         convert_cmd = str(QString(convert_cmd).toUtf8())
 
-        self.process = subprocess.Popen(convert_cmd, shell=True,
+        self.process = subprocess.Popen(shlex.split(convert_cmd),
                                 stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 
         myline = ''

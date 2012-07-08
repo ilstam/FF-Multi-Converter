@@ -115,7 +115,6 @@ class Progress(QDialog):
         """Uses standard dialog to ask whether procedure must stop or not."""
         if self.tab.name == 'AudioVideo':
             self.tab.process.send_signal(signal.SIGSTOP) #pause
-            #os.kill(self.tab.process.pid, signal.SIGSTOP)
         else:
             self.running = False
         reply = QMessageBox.question(self,
@@ -130,7 +129,6 @@ class Progress(QDialog):
         if reply == QMessageBox.Cancel:
             if self.tab.name == 'AudioVideo':
                 self.tab.process.send_signal(signal.SIGCONT) #continue
-                #os.kill(self.tab.process.pid, signal.SIGCONT)
             else:
                 self.running = True
                 self.manage_conversions()

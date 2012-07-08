@@ -148,8 +148,7 @@ class AudioVideoTab(QWidget):
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
         self.moreButton = QPushButton(QApplication.translate('Tab', 'More'))
-        moreSizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.moreButton.setSizePolicy(moreSizePolicy)
+        self.moreButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
         self.moreButton.setCheckable(True)
         hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), line,self.moreButton)
 
@@ -400,10 +399,9 @@ class ImageTab(QWidget):
         super(ImageTab, self).__init__(parent)
         self.parent = parent
         self.name = 'Images'
-        self.formats = ['aai', 'bmp', 'cgm', 'dcm', 'dpx', 'emf', 'eps', 'fpx',
-                        'gif', 'jbig', 'jng', 'jpeg', 'mrsid', 'p7', 'pdf',
-                        'picon', 'png', 'ppm', 'psd', 'rad', 'tga', 'tif',
-                        'webp', 'wpg', 'xpm']
+        self.formats = ['bmp', 'cgm', 'dpx', 'emf', 'eps', 'fpx', 'gif', 
+                        'jbig', 'jng', 'jpeg', 'mrsid', 'p7', 'pdf', 'picon', 
+                        'png', 'ppm', 'psd', 'rad', 'tga', 'tif','webp', 'xpm']
 
         self.extra_img = ['bmp2', 'bmp3', 'dib', 'epdf', 'epi', 'eps2', 'eps3',
                           'epsf', 'epsi', 'icon', 'jpe', 'jpg', 'pgm', 'png24',
@@ -556,26 +554,6 @@ class DocumentTab(QWidget):
             QMessageBox.warning(self, 'FF Multi Converter - ' + \
                                                  self.tr('Error!'), unicode(e))
             return False
-
-    def convert(self, from_file, to_file):
-        """Starts the conversion procedure.
-
-        Returns: boolean
-        """
-        from_file = from_file[1:-1]
-        to_file = to_file[1:-1]
-        _file, extension = os.path.splitext(to_file)
-        moved_file = _file + os.path.splitext(from_file)[-1]
-        if os.path.exists(moved_file):
-            moved_file = _file + '~~' + os.path.splitext(from_file)[-1]
-        shutil.copy(from_file, moved_file)
-
-        converted = self.convert_document('"'+moved_file+'"', extension[1:])
-        os.remove(moved_file)
-        final_file = os.path.splitext(moved_file)[0] + extension
-        shutil.move(final_file, to_file)
-
-        return converted
 
     def convert(self, from_file, to_file):
         """Converts a document.

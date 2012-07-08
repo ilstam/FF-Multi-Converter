@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011-2012 Ilias Stamatis <stamatis.iliass@gmail.com>
@@ -19,7 +19,7 @@
 from __future__ import unicode_literals
 from __future__ import division
 
-from PyQt4.QtCore import QRegExp, QSize
+from PyQt4.QtCore import QString, QRegExp, QSize
 from PyQt4.QtGui import (QApplication, QWidget, QFrame, QVBoxLayout,
                   QHBoxLayout, QSizePolicy, QLabel, QSpacerItem, QLineEdit,
                   QComboBox, QButtonGroup, QRadioButton, QPushButton,
@@ -27,9 +27,17 @@ from PyQt4.QtGui import (QApplication, QWidget, QFrame, QVBoxLayout,
 
 import os
 import re
+import shutil
+import shlex
+import subprocess
 
 import pyqttools
 import presets_dlgs
+
+try:
+    import PythonMagick
+except ImportError:
+    pass
 
 
 class ValidationError(Exception): pass
@@ -44,6 +52,8 @@ class AudioVideoTab(QWidget):
                         'mkv', 'mmf', 'mov', 'mp3', 'mp4', 'mpg',
                         'ogg', 'ogv', 'psp', 'rm', 'spx', 'vob',
                         'wav', 'webm', 'wma', 'wmv']
+        self.extra_formats = ['aifc', 'm2t', 'm4a', 'm4v', 'mp2', 'mpeg',
+                              'ra', 'ts']
 
         nochange = self.tr('No Change')
         frequency_values = [nochange, '22050', '44100', '48000']
@@ -337,6 +347,53 @@ class AudioVideoTab(QWidget):
         self.commandLineEdit.clear()
         self.commandLineEdit.setText(self.remove_consecutive_spaces(command))
 
+    def duration_in_seconds(self, duration):
+        """Gets a time of type: hh:mm:ss.ts and return the number of seconds.
+
+        Return: integer
+        """
+        duration = duration.split('.')[0]
+        hours, mins, secs = duration.split(':')
+        seconds = int(secs)
+        seconds += (int(hours) * 3600) + (int(mins) * 60)
+        return seconds
+
+    def convert(self, parent, from_file, to_file, command, ffmpeg):
+        """Converts an audio/video file.
+
+        Returns: boolean
+        """
+        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
+        assert from_file.startswith('"') and from_file.endswith('"')
+        assert to_file.startswith('"') and to_file.endswith('"')
+
+        converter = 'ffmpeg' if ffmpeg else 'avconv'
+        convert_cmd = '{0} -y -i {1} {2} {3}'.format(converter, from_file,
+                                                              command, to_file)
+        convert_cmd = str(QString(convert_cmd).toUtf8())
+
+        self.process = subprocess.Popen(convert_cmd, shell=True,
+                                stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+
+        myline = ''
+        while True:
+            out = self.process.stderr.read(1)
+            if out == '' and self.process.poll() != None:
+                break
+
+            myline += out
+            if out in ('\r','\n'):
+                m = re.search("Duration: ([0-9:.]+), start: [0-9.]+", myline)
+                if m:
+                    total = self.duration_in_seconds(m.group(1))
+                n = re.search("time=([0-9.]+)", myline)
+                if n:
+                    now_sec = int(float(n.group(1)))
+                    parent.refr_bars_signal.emit(100 * now_sec / total)
+                myline = ''
+
+        return self.process.poll() == 0
+
 
 class ImageTab(QWidget):
     def __init__(self, parent):
@@ -411,6 +468,35 @@ class ImageTab(QWidget):
             return False
         return True
 
+    def convert(self, from_file, to_file):
+        """Converts an image.
+
+        Returns: boolean
+        """
+        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
+        assert from_file.startswith('"') and from_file.endswith('"')
+        assert to_file.startswith('"') and to_file.endswith('"')
+
+        if not self.widthLineEdit.text():
+            size = ''
+        else:
+            width = self.widthLineEdit.text()
+            height = self.heightLineEdit.text()
+            size = str('{0}x{1}'.format(width, height))
+
+        from_file = str(QString(from_file).toUtf8())[1:-1]
+        to_file = str(QString(to_file).toUtf8())[1:-1]
+        try:
+            if os.path.exists(to_file):
+                os.remove(to_file)
+            img = PythonMagick.Image(from_file)
+            if size:
+                img.transform(size)
+            img.write(to_file)
+            return True
+        except (RuntimeError, OSError, Exception):
+            return False
+
 
 class DocumentTab(QWidget):
     def __init__(self, parent):
@@ -470,3 +556,49 @@ class DocumentTab(QWidget):
             QMessageBox.warning(self, 'FF Multi Converter - ' + \
                                                  self.tr('Error!'), unicode(e))
             return False
+
+    def convert(self, from_file, to_file):
+        """Starts the conversion procedure.
+
+        Returns: boolean
+        """
+        from_file = from_file[1:-1]
+        to_file = to_file[1:-1]
+        _file, extension = os.path.splitext(to_file)
+        moved_file = _file + os.path.splitext(from_file)[-1]
+        if os.path.exists(moved_file):
+            moved_file = _file + '~~' + os.path.splitext(from_file)[-1]
+        shutil.copy(from_file, moved_file)
+
+        converted = self.convert_document('"'+moved_file+'"', extension[1:])
+        os.remove(moved_file)
+        final_file = os.path.splitext(moved_file)[0] + extension
+        shutil.move(final_file, to_file)
+
+        return converted
+
+    def convert(self, from_file, to_file):
+        """Converts a document.
+
+        Returns: boolean
+        """
+        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
+
+        from_file = from_file[1:-1]
+        to_file = to_file[1:-1]
+        _file, extension = os.path.splitext(to_file)
+        moved_file = _file + os.path.splitext(from_file)[-1]
+        if os.path.exists(moved_file):
+            moved_file = _file + '~~' + os.path.splitext(from_file)[-1]
+        shutil.copy(from_file, moved_file)
+
+        command = 'unoconv --format={0} {1}'.format(
+                                            extension[1:], '"'+moved_file+'"')
+        command = str(QString(command).toUtf8())
+        child = subprocess.call(shlex.split(command))
+
+        os.remove(moved_file)
+        final_file = os.path.splitext(moved_file)[0] + extension
+        shutil.move(final_file, to_file)
+
+        return child == 0

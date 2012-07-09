@@ -22,7 +22,7 @@ from __future__ import division
 from PyQt4.QtCore import QTimer, pyqtSignal
 from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
                   QFrame, QLabel, QPushButton, QProgressBar, QMessageBox,
-                  QTextEdit, QCommandLinkButton, QSizePolicy)
+                  QTextEdit, QCommandLinkButton, QTextCursor, QSizePolicy)
 
 import os
 import signal
@@ -34,6 +34,7 @@ import pyqttools
 class Progress(QDialog):
     file_converted_signal = pyqtSignal()
     refr_bars_signal = pyqtSignal(int)
+    update_text_edit_signal = pyqtSignal(str)
 
     def __init__(self, parent, files, delete, test=False):
         """Constructs the progress dialog.
@@ -94,6 +95,7 @@ class Progress(QDialog):
         self.cancelButton.clicked.connect(self.reject)
         self.file_converted_signal.connect(self.file_converted)
         self.refr_bars_signal.connect(self.refresh_progress_bars)
+        self.update_text_edit_signal.connect(self.update_text_edit)
 
         self.resize(484, 200)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
@@ -107,6 +109,11 @@ class Progress(QDialog):
         self.setMinimumSize(484, height)
         self.resize(484, height)
 
+    def update_text_edit(self, text):
+        current = self.textEdit.toPlainText()
+        self.textEdit.setText(current+text)
+        self.textEdit.moveCursor(QTextCursor.End)
+
     def manage_conversions(self):
         """Checks whether all files have been converted.
         If not, it will allow convert_a_file() to convert the next file.
@@ -119,8 +126,6 @@ class Progress(QDialog):
             sum_files = self.ok + self.error
             QMessageBox.information(self, self.tr('Report'),
                        self.tr('Converted: %1/%2').arg(self.ok).arg(sum_files))
-            self.accept()
-            return
         else:
             self.convert_a_file()
 
@@ -134,6 +139,9 @@ class Progress(QDialog):
 
     def reject(self):
         """Uses standard dialog to ask whether procedure must stop or not."""
+        if not self.files:
+            QDialog.accept(self)
+            return
         if self.tab.name == 'AudioVideo':
             self.tab.process.send_signal(signal.SIGSTOP) #pause
         else:
@@ -174,7 +182,7 @@ class Progress(QDialog):
                 parameters = (self, from_file, to_file,
                            self.tab.commandLineEdit.text(), self.parent.ffmpeg)
             else:
-                parameters = (from_file, to_file)
+                parameters = (self, from_file, to_file)
 
             if self.tab.convert(*parameters):
                 self.ok += 1

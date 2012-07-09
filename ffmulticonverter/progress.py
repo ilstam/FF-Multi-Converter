@@ -110,6 +110,7 @@ class Progress(QDialog):
         self.resize(484, height)
 
     def update_text_edit(self, text):
+        """Update text of self.textEdit"""
         current = self.textEdit.toPlainText()
         self.textEdit.setText(current+text)
         self.textEdit.moveCursor(QTextCursor.End)
@@ -200,6 +201,7 @@ class Progress(QDialog):
         self.thread.start()
 
     def refresh_progress_bars(self, now_percent):
+        """Refresh the values of self.nowBar and self.totalBar"""
         total_percent = int(((now_percent * self.step) / 100) + self.min_value)
 
         if now_percent > self.nowBar.value() and not (now_percent > 100):

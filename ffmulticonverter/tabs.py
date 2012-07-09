@@ -375,7 +375,7 @@ class AudioVideoTab(QWidget):
         return seconds
 
     def convert(self, parent, from_file, to_file, command, ffmpeg):
-        """Converts an audio/video file.
+        """Converts an audio/video file and keep log of conversion.
 
         Returns: boolean
         """
@@ -495,7 +495,7 @@ class ImageTab(QWidget):
         return True
 
     def convert(self, parent, from_file, to_file):
-        """Converts an image.
+        """Converts an image and keeps log of conversion.
 
         Returns: boolean
         """
@@ -600,7 +600,7 @@ class DocumentTab(QWidget):
             return False
 
     def convert(self, parent, from_file, to_file):
-        """Converts a document.
+        """Converts a document and keeps log of conversion.
 
         Returns: boolean
         """

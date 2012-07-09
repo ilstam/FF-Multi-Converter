@@ -406,7 +406,10 @@ class AudioVideoTab(QWidget):
                 n = re.search("time=([0-9.]+)", myline)
                 if n:
                     now_sec = int(float(n.group(1)))
-                    parent.refr_bars_signal.emit(100 * now_sec / total)
+                    try:                    
+                        parent.refr_bars_signal.emit(100 * now_sec / total)
+                    except ZeroDivisionError:
+                        pass
                 parent.update_text_edit_signal.emit(myline)
                 final_output += myline
                 myline = ''

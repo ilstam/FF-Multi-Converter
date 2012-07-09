@@ -30,6 +30,7 @@ import re
 import shutil
 import shlex
 import subprocess
+import logging
 
 import pyqttools
 import presets_dlgs
@@ -38,6 +39,17 @@ try:
     import PythonMagick
 except ImportError:
     pass
+
+
+_format =  '%(asctime)s : %(levelname)s - %(type)s\nCommand: %(command)s\n'
+_format += 'Return code: %(returncode)s\n%(message)s\n'
+
+logging.basicConfig(
+    #filename = 'log.log',
+    level=logging.DEBUG,
+    format=_format,
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
 
 class ValidationError(Exception): pass
@@ -370,13 +382,14 @@ class AudioVideoTab(QWidget):
         convert_cmd = '{0} -y -i {1} {2} {3}'.format(converter, from_file,
                                                               command, to_file)
         convert_cmd = str(QString(convert_cmd).toUtf8())
+        parent.update_text_edit_signal.emit(convert_cmd+'\n')
 
         self.process = subprocess.Popen(shlex.split(convert_cmd),
-                                stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+                              stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
-        myline = ''
+        final_output = myline = ''
         while True:
-            out = self.process.stderr.read(1)
+            out = self.process.stdout.read(1)
             if out == '' and self.process.poll() != None:
                 break
 
@@ -389,7 +402,10 @@ class AudioVideoTab(QWidget):
                 if n:
                     now_sec = int(float(n.group(1)))
                     parent.refr_bars_signal.emit(100 * now_sec / total)
+                parent.update_text_edit_signal.emit(myline)
+                final_output += myline
                 myline = ''
+        parent.update_text_edit_signal.emit('\n\n')
 
         return self.process.poll() == 0
 
@@ -399,8 +415,8 @@ class ImageTab(QWidget):
         super(ImageTab, self).__init__(parent)
         self.parent = parent
         self.name = 'Images'
-        self.formats = ['bmp', 'cgm', 'dpx', 'emf', 'eps', 'fpx', 'gif', 
-                        'jbig', 'jng', 'jpeg', 'mrsid', 'p7', 'pdf', 'picon', 
+        self.formats = ['bmp', 'cgm', 'dpx', 'emf', 'eps', 'fpx', 'gif',
+                        'jbig', 'jng', 'jpeg', 'mrsid', 'p7', 'pdf', 'picon',
                         'png', 'ppm', 'psd', 'rad', 'tga', 'tif','webp', 'xpm']
 
         self.extra_img = ['bmp2', 'bmp3', 'dib', 'epdf', 'epi', 'eps2', 'eps3',
@@ -466,7 +482,7 @@ class ImageTab(QWidget):
             return False
         return True
 
-    def convert(self, from_file, to_file):
+    def convert(self, parent, from_file, to_file):
         """Converts an image.
 
         Returns: boolean
@@ -484,6 +500,12 @@ class ImageTab(QWidget):
 
         from_file = str(QString(from_file).toUtf8())[1:-1]
         to_file = str(QString(to_file).toUtf8())[1:-1]
+
+        command = 'from {0} to {1}'.format(from_file, to_file)
+        if size: command += ' -s ' + size
+        command+= '\n'
+        parent.update_text_edit_signal.emit(command)
+
         try:
             if os.path.exists(to_file):
                 os.remove(to_file)
@@ -491,8 +513,10 @@ class ImageTab(QWidget):
             if size:
                 img.transform(size)
             img.write(to_file)
+            parent.update_text_edit_signal.emit('\n\n')
             return True
-        except (RuntimeError, OSError, Exception):
+        except (RuntimeError, OSError, Exception) as e:
+            parent.update_text_edit_signal.emit(str(e)+'\n\n')
             return False
 
 
@@ -555,7 +579,7 @@ class DocumentTab(QWidget):
                                                  self.tr('Error!'), unicode(e))
             return False
 
-    def convert(self, from_file, to_file):
+    def convert(self, parent, from_file, to_file):
         """Converts a document.
 
         Returns: boolean
@@ -573,10 +597,15 @@ class DocumentTab(QWidget):
         command = 'unoconv --format={0} {1}'.format(
                                             extension[1:], '"'+moved_file+'"')
         command = str(QString(command).toUtf8())
-        child = subprocess.call(shlex.split(command))
+        parent.update_text_edit_signal.emit(command+'\n')
+
+        child = subprocess.Popen(shlex.split(command),
+                             stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        child.wait()
 
         os.remove(moved_file)
         final_file = os.path.splitext(moved_file)[0] + extension
         shutil.move(final_file, to_file)
 
-        return child == 0
+        parent.update_text_edit_signal.emit(child.stdout.read()+'\n\n')
+        return child.poll() == 0

@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Program: FF Multi Converter
-# Purpose: GUI application to convert multiple file formats
 #
 # Copyright (C) 2011-2012 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -219,7 +217,7 @@ class MainWindow(QMainWindow):
                 return i
 
     def set_settings(self):
-        """Sets program settings"""
+        """Sets program settings"""        
         settings = QSettings()
         self.saveto_output = settings.value('saveto_output').toBool()
         self.rebuild_structure = settings.value('rebuild_structure').toBool()
@@ -231,6 +229,8 @@ class MainWindow(QMainWindow):
         self.avconv_prefered = settings.value('avconv_prefered').toBool()
         self.default_command = unicode(
                                   settings.value('default_command').toString())
+        if not self.default_command:
+            self.default_command = '-ab 320k -ar 48000 -ac 2'
 
         if self.saveto_output:
             if self.output is None or self.toLineEdit.text() == '':

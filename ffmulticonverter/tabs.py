@@ -387,40 +387,40 @@ class AudioVideoTab(QWidget):
         convert_cmd = '{0} -y -i {1} {2} {3}'.format(converter, from_file,
                                                               command, to_file)
         convert_cmd = str(QString(convert_cmd).toUtf8())
-        parent.update_text_edit_signal.emit(convert_cmd+'\n')
+        parent.update_text_edit_signal.emit(unicode(convert_cmd, 'utf-8')+'\n')
 
         self.process = subprocess.Popen(shlex.split(convert_cmd),
                               stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
-        final_output = myline = ''
+        final_output = myline = str('')
         while True:
-            out = self.process.stdout.read(1)
-            if out == '' and self.process.poll() != None:
+            out = str(QString(self.process.stdout.read(1)).toUtf8())
+            if out == str('') and self.process.poll() != None:
                 break
 
             myline += out
-            if out in ('\r','\n'):
+            if out in (str('\r'), str('\n')):
                 m = re.search("Duration: ([0-9:.]+), start: [0-9.]+", myline)
                 if m:
                     total = self.duration_in_seconds(m.group(1))
                 n = re.search("time=([0-9.]+)", myline)
                 if n:
                     now_sec = int(float(n.group(1)))
-                    try:                    
+                    try:
                         parent.refr_bars_signal.emit(100 * now_sec / total)
                     except ZeroDivisionError:
                         pass
                 parent.update_text_edit_signal.emit(myline)
                 final_output += myline
-                myline = ''
+                myline = str('')
         parent.update_text_edit_signal.emit('\n\n')
 
         return_code = self.process.poll()
 
-        log_data = {'command' : convert_cmd, 'returncode' : return_code,
-                    'type' : 'VIDEO'}
+        log_data = {'command' : unicode(convert_cmd, 'utf-8'),
+                    'returncode' : return_code, 'type' : 'VIDEO'}
         log_lvl = logging.info if return_code == 0 else logging.error
-        log_lvl(final_output, extra=log_data)
+        log_lvl(unicode(final_output, 'utf-8'), extra=log_data)
 
         return return_code == 0
 
@@ -516,7 +516,8 @@ class ImageTab(QWidget):
         from_file = str(QString(from_file).toUtf8())[1:-1]
         to_file = str(QString(to_file).toUtf8())[1:-1]
 
-        command = 'from {0} to {1}'.format(from_file, to_file)
+        command = 'from {0} to {1}'.format(unicode(from_file, 'utf-8'),
+                                           unicode(to_file, 'utf-8'))
         if size: command += ' -s ' + size
         parent.update_text_edit_signal.emit(command+'\n')
         final_output = ''
@@ -620,7 +621,7 @@ class DocumentTab(QWidget):
         command = 'unoconv --format={0} {1}'.format(
                                             extension[1:], '"'+moved_file+'"')
         command = str(QString(command).toUtf8())
-        parent.update_text_edit_signal.emit(command+'\n')
+        parent.update_text_edit_signal.emit(unicode(command, 'utf-8')+'\n')
 
         child = subprocess.Popen(shlex.split(command),
                              stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
@@ -630,13 +631,13 @@ class DocumentTab(QWidget):
         final_file = os.path.splitext(moved_file)[0] + extension
         shutil.move(final_file, to_file)
 
-        final_output = child.stdout.read()
+        final_output = unicode(child.stdout.read(), 'utf-8')
         parent.update_text_edit_signal.emit(final_output+'\n\n')
 
         return_code = child.poll()
 
-        log_data = {'command' : command, 'returncode' : return_code,
-                    'type' : 'DOCUMENT'}
+        log_data = {'command' : unicode(command, 'utf-8'),
+                    'returncode' : return_code, 'type' : 'DOCUMENT'}
         log_lvl = logging.info if return_code == 0 else logging.error
         log_lvl(final_output, extra=log_data)
 

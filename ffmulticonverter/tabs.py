@@ -44,8 +44,13 @@ except ImportError:
 _format =  '%(asctime)s : %(levelname)s - %(type)s\nCommand: %(command)s\n'
 _format += 'Return code: %(returncode)s\n%(message)s\n'
 
+log_folder = os.path.join(os.getenv('HOME'), '.config/ffmulticonverter/logs')
+if not os.path.exists(log_folder):
+    os.makedirs(log_folder)
+log_file = os.path.join(log_folder, 'history.log')
+
 logging.basicConfig(
-    #filename = 'log.log',
+    filename = log_file,
     level=logging.DEBUG,
     format=_format,
     datefmt='%Y-%m-%d %H:%M:%S'
@@ -407,7 +412,14 @@ class AudioVideoTab(QWidget):
                 myline = ''
         parent.update_text_edit_signal.emit('\n\n')
 
-        return self.process.poll() == 0
+        return_code = self.process.poll()
+
+        log_data = {'command' : convert_cmd, 'returncode' : return_code,
+                    'type' : 'VIDEO'}
+        log_lvl = logging.info if return_code == 0 else logging.error
+        log_lvl(final_output, extra=log_data)
+
+        return return_code == 0
 
 
 class ImageTab(QWidget):
@@ -503,8 +515,8 @@ class ImageTab(QWidget):
 
         command = 'from {0} to {1}'.format(from_file, to_file)
         if size: command += ' -s ' + size
-        command+= '\n'
-        parent.update_text_edit_signal.emit(command)
+        parent.update_text_edit_signal.emit(command+'\n')
+        final_output = ''
 
         try:
             if os.path.exists(to_file):
@@ -513,11 +525,19 @@ class ImageTab(QWidget):
             if size:
                 img.transform(size)
             img.write(to_file)
-            parent.update_text_edit_signal.emit('\n\n')
-            return True
+            converted = True
         except (RuntimeError, OSError, Exception) as e:
-            parent.update_text_edit_signal.emit(str(e)+'\n\n')
-            return False
+            final_output = str(e)
+            parent.update_text_edit_signal.emit(final_output)
+            converted = False
+        parent.update_text_edit_signal.emit('\n\n')
+
+        log_data = {'command' : command, 'returncode' : int (not converted),
+                    'type' : 'IMAGE'}
+        log_lvl = logging.info if converted == 1 else logging.error
+        log_lvl(final_output, extra=log_data)
+
+        return converted
 
 
 class DocumentTab(QWidget):
@@ -607,5 +627,14 @@ class DocumentTab(QWidget):
         final_file = os.path.splitext(moved_file)[0] + extension
         shutil.move(final_file, to_file)
 
-        parent.update_text_edit_signal.emit(child.stdout.read()+'\n\n')
-        return child.poll() == 0
+        final_output = child.stdout.read()
+        parent.update_text_edit_signal.emit(final_output+'\n\n')
+
+        return_code = child.poll()
+
+        log_data = {'command' : command, 'returncode' : return_code,
+                    'type' : 'DOCUMENT'}
+        log_lvl = logging.info if return_code == 0 else logging.error
+        log_lvl(final_output, extra=log_data)
+
+        return return_code == 0

@@ -37,6 +37,7 @@ import progress
 import pyqttools
 import preferences_dlg
 import presets_dlgs
+import qrc_resources.qrc_resources
 
 try:
     import PythonMagick
@@ -586,13 +587,13 @@ def main():
     app.setApplicationName('FF Muli Converter')
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
 
-#    locale = QLocale.system().name()
-#    qtTranslator = QTranslator()
-#    if qtTranslator.load('qt_' + locale, ':/'):
-#        app.installTranslator(qtTranslator)
-#    appTranslator = QTranslator()
-#    if appTranslator.load('ffmulticonverter_' + locale, ':/'):
-#        app.installTranslator(appTranslator)
+    locale = QLocale.system().name()
+    qtTranslator = QTranslator()
+    if qtTranslator.load('qt_' + locale, ':/'):
+        app.installTranslator(qtTranslator)
+    appTranslator = QTranslator()
+    if appTranslator.load('ffmulticonverter_' + locale, ':/'):
+        app.installTranslator(appTranslator)
 
     converter = MainWindow()
     converter.show()

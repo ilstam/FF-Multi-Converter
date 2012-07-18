@@ -2,6 +2,7 @@
 <qresource>
 <file alias="ffmulticonverter_el.qm">../locale/ffmulticonverter_el.qm</file>
 <file alias="ffmulticonverter_tr.qm">../locale/ffmulticonverter_tr.qm</file>
+<file alias="ffmulticonverter_tr.qm">../locale/ffmulticonverter_de.qm</file>
 <file alias="ffmulticonverter.png">../../data/ffmulticonverter.png</file>
 </qresource>
 </RCC>

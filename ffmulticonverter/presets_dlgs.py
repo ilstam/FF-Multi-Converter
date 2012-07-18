@@ -161,8 +161,9 @@ class ShowPresets(QDialog):
             return
 
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
-            'Delete Preset'), 'Are you sure that you want to delete the {0} '
-            'preset?'.format(xml_elem.tag), QMessageBox.Yes|QMessageBox.Cancel)
+            'Delete Preset'), self.tr('Are you sure that you want to delete '
+            'the %1 preset?').arg(xml_elem.tag), 
+            QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             self.root.remove(xml_elem)
             self.save_tree()
@@ -171,8 +172,8 @@ class ShowPresets(QDialog):
     def delete_all_presets(self):
         """Clears xml root."""
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
-            'Delete Preset'), 'Are you sure that you want to delete all '
-            'presets?', QMessageBox.Yes|QMessageBox.Cancel)
+            'Delete Preset'), self.tr('Are you sure that you want to delete '
+            'all presets?'), QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             self.root.clear()
             self.save_tree()
@@ -202,9 +203,9 @@ class ShowPresets(QDialog):
     def import_presets(self):
         """Import an xml tree."""
         title = 'FF Multi Converter - Import'
-        reply = QMessageBox.question(self, title, 'All current presets will be '
-                'deleted.\nAre you sure that you want to continue?',
-                QMessageBox.Yes|QMessageBox.Cancel)
+        reply = QMessageBox.question(self, title, self.tr('All current '
+                'presets will be deleted.\nAre you sure that you want to '
+                'continue?'), QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             fname = QFileDialog.getOpenFileName(self, title)
             if fname:
@@ -233,8 +234,8 @@ class ShowPresets(QDialog):
     def reset(self):
         """Import the default xml tree."""
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
-            'Delete Preset'), 'Are you sure that you want to restore the '
-            'default presets?', QMessageBox.Yes|QMessageBox.Cancel)
+            'Delete Preset'), self.tr('Are you sure that you want to restore '
+            'the default presets?'), QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             if os.path.exists(self.current_presets_file):
                 os.remove(self.current_presets_file)

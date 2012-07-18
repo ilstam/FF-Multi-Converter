@@ -1,3 +1,20 @@
+Version 1.4.0
+--------------
+
+* Audio/Video presets management. The presets are compatible with those of WinFF.
+
+* In-line processing of the ffmpeg command in audio/video conversions.
+
+* More precise and reliable results in the conversion progress bars.
+
+* FFmpeg/avconv/unoconv ouput is visible in the conversion dialog.
+
+* Choose between ffmpeg/avconv for audio/video conversion if both are installed.
+
+* The two tabs for audio and video replaced by one.
+
+* Keep all conversions in a log file.
+
 Version 1.3.1
 --------------
 

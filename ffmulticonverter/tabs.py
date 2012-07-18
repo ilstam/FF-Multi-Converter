@@ -240,8 +240,8 @@ class AudioVideoTab(QWidget):
         if not self.parent.ffmpeg and not self.parent.avconv:
             QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
                 'Error!'), self.tr('Neither ffmpeg nor avconv are installed.'
-                '\nYou will not be able to convert document files until you '
-                'install one of them.'))
+                '\nYou will not be able to convert audio/video files until you'
+                ' install one of them.'))
             return False
         if self.extLineEdit.isEnabled():
             text = str(self.extLineEdit.text()).strip()
@@ -595,7 +595,7 @@ class DocumentTab(QWidget):
                        'to convert document files until you install it.'))
             if file_ext != decl_ext:
                 raise ValidationError(self.tr(
-                                    'Given file is not {0}!'.format(decl_ext)))
+                                    'Given file is not %1!').arg(decl_ext))
             return True
 
         except ValidationError as e:

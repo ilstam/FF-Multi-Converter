@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011-2012 Ilias Stamatis <stamatis.iliass@gmail.com>
@@ -282,7 +282,7 @@ class AddorEditPreset(QDialog):
             self.commandLineEdit.home(False)
             self.extLineEdit.setText(xml_element[2].text)
 
-            title = self.tr('Edit {0}'.format(xml_element.tag))
+            title = self.tr('Edit %1').arg(xml_element.tag)
         else:
             title = self.tr('Add preset')
 

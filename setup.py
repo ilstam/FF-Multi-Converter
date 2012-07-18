@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# FF Multi Converter's setup.py
 
 import ffmulticonverter
 from distutils.core import setup
@@ -49,6 +48,7 @@ Features:
  - Conversions for several file formats.
  - Very easy to use interface.
  - Access to common conversion options.
+ - Audio/video ffmpeg-presets management.
  - Options for saving and naming files.
  - Recursive conversions.
 

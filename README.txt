@@ -7,7 +7,8 @@ Description
 FF Multi Converter is a simple graphical application which enables you to convert audio, video, image and document files 
 between all popular formats, using and combining other programs. 
 It uses ffmpeg for audio/video files, unoconv for document files and PythonMagick library for image file conversions. 
-Common conversion options for each file type are provided. Recursive conversions are available too.
+Common conversion options for each file type are provided.
+Audio/video ffmpeg-presets management and recursive conversion options are available too.
 
 
 Dependencies

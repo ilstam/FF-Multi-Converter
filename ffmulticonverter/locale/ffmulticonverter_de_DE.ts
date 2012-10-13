@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ru" sourcelanguage="">
+<!DOCTYPE TS><TS version="2.0" language="de_DE" sourcelanguage="">
 <context>
     <name>AddorEditPreset</name>
     <message>
         <location filename="../presets_dlgs.py" line="257"/>
         <source>Preset name (one word, A-z, 0-9)</source>
-        <translation>Имя предустановки (одно слово, A-z, 0-9)</translation>
+        <translation>Voreingestellter Name (ein Wort, A-z, 0-9)</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="259"/>
         <source>Preset label</source>
-        <translation>Описание предустановки</translation>
+        <translation>Vorteingestellter Label</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="261"/>
         <source>Preset command line parameters</source>
-        <translation>Параметры командной строки предустановки</translation>
+        <translation>Voreingestellter Kommandozeilenparameter</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="263"/>
         <source>Output file extension</source>
-        <translation>Расширение выходного файла</translation>
+        <translation>Ausgabe Dateierweiterung</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="288"/>
         <source>Add preset</source>
-        <translation>Добавить предустановку</translation>
+        <translation>Voreinstellung hinzufügen</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="335"/>
         <source>Error!</source>
-        <translation>Ошибка!</translation>
+        <translation>Feher!</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="308"/>
         <source>Preset name can&apos;t be left blank.</source>
-        <translation>Имя предустановки не может быть пустым.</translation>
+        <translation>Voreingestellter Name darf nicht leer sein.</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="313"/>
         <source>Preset name must be one word and contain only letters and digits.</source>
-        <translation>Имя предустановки должно быть одним словом и состоять лишь из латинских букв и цифр.</translation>
+        <translation>Voreingestellter Name muß aus einem Wort bestehen und darf nur Buchstaben und Zahlen beinhalten.</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="320"/>
         <source>Preset label can&apos;t be left blank.</source>
-        <translation>Описание предустановки не может быть пустым.</translation>
+        <translation>Voreingestellter Label darf nicht leer sein.</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="325"/>
         <source>Command label can&apos;t be left blank.</source>
-        <translation>Параметры командной строки не могут быть пустыми.</translation>
+        <translation>Kommando Label darf nicht leer sein.</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="330"/>
         <source>Extension label can&apos;t be left blank.</source>
-        <translation>Расширение выходного файла не может быть пустым.</translation>
+        <translation>Die Dateierweiterung muß angegeben sein.</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="335"/>
         <source>Extension must be one word and must not start with a dot.</source>
-        <translation>Расширение должно быть одним словом и не начинаться с точки.</translation>
+        <translation>Dateierweiterung muß aus einem Wort bestehen und darf nicht mit einem Punkt beginnen.</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="286"/>
         <source>Edit %1</source>
-        <translation>Редактировать %1</translation>
+        <translation>Bearbeite %1</translation>
     </message>
 </context>
 <context>
@@ -73,89 +73,89 @@
     <message>
         <location filename="../tabs.py" line="75"/>
         <source>No Change</source>
-        <translation>Без изменений</translation>
+        <translation>Keine Änderung</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="83"/>
         <source>Convert to:</source>
-        <translation>Конвертировать в:</translation>
+        <translation>Konvertiere zu:</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="85"/>
         <source>Other</source>
-        <translation>Другое</translation>
+        <translation>Andere</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="92"/>
         <source>Command:</source>
-        <translation>Команда:</translation>
+        <translation>Kommando:</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="94"/>
         <source>Preset</source>
-        <translation>Предустановка</translation>
+        <translation>Preset</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="95"/>
         <source>Default</source>
-        <translation>По умолчанию</translation>
+        <translation>Default</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="99"/>
         <source>Video Size:</source>
-        <translation>Размер видео:</translation>
+        <translation>Videogröße:</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="100"/>
         <source>Aspect:</source>
-        <translation>Пропорции:</translation>
+        <translation>Seitenverhältnis:</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="101"/>
         <source>Frame Rate (fps):</source>
-        <translation>Частота кадров (fps):</translation>
+        <translation>Bildwiederholrate (fps):</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="102"/>
         <source>Video Bitrate (kbps):</source>
-        <translation>Битрейт видео (kbps):</translation>
+        <translation>Video Bitrate (kbps):</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="131"/>
         <source>Frequency (Hz):</source>
-        <translation>Частота (Hz):</translation>
+        <translation>Frequenz (Hz):</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="132"/>
         <source>Channels:</source>
-        <translation>Каналы:</translation>
+        <translation>Kanäle:</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="133"/>
         <source>Audio Bitrate (kbps):</source>
-        <translation>Битрейт аудио (kbps):</translation>
+        <translation>Audio Bitrate (kbps):</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="256"/>
         <source>Error!</source>
-        <translation>Ошибка!</translation>
+        <translation>Fehler!</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="249"/>
         <source>Extension must be one word and must not start with a dot.</source>
-        <translation>Расширение должно быть одним словом и не начинаться с точки.</translation>
+        <translation>Die Dateierweiterung muss ein Wort sein und darf nicht mit einem Punkt starten.</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="256"/>
         <source>The command LineEdit may not be empty.</source>
-        <translation>Команда LineEdit не может быть пустой.</translation>
+        <translation>Die Kommandozeile darf nicht leer sein.</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="241"/>
         <source>Neither ffmpeg nor avconv are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
-        <translation>Ни ffmpeg, ни avconv не обнаружены.
-Вы не сможете конвертировать аудио/видео файлы пока не установите одну из этих программ.</translation>
+        <translation>Weder ffmpeg noch avconv sind installiert.
+Sie können keine Audio/Videodateien konvertiere, bis Sie eins von beiden installiert haben.</translation>
     </message>
 </context>
 <context>
@@ -163,24 +163,24 @@ You will not be able to convert audio/video files until you install one of them.
     <message>
         <location filename="../tabs.py" line="572"/>
         <source>Convert:</source>
-        <translation>Конвертировать:</translation>
+        <translation>Konvertiere:</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="593"/>
         <source>Unocov is not installed.
 You will not be able to convert document files until you install it.</source>
-        <translation>Unocov не установлен.
-Вы не сможете конвертировать документы пока не установите его.</translation>
+        <translation>Unocov ist nicht installiert.
+Sie können keine Dokumente konvertieren, bis Sie Unoconv installiert haben.</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="602"/>
         <source>Error!</source>
-        <translation>Ошибка!</translation>
+        <translation>Fehler!</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="597"/>
         <source>Given file is not %1!</source>
-        <translation>Данный файл не %1!</translation>
+        <translation>Angegebene Datei ist nicht %1!</translation>
     </message>
 </context>
 <context>
@@ -188,34 +188,34 @@ You will not be able to convert document files until you install it.</source>
     <message>
         <location filename="../tabs.py" line="493"/>
         <source>The size LineEdit may not be empty.</source>
-        <translation>Размер LineEdit не может быть пустым.</translation>
+        <translation>The Größenangabe darf nicht fehlen.</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="493"/>
         <source>Error!</source>
-        <translation>Ошибка!</translation>
+        <translation>Fehler!</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="452"/>
         <source>Image Size:</source>
-        <translation>Размер изображения:</translation>
+        <translation>Bildgröße:</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="445"/>
         <source>Convert to:</source>
-        <translation>Конвертировать в:</translation>
+        <translation>Konvertiere nach:</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="484"/>
         <source>PythonMagick is not installed.
 You will not be able to convert image files until you install it.</source>
-        <translation>PythonMagick не установлен.
-Вы не сможете конвертировать изображения пока не установите его.</translation>
+        <translation>PythonMagick ist nicht installiert.
+Sie können keine Bilder konvertieren, bis Sie PythonMagick installiert haben.</translation>
     </message>
     <message>
         <location filename="../tabs.py" line="489"/>
         <source>Could not convert this file type!</source>
-        <translation>Не могу конвертировать данный тип файла!</translation>
+        <translation>Kann diesen Dateityp nicht konvertieren!</translation>
     </message>
 </context>
 <context>
@@ -223,248 +223,248 @@ You will not be able to convert image files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter.py" line="57"/>
         <source>Select file:</source>
-        <translation>Выберите файл:</translation>
+        <translation>Datei auswählen:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="76"/>
         <source>Images</source>
-        <translation>Изображения</translation>
+        <translation>Bilder</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="77"/>
         <source>Documents</source>
-        <translation>Документы</translation>
+        <translation>Dokumente</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="83"/>
         <source>Convert all files
 in this folder</source>
-        <translation>Конвертировать все файлы
-в этой папке</translation>
+        <translation>Konvertiere alle Dateien
+in diesem Ordner</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="85"/>
         <source>Convert files
 recursively</source>
-        <translation>Конвертировать файлы
-рекурсивно</translation>
+        <translation>Konvertiere alle Dateien
+inkl. Unterverzeichnisse</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="87"/>
         <source>Delete original</source>
-        <translation>Удалить оригинал</translation>
+        <translation>Originaldatei löschen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="91"/>
         <source>Same type</source>
-        <translation>Тот же тип</translation>
+        <translation>Gleicher Typ</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="94"/>
         <source>Same extension</source>
-        <translation>То же расширение</translation>
+        <translation>Gleiche Erweiterung</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="100"/>
         <source>&amp;Convert</source>
-        <translation>&amp;Конвертировать</translation>
+        <translation>&amp;Konvertiere</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="115"/>
         <source>Open</source>
-        <translation>Открыть</translation>
+        <translation>Öffne</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="115"/>
         <source>Open a file</source>
-        <translation>Открыть файл</translation>
+        <translation>Datei öffnen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="117"/>
         <source>Convert</source>
-        <translation>Конвертировать</translation>
+        <translation>Konvertiere</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="117"/>
         <source>Convert files</source>
-        <translation>Конвертировать файлы</translation>
+        <translation>Konvertiere Dateien</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="119"/>
         <source>Quit</source>
-        <translation>Выход</translation>
+        <translation>Beenden</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="129"/>
         <source>Clear</source>
-        <translation>Очистить</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="129"/>
         <source>Clear form</source>
-        <translation>Очистить форму</translation>
+        <translation>Lösche Eingabefeld</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="131"/>
         <source>Preferences</source>
-        <translation>Настройки</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="540"/>
         <source>About</source>
-        <translation>О программе</translation>
+        <translation>Über</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="136"/>
         <source>File</source>
-        <translation>Файл</translation>
+        <translation>Datei</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="137"/>
         <source>Edit</source>
-        <translation>Редактировать</translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="139"/>
         <source>Help</source>
-        <translation>Помощь</translation>
+        <translation>Hilfe</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="243"/>
         <source>Each file to its original folder</source>
-        <translation>Каждый файл в его исходную папку</translation>
+        <translation>Jede Datei in den ursprünglichen Ordner</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="257"/>
         <source>All Files</source>
-        <translation>Все файлы</translation>
+        <translation>Alle Dateien</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="258"/>
         <source>Image Files</source>
-        <translation>Файлы изображений</translation>
+        <translation>Bilder</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="258"/>
         <source>Document Files</source>
-        <translation>Файлы документов</translation>
+        <translation>Dokumente</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="265"/>
         <source>Choose File</source>
-        <translation>Выберите файл</translation>
+        <translation>Datei wählen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="275"/>
         <source>Choose output destination</source>
-        <translation>Выберите назначение для вывода</translation>
+        <translation>Wähle Ausgabeort</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="282"/>
         <source>Save Location!</source>
-        <translation>Сохраните расположение!</translation>
+        <translation>Sichere Ausgabeort!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="282"/>
         <source>You have chosen to save every file to its original folder.
 You can change this from preferences.</source>
-        <translation>Вы выбрали сохранение каждого файла в его исходную папку.
-Вы можете изменить это в &quot;Настройках&quot;.</translation>
+        <translation>Sie haben gewählt, dass jede Datei in das ursprüngliche Verzeichnis gespeichert werden soll.
+Sie können dies in den Einstellungen ändern.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="318"/>
         <source>You must choose a file to convert!</source>
-        <translation>Вы должны выбрать файл для конвертирования!</translation>
+        <translation>Sie müssen eine Datei wählen!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="321"/>
         <source>The selected file does not exists!</source>
-        <translation>Выбранный файл не существует!</translation>
+        <translation>Die gewählte Datei exisitert nicht!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="324"/>
         <source>You must choose an output folder!</source>
-        <translation>Вы должны выбрать папку назначения!</translation>
+        <translation>Sie müssen einen Ausgabeordner wählen!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="327"/>
         <source>Output folder does not exists!</source>
-        <translation>Папка назначения не существует!</translation>
+        <translation>Ausgabeordner exisitert nicht!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="334"/>
         <source>Error!</source>
-        <translation>Ошибка!</translation>
+        <translation>Fehler!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="539"/>
         <source>Convert among several file types to other extensions</source>
-        <translation>Конвертирование различных типов файлов</translation>
+        <translation>Konvertiere zahlreiche Dateitypen in andere Formate</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="578"/>
         <source>None</source>
-        <translation>Пусто</translation>
+        <translation>Kein</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="579"/>
         <source>Missing dependencies:</source>
-        <translation>Пропущенные зависимости:</translation>
+        <translation>Fehlende Abhängigkeiten:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="58"/>
         <source>Output folder:</source>
-        <translation>Папка назначения</translation>
+        <translation>Ausgabeverzeichnis:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="76"/>
         <source>Audio/Video</source>
-        <translation>Аудио/Видео</translation>
+        <translation>Audio/Video</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="121"/>
         <source>Edit Presets</source>
-        <translation>Редактировать предустановки</translation>
+        <translation>Voreinstellungen bearbeiten</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="123"/>
         <source>Import</source>
-        <translation>Импорт</translation>
+        <translation>Importieren</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="123"/>
         <source>Import presets</source>
-        <translation>Импортировать предустановки</translation>
+        <translation>Importiere Voreinstellungen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="125"/>
         <source>Export</source>
-        <translation>Экспорт</translation>
+        <translation>Exportiere</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="125"/>
         <source>Export presets</source>
-        <translation>Экспортировать предустановки</translation>
+        <translation>Exportiere Voreinstellungen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="127"/>
         <source>Reset</source>
-        <translation>Сброс</translation>
+        <translation>Rücksetzen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="127"/>
         <source>Reset presets</source>
-        <translation>Сбросить предустановки</translation>
+        <translation>Voreinstellungen rücksetzen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="138"/>
         <source>Presets</source>
-        <translation>Предустановки</translation>
+        <translation>Voreinstellungen</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter.py" line="257"/>
         <source>Audio/Video Files</source>
-        <translation>Аудио/Видео файлы</translation>
+        <translation>Audio/Video Dateien</translation>
     </message>
 </context>
 <context>
@@ -473,75 +473,75 @@ You can change this from preferences.</source>
         <location filename="../preferences_dlg.py" line="38"/>
         <source>Save all files
 to ouput destination</source>
-        <translation>Сохранить все файлы
-в папку назначения</translation>
+        <translation>Speichere alle Dateien
+in das Ausgabeverzeichnis</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="40"/>
         <source>Save each file to
 its original folder</source>
-        <translation>Сохранить каждый файл
-в его исходную папку</translation>
+        <translation>Speichere Datei in den
+ursprünglichen Ordner</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="55"/>
         <source>Rebuild files structure</source>
-        <translation>Перестроить структуру файлов</translation>
+        <translation>Erneuere Dateistruktur</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="98"/>
         <source>General</source>
-        <translation>Основное</translation>
+        <translation>Allgemein</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="161"/>
         <source>Preferences</source>
-        <translation>Настройки</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="63"/>
         <source>Prefix:</source>
-        <translation>Префикс:</translation>
+        <translation>Präfix:</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="64"/>
         <source>Suffix:</source>
-        <translation>Постфикс:</translation>
+        <translation>Suffix:</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="171"/>
         <source>Choose default output destination</source>
-        <translation>Выберите папку назначения по умолчанию</translation>
+        <translation>Wähle Standard Ausgabeverzeichnis</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="37"/>
         <source>Save files</source>
-        <translation>Сохранить файлы</translation>
+        <translation>Speichere Dateien</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="62"/>
         <source>Name files</source>
-        <translation>Дать имя файлам</translation>
+        <translation>Dateiname</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="48"/>
         <source>Existing files:</source>
-        <translation>Существующие файлы:</translation>
+        <translation>Existierende Dateien:</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="49"/>
         <source>Add &apos;~&apos; prefix</source>
-        <translation>Добавить префикс &apos;~&apos;</translation>
+        <translation> Präfix &apos;~&apos; hinzufügen</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="51"/>
         <source>Overwrite</source>
-        <translation>Перезаписать</translation>
+        <translation>Überschreibe</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="56"/>
         <source>Default output destination:</source>
-        <translation>Папка назначения по умолчанию</translation>
+        <translation>Standard Ausgabeort:</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="83"/>
@@ -551,12 +551,12 @@ its original folder</source>
     <message>
         <location filename="../preferences_dlg.py" line="80"/>
         <source>Default command:</source>
-        <translation>Команда по умолчанию</translation>
+        <translation>Standard Kommando:</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="82"/>
         <source>Use:</source>
-        <translation>Использовать:</translation>
+        <translation>Nutze:</translation>
     </message>
     <message>
         <location filename="../preferences_dlg.py" line="84"/>
@@ -566,7 +566,7 @@ its original folder</source>
     <message>
         <location filename="../preferences_dlg.py" line="99"/>
         <source>Audio/Video</source>
-        <translation>Аудио/Видео</translation>
+        <translation>Audio/Video</translation>
     </message>
 </context>
 <context>
@@ -574,52 +574,52 @@ its original folder</source>
     <message>
         <location filename="../progress.py" line="59"/>
         <source>In progress: </source>
-        <translation>Обработка:</translation>
+        <translation>In Arbeit:</translation>
     </message>
     <message>
         <location filename="../progress.py" line="60"/>
         <source>Total:</source>
-        <translation>Всего:</translation>
+        <translation>Gesamt:</translation>
     </message>
     <message>
         <location filename="../progress.py" line="65"/>
         <source>Cancel</source>
-        <translation>Отмена</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../progress.py" line="128"/>
         <source>Report</source>
-        <translation>Отчет</translation>
+        <translation>Bericht</translation>
     </message>
     <message>
         <location filename="../progress.py" line="128"/>
         <source>Converted: %1/%2</source>
-        <translation>Обработано: %1/%2</translation>
+        <translation>Konvertiert: %1/%2</translation>
     </message>
     <message>
         <location filename="../progress.py" line="150"/>
         <source>Are you sure you want to cancel conversion?</source>
-        <translation>Вы уверены, что хотите отменить обработку?</translation>
+        <translation>Wollen Sie wirklich die Umwandlung abbrechen?</translation>
     </message>
     <message>
         <location filename="../progress.py" line="101"/>
         <source>Conversion</source>
-        <translation>Обработка</translation>
+        <translation>Konvertiere</translation>
     </message>
     <message>
         <location filename="../progress.py" line="150"/>
         <source>Cancel Conversion</source>
-        <translation>Отменить обработку</translation>
+        <translation>Konvertierung abbrechen</translation>
     </message>
     <message>
         <location filename="../progress.py" line="175"/>
         <source>In progress:</source>
-        <translation>Обработка:</translation>
+        <translation>In Arbeit:</translation>
     </message>
     <message>
         <location filename="../progress.py" line="67"/>
         <source>Details</source>
-        <translation>Подробности</translation>
+        <translation>Details</translation>
     </message>
 </context>
 <context>
@@ -627,74 +627,74 @@ its original folder</source>
     <message>
         <location filename="../presets_dlgs.py" line="47"/>
         <source>Preset label</source>
-        <translation>Описание предустановки</translation>
+        <translation>Voreingestelltes Label</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="50"/>
         <source>Preset command line parameters</source>
-        <translation>Параменты командной строки предустановки</translation>
+        <translation>Voreingestellter Kommandozeilenparameter</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="53"/>
         <source>Output file extension</source>
-        <translation>Расширение выходного файла</translation>
+        <translation>Dateierweiterung der Ausgabedatei</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="56"/>
         <source>Add</source>
-        <translation>Добавить</translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="57"/>
         <source>Delete</source>
-        <translation>Удалить</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="58"/>
         <source>Delete all</source>
-        <translation>Удалить все</translation>
+        <translation>Alles löschen</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="59"/>
         <source>Edit</source>
-        <translation>Править</translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="60"/>
         <source>OK</source>
-        <translation>ОК</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="84"/>
         <source>Edit Presets</source>
-        <translation>Редактировать предустановки</translation>
+        <translation>Voreinstellungen bearbeiten</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="236"/>
         <source>Delete Preset</source>
-        <translation>удалить предустановку</translation>
+        <translation>Voreinstellungen löschen</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="163"/>
         <source>Are you sure that you want to delete the %1 preset?</source>
-        <translation>Вы уверены, что хотите удалить предустановку %1?</translation>
+        <translation>Wollen Sie wirklich die %1 Voreinstellung löschen?</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="174"/>
         <source>Are you sure that you want to delete all presets?</source>
-        <translation>Вы уверены, что хотите удалить все предустановки?</translation>
+        <translation>Wollen Sie wirkliche alle Voreinstellungen löschen?</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="206"/>
         <source>All current presets will be deleted.
 Are you sure that you want to continue?</source>
-        <translation>Все текущие предустановки будут удалены.
-Вы уверены, что хотите продолжить?</translation>
+        <translation>Alle Voreinstellungen werden gelöscht.
+Wollen Sie wirklich fortfahren?</translation>
     </message>
     <message>
         <location filename="../presets_dlgs.py" line="236"/>
         <source>Are you sure that you want to restore the default presets?</source>
-        <translation>Вы уверены, что хотите восстановить предустановки по умолчанию?</translation>
+        <translation>Wollen Sie wirklich alle Voreinstellungen wiederherstellen?</translation>
     </message>
 </context>
 <context>
@@ -702,7 +702,7 @@ Are you sure that you want to continue?</source>
     <message>
         <location filename="../tabs.py" line="167"/>
         <source>More</source>
-        <translation>Еще</translation>
+        <translation>Mehr</translation>
     </message>
 </context>
 </TS>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="el">
+<!DOCTYPE TS><TS version="2.0" language="el" sourcelanguage="">
 <context>
     <name>AddorEditPreset</name>
     <message>

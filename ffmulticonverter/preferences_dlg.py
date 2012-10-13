@@ -166,8 +166,8 @@ class Preferences(QDialog):
         self.defaultLineEdit.setEnabled(enable)
 
     def open_dir(self):
+        """Uses standard QtDialog to get directory name."""
         if self.defaultLineEdit.isEnabled():
-            """Uses standard QtDialog to get directory name."""
             _dir = QFileDialog.getExistingDirectory(self, 'FF Multi Converter '
                 '- ' + self.tr('Choose default output destination'), self.home)
             _dir = unicode(_dir)

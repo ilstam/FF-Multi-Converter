@@ -1,8 +1,10 @@
-[Desktop Entry]
+﻿[Desktop Entry]
 Type=Application
 Name=FF Multi Converter
 GenericName=File Format Converter
-Comment=GUI application which converts multiple file formats 
+GenericName[pt]=Conversor de ficheiros
+Comment=GUI application which converts multiple file formats
+Comment[pt]=Programa para conversão de diversos formatos de ficheiro
 Exec=ffmulticonverter
 Icon=ffmulticonverter
 Terminal=false

@@ -6,6 +6,8 @@
 <file alias="ffmulticonverter_zh_CN.qm">../locale/ffmulticonverter_zh_CN.qm</file>
 <file alias="ffmulticonverter_de_DE.qm">../locale/ffmulticonverter_de_DE.qm</file>
 <file alias="ffmulticonverter_hu.qm">../locale/ffmulticonverter_hu.qm</file>
+<file alias="ffmulticonverter_pt.qm">../locale/ffmulticonverter_pt.qm</file>
+<file alias="ffmulticonverter_pl_PL.qm">../locale/ffmulticonverter_pl_PL.qm</file>
 <file alias="ffmulticonverter.png">../../data/ffmulticonverter.png</file>
 </qresource>
 </RCC>

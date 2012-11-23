@@ -1,7 +1,7 @@
 include AUTHORS COPYING ChangeLog
 include data/*
 include doc/*
-include ffmulticonverter/qrc_resources/*
-include ffmulticonverter/locale/*
-exclude ffmulticonverter/locale/*qm
+include locale/*
+exclude locale/*qm
+include ffmulticonverter/resources.qrc
 recursive-exclude ffmulticonverter *pyc

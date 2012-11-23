@@ -11,7 +11,7 @@ data_files = [('share/applications/', ['data/ffmulticonverter.desktop']),
 
 setup(
     name = 'ffmulticonverter',
-    packages = ['ffmulticonverter', 'ffmulticonverter/qrc_resources'],
+    packages = ['ffmulticonverter'],
     scripts = ['ffmulticonverter/ffmulticonverter'],
     data_files = data_files,
     version = ffmulticonverter.__version__,

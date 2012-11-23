@@ -37,7 +37,7 @@ import progress
 import pyqttools
 import preferences_dlg
 import presets_dlgs
-import qrc_resources.qrc_resources
+import qrc_resources
 
 try:
     import PythonMagick

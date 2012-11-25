@@ -5,67 +5,67 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="257"/>
         <source>Preset name (one word, A-z, 0-9)</source>
-        <translation type="unfinished">Preset név (egy szó, A-Z, 0-9)</translation>
+        <translation>Preset név (egy szó, A-Z, 0-9)</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="259"/>
         <source>Preset label</source>
-        <translation type="unfinished">Preset címke</translation>
+        <translation>Preset címke</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="261"/>
         <source>Preset command line parameters</source>
-        <translation type="unfinished">Előre parancssori paramétereket</translation>
+        <translation>Előre parancssori paramétereket</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="263"/>
         <source>Output file extension</source>
-        <translation type="unfinished">Kimeneti fájl kiterjesztése</translation>
+        <translation>Kimeneti fájl kiterjesztése</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="288"/>
         <source>Add preset</source>
-        <translation type="unfinished">Preset hozzáadása</translation>
+        <translation>Preset hozzáadása</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="335"/>
         <source>Error!</source>
-        <translation type="unfinished">Hiba!</translation>
+        <translation>Hiba!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="308"/>
         <source>Preset name can&apos;t be left blank.</source>
-        <translation type="unfinished">Preset név nem lehet üres.</translation>
+        <translation>Preset név nem lehet üres.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="313"/>
         <source>Preset name must be one word and contain only letters and digits.</source>
-        <translation type="unfinished">Preset neve egy szó kell hogy legyen és csak betűket és számokat tartalmazhat.</translation>
+        <translation>Preset neve egy szó kell hogy legyen és csak betűket és számokat tartalmazhat.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="320"/>
         <source>Preset label can&apos;t be left blank.</source>
-        <translation type="unfinished">Preset címke nem lehet üres.</translation>
+        <translation>Preset címke nem lehet üres.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="325"/>
         <source>Command label can&apos;t be left blank.</source>
-        <translation type="unfinished">Parancs címke nem lehet üres.</translation>
+        <translation>Parancs címke nem lehet üres.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="330"/>
         <source>Extension label can&apos;t be left blank.</source>
-        <translation type="unfinished">Kiterjesztés címke nem lehet üres.</translation>
+        <translation>Kiterjesztés címke nem lehet üres.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="335"/>
         <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="unfinished">Kiterjesztés egy szó kell hogy legyen és nem kezdődhet ponttal.</translation>
+        <translation>Kiterjesztés egy szó kell hogy legyen és nem kezdődhet ponttal.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="286"/>
         <source>Edit %1</source>
-        <translation type="unfinished">Szerkesztés %1</translation>
+        <translation>Szerkesztés %1</translation>
     </message>
 </context>
 <context>
@@ -73,82 +73,82 @@
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="75"/>
         <source>No Change</source>
-        <translation type="unfinished">Nincs változás</translation>
+        <translation>Nincs változás</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="83"/>
         <source>Convert to:</source>
-        <translation type="unfinished">Átalakítás:</translation>
+        <translation>Átalakítás:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="85"/>
         <source>Other</source>
-        <translation type="unfinished">Más</translation>
+        <translation>Más</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="92"/>
         <source>Command:</source>
-        <translation type="unfinished">Parancs:</translation>
+        <translation>Parancs:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="94"/>
         <source>Preset</source>
-        <translation type="unfinished">Preset</translation>
+        <translation>Preset</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="95"/>
         <source>Default</source>
-        <translation type="unfinished">Alapértelmezett</translation>
+        <translation>Alapértelmezett</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="99"/>
         <source>Video Size:</source>
-        <translation type="unfinished">Videó mérete:</translation>
+        <translation>Videó mérete:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="100"/>
         <source>Aspect:</source>
-        <translation type="unfinished">Szempont:</translation>
+        <translation>Szempont:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="101"/>
         <source>Frame Rate (fps):</source>
-        <translation type="unfinished">Keret arány (fps):</translation>
+        <translation>Keret arány (fps):</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="102"/>
         <source>Video Bitrate (kbps):</source>
-        <translation type="unfinished">Video Bitrate (kbps):</translation>
+        <translation>Video Bitrate (kbps):</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="131"/>
         <source>Frequency (Hz):</source>
-        <translation type="unfinished">Frekvencia (Hz):</translation>
+        <translation>Frekvencia (Hz):</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="132"/>
         <source>Channels:</source>
-        <translation type="unfinished">Csatornák:</translation>
+        <translation>Csatornák:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="133"/>
         <source>Audio Bitrate (kbps):</source>
-        <translation type="unfinished">Audio Bitrate (kbps):</translation>
+        <translation>Audio Bitrate (kbps):</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="256"/>
         <source>Error!</source>
-        <translation type="unfinished">Hiba!</translation>
+        <translation>Hiba!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="249"/>
         <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="unfinished">Kiterjesztés egy szó kell hogy legyen és nem kezdődhet ponttal.</translation>
+        <translation>Kiterjesztés egy szó kell hogy legyen és nem kezdődhet ponttal.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="256"/>
         <source>The command LineEdit may not be empty.</source>
-        <translation type="unfinished">A parancs LineEdit nem lehet üres.</translation>
+        <translation>A parancs LineEdit nem lehet üres.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="241"/>
@@ -160,23 +160,23 @@ You will not be able to convert audio/video files until you install one of them.
 <context>
     <name>DocumentTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="572"/>
+        <location filename="../ffmulticonverter/tabs.py" line="577"/>
         <source>Convert:</source>
-        <translation type="unfinished">Konvertálás:</translation>
+        <translation>Konvertálás:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="602"/>
-        <source>Error!</source>
-        <translation type="unfinished">Hiba!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/tabs.py" line="593"/>
+        <location filename="../ffmulticonverter/tabs.py" line="598"/>
         <source>Unocov is not installed.
 You will not be able to convert document files until you install it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="597"/>
+        <location filename="../ffmulticonverter/tabs.py" line="607"/>
+        <source>Error!</source>
+        <translation>Hiba!</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/tabs.py" line="602"/>
         <source>Given file is not %1!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -184,33 +184,33 @@ You will not be able to convert document files until you install it.</source>
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="493"/>
+        <location filename="../ffmulticonverter/tabs.py" line="498"/>
         <source>The size LineEdit may not be empty.</source>
-        <translation type="unfinished">A LineEdit mérete nem lehet üres.</translation>
+        <translation>A LineEdit mérete nem lehet üres.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="493"/>
+        <location filename="../ffmulticonverter/tabs.py" line="498"/>
         <source>Error!</source>
-        <translation type="unfinished">Hiba!</translation>
+        <translation>Hiba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="452"/>
+        <location filename="../ffmulticonverter/tabs.py" line="457"/>
         <source>Image Size:</source>
-        <translation type="unfinished">Kép méret:</translation>
+        <translation>Kép méret:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="445"/>
+        <location filename="../ffmulticonverter/tabs.py" line="450"/>
         <source>Convert to:</source>
-        <translation type="unfinished">?Konvertálás:</translation>
+        <translation>?Konvertálás:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="484"/>
+        <location filename="../ffmulticonverter/tabs.py" line="489"/>
         <source>PythonMagick is not installed.
 You will not be able to convert image files until you install it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="489"/>
+        <location filename="../ffmulticonverter/tabs.py" line="494"/>
         <source>Could not convert this file type!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -218,247 +218,247 @@ You will not be able to convert image files until you install it.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="57"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="58"/>
         <source>Select file:</source>
-        <translation type="unfinished">Fájl kiválasztása:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="76"/>
-        <source>Images</source>
-        <translation type="unfinished">Képek</translation>
+        <translation>Fájl kiválasztása:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
-        <source>Documents</source>
-        <translation type="unfinished">Dokumentumok</translation>
+        <source>Images</source>
+        <translation>Képek</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="83"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="78"/>
+        <source>Documents</source>
+        <translation>Dokumentumok</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="84"/>
         <source>Convert all files
 in this folder</source>
-        <translation type="unfinished">Összes fájl konvertálása
+        <translation>Összes fájl konvertálása
 ebben a mappában</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="85"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="86"/>
         <source>Convert files
 recursively</source>
-        <translation type="unfinished">Fájlok konvertálása
+        <translation>Fájlok konvertálása
 rekurzív</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="87"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="88"/>
         <source>Delete original</source>
-        <translation type="unfinished">Eredeti törlése</translation>
+        <translation>Eredeti törlése</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="91"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="92"/>
         <source>Same type</source>
-        <translation type="unfinished">Ugyanaz a típus</translation>
+        <translation>Ugyanaz a típus</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="94"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="95"/>
         <source>Same extension</source>
-        <translation type="unfinished">Ugyanaz a kiterjesztés</translation>
+        <translation>Ugyanaz a kiterjesztés</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="100"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="101"/>
         <source>&amp;Convert</source>
-        <translation type="unfinished">&amp;Konvertálás</translation>
+        <translation>&amp;Konvertálás</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="115"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
         <source>Open</source>
-        <translation type="unfinished">Megnyit</translation>
+        <translation>Megnyit</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="115"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
         <source>Open a file</source>
-        <translation type="unfinished">Fájl megnyitása</translation>
+        <translation>Fájl megnyitása</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="117"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
         <source>Convert</source>
-        <translation type="unfinished">Konvertálás</translation>
+        <translation>Konvertálás</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="117"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
         <source>Convert files</source>
-        <translation type="unfinished">Fájlok konvertálása</translation>
+        <translation>Fájlok konvertálása</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="119"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="120"/>
         <source>Quit</source>
-        <translation type="unfinished">Kilépés</translation>
+        <translation>Kilépés</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="129"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
         <source>Clear</source>
-        <translation type="unfinished">Tisztítás</translation>
+        <translation>Tisztítás</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="129"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
         <source>Clear form</source>
-        <translation type="unfinished">Űrlap törlése</translation>
+        <translation>Űrlap törlése</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="131"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="132"/>
         <source>Preferences</source>
-        <translation type="unfinished">??refe</translation>
+        <translation>??refe</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="540"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="134"/>
         <source>About</source>
-        <translation type="unfinished">Magunkról</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="136"/>
-        <source>File</source>
-        <translation type="unfinished">Fájl</translation>
+        <translation>Magunkról</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
+        <source>File</source>
+        <translation>Fájl</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
         <source>Edit</source>
-        <translation type="unfinished">Szerkesztés</translation>
+        <translation>Szerkesztés</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="140"/>
         <source>Help</source>
-        <translation type="unfinished">Segítség</translation>
+        <translation>Segítség</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="243"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="244"/>
         <source>Each file to its original folder</source>
-        <translation type="unfinished">Minden fájl az eredeti mappába</translation>
+        <translation>Minden fájl az eredeti mappába</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="257"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
         <source>All Files</source>
-        <translation type="unfinished">Összes fájl</translation>
+        <translation>Összes fájl</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
         <source>Image Files</source>
-        <translation type="unfinished">Képek</translation>
+        <translation>Képek</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
         <source>Document Files</source>
-        <translation type="unfinished">??Dokumentumok</translation>
+        <translation>??Dokumentumok</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="265"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="266"/>
         <source>Choose File</source>
-        <translation type="unfinished">Válasszon fájlt</translation>
+        <translation>Válasszon fájlt</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="275"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="276"/>
         <source>Choose output destination</source>
-        <translation type="unfinished">Válassza ki a kimenet helyét!</translation>
+        <translation>Válassza ki a kimenet helyét!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="282"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
         <source>Save Location!</source>
-        <translation type="unfinished">Hely mentése!</translation>
+        <translation>Hely mentése!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="282"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
         <source>You have chosen to save every file to its original folder.
 You can change this from preferences.</source>
-        <translation type="unfinished">Úgy döntött, hogy mentse minden fájl az eredeti mappába. ⏎ Ezt a preferenciákban tudod megváltoztatni</translation>
+        <translation>Úgy döntött, hogy mentse minden fájl az eredeti mappába. ⏎ Ezt a preferenciákban tudod megváltoztatni</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="318"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="319"/>
         <source>You must choose a file to convert!</source>
-        <translation type="unfinished">Ki kell választani egy fájlt a konvertáláshoz!</translation>
+        <translation>Ki kell választani egy fájlt a konvertáláshoz!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="321"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="322"/>
         <source>The selected file does not exists!</source>
-        <translation type="unfinished">A kiválasztott fájl nem létezik!</translation>
+        <translation>A kiválasztott fájl nem létezik!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="324"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="325"/>
         <source>You must choose an output folder!</source>
-        <translation type="unfinished">Ki kell választani egy kimeneti mappát!</translation>
+        <translation>Ki kell választani egy kimeneti mappát!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="327"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="328"/>
         <source>Output folder does not exists!</source>
-        <translation type="unfinished">Kimeneti mappa nem létezik!</translation>
+        <translation>Kimeneti mappa nem létezik!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="334"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="335"/>
         <source>Error!</source>
-        <translation type="unfinished">Hiba:</translation>
+        <translation>Hiba:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="539"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="572"/>
         <source>Convert among several file types to other extensions</source>
-        <translation type="unfinished">Átalakít között több fájltípusok további kiszélesítésére</translation>
+        <translation>Átalakít között több fájltípusok további kiszélesítésére</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="578"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="565"/>
         <source>None</source>
-        <translation type="unfinished">Nincs</translation>
+        <translation>Nincs</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="579"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="566"/>
         <source>Missing dependencies:</source>
-        <translation type="unfinished">Hiányzó függőségek:</translation>
+        <translation>Hiányzó függőségek:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="123"/>
-        <source>Import</source>
-        <translation type="unfinished">Importálás</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
-        <source>Export</source>
-        <translation type="unfinished">Exportálás</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="58"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="59"/>
         <source>Output folder:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="76"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
         <source>Audio/Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="121"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="122"/>
         <source>Edit Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="123"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
+        <source>Import</source>
+        <translation>Importálás</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
         <source>Import presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
+        <source>Export</source>
+        <translation>Exportálás</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
         <source>Export presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="127"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="127"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
         <source>Reset presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
         <source>Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="257"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
         <source>Audio/Video Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -469,75 +469,75 @@ You can change this from preferences.</source>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="38"/>
         <source>Save all files
 to ouput destination</source>
-        <translation type="unfinished">Összes fájl mentése
+        <translation>Összes fájl mentése
 a kimeneti mappába</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="40"/>
         <source>Save each file to
 its original folder</source>
-        <translation type="unfinished">Összes fájl mentése
+        <translation>Összes fájl mentése
 az eredeti mappába</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
         <source>Rebuild files structure</source>
-        <translation type="unfinished">Fájlszerkezet újraépítése</translation>
+        <translation>Fájlszerkezet újraépítése</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="98"/>
         <source>General</source>
-        <translation type="unfinished">Általános</translation>
+        <translation>Általános</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="161"/>
         <source>Preferences</source>
-        <translation type="unfinished">??Előnyök</translation>
+        <translation>??Előnyök</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="63"/>
         <source>Prefix:</source>
-        <translation type="unfinished">Előtag:</translation>
+        <translation>Előtag:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="64"/>
         <source>Suffix:</source>
-        <translation type="unfinished">Suffix:</translation>
+        <translation>Suffix:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="171"/>
         <source>Choose default output destination</source>
-        <translation type="unfinished">Válassza ki az alapértelmezett kimenet helyét</translation>
+        <translation>Válassza ki az alapértelmezett kimenet helyét</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="37"/>
         <source>Save files</source>
-        <translation type="unfinished">Fájlok mentése</translation>
+        <translation>Fájlok mentése</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="62"/>
         <source>Name files</source>
-        <translation type="unfinished">Fájlok neve</translation>
+        <translation>Fájlok neve</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="48"/>
         <source>Existing files:</source>
-        <translation type="unfinished">Meglévő fájlok:</translation>
+        <translation>Meglévő fájlok:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="49"/>
         <source>Add &apos;~&apos; prefix</source>
-        <translation type="unfinished">&apos;~&apos; előtag hozzáadása</translation>
+        <translation>&apos;~&apos; előtag hozzáadása</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="51"/>
         <source>Overwrite</source>
-        <translation type="unfinished">Felülír</translation>
+        <translation>Felülír</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="56"/>
         <source>Default output destination:</source>
-        <translation type="unfinished">Alapértelmezett kimeneti helye:</translation>
+        <translation>Alapértelmezett kimeneti helye:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="83"/>
@@ -570,52 +570,52 @@ az eredeti mappába</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="59"/>
         <source>In progress: </source>
-        <translation type="unfinished">Folyamatban:</translation>
+        <translation>Folyamatban:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="60"/>
         <source>Total:</source>
-        <translation type="unfinished">Összes:</translation>
+        <translation>Összes:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="65"/>
         <source>Cancel</source>
-        <translation type="unfinished">Megszakítás</translation>
+        <translation>Megszakítás</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="128"/>
         <source>Report</source>
-        <translation type="unfinished">Jelentés</translation>
+        <translation>Jelentés</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="128"/>
         <source>Converted: %1/%2</source>
-        <translation type="unfinished">Konvertálva: %1/%2</translation>
+        <translation>Konvertálva: %1/%2</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="150"/>
         <source>Are you sure you want to cancel conversion?</source>
-        <translation type="unfinished">Biztos benne, hogy meg akarja szakítani a konvertálást?</translation>
+        <translation>Biztos benne, hogy meg akarja szakítani a konvertálást?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="101"/>
         <source>Conversion</source>
-        <translation type="unfinished">Konvertálás</translation>
+        <translation>Konvertálás</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="150"/>
         <source>Cancel Conversion</source>
-        <translation type="unfinished">Konvertálás megállítása</translation>
+        <translation>Konvertálás megállítása</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="175"/>
         <source>In progress:</source>
-        <translation type="unfinished">Folyamatban:</translation>
+        <translation>Folyamatban:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="67"/>
         <source>Details</source>
-        <translation type="unfinished">Részletek</translation>
+        <translation>Részletek</translation>
     </message>
 </context>
 <context>
@@ -636,11 +636,6 @@ az eredeti mappába</translation>
         <translation type="unfinished">Kimeneti fájl kiterjesztése</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="59"/>
-        <source>Edit</source>
-        <translation type="unfinished">Szerkesztés</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="56"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
@@ -654,6 +649,11 @@ az eredeti mappába</translation>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="58"/>
         <source>Delete all</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="59"/>
+        <source>Edit</source>
+        <translation type="unfinished">Szerkesztés</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="60"/>
@@ -697,7 +697,7 @@ Are you sure that you want to continue?</source>
     <message>
         <location filename="../ffmulticonverter/tabs.py" line="167"/>
         <source>More</source>
-        <translation type="unfinished">További</translation>
+        <translation>További</translation>
     </message>
 </context>
 </TS>

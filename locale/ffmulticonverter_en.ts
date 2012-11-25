@@ -160,23 +160,23 @@ You will not be able to convert audio/video files until you install one of them.
 <context>
     <name>DocumentTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="572"/>
+        <location filename="../ffmulticonverter/tabs.py" line="577"/>
         <source>Convert:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="593"/>
+        <location filename="../ffmulticonverter/tabs.py" line="598"/>
         <source>Unocov is not installed.
 You will not be able to convert document files until you install it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="597"/>
+        <location filename="../ffmulticonverter/tabs.py" line="602"/>
         <source>Given file is not %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="602"/>
+        <location filename="../ffmulticonverter/tabs.py" line="607"/>
         <source>Error!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -184,33 +184,33 @@ You will not be able to convert document files until you install it.</source>
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="445"/>
+        <location filename="../ffmulticonverter/tabs.py" line="450"/>
         <source>Convert to:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="452"/>
+        <location filename="../ffmulticonverter/tabs.py" line="457"/>
         <source>Image Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="493"/>
+        <location filename="../ffmulticonverter/tabs.py" line="498"/>
         <source>Error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="484"/>
+        <location filename="../ffmulticonverter/tabs.py" line="489"/>
         <source>PythonMagick is not installed.
 You will not be able to convert image files until you install it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="489"/>
+        <location filename="../ffmulticonverter/tabs.py" line="494"/>
         <source>Could not convert this file type!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="493"/>
+        <location filename="../ffmulticonverter/tabs.py" line="498"/>
         <source>The size LineEdit may not be empty.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -218,245 +218,245 @@ You will not be able to convert image files until you install it.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="57"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="58"/>
         <source>Select file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="58"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="59"/>
         <source>Output folder:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="76"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
         <source>Audio/Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="76"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="78"/>
         <source>Documents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="83"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="84"/>
         <source>Convert all files
 in this folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="85"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="86"/>
         <source>Convert files
 recursively</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="87"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="88"/>
         <source>Delete original</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="91"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="92"/>
         <source>Same type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="94"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="95"/>
         <source>Same extension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="100"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="101"/>
         <source>&amp;Convert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="115"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="115"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
         <source>Open a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="117"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
         <source>Convert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="117"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
         <source>Convert files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="119"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="120"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="121"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="122"/>
         <source>Edit Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="123"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
         <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="123"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
         <source>Import presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
         <source>Export presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="127"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="127"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
         <source>Reset presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="129"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="129"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
         <source>Clear form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="131"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="132"/>
         <source>Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="540"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="134"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="136"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
         <source>Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="140"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="243"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="244"/>
         <source>Each file to its original folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="257"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
         <source>All Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="257"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
         <source>Audio/Video Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
         <source>Image Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
         <source>Document Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="265"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="266"/>
         <source>Choose File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="275"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="276"/>
         <source>Choose output destination</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="282"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
         <source>Save Location!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="282"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
         <source>You have chosen to save every file to its original folder.
 You can change this from preferences.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="318"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="319"/>
         <source>You must choose a file to convert!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="321"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="322"/>
         <source>The selected file does not exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="324"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="325"/>
         <source>You must choose an output folder!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="327"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="328"/>
         <source>Output folder does not exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="334"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="335"/>
         <source>Error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="539"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="572"/>
         <source>Convert among several file types to other extensions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="578"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="565"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="579"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="566"/>
         <source>Missing dependencies:</source>
         <translation type="unfinished"></translation>
     </message>

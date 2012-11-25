@@ -35,6 +35,8 @@ setup(
         'Natural Language :: German',
         'Natural Language :: Greek',
         'Natural Language :: Hungarian',
+        'Natural Language :: Polish',
+        'Natural Language :: Portuguese',
         'Natural Language :: Russian',
         'Natural Language :: Turkish',
         'Intended Audience :: End Users/Desktop',

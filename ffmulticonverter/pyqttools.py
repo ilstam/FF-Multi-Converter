@@ -168,8 +168,8 @@ class AboutDialog(QDialog):
         closeButton.clicked.connect(self.close)
         creditsButton.clicked.connect(self.show_credits)
 
-        self.setMinimumSize(QSize(450, 200))
-        self.setMaximumSize(QSize(450, 200))
+        self.setMinimumSize(QSize(480, 220))
+        self.setMaximumSize(QSize(480, 220))
         self.setWindowTitle(self.tr('About FF Multi Converter'))
 
     def show_credits(self):

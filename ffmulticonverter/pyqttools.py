@@ -22,7 +22,7 @@ Some useful functions to automate some parts of ui creation.
 
 from PyQt4.QtCore import QSize, Qt
 from PyQt4.QtGui import (QWidget, QLayout, QSpacerItem, QAction, QMenu,
-                        QLineEdit)
+                        QLineEdit, QDialog)
 
 def add_to_layout(layout, *items):
     """Add items to QVBox and QHBox layouts easily.
@@ -135,3 +135,71 @@ def create_LineEdit(maxsize, validator, maxlength):
     if maxlength is not None:
         lineEdit.setMaxLength(maxlength)
     return lineEdit
+
+
+class AboutDialog(QDialog):
+    def __init__(self, text, image, authors, translators, parent=None):
+        super(AboutDialog, self).__init__(parent)
+        self.parent = parent
+        self.authors = authors
+        self.translators = translators
+
+        from PyQt4.QtGui import (QPushButton, QLabel, QPixmap, QVBoxLayout,
+                                 QHBoxLayout)
+
+        imageLabel = QLabel()
+        imageLabel.setMaximumSize(QSize(63, 61))
+        imageLabel.setPixmap(QPixmap(image))
+        imageLabel.setScaledContents(True)
+        textLabel = QLabel()
+        textLabel.setText(text)
+        textLabel.setOpenExternalLinks(True)
+        creditsButton = QPushButton('Credits')
+        closeButton = QPushButton('&Close')
+
+        vlayout1 = add_to_layout(QVBoxLayout(), imageLabel, None)
+        hlayout1 = add_to_layout(QHBoxLayout(), vlayout1, textLabel)
+        hlayout2 = add_to_layout(QHBoxLayout(), creditsButton, None,
+                                                                   closeButton)
+        fin_layout = add_to_layout(QVBoxLayout(), hlayout1, hlayout2)
+
+        self.setLayout(fin_layout)
+
+        closeButton.clicked.connect(self.close)
+        creditsButton.clicked.connect(self.show_credits)
+
+        self.setMinimumSize(QSize(450, 200))
+        self.setMaximumSize(QSize(450, 200))
+        self.setWindowTitle(self.tr('About FF Multi Converter'))
+
+    def show_credits(self):
+        dialog = CreditsDialog(self.authors, self.translators)
+        dialog.exec_()
+
+
+class CreditsDialog(QDialog):
+    def __init__(self, authors, translators, parent=None):
+        super(CreditsDialog, self).__init__(parent)
+        self.parent = parent
+
+        from PyQt4.QtGui import (QPlainTextEdit, QTabWidget, QPushButton,
+                                 QHBoxLayout, QVBoxLayout)
+
+        authorsLabel = QPlainTextEdit(authors)
+        authorsLabel.setReadOnly(True)
+        translatorsLabel = QPlainTextEdit(translators)
+        translatorsLabel.setReadOnly(True)
+        TabWidget = QTabWidget()
+        TabWidget.addTab(authorsLabel, 'Written by')
+        TabWidget.addTab(translatorsLabel, 'Translated by')
+        closeButton = QPushButton('&Close')
+
+        hlayout = add_to_layout(QHBoxLayout(), None, closeButton)
+        vlayout = add_to_layout(QVBoxLayout(), TabWidget, hlayout)
+
+        self.setLayout(vlayout)
+        closeButton.clicked.connect(self.close)
+
+        self.setMinimumSize(QSize(335, 370))
+        self.setMaximumSize(QSize(335, 370))
+        self.setWindowTitle(self.tr('Credits'))

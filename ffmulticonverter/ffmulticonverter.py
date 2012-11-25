@@ -19,12 +19,13 @@
 from __future__ import unicode_literals
 from __init__ import __version__
 
-from PyQt4.QtCore import (QSettings, QTimer, QLocale, QTranslator,
+from PyQt4.QtCore import (QSettings, QTimer, QLocale, QTranslator, QSize,
                   QT_VERSION_STR, PYQT_VERSION_STR)
 from PyQt4.QtGui import (QApplication, QMainWindow, QWidget, QGridLayout,
-                  QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QToolButton,
-                  QCheckBox, QRadioButton, QPushButton, QTabWidget, QIcon,
-                  QKeySequence, QFileDialog, QMessageBox)
+                  QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPlainTextEdit,
+                  QToolButton, QCheckBox, QRadioButton, QPushButton, QIcon,
+                  QTabWidget, QKeySequence, QFileDialog, QDialog, QMessageBox,
+                  QPixmap)
 
 import os
 import sys
@@ -218,7 +219,7 @@ class MainWindow(QMainWindow):
                 return i
 
     def set_settings(self):
-        """Sets program settings"""        
+        """Sets program settings"""
         settings = QSettings()
         self.saveto_output = settings.value('saveto_output').toBool()
         self.rebuild_structure = settings.value('rebuild_structure').toBool()
@@ -533,20 +534,6 @@ class MainWindow(QMainWindow):
         dialog = progress.Progress(self, conversion_list, delete)
         dialog.exec_()
 
-    def about(self):
-        """Shows an About dialog using qt standard dialog."""
-        link = 'https://sites.google.com/site/ffmulticonverter/'
-        msg = self.tr('Convert among several file types to other extensions')
-        QMessageBox.about(self, self.tr('About') + ' FF Multi Converter',
-            '''<b> FF Multi Converter {0} </b>
-            <p>{1}
-            <p><a href="{2}">FF Multi Converter - Home Page</a>
-            <p>Copyright &copy; 2011-2012 Ilias Stamatis
-            <br>License: GNU GPL3
-            <p>Python {3} - Qt {4} - PyQt {5} on {6}'''
-            .format(__version__, msg, link, platform.python_version()[:5],
-            QT_VERSION_STR, PYQT_VERSION_STR, platform.system()))
-
     def is_installed(self, program):
         """Checks if program is installed."""
         for path in os.getenv('PATH').split(os.pathsep):
@@ -578,6 +565,39 @@ class MainWindow(QMainWindow):
         missing = ', '.join(missing) if missing else self.tr('None')
         status = self.tr('Missing dependencies:') + ' ' + missing
         self.dependenciesLabel.setText(status)
+
+    def about(self):
+        """Opens the about dialog."""
+        link = 'http://sites.google.com/site/ffmulticonverter/'
+        msg = self.tr('Convert among several file types to other extensions')
+        text = '''<b> FF Multi Converter {0} </b>
+                 <p>{1}
+                 <p><a href="{2}">FF Multi Converter - Home Page</a>
+                 <p>Copyright &copy; 2011-2012 Ilias Stamatis
+                 <br>License: GNU GPL3
+                 <p>Python {3} - Qt {4} - PyQt {5} on {6}'''\
+                 .format(__version__, msg, link, platform.python_version()[:5],
+                         QT_VERSION_STR, PYQT_VERSION_STR, platform.system())
+        image = ':/ffmulticonverter.png'
+        authors  = 'Ilias Stamatis <stamatis.iliass@gmail.com>\n\n'
+        authors += 'Contributors:\nPanagiotis Mavrogiorgos'
+        transl_list = [['[de_DE] German (Germany)', 'Stefan Wilhelm'],
+                       ['[el] Greek', 'Ilias Stamatis'],
+                       ['[hu] Hungarian', 'Farkas Norbert'],
+                       ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'],
+                       ['[pt] Portuguese', 'Sérgio Marques'],
+                       ['[ru] Russian', 'Andrew Lapshin'],
+                       ['[tu] Turkish', 'Tayfun Kayha'],
+                       ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
+                       ['[zh_CN] Chinese (China)', 'Dianjin Wang']]
+        translators = ''
+        for i in transl_list:
+            translators += '{0}\n     {1}\n\n'.format(i[0], i[1])
+        translators = translators[:-2]
+
+
+        dialog = pyqttools.AboutDialog(text, image, authors, translators)
+        dialog.exec_()
 
 
 def main():

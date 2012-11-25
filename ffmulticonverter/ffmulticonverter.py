@@ -588,7 +588,6 @@ class MainWindow(QMainWindow):
                        ['[pt] Portuguese', 'Sérgio Marques'],
                        ['[ru] Russian', 'Andrew Lapshin'],
                        ['[tu] Turkish', 'Tayfun Kayha'],
-                       ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
                        ['[zh_CN] Chinese (China)', 'Dianjin Wang']]
         translators = ''
         for i in transl_list:

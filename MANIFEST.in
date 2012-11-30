@@ -1,4 +1,4 @@
-include AUTHORS COPYING ChangeLog
+include AUTHORS COPYING TRANSLATORS ChangeLog
 include data/*
 include doc/*
 include locale/*

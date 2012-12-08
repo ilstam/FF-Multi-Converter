@@ -570,6 +570,15 @@ class MainWindow(QMainWindow):
         """Opens the about dialog."""
         link = 'http://sites.google.com/site/ffmulticonverter/'
         msg = self.tr('Convert among several file types to other extensions')
+        if len(msg) > 54:
+            # break line if msg is too long to fit the window
+            nmsg = ''
+            for n, w in enumerate(msg.split(' ')):
+                if len(nmsg) > 54:
+                    break
+                nmsg += w + ' '
+            nmsg += '<br>' + msg[len(nmsg):]
+            msg = nmsg
         text = '''<b> FF Multi Converter {0} </b>
                  <p>{1}
                  <p><a href="{2}">FF Multi Converter - Home Page</a>
@@ -581,7 +590,8 @@ class MainWindow(QMainWindow):
         image = ':/ffmulticonverter.png'
         authors  = 'Ilias Stamatis <stamatis.iliass@gmail.com>\n\n'
         authors += 'Contributors:\nPanagiotis Mavrogiorgos'
-        transl_list = [['[de_DE] German (Germany)', 'Stefan Wilhelm'],
+        transl_list = [['[cs] Czech', 'Petr Simacek'],
+                       ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
                        ['[el] Greek', 'Ilias Stamatis'],
                        ['[hu] Hungarian', 'Farkas Norbert'],
                        ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'],

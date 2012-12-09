@@ -1,6 +1,6 @@
 include AUTHORS COPYING TRANSLATORS ChangeLog
-include data/*
-include doc/*
+include share/*
+include man/*
 include locale/*
 exclude locale/*qm
 include ffmulticonverter/resources.qrc

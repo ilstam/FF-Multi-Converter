@@ -4,10 +4,10 @@
 import ffmulticonverter
 from distutils.core import setup
 
-data_files = [('/usr/share/applications/', ['data/ffmulticonverter.desktop']),
-              ('/usr/share/pixmaps/', ['data/ffmulticonverter.png']),
-              ('/usr/share/man/man1', ['doc/ffmulticonverter.1']),
-              ('/usr/share/ffmulticonverter', ['data/presets.xml'])]
+data_files = [('/usr/share/applications/', ['share/ffmulticonverter.desktop']),
+              ('/usr/share/pixmaps/', ['share/ffmulticonverter.png']),
+              ('/usr/share/ffmulticonverter', ['share/presets.xml']),
+              ('/usr/share/man/man1', ['man/ffmulticonverter.1.gz'])]
 
 setup(
     name = 'ffmulticonverter',
@@ -20,7 +20,7 @@ setup(
     author_email = 'stamatis.iliass@gmail.com',
     license = 'GNU GPL3',
     platforms = 'Linux',
-    url = 'https://sites.google.com/site/ffmulticonverter/',
+    url = 'http://sites.google.com/site/ffmulticonverter/',
     download_url = 'https://github.com/Ilias95/FF-Multi-Converter/downloads',
     keywords = ['convert', 'file format', 'extension', 'audio', 'video',
                                                          'images', 'document'],

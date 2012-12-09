@@ -4,9 +4,9 @@
 import ffmulticonverter
 from distutils.core import setup
 
-data_files = [('share/applications/', ['data/ffmulticonverter.desktop']),
-              ('share/icons/', ['data/ffmulticonverter.png']),
-              ('share/man/man1', ['doc/ffmulticonverter.1']),
+data_files = [('/usr/share/applications/', ['data/ffmulticonverter.desktop']),
+              ('/usr/share/pixmaps/', ['data/ffmulticonverter.png']),
+              ('/usr/share/man/man1', ['doc/ffmulticonverter.1']),
               ('/usr/share/ffmulticonverter', ['data/presets.xml'])]
 
 setup(
@@ -32,6 +32,7 @@ setup(
         'Environment :: X11 Applications :: Qt',
         'Natural Language :: English',
         'Natural Language :: Chinese (Simplified)',
+        'Natural Language :: Czech',
         'Natural Language :: German',
         'Natural Language :: Greek',
         'Natural Language :: Hungarian',

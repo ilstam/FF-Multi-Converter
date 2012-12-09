@@ -1,4 +1,4 @@
-﻿[Desktop Entry]
+[Desktop Entry]
 Type=Application
 Name=FF Multi Converter
 GenericName=File Format Converter
@@ -8,5 +8,6 @@ Comment[pt]=Programa para conversão de diversos formatos de ficheiro
 Exec=ffmulticonverter
 Icon=ffmulticonverter
 Terminal=false
-Categories=Qt;AudioVideo;Office;AudioVideoEditing;
 StartupNotify=false
+Encoding=UTF-8
+Categories=Application;AudioVideo;AudioVideoEditing;Office;

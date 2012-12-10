@@ -1,7 +1,12 @@
+Version 1.4.3
+-------------
+
+* Czech translation and minor changes.
+
 Version 1.4.2
 --------------
 
-* ffmpeg compatibility bugfix - accurate progress bar for all ffmpeg versions
+* FFmpeg compatibility bugfix - accurate progress bar for all ffmpeg versions.
 
 * Polish and Portuguese translations.
 

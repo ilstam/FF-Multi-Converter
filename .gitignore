@@ -1,0 +1,5 @@
+# Ignore these files
+MANIFEST
+build/
+dist/
+*.pyc

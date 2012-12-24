@@ -162,7 +162,7 @@ class ShowPresets(QDialog):
 
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
             'Delete Preset'), self.tr('Are you sure that you want to delete '
-            'the %1 preset?').arg(xml_elem.tag), 
+            'the %1 preset?').arg(xml_elem.tag),
             QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             self.root.remove(xml_elem)

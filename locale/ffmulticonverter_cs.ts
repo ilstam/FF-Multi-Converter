@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="2.0" language="cs" sourcelanguage="">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="662"/>
+        <source>About FF Multi Converter</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AddorEditPreset</name>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="257"/>
@@ -71,87 +79,87 @@
 <context>
     <name>AudioVideoTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="75"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="710"/>
         <source>No Change</source>
         <translation>Žádná změna</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="83"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="718"/>
         <source>Convert to:</source>
         <translation>Převést na:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="85"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="720"/>
         <source>Other</source>
         <translation>Ostatní</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="92"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="727"/>
         <source>Command:</source>
         <translation>Příkaz:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="94"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="729"/>
         <source>Preset</source>
         <translation>Předvolba</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="95"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="730"/>
         <source>Default</source>
         <translation>Výchozí</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="99"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="734"/>
         <source>Video Size:</source>
         <translation>Velikost videa:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="100"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="735"/>
         <source>Aspect:</source>
         <translation>Poměr:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="101"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="736"/>
         <source>Frame Rate (fps):</source>
         <translation>Počet snímků (fps)</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="102"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="737"/>
         <source>Video Bitrate (kbps):</source>
         <translation>Datový tok videa (kbps):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="131"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="766"/>
         <source>Frequency (Hz):</source>
         <translation>Frekvence (Hz):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="132"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="767"/>
         <source>Channels:</source>
         <translation>Kanály:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="133"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="768"/>
         <source>Audio Bitrate (kbps):</source>
         <translation>Datový tok zvuku (kbps):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="256"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="891"/>
         <source>Error!</source>
         <translation>Chyba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="249"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="884"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>Přípona musí být jedno slovo a nesmí začínat tečkou.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="256"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="891"/>
         <source>The command LineEdit may not be empty.</source>
         <translation>Velikost editačního řádku by neměla být prázdná.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="241"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="876"/>
         <source>Neither ffmpeg nor avconv are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
         <translation>Ani ffmpeg ani avconv nejsou nainstalovány.
@@ -159,26 +167,34 @@ Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich
     </message>
 </context>
 <context>
+    <name>CreditsDialog</name>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="694"/>
+        <source>Credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DocumentTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="577"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1212"/>
         <source>Convert:</source>
         <translation>Převést:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="598"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1233"/>
         <source>Unocov is not installed.
 You will not be able to convert document files until you install it.</source>
         <translation>Unocov není nainstalován.
 Nebudete moci převádět dokumenty dokud ho nenainstalujete.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="607"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1242"/>
         <source>Error!</source>
         <translation>Chyba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="602"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1237"/>
         <source>Given file is not %1!</source>
         <translation>Vzhledem k tomu, soubor není %1!</translation>
     </message>
@@ -186,34 +202,34 @@ Nebudete moci převádět dokumenty dokud ho nenainstalujete.</translation>
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="498"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1133"/>
         <source>The size LineEdit may not be empty.</source>
         <translation>Velikost editačního řádku by neměla být prázdná.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="498"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1133"/>
         <source>Error!</source>
         <translation>Chyba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="457"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1092"/>
         <source>Image Size:</source>
         <translation>Velikost obrázku:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="450"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1085"/>
         <source>Convert to:</source>
         <translation>Převést na:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="489"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1124"/>
         <source>PythonMagick is not installed.
 You will not be able to convert image files until you install it.</source>
         <translation>PythonMagick není nainstalován.
 Obrázky nebude možné převést do té doby, než ho nainstalujete. </translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="494"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1129"/>
         <source>Could not convert this file type!</source>
         <translation>Nebylo možné převést tento typ souboru!</translation>
     </message>
@@ -221,248 +237,248 @@ Obrázky nebude možné převést do té doby, než ho nainstalujete. </translat
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="58"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
         <source>Select file:</source>
         <translation>Vybrat soubor:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="96"/>
         <source>Images</source>
         <translation>Obrázky</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="78"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="97"/>
         <source>Documents</source>
         <translation>Dokumenty</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="84"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="103"/>
         <source>Convert all files
 in this folder</source>
         <translation>Převod všech souborů
 v této složce</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="86"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="105"/>
         <source>Convert files
 recursively</source>
         <translation>Převod souborů
 rekurzivně</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="88"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="107"/>
         <source>Delete original</source>
         <translation>Vymazat originál</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="92"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="111"/>
         <source>Same type</source>
         <translation>Stejný typ</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="95"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
         <source>Same extension</source>
         <translation>Stejná přípona</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="101"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="120"/>
         <source>&amp;Convert</source>
         <translation>&amp;Převést</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="135"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="135"/>
         <source>Open a file</source>
         <translation>Otevřít soubor</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
         <source>Convert</source>
         <translation>Převést</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
         <source>Convert files</source>
         <translation>Převést soubory</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="120"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
         <source>Quit</source>
         <translation>Zavřít</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="149"/>
         <source>Clear</source>
         <translation>Vyčistit</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="149"/>
         <source>Clear form</source>
         <translation>Vyčistit formulář</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="132"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="151"/>
         <source>Preferences</source>
         <translation>Předvolby</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="134"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="153"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="156"/>
         <source>File</source>
         <translation>Soubor</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="157"/>
         <source>Edit</source>
         <translation>Upravit</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="140"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="159"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="244"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="263"/>
         <source>Each file to its original folder</source>
         <translation>Každý soubor do původní složky</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="277"/>
         <source>All Files</source>
         <translation>Všechny soubory</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
         <source>Image Files</source>
         <translation>Obrázkové soubory</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
         <source>Document Files</source>
         <translation>Soubory dokumentů</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="266"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
         <source>Choose File</source>
         <translation>Vybrat soubor</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="276"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="295"/>
         <source>Choose output destination</source>
         <translation>Vybrat cíl výstupu</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
         <source>Save Location!</source>
         <translation>Uložit umístění!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
         <source>You have chosen to save every file to its original folder.
 You can change this from preferences.</source>
         <translation>Rozhodli jste se vybrat k uložení každý soubor do jeho původní složky.
 Je možné to změnit z předvoleb.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="319"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="338"/>
         <source>You must choose a file to convert!</source>
         <translation>Musíte vybrat soubor k převedení!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="322"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="341"/>
         <source>The selected file does not exists!</source>
         <translation>Vybraný soubor neexistuje!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="325"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="344"/>
         <source>You must choose an output folder!</source>
         <translation>Musíte vybrat cílovou složku!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="328"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="347"/>
         <source>Output folder does not exists!</source>
         <translation>Cílový složka neexistuje!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="335"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="354"/>
         <source>Error!</source>
         <translation>Chyba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="572"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="591"/>
         <source>Convert among several file types to other extensions</source>
         <translation>Převod mezi několika typy souborů do jiných přípon</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="565"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="584"/>
         <source>None</source>
         <translation>Žádný</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="566"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="585"/>
         <source>Missing dependencies:</source>
         <translation>Chybějící závislosti:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="59"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="78"/>
         <source>Output folder:</source>
         <translation>Cílová složka:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="96"/>
         <source>Audio/Video</source>
         <translation>Audio/Video</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="122"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="141"/>
         <source>Edit Presets</source>
         <translation>Upravit předvolby</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="143"/>
         <source>Import</source>
         <translation>Import</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="143"/>
         <source>Import presets</source>
         <translation>Import předvoleb</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
         <source>Export presets</source>
         <translation>Export předvoleb</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="147"/>
         <source>Reset</source>
         <translation>Resetovat</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="147"/>
         <source>Reset presets</source>
         <translation>Resetovat předvolby</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="158"/>
         <source>Presets</source>
         <translation>Předvolby</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="277"/>
         <source>Audio/Video Files</source>
         <translation>Audio/Video soubory</translation>
     </message>
@@ -700,7 +716,7 @@ Opravdu chcete pokračovat?</translation>
 <context>
     <name>Tab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="167"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="802"/>
         <source>More</source>
         <translation>Více</translation>
     </message>

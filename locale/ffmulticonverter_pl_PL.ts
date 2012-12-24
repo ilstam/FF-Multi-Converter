@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="2.0" language="pl_PL" sourcelanguage="">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="662"/>
+        <source>About FF Multi Converter</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AddorEditPreset</name>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="257"/>
@@ -71,87 +79,87 @@
 <context>
     <name>AudioVideoTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="75"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="710"/>
         <source>No Change</source>
         <translation>Bez zmian</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="83"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="718"/>
         <source>Convert to:</source>
         <translation>Konwertuj do:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="85"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="720"/>
         <source>Other</source>
         <translation>Inny</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="92"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="727"/>
         <source>Command:</source>
         <translation>Polcecenie:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="94"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="729"/>
         <source>Preset</source>
         <translation>Preset</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="95"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="730"/>
         <source>Default</source>
         <translation>Domyślne</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="99"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="734"/>
         <source>Video Size:</source>
         <translation>Wymiary wideo:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="100"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="735"/>
         <source>Aspect:</source>
         <translation>Proporcje:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="101"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="736"/>
         <source>Frame Rate (fps):</source>
         <translation>Klatek na sekundę:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="102"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="737"/>
         <source>Video Bitrate (kbps):</source>
         <translation>Jakość wideo (w kb/s):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="131"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="766"/>
         <source>Frequency (Hz):</source>
         <translation>Częstotliwość (Hz):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="132"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="767"/>
         <source>Channels:</source>
         <translation>Tryb kanałów:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="133"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="768"/>
         <source>Audio Bitrate (kbps):</source>
         <translation>Jakość (w kb/s):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="256"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="891"/>
         <source>Error!</source>
         <translation>Błąd!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="249"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="884"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>Rozszerzenie musi być w formie jednego słowa i nie może zaczynać się od kropki.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="256"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="891"/>
         <source>The command LineEdit may not be empty.</source>
         <translation>Polecenie nie może być puste.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="241"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="876"/>
         <source>Neither ffmpeg nor avconv are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
         <translation>Ani ffmpeg ani avconv nie są zainstalowane.
@@ -159,26 +167,34 @@ Dopóki nie zainstalujesz jednego z nich, nie możesz konwertować plików audio
     </message>
 </context>
 <context>
+    <name>CreditsDialog</name>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="694"/>
+        <source>Credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DocumentTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="577"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1212"/>
         <source>Convert:</source>
         <translation>Konwertuj</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="598"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1233"/>
         <source>Unocov is not installed.
 You will not be able to convert document files until you install it.</source>
         <translation>Unocov nie jest zainstalowany.
 Dopóki go nie zainstalujesz, nie możesz konwertować dokumentów.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="607"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1242"/>
         <source>Error!</source>
         <translation>Błąd!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="602"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1237"/>
         <source>Given file is not %1!</source>
         <translation>Wybrany plik nie jest plikiem %1!</translation>
     </message>
@@ -186,34 +202,34 @@ Dopóki go nie zainstalujesz, nie możesz konwertować dokumentów.</translation
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="498"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1133"/>
         <source>The size LineEdit may not be empty.</source>
         <translation>Wymiary obrazka nie mogą być puste.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="498"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1133"/>
         <source>Error!</source>
         <translation>Błąd!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="457"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1092"/>
         <source>Image Size:</source>
         <translation>Wymiary obrazka:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="450"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1085"/>
         <source>Convert to:</source>
         <translation>Konwertuj do:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="489"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1124"/>
         <source>PythonMagick is not installed.
 You will not be able to convert image files until you install it.</source>
         <translation>Program PythonMagick nie jest zainstalowany.
 Dopóki go nie zainstalujesz, nie będziesz mógł konwertować plików graficznych.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="494"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1129"/>
         <source>Could not convert this file type!</source>
         <translation>Nie można przekonwertować tego typu pliku.</translation>
     </message>
@@ -221,249 +237,249 @@ Dopóki go nie zainstalujesz, nie będziesz mógł konwertować plików graficzn
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="58"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
         <source>Select file:</source>
         <translation>Wybierz plik:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="96"/>
         <source>Images</source>
         <translation>Obrazki</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="78"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="97"/>
         <source>Documents</source>
         <translation>Dokumenty</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="84"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="103"/>
         <source>Convert all files
 in this folder</source>
         <translation>Konwertuj wszystkie pliki
 w tym folderze</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="86"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="105"/>
         <source>Convert files
 recursively</source>
         <translation>Konwertuj wszystkie pliki
 rekursywnie</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="88"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="107"/>
         <source>Delete original</source>
         <translation>Usuń
 oryginalny plik</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="92"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="111"/>
         <source>Same type</source>
         <translation>Ten sam typ</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="95"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
         <source>Same extension</source>
         <translation>To samo rozszerzenie</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="101"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="120"/>
         <source>&amp;Convert</source>
         <translation>&amp;Konwertuj</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="135"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="135"/>
         <source>Open a file</source>
         <translation>Otwórz plik</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
         <source>Convert</source>
         <translation>Konwertuj</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
         <source>Convert files</source>
         <translation>Konwertuj pliki</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="120"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
         <source>Quit</source>
         <translation>Wyjdź</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="149"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="149"/>
         <source>Clear form</source>
         <translation>Wyczyść wszystkie pola</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="132"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="151"/>
         <source>Preferences</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="134"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="153"/>
         <source>About</source>
         <translation>O programie...</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="156"/>
         <source>File</source>
         <translation>Plik</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="157"/>
         <source>Edit</source>
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="140"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="159"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="244"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="263"/>
         <source>Each file to its original folder</source>
         <translation>Każdy plik do jego oryginalnego folderu</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="277"/>
         <source>All Files</source>
         <translation>Wszystkie pliki</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
         <source>Image Files</source>
         <translation>Pliki graficzne</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
         <source>Document Files</source>
         <translation>Dokumenty</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="266"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
         <source>Choose File</source>
         <translation>Wybierz pliki</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="276"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="295"/>
         <source>Choose output destination</source>
         <translation>Wybierz lokalizację docelową</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
         <source>Save Location!</source>
         <translation>Zapisz lokalizację!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
         <source>You have chosen to save every file to its original folder.
 You can change this from preferences.</source>
         <translation>Wybrałeś opcję by zapisywać każdy plik w jego oryginalnym folderze.
 Możesz to zmienić w ustawieniach programu.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="319"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="338"/>
         <source>You must choose a file to convert!</source>
         <translation>Wybierz plik do konwersji!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="322"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="341"/>
         <source>The selected file does not exists!</source>
         <translation>Wybrany plik nie istnieje!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="325"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="344"/>
         <source>You must choose an output folder!</source>
         <translation>Wybierz folder docelowy!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="328"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="347"/>
         <source>Output folder does not exists!</source>
         <translation>Folder docelowy nie istnieje!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="335"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="354"/>
         <source>Error!</source>
         <translation>Błąd!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="572"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="591"/>
         <source>Convert among several file types to other extensions</source>
         <translation>Konwertuje rozmaite typy plików do innych rozszerzeń</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="565"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="584"/>
         <source>None</source>
         <translation>Żaden</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="566"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="585"/>
         <source>Missing dependencies:</source>
         <translation>Brakujące zależności:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="59"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="78"/>
         <source>Output folder:</source>
         <translation>Folder docelowy:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="96"/>
         <source>Audio/Video</source>
         <translation>Audio/Video</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="122"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="141"/>
         <source>Edit Presets</source>
         <translation>Edytuj presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="143"/>
         <source>Import</source>
         <translation>Importuj</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="143"/>
         <source>Import presets</source>
         <translation>Importuj presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
         <source>Export</source>
         <translation>Exportuj</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
         <source>Export presets</source>
         <translation>Eksportuj presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="147"/>
         <source>Reset</source>
         <translation>Resetuj</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="147"/>
         <source>Reset presets</source>
         <translation>Resetuj preset</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="158"/>
         <source>Presets</source>
         <translation>Presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="277"/>
         <source>Audio/Video Files</source>
         <translation>Pliki Audio/Video</translation>
     </message>
@@ -701,7 +717,7 @@ Czy jesteś pewien że chcesz to zrobić?</translation>
 <context>
     <name>Tab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="167"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="802"/>
         <source>More</source>
         <translation>Więcej</translation>
     </message>

@@ -615,6 +615,7 @@ class MainWindow(QMainWindow):
                        ['[hu] Hungarian', 'Farkas Norbert'],
                        ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'],
                        ['[pt] Portuguese', 'Sérgio Marques'],
+                       ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'],
                        ['[ru] Russian', 'Andrew Lapshin'],
                        ['[tu] Turkish', 'Tayfun Kayha'],
                        ['[zh_CN] Chinese (China)', 'Dianjin Wang']]

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="2.0" language="el" sourcelanguage="">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="662"/>
+        <source>About FF Multi Converter</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AddorEditPreset</name>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="257"/>
@@ -71,87 +79,87 @@
 <context>
     <name>AudioVideoTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="75"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="710"/>
         <source>No Change</source>
         <translation>Όχι αλλαγή</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="83"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="718"/>
         <source>Convert to:</source>
         <translation>Μετατροπή σε:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="85"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="720"/>
         <source>Other</source>
         <translation>Άλλη</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="92"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="727"/>
         <source>Command:</source>
         <translation>Εντολή:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="94"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="729"/>
         <source>Preset</source>
         <translation>Preset</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="95"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="730"/>
         <source>Default</source>
         <translation>Προεπιλογή</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="99"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="734"/>
         <source>Video Size:</source>
         <translation>Μέγεθος Βίντεο:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="100"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="735"/>
         <source>Aspect:</source>
         <translation>Αναλογία:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="101"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="736"/>
         <source>Frame Rate (fps):</source>
         <translation>Ρυθμός Καρέ (fps):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="102"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="737"/>
         <source>Video Bitrate (kbps):</source>
         <translation>Video Bitrate (kbps):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="131"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="766"/>
         <source>Frequency (Hz):</source>
         <translation>Συχνότητα (Hz):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="132"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="767"/>
         <source>Channels:</source>
         <translation>Κανάλια:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="133"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="768"/>
         <source>Audio Bitrate (kbps):</source>
         <translation>Audio Bitrate (kbps):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="256"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="891"/>
         <source>Error!</source>
         <translation>Σφάλμα!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="249"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="884"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>Η επέκταση πρέπει να είναι μία λέξη και δεν πρέπει να ξεκινάει με τελεία.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="256"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="891"/>
         <source>The command LineEdit may not be empty.</source>
         <translation>Η γραμμή εντολής δεν μπορεί να μείνει άδεια.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="241"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="876"/>
         <source>Neither ffmpeg nor avconv are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
         <translation>Κανένα εκ των ffmpeg ή avconv δεν έχουν εγκατασταθεί.
@@ -159,26 +167,34 @@ You will not be able to convert audio/video files until you install one of them.
     </message>
 </context>
 <context>
+    <name>CreditsDialog</name>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="694"/>
+        <source>Credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DocumentTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="577"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1212"/>
         <source>Convert:</source>
         <translation>Μετατροπή:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="598"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1233"/>
         <source>Unocov is not installed.
 You will not be able to convert document files until you install it.</source>
         <translation>Το unoconv δεν είναι εγκατεστημένο.
 Δεν θα μπορείτε να μετατρέπε έγγραφα κειμένου μέχρι να το εγκαταστήσετε.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="607"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1242"/>
         <source>Error!</source>
         <translation>Σφάλμα!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="602"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1237"/>
         <source>Given file is not %1!</source>
         <translation>Το δοσμένο αρχείο δεν είναι %1!</translation>
     </message>
@@ -186,34 +202,34 @@ You will not be able to convert document files until you install it.</source>
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="498"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1133"/>
         <source>The size LineEdit may not be empty.</source>
         <translation>Η γραμμή μεγέθους δεν πρέπει να μείνει άδεια.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="498"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1133"/>
         <source>Error!</source>
         <translation>Σφάλμα!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="457"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1092"/>
         <source>Image Size:</source>
         <translation>Μέγεθος εικόνας:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="450"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1085"/>
         <source>Convert to:</source>
         <translation>Μετατροπή σε:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="489"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1124"/>
         <source>PythonMagick is not installed.
 You will not be able to convert image files until you install it.</source>
         <translation>Η βιβλιοθήκη PythonMagick δεν είναι εγκατεστημένη.
 Δεν μπορείτε να κάνετε μετατροπές εικόνων μέχρι να την εγκαταστήσετε.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="494"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1129"/>
         <source>Could not convert this file type!</source>
         <translation>Δεν μπορεί να μετατραπεί αυτός ο τύπος αρχείου!</translation>
     </message>
@@ -221,249 +237,249 @@ You will not be able to convert image files until you install it.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="58"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
         <source>Select file:</source>
         <translation>Επιλογή αρχείου:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="96"/>
         <source>Images</source>
         <translation>Εικόνες</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="78"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="97"/>
         <source>Documents</source>
         <translation>Έγγραφα</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="84"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="103"/>
         <source>Convert all files
 in this folder</source>
         <translation>Μετατροπή όλων των
 αρχείων στον φάκελο</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="86"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="105"/>
         <source>Convert files
 recursively</source>
         <translation>Μετατροπή όλων των
 αρχείων αναδρομικά</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="88"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="107"/>
         <source>Delete original</source>
         <translation>Διαγραφή
 πρωτοτύπου</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="92"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="111"/>
         <source>Same type</source>
         <translation>Ίδιος τύπος</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="95"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
         <source>Same extension</source>
         <translation>Ίδια επέκταση</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="101"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="120"/>
         <source>&amp;Convert</source>
         <translation>&amp;Μετατροπή</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="135"/>
         <source>Open</source>
         <translation>Άνοιγμα</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="135"/>
         <source>Open a file</source>
         <translation>Άνοιγμα αρχείου</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
         <source>Convert</source>
         <translation>Μετατροπή</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
         <source>Convert files</source>
         <translation>Μετατροπή αρχείων</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="120"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
         <source>Quit</source>
         <translation>Έξοδος</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="149"/>
         <source>Clear</source>
         <translation>Καθαρισμός</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="149"/>
         <source>Clear form</source>
         <translation>Καθαρισμός φόρμας</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="132"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="151"/>
         <source>Preferences</source>
         <translation>Προτιμήσεις</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="134"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="153"/>
         <source>About</source>
         <translation>Περί</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="156"/>
         <source>File</source>
         <translation>Αρχείο</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="157"/>
         <source>Edit</source>
         <translation>Επεξεργασία</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="140"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="159"/>
         <source>Help</source>
         <translation>Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="244"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="263"/>
         <source>Each file to its original folder</source>
         <translation>Κάθε αρχείο στον αρχικό του φάκελο</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="277"/>
         <source>All Files</source>
         <translation>Όλα τα αρχεία</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
         <source>Image Files</source>
         <translation>Αρχεία εικόνας</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="259"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
         <source>Document Files</source>
         <translation>Έγγραφα κειμένου</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="266"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
         <source>Choose File</source>
         <translation>Επιλογή αρχείου</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="276"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="295"/>
         <source>Choose output destination</source>
         <translation>Επιλογή φακέλου αποθήκευσης</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
         <source>Save Location!</source>
         <translation>Τοποθεσία αποθήκευσης!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="283"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
         <source>You have chosen to save every file to its original folder.
 You can change this from preferences.</source>
         <translation>Έχετε επιλέξει να αποθηκεύεται κάθε αρχείο στον αρχικό του φάκελο.
 Μπορείτε να το αλλάξετε αυτό από τις προτιμήσεις.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="319"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="338"/>
         <source>You must choose a file to convert!</source>
         <translation>Δεν επιλέξατε αρχείο για μετατροπή!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="322"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="341"/>
         <source>The selected file does not exists!</source>
         <translation>Το επιλεγμένο αρχείο δεν υπάρχει!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="325"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="344"/>
         <source>You must choose an output folder!</source>
         <translation>Πρέπει να επιλέξετε μια τοποθεσία αποθήκευσης!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="328"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="347"/>
         <source>Output folder does not exists!</source>
         <translation>Ο φάκελος αποθήκευσης δεν υπάρχει!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="335"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="354"/>
         <source>Error!</source>
         <translation>Σφάλμα!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="572"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="591"/>
         <source>Convert among several file types to other extensions</source>
         <translation>Μετατροπή μεταξύ διάφορων τύπων αρχείων σε διαφορετικές επεκτάσεις</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="565"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="584"/>
         <source>None</source>
         <translation>Καμία</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="566"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="585"/>
         <source>Missing dependencies:</source>
         <translation>Ελλιπείς εξαρτήσεις:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="59"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="78"/>
         <source>Output folder:</source>
         <translation>Φάκελος εξόδου:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="96"/>
         <source>Audio/Video</source>
         <translation>Audio/Video</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="122"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="141"/>
         <source>Edit Presets</source>
         <translation>Επεξεργασία presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="143"/>
         <source>Import</source>
         <translation>Εισαγωγή</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="124"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="143"/>
         <source>Import presets</source>
         <translation>Εισαγωγή presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
         <source>Export</source>
         <translation>Εξαγωγή</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
         <source>Export presets</source>
         <translation>Εξαγωγή presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="147"/>
         <source>Reset</source>
         <translation>Επαναφορά</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="128"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="147"/>
         <source>Reset presets</source>
         <translation>Επαναφορά presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="139"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="158"/>
         <source>Presets</source>
         <translation>Presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="258"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="277"/>
         <source>Audio/Video Files</source>
         <translation>Audio/Video Αρχεία</translation>
     </message>
@@ -702,7 +718,7 @@ Are you sure that you want to continue?</source>
 <context>
     <name>Tab</name>
     <message>
-        <location filename="../ffmulticonverter/tabs.py" line="167"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="802"/>
         <source>More</source>
         <translation>Περισσότερα</translation>
     </message>

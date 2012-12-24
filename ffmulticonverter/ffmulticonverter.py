@@ -21,11 +21,10 @@ from __init__ import __version__
 
 from PyQt4.QtCore import (QSettings, QTimer, QLocale, QTranslator, QSize,
                   QT_VERSION_STR, PYQT_VERSION_STR)
-from PyQt4.QtGui import (QApplication, QMainWindow, QWidget, QGridLayout,
-                  QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPlainTextEdit,
-                  QToolButton, QCheckBox, QRadioButton, QPushButton, QIcon,
-                  QTabWidget, QKeySequence, QFileDialog, QDialog, QMessageBox,
-                  QPixmap)
+from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QWidget, QGridLayout,
+                  QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QToolButton,
+                  QCheckBox, QRadioButton, QPushButton, QIcon, QTabWidget,
+                  QKeySequence, QFileDialog, QMessageBox)
 
 import os
 import sys
@@ -604,9 +603,75 @@ class MainWindow(QMainWindow):
             translators += '{0}\n     {1}\n\n'.format(i[0], i[1])
         translators = translators[:-2]
 
-
-        dialog = pyqttools.AboutDialog(text, image, authors, translators)
+        dialog = AboutDialog(text, image, authors, translators)
         dialog.exec_()
+
+
+class AboutDialog(QDialog):
+    def __init__(self, text, image, authors, translators, parent=None):
+        super(AboutDialog, self).__init__(parent)
+        self.parent = parent
+        self.authors = authors
+        self.translators = translators
+
+        from PyQt4.QtGui import (QPushButton, QLabel, QPixmap, QVBoxLayout,
+                                 QHBoxLayout)
+
+        imageLabel = QLabel()
+        imageLabel.setMaximumSize(QSize(63, 61))
+        imageLabel.setPixmap(QPixmap(image))
+        imageLabel.setScaledContents(True)
+        textLabel = QLabel()
+        textLabel.setText(text)
+        textLabel.setOpenExternalLinks(True)
+        creditsButton = QPushButton('Credits')
+        closeButton = QPushButton('&Close')
+
+        vlayout1 = pyqttools.add_to_layout(QVBoxLayout(), imageLabel, None)
+        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), vlayout1, textLabel)
+        hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), creditsButton, None,
+                                                                   closeButton)
+        fin_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout1, hlayout2)
+
+        self.setLayout(fin_layout)
+
+        closeButton.clicked.connect(self.close)
+        creditsButton.clicked.connect(self.show_credits)
+
+        self.resize(455, 200)
+        self.setWindowTitle(self.tr('About FF Multi Converter'))
+
+    def show_credits(self):
+        dialog = CreditsDialog(self.authors, self.translators)
+        dialog.exec_()
+
+
+class CreditsDialog(QDialog):
+    def __init__(self, authors, translators, parent=None):
+        super(CreditsDialog, self).__init__(parent)
+        self.parent = parent
+
+        from PyQt4.QtGui import (QPlainTextEdit, QTabWidget, QPushButton,
+                                 QHBoxLayout, QVBoxLayout)
+
+        authorsLabel = QPlainTextEdit(authors)
+        authorsLabel.setReadOnly(True)
+        translatorsLabel = QPlainTextEdit(translators)
+        translatorsLabel.setReadOnly(True)
+        TabWidget = QTabWidget()
+        TabWidget.addTab(authorsLabel, 'Written by')
+        TabWidget.addTab(translatorsLabel, 'Translated by')
+        closeButton = QPushButton('&Close')
+
+        hlayout = pyqttools.add_to_layout(QHBoxLayout(), None, closeButton)
+        vlayout = pyqttools.add_to_layout(QVBoxLayout(), TabWidget, hlayout)
+
+        self.setLayout(vlayout)
+        closeButton.clicked.connect(self.close)
+
+        self.setMinimumSize(QSize(335, 370))
+        self.setMaximumSize(QSize(335, 370))
+        self.setWindowTitle(self.tr('Credits'))
 
 
 def main():

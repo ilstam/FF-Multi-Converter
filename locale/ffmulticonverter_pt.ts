@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="pt" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="pt">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="662"/>
         <source>About FF Multi Converter</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobre o  FF Multi Converter</translation>
     </message>
 </context>
 <context>
@@ -171,7 +172,7 @@ Não conseguirá converter os ficheiros até que instale um deles.</translation>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="694"/>
         <source>Credits</source>
-        <translation type="unfinished"></translation>
+        <translation>Créditos</translation>
     </message>
 </context>
 <context>

@@ -19,13 +19,15 @@
 from __future__ import unicode_literals
 from __init__ import __version__
 
-from PyQt4.QtCore import (QSettings, QTimer, QLocale, QTranslator, QString,
-                  QRegExp, QSize, QT_VERSION_STR, PYQT_VERSION_STR)
-from PyQt4.QtGui import (QApplication, QMainWindow, QDialog, QFrame, QWidget,
-                  QGridLayout, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
-                  QToolButton, QCheckBox, QRadioButton, QPushButton, QComboBox,
-                  QIcon, QTabWidget, QButtonGroup, QSpacerItem, QSizePolicy,
-                  QRegExpValidator, QKeySequence, QFileDialog, QMessageBox)
+from PyQt4.QtCore import (PYQT_VERSION_STR, QLocale, QRegExp, QSettings, QSize,
+                          QString, QTimer, QTranslator, QT_VERSION_STR)
+from PyQt4.QtGui import (QApplication, QButtonGroup, QCheckBox, QComboBox,
+                         QDialog, QFileDialog, QFrame, QGridLayout,
+                         QHBoxLayout, QIcon, QKeySequence, QLabel, QLineEdit,
+                         QListWidget, QMainWindow, QMessageBox, QPushButton,
+                         QRadioButton, QRegExpValidator, QSizePolicy,
+                         QSpacerItem, QTabWidget, QToolButton, QVBoxLayout,
+                         QWidget)
 
 import os
 import sys
@@ -74,19 +76,24 @@ class MainWindow(QMainWindow):
         self.fname = ''
         self.output = ''
 
-        select_label = QLabel(self.tr('Select file:'))
+        addButton = QPushButton('Add')
+        delButton = QPushButton('Delete')
+        clearButton = QPushButton('Clear')
+        vlayout1 = pyqttools.add_to_layout(QVBoxLayout(), addButton, delButton,
+                                           clearButton, None)
+
+        self.fileList = QListWidget()
+        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), self.fileList,
+                                           vlayout1)
+
+
         output_label = QLabel(self.tr('Output folder:'))
-        self.fromLineEdit = QLineEdit()
-        self.fromLineEdit.setReadOnly(True)
         self.toLineEdit = QLineEdit()
         self.toLineEdit.setReadOnly(True)
-        self.fromToolButton = QToolButton()
-        self.fromToolButton.setText('...')
         self.toToolButton = QToolButton()
         self.toToolButton.setText('...')
-        grid1 = pyqttools.add_to_grid(QGridLayout(),
-                        [select_label, self.fromLineEdit, self.fromToolButton],
-                        [output_label, self.toLineEdit, self.toToolButton])
+        hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), output_label,
+                                           self.toLineEdit, self.toToolButton)
 
         self.audiovideo_tab = AudioVideoTab(self)
         self.image_tab = ImageTab(self)
@@ -100,28 +107,19 @@ class MainWindow(QMainWindow):
             self.TabWidget.addTab(self.tabs[num], tab)
         self.TabWidget.setCurrentIndex(0)
 
-        self.folderCheckBox = QCheckBox(self.tr(
-                                          'Convert all files\nin this folder'))
-        self.recursiveCheckBox = QCheckBox(self.tr(
-                                                 'Convert files\nrecursively'))
+
+        self.origCheckBox = QCheckBox('Save each file in the same\n'
+                                      'folder as input file')
         self.deleteCheckBox = QCheckBox(self.tr('Delete original'))
-        layout1 = pyqttools.add_to_layout(QHBoxLayout(),self.folderCheckBox,
-                             self.recursiveCheckBox, self.deleteCheckBox, None)
-
-        self.typeRadioButton = QRadioButton(self.tr('Same type'))
-        self.typeRadioButton.setEnabled(False)
-        self.typeRadioButton.setChecked(True)
-        self.extRadioButton = QRadioButton(self.tr('Same extension'))
-        self.extRadioButton.setEnabled(False)
-        layout2 = pyqttools.add_to_layout(QHBoxLayout(), self.typeRadioButton,
-                                                     self.extRadioButton, None)
-        layout3 = pyqttools.add_to_layout(QVBoxLayout(), layout1, layout2)
-
         self.convertPushButton = QPushButton(self.tr('&Convert'))
-        layout4 = pyqttools.add_to_layout(QHBoxLayout(), None,
-                                                        self.convertPushButton)
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(), grid1,
-                                        self.TabWidget, layout3, None, layout4)
+
+        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), self.origCheckBox,
+                                           self.deleteCheckBox, None)
+        hlayout4 = pyqttools.add_to_layout(QHBoxLayout(), None,
+                                          self.convertPushButton)
+        final_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout1,
+                                        self.TabWidget, hlayout2, hlayout3,
+                                        hlayout4)
 
         self.statusBar = self.statusBar()
         self.dependenciesLabel = QLabel()
@@ -167,16 +165,11 @@ class MainWindow(QMainWindow):
 
         self.TabWidget.currentChanged.connect(self.resize_window)
         self.TabWidget.currentChanged.connect(self.checkboxes_clicked)
-        self.fromToolButton.clicked.connect(self.open_file)
         self.toToolButton.clicked.connect(self.open_dir)
         self.convertPushButton.clicked.connect(convertAction.triggered)
-        self.folderCheckBox.clicked.connect(
-                                     lambda: self.checkboxes_clicked('folder'))
-        self.recursiveCheckBox.clicked.connect(
-                                  lambda: self.checkboxes_clicked('recursive'))
 
 
-        self.resize(660, 378)
+        self.resize(700, 500)
         self.setWindowTitle('FF Multi Converter')
 
         QTimer.singleShot(0, self.check_for_dependencies)
@@ -842,9 +835,9 @@ class AudioVideoTab(QWidget):
 
     def resize_parent(self):
         """Resizes MainWindow"""
-        height = 520 if self.frame.isVisible() else 378
-        self.parent.setMinimumSize(660, height)
-        self.parent.resize(660, height)
+        height = 622 if self.frame.isVisible() else 500
+        self.parent.setMinimumSize(700, height)
+        self.parent.resize(700, height)
 
     def set_line_enable(self):
         """Enable or disable self.extLineEdit."""

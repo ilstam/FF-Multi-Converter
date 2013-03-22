@@ -24,9 +24,10 @@ from PyQt4.QtCore import (PYQT_VERSION_STR, QLocale, QRegExp, QSettings, QSize,
 from PyQt4.QtGui import (QApplication, QButtonGroup, QCheckBox, QComboBox,
                          QDialog, QFileDialog, QFrame, QHBoxLayout, QIcon,
                          QKeySequence, QLabel, QLineEdit, QListWidget,
-                         QMainWindow, QMessageBox, QPushButton, QRadioButton,
-                         QRegExpValidator, QSizePolicy, QSpacerItem, QTabWidget,
-                         QToolButton, QVBoxLayout, QWidget)
+                         QListWidgetItem, QMainWindow, QMessageBox,
+                         QPushButton, QRadioButton, QRegExpValidator,
+                         QSizePolicy, QSpacerItem, QTabWidget, QToolButton,
+                         QVBoxLayout, QWidget)
 
 import os
 import sys
@@ -80,8 +81,8 @@ class MainWindow(QMainWindow):
         vlayout1 = pyqttools.add_to_layout(QVBoxLayout(), addButton, delButton,
                                            clearButton, None)
 
-        self.fileList = QListWidget()
-        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), self.fileList,
+        self.filesList = QListWidget()
+        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), self.filesList,
                                            vlayout1)
 
 
@@ -129,7 +130,7 @@ class MainWindow(QMainWindow):
 
         c_act = pyqttools.create_action
         openAction = c_act(self, self.tr('Open'), QKeySequence.Open, None,
-                                        self.tr('Open a file'), self.open_file)
+                           self.tr('Open a file'), self.open_files)
         convertAction = c_act(self, self.tr('Convert'), 'Ctrl+C', None,
                                self.tr('Convert files'), self.start_conversion)
         quitAction = c_act(self, self.tr('Quit'), 'Ctrl+Q', None, self.tr(
@@ -161,6 +162,7 @@ class MainWindow(QMainWindow):
         pyqttools.add_actions(helpMenu, [aboutAction])
 
 
+        addButton.clicked.connect(self.open_files)
         self.TabWidget.currentChanged.connect(self.resize_window)
         self.toToolButton.clicked.connect(self.open_dir)
         self.convertPushButton.clicked.connect(convertAction.triggered)
@@ -229,7 +231,7 @@ class MainWindow(QMainWindow):
                                            'Each file to its original folder'))
             self.output = None
 
-    def open_file(self):
+    def open_files(self):
         """Uses standard QtDialog to get file name."""
         all_files = '*'
         audiovideo_files = ' '.join(
@@ -247,12 +249,11 @@ class MainWindow(QMainWindow):
             filters += string + ' ({0});;'.format(extensions)
         filters = filters[:-2] # remove last ';;'
 
-        fname = QFileDialog.getOpenFileName(self, 'FF Multi Converter - ' + \
+        fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' + \
                                     self.tr('Choose File'), self.home, filters)
-        fname = unicode(fname)
-        if fname:
-            self.fname = fname
-            self.fromLineEdit.setText(self.fname)
+        if fnames:
+            for i in fnames:
+                self.filesList.addItem(i)
 
     def open_dir(self):
         """Uses standard QtDialog to get directory name."""

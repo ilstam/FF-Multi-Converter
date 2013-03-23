@@ -21,10 +21,10 @@ from __init__ import __version__
 
 from PyQt4.QtCore import (PYQT_VERSION_STR, QLocale, QRegExp, QSettings, QSize,
                           QString, QTimer, QTranslator, QT_VERSION_STR)
-from PyQt4.QtGui import (QApplication, QButtonGroup, QCheckBox, QComboBox,
-                         QDialog, QFileDialog, QFrame, QHBoxLayout, QIcon,
-                         QKeySequence, QLabel, QLineEdit, QListWidget,
-                         QListWidgetItem, QMainWindow, QMessageBox,
+from PyQt4.QtGui import (QAbstractItemView, QApplication, QButtonGroup,
+                         QCheckBox, QComboBox, QDialog, QFileDialog, QFrame,
+                         QHBoxLayout, QIcon, QKeySequence, QLabel, QLineEdit,
+                         QListWidget, QListWidgetItem, QMainWindow, QMessageBox,
                          QPushButton, QRadioButton, QRegExpValidator,
                          QSizePolicy, QSpacerItem, QTabWidget, QToolButton,
                          QVBoxLayout, QWidget)
@@ -71,8 +71,9 @@ class ValidationError(Exception): pass
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
+
         self.home = os.getenv('HOME')
-        self.fname = ''
+        self.fnames = list() # list of file names to be converted
         self.output = ''
 
         addButton = QPushButton('Add')
@@ -82,6 +83,7 @@ class MainWindow(QMainWindow):
                                            clearButton, None)
 
         self.filesList = QListWidget()
+        self.filesList.setSelectionMode(QAbstractItemView.ExtendedSelection)
         hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), self.filesList,
                                            vlayout1)
 
@@ -130,7 +132,7 @@ class MainWindow(QMainWindow):
 
         c_act = pyqttools.create_action
         openAction = c_act(self, self.tr('Open'), QKeySequence.Open, None,
-                           self.tr('Open a file'), self.open_files)
+                           self.tr('Open a file'), self.add_files)
         convertAction = c_act(self, self.tr('Convert'), 'Ctrl+C', None,
                                self.tr('Convert files'), self.start_conversion)
         quitAction = c_act(self, self.tr('Quit'), 'Ctrl+Q', None, self.tr(
@@ -143,8 +145,8 @@ class MainWindow(QMainWindow):
                                 self.tr('Export presets'), self.export_presets)
         resetAction = c_act(self, self.tr('Reset'), None, None,
                                   self.tr('Reset presets'), self.reset_presets)
-        clearAction = c_act(self, self.tr('Clear'), None, None,
-                                             self.tr('Clear form'), self.clear)
+        clearallAction = c_act(self, self.tr('Clear All'), None, None,
+                               self.tr('Clear form'), self.clear_all)
         preferencesAction = c_act(self, self.tr('Preferences'), 'Alt+Ctrl+P',
                                 None, self.tr('Preferences'), self.preferences)
         aboutAction = c_act(self, self.tr('About'), 'Ctrl+?', None,
@@ -158,11 +160,14 @@ class MainWindow(QMainWindow):
                                                                    quitAction])
         pyqttools.add_actions(presetsMenu, [edit_presetsAction, importAction,
                                                     exportAction, resetAction])
-        pyqttools.add_actions(editMenu, [clearAction, None, preferencesAction])
+        pyqttools.add_actions(editMenu,
+                              [clearallAction, None, preferencesAction])
         pyqttools.add_actions(helpMenu, [aboutAction])
 
 
-        addButton.clicked.connect(self.open_files)
+        addButton.clicked.connect(self.add_files)
+        delButton.clicked.connect(self.delete_files)
+        clearButton.clicked.connect(self.clear_fileslist)
         self.TabWidget.currentChanged.connect(self.resize_window)
         self.toToolButton.clicked.connect(self.open_dir)
         self.convertPushButton.clicked.connect(convertAction.triggered)
@@ -175,7 +180,58 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(0, self.set_settings)
         QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
 
-    def clear(self):
+    def update_filesList(self):
+        """Clear self.filesList and add to it all items of self.fname."""
+        self.filesList.clear()
+        for i in self.fnames:
+            self.filesList.addItem(i)
+
+    def add_files(self):
+        """Get file names using a standard Qt dialog.
+        Append to self.fnames each file name that not already exists
+        and update self.filesList"""
+        # Create lists holding file formats extension.
+        # To be passed in QFileDialog.getOpenFileNames().
+        all_files = '*'
+        audiovideo_files = ' '.join(
+                                 ['*.'+i for i in self.audiovideo_tab.formats])
+        img_formats = self.image_tab.formats[:]
+        img_formats.extend(self.image_tab.extra_img)
+        image_files = ' '.join(['*.'+i for i in img_formats])
+        document_files = ' '.join(['*.'+i for i in self.document_tab.formats])
+        formats = [all_files, audiovideo_files, image_files, document_files]
+        strings = [self.tr('All Files'), self.tr('Audio/Video Files'),
+                   self.tr('Image Files'), self.tr('Document Files')]
+
+        filters = ''
+        for string, extensions in zip(strings, formats):
+            filters += string + ' ({0});;'.format(extensions)
+        filters = filters[:-2] # remove last ';;'
+
+        fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' + \
+                                    self.tr('Choose File'), self.home, filters)
+
+        if fnames:
+            for i in fnames:
+                if not i in self.fnames:
+                    self.fnames.append(i)
+            self.update_filesList()
+
+    def delete_files(self):
+        """Get selectedItems of self.filesList, remove them from self.fnames
+        and update the filesList."""
+        items = self.filesList.selectedItems()
+        if items:
+            for i in items:
+                self.fnames.remove(i.text())
+            self.update_filesList()
+
+    def clear_fileslist(self):
+        """Make self.fnames empty and update self.filesList."""
+        self.fnames = []
+        self.update_filesList()
+
+    def clear_all(self):
         """Clears the form.
 
         Clears line edits and unchecks checkboxes and radio buttons.
@@ -230,30 +286,6 @@ class MainWindow(QMainWindow):
             self.toLineEdit.setText(self.tr(
                                            'Each file to its original folder'))
             self.output = None
-
-    def open_files(self):
-        """Uses standard QtDialog to get file name."""
-        all_files = '*'
-        audiovideo_files = ' '.join(
-                                 ['*.'+i for i in self.audiovideo_tab.formats])
-        img_formats = self.image_tab.formats[:]
-        img_formats.extend(self.image_tab.extra_img)
-        image_files = ' '.join(['*.'+i for i in img_formats])
-        document_files = ' '.join(['*.'+i for i in self.document_tab.formats])
-        formats = [all_files, audiovideo_files, image_files, document_files]
-        strings = [self.tr('All Files'), self.tr('Audio/Video Files'),
-                   self.tr('Image Files'), self.tr('Document Files')]
-
-        filters = ''
-        for string, extensions in zip(strings, formats):
-            filters += string + ' ({0});;'.format(extensions)
-        filters = filters[:-2] # remove last ';;'
-
-        fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' + \
-                                    self.tr('Choose File'), self.home, filters)
-        if fnames:
-            for i in fnames:
-                self.filesList.addItem(i)
 
     def open_dir(self):
         """Uses standard QtDialog to get directory name."""

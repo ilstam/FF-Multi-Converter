@@ -25,9 +25,9 @@ from PyQt4.QtGui import (QAbstractItemView, QApplication, QButtonGroup,
                          QCheckBox, QComboBox, QDialog, QFileDialog, QFrame,
                          QHBoxLayout, QIcon, QKeySequence, QLabel, QLineEdit,
                          QListWidget, QListWidgetItem, QMainWindow, QMessageBox,
-                         QPushButton, QRadioButton, QRegExpValidator,
-                         QSizePolicy, QSpacerItem, QTabWidget, QToolButton,
-                         QVBoxLayout, QWidget)
+                         QPixmap, QPlainTextEdit, QPushButton, QRadioButton,
+                         QRegExpValidator, QSizePolicy, QSpacerItem, QTabWidget,
+                         QToolButton, QVBoxLayout, QWidget)
 
 import os
 import sys
@@ -102,7 +102,7 @@ class MainWindow(QMainWindow):
 
         self.tabs = [self.audiovideo_tab, self.image_tab, self.document_tab]
         tab_names = [self.tr('Audio/Video'), self.tr('Images'),
-                                                          self.tr('Documents')]
+                     self.tr('Documents')]
         self.TabWidget = QTabWidget()
         for num, tab in enumerate(tab_names):
             self.TabWidget.addTab(self.tabs[num], tab)
@@ -119,8 +119,8 @@ class MainWindow(QMainWindow):
         hlayout4 = pyqttools.add_to_layout(QHBoxLayout(), None,
                                           self.convertPushButton)
         final_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout1,
-                                        self.TabWidget, hlayout2, hlayout3,
-                                        hlayout4)
+                                               self.TabWidget, hlayout2,
+                                               hlayout3, hlayout4)
 
         self.statusBar = self.statusBar()
         self.dependenciesLabel = QLabel()
@@ -134,32 +134,32 @@ class MainWindow(QMainWindow):
         openAction = c_act(self, self.tr('Open'), QKeySequence.Open, None,
                            self.tr('Open a file'), self.add_files)
         convertAction = c_act(self, self.tr('Convert'), 'Ctrl+C', None,
-                               self.tr('Convert files'), self.start_conversion)
-        quitAction = c_act(self, self.tr('Quit'), 'Ctrl+Q', None, self.tr(
-                                                           'Quit'), self.close)
+                              self.tr('Convert files'), self.start_conversion)
+        quitAction = c_act(self, self.tr('Quit'), 'Ctrl+Q', None,
+                           self.tr('Quit'), self.close)
         edit_presetsAction = c_act(self, self.tr('Edit Presets'), 'Ctrl+P',
                                    None, self.tr('Edit Presets'), self.presets)
         importAction = c_act(self, self.tr('Import'), None, None,
-                                self.tr('Import presets'), self.import_presets)
+                             self.tr('Import presets'), self.import_presets)
         exportAction = c_act(self, self.tr('Export'), None, None,
-                                self.tr('Export presets'), self.export_presets)
+                             self.tr('Export presets'), self.export_presets)
         resetAction = c_act(self, self.tr('Reset'), None, None,
-                                  self.tr('Reset presets'), self.reset_presets)
+                            self.tr('Reset presets'), self.reset_presets)
         clearallAction = c_act(self, self.tr('Clear All'), None, None,
                                self.tr('Clear form'), self.clear_all)
         preferencesAction = c_act(self, self.tr('Preferences'), 'Alt+Ctrl+P',
                                 None, self.tr('Preferences'), self.preferences)
         aboutAction = c_act(self, self.tr('About'), 'Ctrl+?', None,
-                                                  self.tr('About'), self.about)
+                            self.tr('About'), self.about)
 
         fileMenu = self.menuBar().addMenu(self.tr('File'))
         editMenu = self.menuBar().addMenu(self.tr('Edit'))
         presetsMenu = self.menuBar().addMenu(self.tr('Presets'))
         helpMenu = self.menuBar().addMenu(self.tr('Help'))
-        pyqttools.add_actions(fileMenu, [openAction, convertAction, None,
-                                                                   quitAction])
+        pyqttools.add_actions(fileMenu,
+                              [openAction, convertAction, None, quitAction])
         pyqttools.add_actions(presetsMenu, [edit_presetsAction, importAction,
-                                                    exportAction, resetAction])
+                                            exportAction, resetAction])
         pyqttools.add_actions(editMenu,
                               [clearallAction, None, preferencesAction])
         pyqttools.add_actions(helpMenu, [aboutAction])
@@ -171,7 +171,6 @@ class MainWindow(QMainWindow):
         self.TabWidget.currentChanged.connect(self.resize_window)
         self.toToolButton.clicked.connect(self.open_dir)
         self.convertPushButton.clicked.connect(convertAction.triggered)
-
 
         self.resize(700, 500)
         self.setWindowTitle('FF Multi Converter')
@@ -406,7 +405,7 @@ class MainWindow(QMainWindow):
         dialog.exec_()
 
     def is_installed(self, program):
-        """Checks if program is installed."""
+        """Return True if program appears in user's PATH var, else False."""
         for path in os.getenv('PATH').split(os.pathsep):
             fpath = os.path.join(path, program)
             if os.path.exists(fpath) and os.access(fpath, os.X_OK):
@@ -414,23 +413,26 @@ class MainWindow(QMainWindow):
         return False
 
     def check_for_dependencies(self):
-        """Checks if dependencies are installed and set dependenciesLabel
-        status."""
-        missing = []
+        """Check if each one of the program dependencies are installed and
+        update self.dependenciesLabel with the appropriate message."""
         self.ffmpeg = self.is_installed('ffmpeg')
         self.avconv = self.is_installed('avconv')
-        if not self.ffmpeg and not self.avconv:
-            missing.append('FFmpeg/avconv')
-        if self.is_installed('unoconv'):
-            self.unoconv = True
-        else:
-            self.unoconv = False
-            missing.append('unoconv')
+        self.unoconv = self.is_installed('unoconv')
+        self.pmagick = True
         try:
-            PythonMagick # PythonMagick has imported earlier
-            self.pmagick = True
+            # We tried to import PythonMagick earlier.
+            # If that raises an error it means that PythonMagick is not
+            # available on the system.
+            PythonMagick
         except NameError:
             self.pmagick = False
+
+        missing = []
+        if not self.ffmpeg and not self.avconv:
+            missing.append('FFmpeg/avconv')
+        if not self.unoconv:
+            missing.append('unoconv')
+        if not self.pmagick:
             missing.append('PythonMagick')
 
         missing = ', '.join(missing) if missing else self.tr('None')
@@ -438,7 +440,7 @@ class MainWindow(QMainWindow):
         self.dependenciesLabel.setText(status)
 
     def about(self):
-        """Opens the about dialog."""
+        """Call the about dialog with the appropriate values."""
         link = 'http://sites.google.com/site/ffmulticonverter/'
         msg = self.tr('Convert among several file types to other extensions')
         if len(msg) > 54:
@@ -487,9 +489,6 @@ class AboutDialog(QDialog):
         self.authors = authors
         self.translators = translators
 
-        from PyQt4.QtGui import (QPushButton, QLabel, QPixmap, QVBoxLayout,
-                                 QHBoxLayout)
-
         imageLabel = QLabel()
         imageLabel.setMaximumSize(QSize(63, 61))
         imageLabel.setPixmap(QPixmap(image))
@@ -497,13 +496,13 @@ class AboutDialog(QDialog):
         textLabel = QLabel()
         textLabel.setText(text)
         textLabel.setOpenExternalLinks(True)
-        creditsButton = QPushButton('Credits')
-        closeButton = QPushButton('&Close')
+        creditsButton = QPushButton(self.tr('Credits'))
+        closeButton = QPushButton(self.tr('&Close'))
 
         vlayout1 = pyqttools.add_to_layout(QVBoxLayout(), imageLabel, None)
         hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), vlayout1, textLabel)
         hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), creditsButton, None,
-                                                                   closeButton)
+                                           closeButton)
         fin_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout1, hlayout2)
 
         self.setLayout(fin_layout)
@@ -515,6 +514,7 @@ class AboutDialog(QDialog):
         self.setWindowTitle(self.tr('About FF Multi Converter'))
 
     def show_credits(self):
+        """Call CreditsDialog."""
         dialog = CreditsDialog(self.authors, self.translators)
         dialog.exec_()
 
@@ -524,17 +524,14 @@ class CreditsDialog(QDialog):
         super(CreditsDialog, self).__init__(parent)
         self.parent = parent
 
-        from PyQt4.QtGui import (QPlainTextEdit, QTabWidget, QPushButton,
-                                 QHBoxLayout, QVBoxLayout)
-
         authorsLabel = QPlainTextEdit(authors)
         authorsLabel.setReadOnly(True)
         translatorsLabel = QPlainTextEdit(translators)
         translatorsLabel.setReadOnly(True)
         TabWidget = QTabWidget()
-        TabWidget.addTab(authorsLabel, 'Written by')
-        TabWidget.addTab(translatorsLabel, 'Translated by')
-        closeButton = QPushButton('&Close')
+        TabWidget.addTab(authorsLabel, self.tr('Written by'))
+        TabWidget.addTab(translatorsLabel, self.tr('Translated by'))
+        closeButton = QPushButton(self.tr('&Close'))
 
         hlayout = pyqttools.add_to_layout(QHBoxLayout(), None, closeButton)
         vlayout = pyqttools.add_to_layout(QVBoxLayout(), TabWidget, hlayout)

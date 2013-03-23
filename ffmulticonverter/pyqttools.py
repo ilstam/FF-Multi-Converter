@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2011-2012 Ilias Stamatis <stamatis.iliass@gmail.com>
+# Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This module is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ Some useful functions to automate some parts of ui creation.
 """
 
 from PyQt4.QtCore import QSize, Qt
-from PyQt4.QtGui import (QWidget, QLayout, QSpacerItem, QAction, QMenu, 
+from PyQt4.QtGui import (QWidget, QLayout, QSpacerItem, QAction, QMenu,
                          QLineEdit)
 
 def add_to_layout(layout, *items):

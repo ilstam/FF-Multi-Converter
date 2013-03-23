@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2011-2012 Ilias Stamatis <stamatis.iliass@gmail.com>
+# Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -453,7 +453,7 @@ class MainWindow(QMainWindow):
         text = '''<b> FF Multi Converter {0} </b>
                  <p>{1}
                  <p><a href="{2}">FF Multi Converter - Home Page</a>
-                 <p>Copyright &copy; 2011-2012 Ilias Stamatis
+                 <p>Copyright &copy; 2011-2013 Ilias Stamatis
                  <br>License: GNU GPL3
                  <p>Python {3} - Qt {4} - PyQt {5} on {6}'''\
                  .format(__version__, msg, link, platform.python_version()[:5],

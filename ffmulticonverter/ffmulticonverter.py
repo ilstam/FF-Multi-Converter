@@ -24,10 +24,10 @@ from PyQt4.QtCore import (PYQT_VERSION_STR, QLocale, QRegExp, QSettings, QSize,
 from PyQt4.QtGui import (QAbstractItemView, QApplication, QButtonGroup,
                          QCheckBox, QComboBox, QDialog, QFileDialog, QFrame,
                          QHBoxLayout, QIcon, QKeySequence, QLabel, QLineEdit,
-                         QListWidget, QListWidgetItem, QMainWindow, QMessageBox,
-                         QPixmap, QPlainTextEdit, QPushButton, QRadioButton,
-                         QRegExpValidator, QSizePolicy, QSpacerItem, QTabWidget,
-                         QToolButton, QVBoxLayout, QWidget)
+                         QListWidget, QMainWindow, QMessageBox, QPixmap,
+                         QPlainTextEdit, QPushButton, QRadioButton,
+                         QRegExpValidator, QSizePolicy, QSpacerItem,
+                         QTabWidget, QToolButton, QVBoxLayout, QWidget)
 
 import os
 import sys
@@ -50,6 +50,10 @@ except ImportError:
     pass
 
 
+# global variables
+DEFAULT_COMMAND = '-ab 320k -ar 48000 -ac 2'
+
+# logging configuration
 _format =  '%(asctime)s : %(levelname)s - %(type)s\nCommand: %(command)s\n'
 _format += 'Return code: %(returncode)s\n%(message)s\n'
 
@@ -176,7 +180,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('FF Multi Converter')
 
         QTimer.singleShot(0, self.check_for_dependencies)
-        QTimer.singleShot(0, self.set_settings)
+        QTimer.singleShot(0, self.load_settings)
         QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
 
     def update_filesList(self):
@@ -259,11 +263,9 @@ class MainWindow(QMainWindow):
             if self.tabs.index(i) == self.TabWidget.currentIndex():
                 return i
 
-    def set_settings(self):
-        """Sets program settings"""
+    def load_settings(self):
+        """Load settings values."""
         settings = QSettings()
-        self.saveto_output = settings.value('saveto_output').toBool()
-        self.rebuild_structure = settings.value('rebuild_structure').toBool()
         self.overwrite_existing = settings.value('overwrite_existing').toBool()
         self.default_output = unicode(
                                    settings.value('default_output').toString())
@@ -273,18 +275,9 @@ class MainWindow(QMainWindow):
         self.default_command = unicode(
                                   settings.value('default_command').toString())
         if not self.default_command:
-            self.default_command = '-ab 320k -ar 48000 -ac 2'
+            self.default_command = DEFAULT_COMMAND
 
-        if self.saveto_output:
-            if self.output is None or self.toLineEdit.text() == '':
-                self.output = self.default_output
-                self.toLineEdit.setText(self.output)
-            self.toLineEdit.setEnabled(True)
-        else:
-            self.toLineEdit.setEnabled(False)
-            self.toLineEdit.setText(self.tr(
-                                           'Each file to its original folder'))
-            self.output = None
+        self.toLineEdit.setText(self.default_output)
 
     def open_dir(self):
         """Uses standard QtDialog to get directory name."""
@@ -305,7 +298,7 @@ class MainWindow(QMainWindow):
         """Opens the preferences dialog."""
         dialog = preferences_dlg.Preferences(self)
         if dialog.exec_():
-            self.set_settings()
+            self.load_settings()
 
     def presets(self):
         """Opens the presets dialog."""

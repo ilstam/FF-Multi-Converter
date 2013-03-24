@@ -17,9 +17,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt4.QtCore import QTimer
-from PyQt4.QtGui import (QDialog, QVBoxLayout, QGridLayout, QSpacerItem,
-                  QLineEdit, QLabel, QPushButton, QListWidget, QListWidgetItem,
-                  QDialogButtonBox, QMessageBox, QSizePolicy, QFileDialog)
+from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
+                         QLabel, QLineEdit, QListWidget, QListWidgetItem,
+                         QMessageBox, QPushButton, QSizePolicy, QSpacerItem,
+                         QVBoxLayout)
 
 import os
 import re
@@ -63,13 +64,15 @@ class ShowPresets(QDialog):
         spc1 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         spc2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        grid = pyqttools.add_to_grid(QGridLayout(), [self.delete_allButton,
-            addButton, spc1, None], [self.deleteButton, self.editButton, spc2,
-            okButton])
+        grid = pyqttools.add_to_grid(QGridLayout(),
+                          [self.delete_allButton, addButton, spc1, None],
+                          [self.deleteButton, self.editButton, spc2, okButton])
 
         final_layout = pyqttools.add_to_layout(QVBoxLayout(),
-            self.presListWidget, labelLabel, self.labelLineEdit, commandLabel,
-            self.commandLineEdit, extLabel, self.extLineEdit, grid)
+                                               self.presListWidget, labelLabel,
+                                               self.labelLineEdit, commandLabel,
+                                               self.commandLineEdit, extLabel,
+                                               self.extLineEdit, grid)
 
         self.setLayout(final_layout)
 
@@ -87,20 +90,21 @@ class ShowPresets(QDialog):
         QTimer.singleShot(0, self.fill_presListWidget)
 
     def load_xml(self):
-        """Loads xml tree and sets xml root."""
+        """Load xml tree and set xml root."""
         try:
             self.tree = etree.parse(self.current_presets_file)
         except (etree.ParseError, IOError):
             try:
                 self.tree = etree.parse(self.original_presets_file)
             except IOError:
+                # when program is not installed
                 self.tree = etree.parse('../data/presets.xml')
             if not os.path.exists(self.config_folder):
                 os.makedirs(self.config_folder)
         self.root = self.tree.getroot()
 
     def set_buttons_clear_lineEdits(self):
-        """Manage button's behavior."""
+        """Enable or disable button's and clear lineEdits."""
         enable = bool(self.presListWidget)
         self.editButton.setEnabled(enable)
         self.deleteButton.setEnabled(enable)
@@ -111,7 +115,7 @@ class ShowPresets(QDialog):
             self.extLineEdit.clear()
 
     def fill_presListWidget(self):
-        """Fill presListWidget with the appropriate values."""
+        """Clear self.presListWidget and to it presets' tags."""
         self.presListWidget.clear()
         for i in sorted([y.tag for y in self.root]):
             elem = self.root.find(i)
@@ -120,7 +124,7 @@ class ShowPresets(QDialog):
         self.set_buttons_clear_lineEdits()
 
     def show_preset(self):
-        """Fill LineEdits."""
+        """Fill LineEdits with current xml element's values."""
         try:
             xml_elem = self.presListWidget.currentItem().xml_element
         except AttributeError:
@@ -147,14 +151,17 @@ class ShowPresets(QDialog):
 
             for num, elem in enumerate([label, command, ext, category]):
                 element.insert(num, elem)
-            index = sorted(([i.tag for i in self.root] + [dialog.name_text]))\
-                                                       .index(dialog.name_text)
+            index = sorted([i.tag for i in self.root] + [dialog.name_text])\
+                    .index(dialog.name_text)
             self.root.insert(index, element)
             self.save_tree()
             self.fill_presListWidget()
 
     def delete_preset(self):
-        """Delete a preset from xml root."""
+        """
+        Ask user wether he wants to delete the selected preset.
+        If so, delete the preset from xml root.
+        """
         try:
             xml_elem = self.presListWidget.currentItem().xml_element
         except AttributeError:
@@ -170,7 +177,10 @@ class ShowPresets(QDialog):
             self.fill_presListWidget()
 
     def delete_all_presets(self):
-        """Clears xml root."""
+        """
+        Ask user if he wants to delete all presets.
+        If so, clear xml root.
+        """
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
             'Delete Preset'), self.tr('Are you sure that you want to delete '
             'all presets?'), QMessageBox.Yes|QMessageBox.Cancel)
@@ -180,7 +190,7 @@ class ShowPresets(QDialog):
             self.fill_presListWidget()
 
     def edit_preset(self):
-        """Edit a preset and update xml root."""
+        """Call the AddorEditPreset() dialog and update xml element's values."""
         elem = self.presListWidget.currentItem().xml_element
         dialog = AddorEditPreset(elem, True)
 
@@ -221,8 +231,8 @@ class ShowPresets(QDialog):
 
     def export_presets(self):
         """Export the xml tree."""
-        fname = QFileDialog.getSaveFileName(self,'FF Multi Converter - Export '
-                                                              'presets','.xml')
+        fname = QFileDialog.getSaveFileName(self,
+                                  'FF Multi Converter - Export presets','.xml')
         if fname:
             self.load_xml()
             with open(fname, 'w') as _file:
@@ -241,12 +251,16 @@ class ShowPresets(QDialog):
                 os.remove(self.current_presets_file)
 
     def accept(self):
+        """
+        Save current xml element's values in order to be used from
+        main program and close (accept) dialog.
+        """
         self.the_command = None
         if self.presListWidget:
             self.the_command = self.presListWidget.currentItem()\
-                                                           .xml_element[1].text
+                               .xml_element[1].text
             self.the_extension = self.presListWidget.currentItem()\
-                                                           .xml_element[2].text
+                                 .xml_element[2].text
         QDialog.accept(self)
 
 
@@ -262,12 +276,14 @@ class AddorEditPreset(QDialog):
         self.commandLineEdit = QLineEdit()
         extLabel = QLabel(self.tr('Output file extension'))
         self.extLineEdit = QLineEdit()
-        self.buttonBox = QDialogButtonBox(
-                                   QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok|
+                                          QDialogButtonBox.Cancel)
 
         final_layout = pyqttools.add_to_layout(QVBoxLayout(), nameLabel,
-            self.nameLineEdit, labelLabel, self.labelLineEdit, commandLabel,
-            self.commandLineEdit, extLabel, self.extLineEdit, self.buttonBox)
+                                               self.nameLineEdit, labelLabel,
+                                               self.labelLineEdit, commandLabel,
+                                               self.commandLineEdit, extLabel,
+                                               self.extLineEdit, self.buttonBox)
 
         self.setLayout(final_layout)
 
@@ -291,13 +307,14 @@ class AddorEditPreset(QDialog):
         self.setWindowTitle(title)
 
     def validation(self):
-        """Checks if everything is ok to continue
+        """
+        Check if everything is ok to continue
 
-        Checks if:
+        Check if:
         - Any lineEdit is empty.
-        - Preset name and extesnsion meet the qualifications
+        - Preset name and extension meet the qualifications.
 
-        Returns: boolean
+        Return True if all tests pass, else False.
         """
         self.name_text = str(self.nameLineEdit.text()).strip()
         self.label_text = str(self.labelLineEdit.text()).strip()

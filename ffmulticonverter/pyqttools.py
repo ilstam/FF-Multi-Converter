@@ -21,8 +21,9 @@ Some useful functions to automate some parts of ui creation.
 """
 
 from PyQt4.QtCore import QSize, Qt
-from PyQt4.QtGui import (QWidget, QLayout, QSpacerItem, QAction, QMenu,
-                         QLineEdit)
+from PyQt4.QtGui import (QAction, QLayout, QLineEdit, QMenu, QSpacerItem,
+                         QWidget)
+
 
 def add_to_layout(layout, *items):
     """Add items to QVBox and QHBox layouts easily.
@@ -50,7 +51,7 @@ def add_to_grid(layout, *items):
     Keyword arguments:
     layout -- a QGridLayout
     *items -- list with lists of items to be added.
-              items in the same list will be added to the same line
+              items in the same list will be added to the same line of grid.
     """
     # for now it adds only 1 item per cell.
     for x, _list in enumerate(items):
@@ -69,7 +70,7 @@ def add_to_grid(layout, *items):
 
 def create_action(parent, text, shortcut=None, icon=None, tip=None,
                   triggered=None, toggled=None, context=Qt.WindowShortcut):
-    """Creates a QAction"""
+    """Create a QAction with the given attributes."""
     action = QAction(text, parent)
     if triggered is not None:
         action.triggered.connect(triggered)
@@ -87,7 +88,7 @@ def create_action(parent, text, shortcut=None, icon=None, tip=None,
     return action
 
 def add_actions(target, actions, insert_before=None):
-    """Adds actions to menus.
+    """Add actions to menu.
 
     Keyword arguments:
     target -- menu to add action
@@ -118,7 +119,7 @@ def add_actions(target, actions, insert_before=None):
         previous_action = action
 
 def create_LineEdit(maxsize, validator, maxlength):
-    """Creates a lineEdit
+    """Create a lineEdit with the given attributes.
 
     Keyword arguments:
     maxsize -- maximum size
@@ -135,3 +136,4 @@ def create_LineEdit(maxsize, validator, maxlength):
     if maxlength is not None:
         lineEdit.setMaxLength(maxlength)
     return lineEdit
+

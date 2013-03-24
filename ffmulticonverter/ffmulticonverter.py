@@ -51,7 +51,10 @@ except ImportError:
 
 
 # global variables
-DEFAULT_COMMAND = '-ab 320k -ar 48000 -ac 2'
+MAIN_WIDTH = 700 # main window width
+MAIN_HEIGHT = 500
+MAIN_FIXED_HEIGHT = 622
+DEFAULT_COMMAND = '-ab 320k -ar 48000 -ac 2' # default ffmpeg command
 
 # logging configuration
 _format =  '%(asctime)s : %(levelname)s - %(type)s\nCommand: %(command)s\n'
@@ -78,11 +81,10 @@ class MainWindow(QMainWindow):
 
         self.home = os.getenv('HOME')
         self.fnames = list() # list of file names to be converted
-        self.output = ''
 
-        addButton = QPushButton('Add')
-        delButton = QPushButton('Delete')
-        clearButton = QPushButton('Clear')
+        addButton = QPushButton(self.tr('Add'))
+        delButton = QPushButton(self.tr('Delete'))
+        clearButton = QPushButton(self.tr('Clear'))
         vlayout1 = pyqttools.add_to_layout(QVBoxLayout(), addButton, delButton,
                                            clearButton, None)
 
@@ -152,7 +154,7 @@ class MainWindow(QMainWindow):
         clearallAction = c_act(self, self.tr('Clear All'), None, None,
                                self.tr('Clear form'), self.clear_all)
         preferencesAction = c_act(self, self.tr('Preferences'), 'Alt+Ctrl+P',
-                                None, self.tr('Preferences'), self.preferences)
+                                  None, self.tr('Preferences'), self.preferences)
         aboutAction = c_act(self, self.tr('About'), 'Ctrl+?', None,
                             self.tr('About'), self.about)
 
@@ -168,20 +170,44 @@ class MainWindow(QMainWindow):
                               [clearallAction, None, preferencesAction])
         pyqttools.add_actions(helpMenu, [aboutAction])
 
-
         addButton.clicked.connect(self.add_files)
         delButton.clicked.connect(self.delete_files)
         clearButton.clicked.connect(self.clear_fileslist)
-        self.TabWidget.currentChanged.connect(self.resize_window)
+        self.TabWidget.currentChanged.connect(lambda:
+                                     self.tabs[0].moreButton.setChecked(False))
+        self.origCheckBox.clicked.connect(lambda:
+                 self.toLineEdit.setEnabled(not self.origCheckBox.isChecked()))
         self.toToolButton.clicked.connect(self.open_dir)
         self.convertPushButton.clicked.connect(convertAction.triggered)
 
-        self.resize(700, 500)
+        self.resize(MAIN_WIDTH, MAIN_HEIGHT)
         self.setWindowTitle('FF Multi Converter')
 
         QTimer.singleShot(0, self.check_for_dependencies)
         QTimer.singleShot(0, self.load_settings)
         QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
+
+    def load_settings(self):
+        """Load settings values."""
+        settings = QSettings()
+        self.overwrite_existing = settings.value('overwrite_existing').toBool()
+        self.default_output = unicode(
+                                   settings.value('default_output').toString())
+        self.prefix = unicode(settings.value('prefix').toString())
+        self.suffix = unicode(settings.value('suffix').toString())
+        self.avconv_prefered = settings.value('avconv_prefered').toBool()
+        self.default_command = unicode(
+                                  settings.value('default_command').toString())
+        if not self.default_command:
+            self.default_command = DEFAULT_COMMAND
+
+        self.toLineEdit.setText(self.default_output)
+
+    def current_tab(self):
+        """Return the corresponding object of the selected tab."""
+        for i in self.tabs:
+            if self.tabs.index(i) == self.TabWidget.currentIndex():
+                return i
 
     def update_filesList(self):
         """Clear self.filesList and add to it all items of self.fname."""
@@ -235,73 +261,34 @@ class MainWindow(QMainWindow):
         self.update_filesList()
 
     def clear_all(self):
-        """Clears the form.
-
-        Clears line edits and unchecks checkboxes and radio buttons.
-        """
-        self.fromLineEdit.clear()
-        self.fname = ''
-        if self.output is not None:
-            self.toLineEdit.clear()
-            self.output = ''
-        boxes = [self.folderCheckBox, self.recursiveCheckBox,
-                                                           self.deleteCheckBox]
-        for box in boxes:
-            box.setChecked(False)
-        self.checkboxes_clicked()
+        """Clear all values of graphical widgets."""
+        self.toLineEdit.clear()
+        self.origCheckBox.setChecked(False)
+        self.deleteCheckBox.setChecked(False)
+        self.clear_fileslist()
 
         self.audiovideo_tab.clear()
         self.image_tab.clear()
 
-    def resize_window(self):
-        """Hides widgets of AudioVideo tab and resizes the window."""
-        self.tabs[0].moreButton.setChecked(False)
-
-    def current_tab(self):
-        """Returns current tab."""
-        for i in self.tabs:
-            if self.tabs.index(i) == self.TabWidget.currentIndex():
-                return i
-
-    def load_settings(self):
-        """Load settings values."""
-        settings = QSettings()
-        self.overwrite_existing = settings.value('overwrite_existing').toBool()
-        self.default_output = unicode(
-                                   settings.value('default_output').toString())
-        self.prefix = unicode(settings.value('prefix').toString())
-        self.suffix = unicode(settings.value('suffix').toString())
-        self.avconv_prefered = settings.value('avconv_prefered').toBool()
-        self.default_command = unicode(
-                                  settings.value('default_command').toString())
-        if not self.default_command:
-            self.default_command = DEFAULT_COMMAND
-
-        self.toLineEdit.setText(self.default_output)
-
     def open_dir(self):
-        """Uses standard QtDialog to get directory name."""
+        """Get a directory name using a standard QtDialog and update
+        self.toLineEdit with dir's name."""
         if self.toLineEdit.isEnabled():
-            output = QFileDialog.getExistingDirectory(self, 'FF Multi '
-              'Converter - ' + self.tr('Choose output destination'), self.home)
-            output = unicode(output)
+            output = QFileDialog.getExistingDirectory(self,
+                'FF Multi Converter - ' + self.tr('Choose output destination'),
+                self.home)
+            #output = unicode(output)
             if output:
-                self.output = output
-                self.toLineEdit.setText(self.output)
-        else:
-            return QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                    self.tr('Save Location!'), self.tr(
-                   'You have chosen to save every file to its original folder.'
-                   '\nYou can change this from preferences.'))
+                self.toLineEdit.setText(output)
 
     def preferences(self):
-        """Opens the preferences dialog."""
+        """Open the preferences dialog."""
         dialog = preferences_dlg.Preferences(self)
         if dialog.exec_():
             self.load_settings()
 
     def presets(self):
-        """Opens the presets dialog."""
+        """Open the presets dialog."""
         dialog = presets_dlgs.ShowPresets()
         dialog.exec_()
 
@@ -684,9 +671,9 @@ class AudioVideoTab(QWidget):
 
     def resize_parent(self):
         """Resizes MainWindow"""
-        height = 622 if self.frame.isVisible() else 500
-        self.parent.setMinimumSize(700, height)
-        self.parent.resize(700, height)
+        height = MAIN_FIXED_HEIGHT if self.frame.isVisible() else MAIN_HEIGHT
+        self.parent.setMinimumSize(MAIN_WIDTH, height)
+        self.parent.resize(MAIN_WIDTH, height)
 
     def set_line_enable(self):
         """Enable or disable self.extLineEdit."""

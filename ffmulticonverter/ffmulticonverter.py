@@ -302,65 +302,32 @@ class MainWindow(QMainWindow):
         presets_dlgs.ShowPresets().reset()
 
     def ok_to_continue(self):
-        """Checks if everything is ok to continue with conversion.
+        """Check if everything is ok to continue with conversion.
 
-        Checks if:
-        - Theres is no given file or no given output destination
-        - Given file exists and output destination exists
+        Check if:
+        - At least one file has given for conversion.
+        - An output folder has given.
+        - Output folder exists.
 
-        Returns: boolean
+        Return False if an error arises, else True.
         """
         try:
-            if self.fname == '':
+            if not self.fnames:
                 raise ValidationError(self.tr(
-                                         'You must choose a file to convert!'))
-            elif not os.path.exists(self.fname):
+                                 'You must add at least one file to convert!'))
+            elif not self.origCheckBox.isChecked() and not self.toLineEdit.text():
                 raise ValidationError(self.tr(
-                                         'The selected file does not exists!'))
-            elif self.output is not None and self.output == '':
-                raise ValidationError(self.tr(
-                                          'You must choose an output folder!'))
-            elif self.output is not None and not os.path.exists(self.output):
-                raise ValidationError(self.tr(
-                                             'Output folder does not exists!'))
+                                      'You must choose an output folder!'))
+            elif not os.path.exists(unicode(self.toLineEdit.text())):
+                raise ValidationError(self.tr('Output folder does not exists!'))
             if not self.current_tab().ok_to_continue():
                 return False
             return True
 
         except ValidationError as e:
             QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                                                 self.tr('Error!'), unicode(e))
+                                self.tr('Error!'), unicode(e))
             return False
-
-    def get_extension(self):
-        tab = self.current_tab()
-        if tab.name == 'AudioVideo':
-            if self.audiovideo_tab.extLineEdit.isEnabled():
-                ext_to = self.audiovideo_tab.extLineEdit.text()
-            else:
-                ext_to = self.audiovideo_tab.extComboBox.currentText()
-        elif tab.name == 'Images':
-            ext_to = tab.extComboBox.currentText()
-        else:
-            ext_to = str(tab.convertComboBox.currentText()).split()[-1]
-
-        return str('.' + ext_to)
-
-    def current_formats(self):
-        """Returns the file formats of current tab.
-
-        Returns: list
-        """
-        tab = self.current_tab()
-        if tab.name == 'Documents':
-            type_formats = tab.formats.keys()
-        elif tab.name == 'Images':
-            type_formats = tab.formats[:] + tab.extra_img
-        else:
-            type_formats = tab.formats[:] + tab.extra_formats
-            if tab.extLineEdit.isEnabled():
-                type_formats.append(str(tab.extLineEdit.text()))
-        return ['.' + i for i in type_formats]
 
     def start_conversion(self):
         """Initialises the Progress dialog."""

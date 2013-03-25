@@ -202,6 +202,11 @@ class Progress(QDialog):
         self.min_value = self.totalBar.value()
         self.max_value = self.min_value + self.step
 
+        if not os.path.exists(from_file[1:-1]):
+            self.error += 1
+            self.file_converted_signal.emit()
+            return
+
         def convert():
             if self.tab.name == 'AudioVideo':
                 parameters = (self, from_file, to_file,

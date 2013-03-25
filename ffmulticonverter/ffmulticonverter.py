@@ -403,7 +403,7 @@ class MainWindow(QMainWindow):
         return conversion_list
 
     def start_conversion(self):
-        """Initialises the Progress dialog."""
+        """Call the Progress dialog with the suitable argumens."""
         if not self.ok_to_continue():
             return
 
@@ -414,8 +414,8 @@ class MainWindow(QMainWindow):
                                        self.origCheckBox.isChecked(),
                                        self.overwrite_existing)
 
-        #dialog = progress.Progress(self, _list, self.deleteCheckBox.isChecked())
-        #dialog.exec_()
+        dialog = progress.Progress(self, _list, self.deleteCheckBox.isChecked())
+        dialog.exec_()
 
     def is_installed(self, program):
         """Return True if program appears in user's PATH var, else False."""

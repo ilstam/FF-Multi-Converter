@@ -256,7 +256,7 @@ class MainWindow(QMainWindow):
         items = self.filesList.selectedItems()
         if items:
             for i in items:
-                self.fnames.remove(i.text())
+                self.fnames.remove(unicode(i.text()))
             self.update_filesList()
 
     def clear_fileslist(self):

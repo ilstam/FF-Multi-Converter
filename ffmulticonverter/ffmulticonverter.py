@@ -245,7 +245,7 @@ class MainWindow(QMainWindow):
         if fnames:
             for i in fnames:
                 if not i in self.fnames:
-                    self.fnames.append(i)
+                    self.fnames.append(unicode(i))
             self.update_filesList()
 
     def delete_files(self):
@@ -337,27 +337,85 @@ class MainWindow(QMainWindow):
                                 self.tr('Error!'), unicode(e))
             return False
 
+    def output_ext(self):
+        """Extract the desired output file extension from GUI and return it."""
+        tab = self.current_tab()
+        if tab.name == 'AudioVideo':
+            if self.audiovideo_tab.extLineEdit.isEnabled():
+                ext_to = self.audiovideo_tab.extLineEdit.text()
+            else:
+                ext_to = self.audiovideo_tab.extComboBox.currentText()
+        elif tab.name == 'Images':
+            ext_to = tab.extComboBox.currentText()
+        else:
+            ext_to = str(tab.convertComboBox.currentText()).split()[-1]
+
+        return str('.' + ext_to)
+
+    def create_paths_list(self, files_list, ext_to, prefix, suffix, output,
+                          orig_dir, overwrite_existing):
+        """
+        Keyword arguments:
+        files_list -- list with files to be converted
+        ext_to     -- the extension to which each file must be converted to
+        prefix     -- string that will be added as a prefix to all filenames
+        suffix     -- string that will be added as a suffix to all filenames
+        output     -- the output folder
+        orig_dir   -- if True, each file will be saved at its original directory
+                      else, files will be saved at output
+        overwrite_existing -- if False, a '~' will be added as prefix to
+                              filenames
+
+        Create and return a list with dicts.
+        Each dict will have only one key and one corresponding value.
+        Key will be a file to be converted and it's value will be the name
+        of the new converted file.
+
+        Example list:
+        [{"/foo/bar.png" : "/foo/bar.bmp"}, {"/f/bar2.png" : "/f/bar2.bmp"}]
+        """
+        assert ext_to.startswith('.'), 'ext_to must start with a dot (.)'
+
+        conversion_list = []
+
+        for _file in files_list:
+            _dir, name = os.path.split(_file)
+            y = prefix + os.path.splitext(name)[0] + suffix + ext_to
+
+            if orig_dir:
+                y = _dir + '/' + y
+            else:
+                y = output + '/' + y
+
+            if os.path.exists(y) and not overwrite_existing:
+                _dir2, _name2 = os.path.split(y)
+                y = _dir2 + '/~' + _name2
+
+            # Add quotations to paths in order to avoid error in special
+            # cases such as spaces or special characters.
+            _file = '"' + _file + '"'
+            y = '"' + y + '"'
+
+            _dict = {}
+            _dict[_file] = y
+            conversion_list.append(_dict)
+
+        return conversion_list
+
     def start_conversion(self):
         """Initialises the Progress dialog."""
         if not self.ok_to_continue():
             return
 
-        ext_to = self.get_extension()
-        files_to_conv = self.files_to_conv_list()
-        conversion_list, create_folders_list = self.build_lists(
-           files_to_conv, ext_to, self.prefix, self.suffix, self.output,
-           self.saveto_output, self.rebuild_structure, self.overwrite_existing)
+        ext_to = self.output_ext()
+        _list = self.create_paths_list(self.fnames, ext_to,
+                                       self.prefix, self.suffix,
+                                       unicode(self.toLineEdit.text()),
+                                       self.origCheckBox.isChecked(),
+                                       self.overwrite_existing)
 
-        if create_folders_list:
-            for i in create_folders_list:
-                try:
-                    os.mkdir(i)
-                except OSError:
-                    pass
-
-        delete = self.deleteCheckBox.isChecked()
-        dialog = progress.Progress(self, conversion_list, delete)
-        dialog.exec_()
+        #dialog = progress.Progress(self, _list, self.deleteCheckBox.isChecked())
+        #dialog.exec_()
 
     def is_installed(self, program):
         """Return True if program appears in user's PATH var, else False."""
@@ -1152,3 +1210,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

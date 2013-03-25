@@ -37,11 +37,18 @@ class Progress(QDialog):
     update_text_edit_signal = pyqtSignal(str)
 
     def __init__(self, parent, files, delete, test=False):
-        """Constructs the progress dialog.
-
+        """
         Keyword arguments:
-        files -- list with files to be converted
+        files  -- list with dicts containing file names
         delete -- boolean that shows if files must removed after conversion
+
+        files:
+        Each dict have only one key and one corresponding value.
+        Key is a file to be converted and it's value is the name of the new
+        file that will be converted.
+
+        Example list:
+        [{"/foo/bar.png" : "/foo/bar.bmp"}, {"/f/bar2.png" : "/f/bar2.bmp"}]
         """
         super(Progress, self).__init__(parent)
         self.parent = parent
@@ -79,15 +86,16 @@ class Progress(QDialog):
         self.frame.hide()
 
         hlayout = pyqttools.add_to_layout(QHBoxLayout(), None, self.nowLabel,
-                                                                          None)
+                                          None)
         hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), None, totalLabel,
-                                                                          None)
+                                           None)
         hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), detailsButton, line)
         hlayout4 = pyqttools.add_to_layout(QHBoxLayout(), self.frame)
         hlayout5 = pyqttools.add_to_layout(QHBoxLayout(), None,
-                                                             self.cancelButton)
+                                           self.cancelButton)
         vlayout = pyqttools.add_to_layout(QVBoxLayout(), hlayout, self.nowBar,
-                  hlayout2, self.totalBar, None, hlayout3, hlayout4, hlayout5)
+                                          hlayout2, self.totalBar, None,
+                                          hlayout3, hlayout4, hlayout5)
         self.setLayout(vlayout)
 
         detailsButton.toggled.connect(self.resize_dialog)
@@ -104,19 +112,20 @@ class Progress(QDialog):
             QTimer.singleShot(0, self.manage_conversions)
 
     def resize_dialog(self):
-        """Resizes Dialog"""
+        """Resize dialog."""
         height = 200 if self.frame.isVisible() else 366
         self.setMinimumSize(484, height)
         self.resize(484, height)
 
-    def update_text_edit(self, text):
-        """Update text of self.textEdit"""
+    def update_text_edit(self, txt):
+        """Append txt to the end of current self.textEdit's text."""
         current = self.textEdit.toPlainText()
-        self.textEdit.setText(current+text)
+        self.textEdit.setText(current+txt)
         self.textEdit.moveCursor(QTextCursor.End)
 
     def manage_conversions(self):
-        """Checks whether all files have been converted.
+        """
+        Check whether all files have been converted.
         If not, it will allow convert_a_file() to convert the next file.
         """
         if not self.running:
@@ -131,7 +140,10 @@ class Progress(QDialog):
             self.convert_a_file()
 
     def file_converted(self):
-        """Sets progress bars values"""
+        """
+        Update progress bars values, remove converted file from self.files
+        and call manage_conversions() to continue the process.
+        """
         self.totalBar.setValue(self.max_value)
         self.nowBar.setValue(100)
         QApplication.processEvents()
@@ -139,7 +151,11 @@ class Progress(QDialog):
         self.manage_conversions()
 
     def reject(self):
-        """Uses standard dialog to ask whether procedure must stop or not."""
+        """
+        Use standard dialog to ask whether procedure must stop or not.
+        Use the SIGSTOP to stop the conversion process while waiting for user
+        to respond and SIGCONT or kill depending on user's answer.
+        """
         if not self.files:
             QDialog.accept(self)
             return
@@ -164,14 +180,22 @@ class Progress(QDialog):
                 self.manage_conversions()
 
     def convert_a_file(self):
-        """Starts the conversion procedure in a second thread."""
+        """
+        Update self.nowLabel's text with current file's name, set self.nowBar
+        value to zero and start the conversion procedure in a second thread
+        using threading module.
+        """
         if not self.files:
             return
         from_file = self.files[0].keys()[0]
         to_file = self.files[0].values()[0]
 
-        text = '.../' + from_file.split('/')[-1] if len(from_file) > 40 \
-                                                 else from_file
+        if len(from_file) > 40:
+            # split file name if it is too long in order to display it properly
+            text = '.../' + from_file.split('/')[-1]
+        else:
+            text = from_file
+
         self.nowLabel.setText(self.tr('In progress:') + ' ' + text)
         self.nowBar.setValue(0)
 
@@ -181,7 +205,8 @@ class Progress(QDialog):
         def convert():
             if self.tab.name == 'AudioVideo':
                 parameters = (self, from_file, to_file,
-                           self.tab.commandLineEdit.text(), self.parent.ffmpeg)
+                              self.tab.commandLineEdit.text(),
+                              self.parent.ffmpeg)
             else:
                 parameters = (self, from_file, to_file)
 
@@ -201,13 +226,13 @@ class Progress(QDialog):
         self.thread.start()
 
     def refresh_progress_bars(self, now_percent):
-        """Refresh the values of self.nowBar and self.totalBar"""
+        """Refresh the values of self.nowBar and self.totalBar."""
         total_percent = int(((now_percent * self.step) / 100) + self.min_value)
 
         if now_percent > self.nowBar.value() and not (now_percent > 100):
             self.nowBar.setValue(now_percent)
-        if total_percent > self.totalBar.value() and not \
-                                              (total_percent > self.max_value):
+        if (total_percent > self.totalBar.value() and
+        not (total_percent > self.max_value)):
             self.totalBar.setValue(total_percent)
 
 
@@ -218,3 +243,4 @@ if __name__ == '__main__':
     dialog = Progress(None, [], False, test=True)
     dialog.show()
     app.exec_()
+

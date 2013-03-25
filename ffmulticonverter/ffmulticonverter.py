@@ -77,11 +77,18 @@ logging.basicConfig(
 class ValidationError(Exception): pass
 
 class MainWindow(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, files, parent=None):
+        """
+        Keyword arguments:
+        files -- list of files given as command line arguments
+        """
         super(MainWindow, self).__init__(parent)
 
         self.home = os.getenv('HOME')
         self.fnames = list() # list of file names to be converted
+        for i in files:
+            if os.path.isfile(i):
+                self.fnames.append(i)
 
         addButton = QPushButton(self.tr('Add'))
         delButton = QPushButton(self.tr('Delete'))
@@ -187,6 +194,7 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(0, self.check_for_dependencies)
         QTimer.singleShot(0, self.load_settings)
         QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
+        QTimer.singleShot(0, self.update_filesList)
 
     def load_settings(self):
         """Load settings values."""
@@ -1128,7 +1136,7 @@ class DocumentTab(QWidget):
         return return_code == 0
 
 
-def main():
+def main(files):
     app = QApplication(sys.argv)
     app.setOrganizationName('ffmulticonverter')
     app.setOrganizationDomain('sites.google.com/site/ffmulticonverter/')
@@ -1143,10 +1151,10 @@ def main():
     if appTranslator.load('ffmulticonverter_' + locale, ':/'):
         app.installTranslator(appTranslator)
 
-    converter = MainWindow()
+    converter = MainWindow(files)
     converter.show()
     app.exec_()
 
 if __name__ == '__main__':
-    main()
+    main([])
 

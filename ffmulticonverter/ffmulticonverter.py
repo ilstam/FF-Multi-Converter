@@ -37,6 +37,7 @@ import shlex
 import re
 import platform
 import logging
+import codecs
 
 import about_dlg
 import preferences_dlg
@@ -87,6 +88,7 @@ class MainWindow(QMainWindow):
         self.home = os.getenv('HOME')
         self.fnames = list() # list of file names to be converted
         for i in files:
+            i = codecs.utf_8_decode(i)[0]
             if os.path.isfile(i):
                 self.fnames.append(i)
 
@@ -1156,5 +1158,5 @@ def main(files):
     app.exec_()
 
 if __name__ == '__main__':
-    main([])
+    main(sys.argv[1:])
 

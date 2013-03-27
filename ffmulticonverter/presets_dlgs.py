@@ -308,7 +308,7 @@ class AddorEditPreset(QDialog):
 
     def validation(self):
         """
-        Check if everything is ok to continue
+        Extract data from GUI and check if everything is ok to continue.
 
         Check if:
         - Any lineEdit is empty.
@@ -370,3 +370,4 @@ if __name__ == '__main__':
     dialog = ShowPresets()
     dialog.show()
     app.exec_()
+

@@ -1,4 +1,4 @@
-include AUTHORS COPYING TRANSLATORS ChangeLog
+include AUTHORS COPYING TRANSLATORS ChangeLog uninstall.sh
 include share/*
 include man/*
 include locale/*

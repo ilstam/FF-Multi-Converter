@@ -58,22 +58,6 @@ MAIN_HEIGHT = 500
 MAIN_FIXED_HEIGHT = 622
 DEFAULT_COMMAND = '-ab 320k -ar 48000 -ac 2' # default ffmpeg command
 
-# logging configuration
-_format =  '%(asctime)s : %(levelname)s - %(type)s\nCommand: %(command)s\n'
-_format += 'Return code: %(returncode)s\n%(message)s\n'
-
-log_folder = os.path.join(os.getenv('HOME'), '.config/ffmulticonverter/logs')
-if not os.path.exists(log_folder):
-    os.makedirs(log_folder)
-log_file = os.path.join(log_folder, 'history.log')
-
-logging.basicConfig(
-    filename = log_file,
-    level=logging.DEBUG,
-    format=_format,
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
-
 
 class ValidationError(Exception): pass
 
@@ -1138,6 +1122,22 @@ class DocumentTab(QWidget):
         return return_code == 0
 
 
+def logging_config():
+    log_folder = os.path.join(os.getenv('HOME'), '.config/ffmulticonverter/logs')
+    if not os.path.exists(log_folder):
+        os.makedirs(log_folder)
+    log_file = os.path.join(log_folder, 'history.log')
+
+    logging.basicConfig(
+            filename = log_file,
+            level=logging.DEBUG,
+            format='%(asctime)s : %(levelname)s - %(type)s\n'
+                   'Command: %(command)s\n'
+                   'Return code: %(returncode)s\n%(message)s\n',
+            datefmt='%Y-%m-%d %H:%M:%S'
+    )
+
+
 def main(files):
     app = QApplication(sys.argv)
     app.setOrganizationName('ffmulticonverter')
@@ -1153,6 +1153,7 @@ def main(files):
     if appTranslator.load('ffmulticonverter_' + locale, ':/'):
         app.installTranslator(appTranslator)
 
+    logging_config()
     converter = MainWindow(files)
     converter.show()
     app.exec_()

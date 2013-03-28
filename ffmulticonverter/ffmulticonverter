@@ -1,7 +1,5 @@
 #!/usr/bin/env python2
 
-import sys
-
 try:
     from ffmulticonverter import ffmulticonverter
 except ImportError:
@@ -10,5 +8,5 @@ except ImportError:
     import ffmulticonverter
 
 if __name__ == '__main__':
-    ffmulticonverter.main(sys.argv[1:])
+    ffmulticonverter.main()
 

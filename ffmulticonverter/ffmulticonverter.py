@@ -17,10 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
+from __future__ import print_function
+
 from __init__ import __version__
 
-from PyQt4.QtCore import (PYQT_VERSION_STR, QLocale, QRegExp, QSettings, QSize,
-                          QString, QTimer, QTranslator, QT_VERSION_STR)
+from PyQt4.QtCore import (PYQT_VERSION_STR, QCoreApplication, QLocale, QRegExp,
+                          QSettings, QSize, QString, QTimer, QTranslator,
+                          QT_VERSION_STR)
 from PyQt4.QtGui import (QAbstractItemView, QApplication, QButtonGroup,
                          QCheckBox, QComboBox, QFileDialog, QFrame,
                          QHBoxLayout, QIcon, QKeySequence, QLabel, QLineEdit,
@@ -62,19 +65,19 @@ DEFAULT_COMMAND = '-ab 320k -ar 48000 -ac 2' # default ffmpeg command
 class ValidationError(Exception): pass
 
 class MainWindow(QMainWindow):
-    def __init__(self, files, parent=None):
-        """
-        Keyword arguments:
-        files -- list of files given as command line arguments
-        """
+    def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
         self.home = os.getenv('HOME')
         self.fnames = list() # list of file names to be converted
-        for i in files:
+
+        # parse command line arguments
+        for i in QCoreApplication.argv()[1:]:
             i = codecs.utf_8_decode(i)[0]
             if os.path.isfile(i):
                 self.fnames.append(i)
+            else:
+                print("ffmulticonverter: {0}: Not a file".format(i))
 
         addButton = QPushButton(self.tr('Add'))
         delButton = QPushButton(self.tr('Delete'))
@@ -86,7 +89,6 @@ class MainWindow(QMainWindow):
         self.filesList.setSelectionMode(QAbstractItemView.ExtendedSelection)
         hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), self.filesList,
                                            vlayout1)
-
 
         output_label = QLabel(self.tr('Output folder:'))
         self.toLineEdit = QLineEdit()
@@ -1138,7 +1140,7 @@ def logging_config():
     )
 
 
-def main(files):
+def main():
     app = QApplication(sys.argv)
     app.setOrganizationName('ffmulticonverter')
     app.setOrganizationDomain('sites.google.com/site/ffmulticonverter/')
@@ -1154,10 +1156,10 @@ def main(files):
         app.installTranslator(appTranslator)
 
     logging_config()
-    converter = MainWindow(files)
+    converter = MainWindow()
     converter.show()
     app.exec_()
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()
 

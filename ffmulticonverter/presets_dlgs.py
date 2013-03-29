@@ -317,9 +317,9 @@ class AddorEditPreset(QDialog):
         Return True if all tests pass, else False.
         """
         self.name_text = str(self.nameLineEdit.text()).strip()
-        self.label_text = str(self.labelLineEdit.text()).strip()
-        self.command_text = str(self.commandLineEdit.text()).strip()
-        self.ext_text = str(self.extLineEdit.text()).strip()
+        self.label_text = unicode(self.labelLineEdit.text()).strip()
+        self.command_text = unicode(self.commandLineEdit.text()).strip()
+        self.ext_text = unicode(self.extLineEdit.text()).strip()
 
         if not self.name_text:
             QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),

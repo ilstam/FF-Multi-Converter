@@ -21,9 +21,9 @@ from __future__ import print_function
 
 from __init__ import __version__
 
-from PyQt4.QtCore import (PYQT_VERSION_STR, QCoreApplication, QLocale, QRegExp,
-                          QSettings, QSize, QString, QTimer, QTranslator,
-                          QT_VERSION_STR)
+from PyQt4.QtCore import (pyqtSignal, PYQT_VERSION_STR, QCoreApplication,
+                          QLocale, QRegExp, QSettings, QSize, QString, Qt,
+                          QTimer, QTranslator, QT_VERSION_STR)
 from PyQt4.QtGui import (QAbstractItemView, QApplication, QButtonGroup,
                          QCheckBox, QComboBox, QFileDialog, QFrame,
                          QHBoxLayout, QIcon, QKeySequence, QLabel, QLineEdit,
@@ -62,7 +62,41 @@ MAIN_FIXED_HEIGHT = 622
 DEFAULT_COMMAND = '-ab 320k -ar 48000 -ac 2' # default ffmpeg command
 
 
-class ValidationError(Exception): pass
+class ValidationError(Exception):
+    pass
+
+
+class FilesList(QListWidget):
+    dropped = pyqtSignal(list)
+
+    def __init__(self, parent=None):
+        super(FilesList, self).__init__(parent)
+        self.setAcceptDrops(True)
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.accept()
+        else:
+            event.ignore()
+
+    def dragMoveEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+            links = []
+            for url in event.mimeData().urls():
+                links.append(unicode(url.toLocalFile()))
+            self.dropped.emit(links)
+        else:
+            event.ignore()
+
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -85,7 +119,7 @@ class MainWindow(QMainWindow):
         vlayout1 = pyqttools.add_to_layout(QVBoxLayout(), addButton, delButton,
                                            clearButton, None)
 
-        self.filesList = QListWidget()
+        self.filesList = FilesList()
         self.filesList.setSelectionMode(QAbstractItemView.ExtendedSelection)
         hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), self.filesList,
                                            vlayout1)
@@ -166,6 +200,7 @@ class MainWindow(QMainWindow):
                               [clearallAction, None, preferencesAction])
         pyqttools.add_actions(helpMenu, [aboutAction])
 
+        self.filesList.dropped.connect(self.url_dropped)
         addButton.clicked.connect(self.add_files)
         delButton.clicked.connect(self.delete_files)
         clearButton.clicked.connect(self.clear_fileslist)
@@ -211,6 +246,16 @@ class MainWindow(QMainWindow):
         self.filesList.clear()
         for i in self.fnames:
             self.filesList.addItem(i)
+
+    def url_dropped(self, links):
+        """
+        Append to self.fnames each file name that not already exists
+        and update self.filesList.
+        """
+        for url in links:
+            if os.path.isfile(url) and not url in self.fnames:
+                self.fnames.append(url)
+        self.update_filesList()
 
     def add_files(self):
         """

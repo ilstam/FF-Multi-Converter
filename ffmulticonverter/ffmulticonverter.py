@@ -144,7 +144,6 @@ class MainWindow(QMainWindow):
             self.TabWidget.addTab(self.tabs[num], tab)
         self.TabWidget.setCurrentIndex(0)
 
-
         self.origCheckBox = QCheckBox('Save each file in the same\n'
                                       'folder as input file')
         self.deleteCheckBox = QCheckBox(self.tr('Delete original'))
@@ -281,7 +280,7 @@ class MainWindow(QMainWindow):
             filters += string + ' ({0});;'.format(extensions)
         filters = filters[:-2] # remove last ';;'
 
-        fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' + \
+        fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' +
                                     self.tr('Choose File'), self.home, filters)
 
         if fnames:
@@ -518,7 +517,7 @@ class MainWindow(QMainWindow):
                  .format(__version__, msg, link, platform.python_version()[:5],
                          QT_VERSION_STR, PYQT_VERSION_STR, platform.system())
         image = ':/ffmulticonverter.png'
-        authors  = 'Ilias Stamatis <stamatis.iliass@gmail.com>\n\n'
+        authors = 'Ilias Stamatis <stamatis.iliass@gmail.com>\n\n'
         authors += 'Contributors:\nPanagiotis Mavrogiorgos'
         transl_list = [['[cs] Czech', 'Petr Simacek'],
                        ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
@@ -558,7 +557,6 @@ class AudioVideoTab(QWidget):
                           '256', '320']
         pattern = QRegExp(r'^[1-9]\d*')
         validator = QRegExpValidator(pattern, self)
-
 
         converttoLabel = QLabel(self.tr('Convert to:'))
         self.extComboBox = QComboBox()
@@ -651,7 +649,7 @@ class AudioVideoTab(QWidget):
         self.moreButton = QPushButton(QApplication.translate('Tab', 'More'))
         self.moreButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
         self.moreButton.setCheckable(True)
-        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), line,self.moreButton)
+        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), line, self.moreButton)
 
         self.frame = QFrame()
         self.frame.setLayout(hidden_layout)
@@ -758,14 +756,14 @@ class AudioVideoTab(QWidget):
         """
         dialog = presets_dlgs.ShowPresets()
         if dialog.exec_() and dialog.the_command is not None:
-                self.commandLineEdit.setText(dialog.the_command)
-                self.commandLineEdit.home(False)
-                find = self.extComboBox.findText(dialog.the_extension)
-                if find >= 0:
-                    self.extComboBox.setCurrentIndex(find)
-                else:
-                    self.extComboBox.setCurrentIndex(len(self.formats))
-                    self.extLineEdit.setText(dialog.the_extension)
+            self.commandLineEdit.setText(dialog.the_command)
+            self.commandLineEdit.home(False)
+            find = self.extComboBox.findText(dialog.the_extension)
+            if find >= 0:
+                self.extComboBox.setCurrentIndex(find)
+            else:
+                self.extComboBox.setCurrentIndex(len(self.formats))
+                self.extLineEdit.setText(dialog.the_extension)
 
     def remove_consecutive_spaces(self, string):
         """Remove any consecutive spaces from a string and return it."""
@@ -888,7 +886,7 @@ class AudioVideoTab(QWidget):
         final_output = myline = str('')
         while True:
             out = str(QString(self.process.stdout.read(1)).toUtf8())
-            if out == str('') and self.process.poll() != None:
+            if out == str('') and self.process.poll() is not None:
                 break
 
             myline += out
@@ -938,7 +936,6 @@ class ImageTab(QWidget):
 
         pattern = QRegExp(r'^[1-9]\d*')
         validator = QRegExpValidator(pattern, self)
-
 
         converttoLabel = QLabel(self.tr('Convert to:'))
         self.extComboBox = QComboBox()
@@ -1027,7 +1024,8 @@ class ImageTab(QWidget):
 
         command = 'from {0} to {1}'.format(unicode(from_file, 'utf-8'),
                                            unicode(to_file, 'utf-8'))
-        if size: command += ' -s ' + size
+        if size:
+            command += ' -s ' + size
         parent.update_text_edit_signal.emit(command+'\n')
         final_output = ''
 
@@ -1045,7 +1043,7 @@ class ImageTab(QWidget):
             converted = False
         parent.update_text_edit_signal.emit('\n\n')
 
-        log_data = {'command' : command, 'returncode' : int (not converted),
+        log_data = {'command' : command, 'returncode' : int(not converted),
                     'type' : 'IMAGE'}
         log_lvl = logging.info if converted == 1 else logging.error
         log_lvl(final_output, extra=log_data)

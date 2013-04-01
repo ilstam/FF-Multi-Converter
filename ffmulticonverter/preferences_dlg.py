@@ -29,7 +29,7 @@ import pyqttools
 
 
 class Preferences(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, test = False):
         super(Preferences, self).__init__(parent)
         self.parent = parent
         self.home = os.getenv('HOME')
@@ -127,10 +127,10 @@ class Preferences(QDialog):
         else:
             self.commandLineEdit.setText('-ab 320k -ar 48000 -ac 2')
 
-        if not self.parent.ffmpeg:
+        if not test and not self.parent.ffmpeg:
             self.avconvRadioButton.setChecked(True)
             self.ffmpegRadioButton.setEnabled(False)
-        if not self.parent.avconv:
+        if not test and not self.parent.avconv:
             self.ffmpegRadioButton.setChecked(True)
             self.avconvRadioButton.setEnabled(False)
 
@@ -173,6 +173,6 @@ if __name__ == '__main__':
     from PyQt4.QtGui import QApplication
     import sys
     app = QApplication(sys.argv)
-    dialog = Preferences()
+    dialog = Preferences(test=True)
     dialog.show()
     app.exec_()

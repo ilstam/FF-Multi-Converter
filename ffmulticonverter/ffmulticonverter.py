@@ -28,7 +28,7 @@ from PyQt4.QtGui import (QAbstractItemView, QApplication, QButtonGroup,
                          QCheckBox, QComboBox, QFileDialog, QFrame,
                          QHBoxLayout, QIcon, QKeySequence, QLabel, QLineEdit,
                          QListWidget, QMainWindow, QMessageBox, QPushButton,
-                         QRadioButton, QRegExpValidator, QSizePolicy,
+                         QRadioButton, QRegExpValidator, QShortcut, QSizePolicy,
                          QSpacerItem, QTabWidget, QToolButton, QVBoxLayout,
                          QWidget)
 
@@ -209,6 +209,10 @@ class MainWindow(QMainWindow):
                  self.toLineEdit.setEnabled(not self.origCheckBox.isChecked()))
         self.toToolButton.clicked.connect(self.open_dir)
         self.convertPushButton.clicked.connect(convertAction.triggered)
+
+        del_shortcut = QShortcut(self)
+        del_shortcut.setKey(Qt.Key_Delete)
+        del_shortcut.activated.connect(self.delete_files)
 
         self.resize(MAIN_WIDTH, MAIN_HEIGHT)
         self.setWindowTitle('FF Multi Converter')

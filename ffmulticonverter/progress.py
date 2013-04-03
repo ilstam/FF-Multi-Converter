@@ -46,10 +46,17 @@ class Progress(QDialog):
     refr_bars_signal = pyqtSignal(int)
     update_text_edit_signal = pyqtSignal(str)
 
-    def __init__(self, files, _type, cmd, ffmpeg, size, delete, parent=None, test=False):
+    def __init__(self, files, _type, cmd, ffmpeg, size, delete,
+                 parent=None, test=False):
         """
         Keyword arguments:
         files  -- list with dicts containing file names
+        _type  -- 'AudioVideo', 'Images' or 'Documents' depending files type
+        cmd    -- ffmpeg command, for audio/video conversions
+        ffmpeg -- if True ffmpeg will be used, else avconv
+                  for audio/video conversions
+        size   -- new image size string of type 'widthxheight' eg. '300x300'
+                  for image conversions
         delete -- boolean that shows if files must removed after conversion
 
         files:

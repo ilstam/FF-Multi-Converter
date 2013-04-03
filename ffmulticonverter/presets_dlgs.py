@@ -137,7 +137,7 @@ class ShowPresets(QDialog):
 
     def add_preset(self):
         """Open AddorEditPreset() dialog and add a preset xml root."""
-        dialog = AddorEditPreset(None, False)
+        dialog = AddorEditPreset(None, False, self)
         if dialog.exec_():
             element = etree.Element(dialog.name_text)
             label = etree.Element('label')
@@ -370,4 +370,3 @@ if __name__ == '__main__':
     dialog = ShowPresets()
     dialog.show()
     app.exec_()
-

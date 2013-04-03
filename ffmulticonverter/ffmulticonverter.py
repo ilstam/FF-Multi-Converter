@@ -337,7 +337,7 @@ class MainWindow(QMainWindow):
 
     def presets(self):
         """Open the presets dialog."""
-        dialog = presets_dlgs.ShowPresets()
+        dialog = presets_dlgs.ShowPresets(self)
         dialog.exec_()
 
     def import_presets(self):
@@ -472,7 +472,7 @@ class MainWindow(QMainWindow):
                 size = str('{0}x{1}'.format(width, height))
 
         dialog = progress.Progress(_list, tab.name, cmd, self.ffmpeg, size,
-                                   self.deleteCheckBox.isChecked())
+                                   self.deleteCheckBox.isChecked(), self)
         dialog.exec_()
 
     def is_installed(self, program):
@@ -551,7 +551,7 @@ class MainWindow(QMainWindow):
             translators += '{0}\n     {1}\n\n'.format(i[0], i[1])
         translators = translators[:-2]
 
-        dialog = about_dlg.AboutDialog(text, image, authors, translators)
+        dialog = about_dlg.AboutDialog(text, image, authors, translators, self)
         dialog.exec_()
 
 

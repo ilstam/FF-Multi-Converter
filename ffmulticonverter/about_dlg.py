@@ -56,7 +56,7 @@ class AboutDialog(QDialog):
 
     def show_credits(self):
         """Call CreditsDialog."""
-        dialog = CreditsDialog(self.authors, self.translators)
+        dialog = CreditsDialog(self.authors, self.translators, self)
         dialog.exec_()
 
 
@@ -94,5 +94,3 @@ if __name__ == '__main__':
                          'Authors', 'Translators')
     dialog.show()
     app.exec_()
-
-

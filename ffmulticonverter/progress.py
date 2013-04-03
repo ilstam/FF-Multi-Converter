@@ -19,16 +19,26 @@
 from __future__ import unicode_literals
 from __future__ import division
 
-from PyQt4.QtCore import QTimer, pyqtSignal
+from PyQt4.QtCore import pyqtSignal, QString, QTimer
 from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
                   QFrame, QLabel, QPushButton, QProgressBar, QMessageBox,
                   QTextEdit, QCommandLinkButton, QTextCursor, QSizePolicy)
 
 import os
+import re
 import signal
 import threading
+import shutil
+import subprocess
+import shlex
+import logging
 
 import pyqttools
+
+try:
+    import PythonMagick
+except ImportError:
+    pass
 
 
 class Progress(QDialog):
@@ -36,7 +46,7 @@ class Progress(QDialog):
     refr_bars_signal = pyqtSignal(int)
     update_text_edit_signal = pyqtSignal(str)
 
-    def __init__(self, parent, files, delete, test=False):
+    def __init__(self, files, _type, cmd, ffmpeg, size, delete, parent=None, test=False):
         """
         Keyword arguments:
         files  -- list with dicts containing file names
@@ -51,9 +61,10 @@ class Progress(QDialog):
         [{"/foo/bar.png" : "/foo/bar.bmp"}, {"/f/bar2.png" : "/f/bar2.bmp"}]
         """
         super(Progress, self).__init__(parent)
-        self.parent = parent
-        if not test:
-            self.tab = self.parent.current_tab()
+        self._type = _type
+        self.cmd = cmd
+        self.ffmpeg = ffmpeg
+        self.size = size
 
         self.files = files
         self.delete = delete
@@ -123,6 +134,16 @@ class Progress(QDialog):
         self.textEdit.setText(current+txt)
         self.textEdit.moveCursor(QTextCursor.End)
 
+    def refresh_progress_bars(self, now_percent):
+        """Refresh the values of self.nowBar and self.totalBar."""
+        total_percent = int(((now_percent * self.step) / 100) + self.min_value)
+
+        if now_percent > self.nowBar.value() and not (now_percent > 100):
+            self.nowBar.setValue(now_percent)
+        if (total_percent > self.totalBar.value() and
+        not (total_percent > self.max_value)):
+            self.totalBar.setValue(total_percent)
+
     def manage_conversions(self):
         """
         Check whether all files have been converted.
@@ -159,8 +180,8 @@ class Progress(QDialog):
         if not self.files:
             QDialog.accept(self)
             return
-        if self.tab.name == 'AudioVideo':
-            self.tab.process.send_signal(signal.SIGSTOP) #pause
+        if self._type == 'AudioVideo':
+            self.process.send_signal(signal.SIGSTOP) #pause
         else:
             self.running = False
         reply = QMessageBox.question(self,
@@ -169,12 +190,12 @@ class Progress(QDialog):
             QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
             QDialog.reject(self)
-            if self.tab.name == 'AudioVideo':
-                self.tab.process.kill() #kill
+            if self._type == 'AudioVideo':
+                self.process.kill() #kill
             self.thread.join()
         if reply == QMessageBox.Cancel:
-            if self.tab.name == 'AudioVideo':
-                self.tab.process.send_signal(signal.SIGCONT) #continue
+            if self._type == 'AudioVideo':
+                self.process.send_signal(signal.SIGCONT) #continue
             else:
                 self.running = True
                 self.manage_conversions()
@@ -208,14 +229,17 @@ class Progress(QDialog):
             return
 
         def convert():
-            if self.tab.name == 'AudioVideo':
-                parameters = (self, from_file, to_file,
-                              self.tab.commandLineEdit.text(),
-                              self.parent.ffmpeg)
+            if self._type == 'AudioVideo':
+                conv_func = self.convert_video
+                params = (from_file, to_file, self.cmd, self.ffmpeg)
+            elif self._type == 'Images':
+                conv_func = self.convert_image
+                params = (from_file, to_file, self.size)
             else:
-                parameters = (self, from_file, to_file)
+                conv_func = self.convert_doc
+                params = (from_file, to_file)
 
-            if self.tab.convert(*parameters):
+            if conv_func(*params):
                 self.ok += 1
                 if self.delete:
                     try:
@@ -230,22 +254,181 @@ class Progress(QDialog):
         self.thread = threading.Thread(target=convert)
         self.thread.start()
 
-    def refresh_progress_bars(self, now_percent):
-        """Refresh the values of self.nowBar and self.totalBar."""
-        total_percent = int(((now_percent * self.step) / 100) + self.min_value)
+    def duration_in_seconds(self, duration):
+        """
+        Return the number of seconds of duration, an integer.
+        Duration is a strinf of type hh:mm:ss.ts
+        """
+        duration = duration.split('.')[0]
+        hours, mins, secs = duration.split(':')
+        seconds = int(secs)
+        seconds += (int(hours) * 3600) + (int(mins) * 60)
+        return seconds
 
-        if now_percent > self.nowBar.value() and not (now_percent > 100):
-            self.nowBar.setValue(now_percent)
-        if (total_percent > self.totalBar.value() and
-        not (total_percent > self.max_value)):
-            self.totalBar.setValue(total_percent)
+    def convert_video(self, from_file, to_file, command, ffmpeg):
+        """
+        Create the ffmpeg command and execute it in a new process using the
+        subprocess module. While the process is alive, parse ffmpeg output,
+        estimate conversion progress using video's duration.
+        With the result, emit the corresponding signal in order progressbars
+        to be updated. Also emit regularly the corresponding signal in order
+        an textEdit to be updated with ffmpeg's output. Finally, save log
+        information.
+
+        Return True if conversion succeed, else False.
+        """
+        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
+        assert from_file.startswith('"') and from_file.endswith('"')
+        assert to_file.startswith('"') and to_file.endswith('"')
+
+        converter = 'ffmpeg' if ffmpeg else 'avconv'
+        convert_cmd = '{0} -y -i {1} {2} {3}'.format(converter, from_file,
+                                                     command, to_file)
+        convert_cmd = str(QString(convert_cmd).toUtf8())
+        self.update_text_edit_signal.emit(unicode(convert_cmd, 'utf-8')+'\n')
+
+        self.process = subprocess.Popen(shlex.split(convert_cmd),
+                                        stderr=subprocess.STDOUT,
+                                        stdout=subprocess.PIPE)
+
+        final_output = myline = str('')
+        while True:
+            out = str(QString(self.process.stdout.read(1)).toUtf8())
+            if out == str('') and self.process.poll() is not None:
+                break
+
+            myline += out
+            if out in (str('\r'), str('\n')):
+                m = re.search("Duration: ([0-9:.]+), start: [0-9.]+", myline)
+                if m:
+                    total = self.duration_in_seconds(m.group(1))
+                n = re.search("time=([0-9:]+)", myline)
+                # time can be of format 'time=hh:mm:ss.ts' or 'time=ss.ts'
+                # depending on ffmpeg version
+                if n:
+                    time = n.group(1)
+                    if ':' in time:
+                        time = self.duration_in_seconds(time)
+                    now_sec = int(float(time))
+                    try:
+                        self.refr_bars_signal.emit(100 * now_sec / total)
+                    except ZeroDivisionError:
+                        pass
+                self.update_text_edit_signal.emit(myline)
+                final_output += myline
+                myline = str('')
+        self.update_text_edit_signal.emit('\n\n')
+
+        return_code = self.process.poll()
+
+        log_data = {'command' : unicode(convert_cmd, 'utf-8'),
+                    'returncode' : return_code, 'type' : 'VIDEO'}
+        log_lvl = logging.info if return_code == 0 else logging.error
+        log_lvl(unicode(final_output, 'utf-8'), extra=log_data)
+
+        return return_code == 0
+
+    def convert_image(self, from_file, to_file, size):
+        """
+        Convert an image with the desired size using PythonMagick.
+        Create conversion info ("command") and emit the corresponding signal
+        in order an textEdit to be updated with that info.
+        Finally, save log information.
+
+        Return True if conversion succeed, else False.
+        """
+        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
+        assert from_file.startswith('"') and from_file.endswith('"')
+        assert to_file.startswith('"') and to_file.endswith('"')
+
+        from_file = str(QString(from_file).toUtf8())[1:-1]
+        to_file = str(QString(to_file).toUtf8())[1:-1]
+
+        command = 'from {0} to {1}'.format(unicode(from_file, 'utf-8'),
+                                           unicode(to_file, 'utf-8'))
+        if size:
+            command += ' -s ' + size
+        self.update_text_edit_signal.emit(command+'\n')
+        final_output = ''
+
+        try:
+            if os.path.exists(to_file):
+                os.remove(to_file)
+            img = PythonMagick.Image(from_file)
+            if size:
+                img.transform(size)
+            img.write(to_file)
+            converted = True
+        except (RuntimeError, OSError, Exception) as e:
+            final_output = str(e)
+            self.update_text_edit_signal.emit(final_output)
+            converted = False
+        self.update_text_edit_signal.emit('\n\n')
+
+        log_data = {'command' : command, 'returncode' : int(not converted),
+                    'type' : 'IMAGE'}
+        log_lvl = logging.info if converted == 1 else logging.error
+        log_lvl(final_output, extra=log_data)
+
+        return converted
+
+    def convert_doc(self, from_file, to_file):
+        """
+        Create the unoconv command and execute it using the subprocess module.
+        First move (rename) the original file adding an '~~' prefix and
+        convert it. The ~~ addition is in order to avoid the possibility of
+        overwriting existing files with give file's name and output file's
+        extension and because unoconv doesn't accept a name for output file
+        (terrible technique and should be fixed but for now does the job).
+        After conversion is over, remove the renamed file, and rename the
+        resulted file with the appropriate name. Also emit the corresponding
+        signal in order an textEdit to be updated with unoconv's output.
+        Finally, save log information.
+
+        Return True if conversion succeed, else False.
+        """
+        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
+
+        from_file = from_file[1:-1]
+        to_file = to_file[1:-1]
+        _file, extension = os.path.splitext(to_file)
+        moved_file = _file + os.path.splitext(from_file)[-1]
+
+        if os.path.exists(moved_file):
+            moved_file = _file + '~~' + os.path.splitext(from_file)[-1]
+        shutil.copy(from_file, moved_file)
+
+        command = 'unoconv --format={0} {1}'.format(extension[1:],
+                                                    '"'+moved_file+'"')
+        command = str(QString(command).toUtf8())
+        self.update_text_edit_signal.emit(unicode(command, 'utf-8')+'\n')
+
+        child = subprocess.Popen(shlex.split(command),
+                                 stderr=subprocess.STDOUT,
+                                 stdout=subprocess.PIPE)
+        child.wait()
+
+        os.remove(moved_file)
+        final_file = os.path.splitext(moved_file)[0] + extension
+        shutil.move(final_file, to_file)
+
+        final_output = unicode(child.stdout.read(), 'utf-8')
+        self.update_text_edit_signal.emit(final_output+'\n\n')
+
+        return_code = child.poll()
+
+        log_data = {'command' : unicode(command, 'utf-8'),
+                    'returncode' : return_code, 'type' : 'DOCUMENT'}
+        log_lvl = logging.info if return_code == 0 else logging.error
+        log_lvl(final_output, extra=log_data)
+
+        return return_code == 0
 
 
 if __name__ == '__main__':
     #test dialog
     import sys
     app = QApplication(sys.argv)
-    dialog = Progress(None, [], False, test=True)
+    dialog = Progress([], '', '', False, '', False, test=True)
     dialog.show()
     app.exec_()
-

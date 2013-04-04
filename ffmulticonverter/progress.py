@@ -419,7 +419,11 @@ class Progress(QDialog):
 
         os.remove(moved_file)
         final_file = os.path.splitext(moved_file)[0] + extension
-        shutil.move(final_file, to_file)
+        try:
+            shutil.move(final_file, to_file)
+        except IOError:
+            # unoconv conversion failed and final_file does not exist
+            pass
 
         final_output = unicode(child.stdout.read(), 'utf-8')
         self.update_text_edit_signal.emit(final_output+'\n\n')

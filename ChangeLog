@@ -1,5 +1,16 @@
+Version 1.5.0
+--------------
+
+* New UI which enables user to select multiple files for conversion.
+
+* Files can dragged and dropped from a file manager or passed as command line arguments.
+
+* Parallel conversions.
+
+* Portuguese (Brazil) translation.
+
 Version 1.4.3
--------------
+--------------
 
 * Czech translation and minor changes.
 

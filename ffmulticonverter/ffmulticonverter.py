@@ -473,7 +473,7 @@ class MainWindow(QMainWindow):
 
         dialog = progress.Progress(_list, tab.name, cmd, self.ffmpeg, size,
                                    self.deleteCheckBox.isChecked(), self)
-        dialog.exec_()
+        dialog.show()
 
     def is_installed(self, program):
         """Return True if program appears in user's PATH var, else False."""

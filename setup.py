@@ -4,6 +4,7 @@
 import ffmulticonverter
 from distutils.core import setup
 
+
 data_files = [('/usr/share/applications/', ['share/ffmulticonverter.desktop']),
               ('/usr/share/pixmaps/', ['share/ffmulticonverter.png']),
               ('/usr/share/ffmulticonverter', ['share/presets.xml']),
@@ -20,10 +21,10 @@ setup(
     author_email = 'stamatis.iliass@gmail.com',
     license = 'GNU GPL3',
     platforms = 'Linux',
-    url = 'http://sites.google.com/site/ffmulticonverter/',
+    url = 'https://sites.google.com/site/ffmulticonverter/',
     download_url = 'https://github.com/Ilias95/FF-Multi-Converter/downloads',
     keywords = ['convert', 'file format', 'extension', 'audio', 'video',
-                                                         'images', 'document'],
+                'images', 'documents'],
     classifiers = [
         'Programming Language :: Python',
         'License :: OSI Approved :: GNU General Public License (GPL)',
@@ -38,6 +39,7 @@ setup(
         'Natural Language :: Hungarian',
         'Natural Language :: Polish',
         'Natural Language :: Portuguese',
+        'Natural Language :: Portuguese (Brazilian)',
         'Natural Language :: Russian',
         'Natural Language :: Turkish',
         'Intended Audience :: End Users/Desktop',
@@ -57,8 +59,7 @@ Features:
  - Access to common conversion options.
  - Audio/video ffmpeg-presets management.
  - Options for saving and naming files.
- - Recursive conversions.
 
-Requires: python2, PyQt4, ffmpeg, PythonMagick, unoconv
+Requires: python2, pyqt4, ffmpeg, pythonmagick, unoconv
 """
 )

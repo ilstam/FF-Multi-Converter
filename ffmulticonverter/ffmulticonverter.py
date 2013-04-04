@@ -429,9 +429,10 @@ class MainWindow(QMainWindow):
             else:
                 y = output + '/' + y
 
-            if os.path.exists(y) and not overwrite_existing:
-                _dir2, _name2 = os.path.split(y)
-                y = _dir2 + '/~' + _name2
+            if not overwrite_existing:
+                while os.path.exists(y):
+                    _dir2, _name2 = os.path.split(y)
+                    y = _dir2 + '/~' + _name2
 
             # Add quotations to paths in order to avoid error in special
             # cases such as spaces or special characters.

@@ -100,7 +100,8 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__(parent)
 
         self.home = os.getenv('HOME')
-        self.fnames = list() # list of file names to be converted
+        self.fnames = list()  # list of file names to be converted
+        self.docconv = False  # True when a documents conversion is running
 
         # parse command line arguments
         for i in QCoreApplication.argv()[1:]:
@@ -471,6 +472,8 @@ class MainWindow(QMainWindow):
             if width:
                 height = tab.heightLineEdit.text()
                 size = str('{0}x{1}'.format(width, height))
+        else:
+            self.docconv = True
 
         dialog = progress.Progress(_list, tab.name, cmd, self.ffmpeg, size,
                                    self.deleteCheckBox.isChecked(), self)
@@ -1000,6 +1003,9 @@ class DocumentTab(QWidget):
                 if file_ext != decl_ext:
                     raise ValidationError(self.tr(
                             '%1 is not %2!').arg(i, decl_ext))
+            if self.parent.docconv:
+                raise ValidationError(self.tr(
+                            'You can not make parallel document conversions.'))
             return True
 
         except ValidationError as e:

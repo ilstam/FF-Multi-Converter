@@ -68,6 +68,7 @@ class Progress(QDialog):
         [{"/foo/bar.png" : "/foo/bar.bmp"}, {"/f/bar2.png" : "/f/bar2.bmp"}]
         """
         super(Progress, self).__init__(parent)
+        self.parent = parent
         self._type = _type
         self.cmd = cmd
         self.ffmpeg = ffmpeg
@@ -166,6 +167,8 @@ class Progress(QDialog):
                        self.tr('Converted: %1/%2').arg(self.ok).arg(sum_files),
                        self)
             dialog.show()
+            if self._type == 'Documents':
+                self.parent.docconv = False  # doc conversion end
         else:
             self.convert_a_file()
 
@@ -202,6 +205,8 @@ class Progress(QDialog):
             if self._type == 'AudioVideo':
                 self.process.kill() #kill
             self.thread.join()
+            if self._type == 'Documents':
+                self.parent.docconv = False
         if reply == QMessageBox.Cancel:
             if self._type == 'AudioVideo':
                 self.process.send_signal(signal.SIGCONT) #continue

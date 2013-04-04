@@ -141,8 +141,8 @@ class MainWindow(QMainWindow):
             self.TabWidget.addTab(self.tabs[num], tab)
         self.TabWidget.setCurrentIndex(0)
 
-        self.origCheckBox = QCheckBox('Save each file in the same\n'
-                                      'folder as input file')
+        self.origCheckBox = QCheckBox(
+                   self.tr('Save each file in the same\nfolder as input file'))
         self.deleteCheckBox = QCheckBox(self.tr('Delete original'))
         self.convertPushButton = QPushButton(self.tr('&Convert'))
 

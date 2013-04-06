@@ -193,25 +193,25 @@ class Progress(QDialog):
             QDialog.accept(self)
             return
         if self._type == 'AudioVideo':
-            self.process.send_signal(signal.SIGSTOP) #pause
-        else:
-            self.running = False
+            self.process.send_signal(signal.SIGSTOP)
+        self.running = False
         reply = QMessageBox.question(self,
             'FF Multi Converter - ' + self.tr('Cancel Conversion'),
             self.tr('Are you sure you want to cancel conversion?'),
             QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
-            QDialog.reject(self)
             if self._type == 'AudioVideo':
-                self.process.kill() #kill
-            self.thread.join()
+                self.process.kill()
             if self._type == 'Documents':
                 self.parent.docconv = False
+            self.running = False
+            self.thread.join()
+            QDialog.reject(self)
         if reply == QMessageBox.Cancel:
+            self.running = True
             if self._type == 'AudioVideo':
-                self.process.send_signal(signal.SIGCONT) #continue
+                self.process.send_signal(signal.SIGCONT)
             else:
-                self.running = True
                 self.manage_conversions()
 
     def convert_a_file(self):

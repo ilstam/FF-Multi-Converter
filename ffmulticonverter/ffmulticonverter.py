@@ -105,7 +105,7 @@ class MainWindow(QMainWindow):
 
         # parse command line arguments
         for i in QCoreApplication.argv()[1:]:
-            i = codecs.utf_8_decode(i)[0]
+            i = codecs.utf_8_decode(os.path.abspath(i))[0]
             if os.path.isfile(i):
                 self.fnames.append(i)
             else:

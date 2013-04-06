@@ -1,8 +1,10 @@
+#!/bin/sh
 # ffmulticonverter uninstall script
 
-sudo find /usr -path "*ffmulticonverter*" > files.txt
-sudo cat files.txt | sudo xargs rm -rf
-rm files.txt
+for i in $(sudo find /usr -path "*ffmulticonverter*")
+do
+	sudo rm -rf $i
+done
 
 # uncomment if you wish to remove configuration files as well
 # rm -rf ~/.config/ffmulticonverter

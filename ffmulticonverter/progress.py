@@ -389,15 +389,14 @@ class Progress(QDialog):
     def convert_doc(self, from_file, to_file):
         """
         Create the unoconv command and execute it using the subprocess module.
-        First move (rename) the original file adding an '~~' prefix and
-        convert it. The ~~ addition is in order to avoid the possibility of
-        overwriting existing files with give file's name and output file's
-        extension and because unoconv doesn't accept a name for output file
-        (terrible technique and should be fixed but for now does the job).
-        After conversion is over, remove the renamed file, and rename the
-        resulted file with the appropriate name. Also emit the corresponding
-        signal in order an textEdit to be updated with unoconv's output.
-        Finally, save log information.
+
+        Unoconv doesn't accept output file's name so we have to:
+          1. make a copy of the original file with output file's name
+          2. convert the copy
+          3. rename the converted file to match the desired output file's name
+
+        Also emit the corresponding signal in order an textEdit to be updated
+        with unoconv's output. Finally, save log information.
 
         Return True if conversion succeed, else False.
         """
@@ -405,29 +404,32 @@ class Progress(QDialog):
 
         from_file = from_file[1:-1]
         to_file = to_file[1:-1]
-        _file, extension = os.path.splitext(to_file)
-        moved_file = _file + os.path.splitext(from_file)[-1]
+        from_base, from_ext = os.path.splitext(from_file)
+        to_base, to_ext = os.path.splitext(to_file)
 
-        if os.path.exists(moved_file):
-            moved_file = _file + '~~' + os.path.splitext(from_file)[-1]
-        shutil.copy(from_file, moved_file)
+        dummy_file = to_base + from_ext
+        dummy_base, dummy_ext = os.path.splitext(dummy_file)
+        while os.path.exists(dummy_file):
+            # do not overwrite existing files
+            dummy_file = dummy_base + '~' + dummy_ext
+            dummy_base = os.path.splitext(dummy_file)[0]
 
-        command = 'unoconv --format={0} {1}'.format(extension[1:],
-                                                    '"'+moved_file+'"')
-        command = str(QString(command).toUtf8())
-        self.update_text_edit_signal.emit(unicode(command, 'utf-8')+'\n')
+        converted_file = dummy_base + to_ext
+        shutil.copy(from_file, dummy_file)
 
-        child = subprocess.Popen(shlex.split(command),
+        cmd = 'unoconv --format={0} {1}'.format(to_ext[1:], '"'+dummy_file+'"')
+        cmd = str(QString(cmd).toUtf8())
+        self.update_text_edit_signal.emit(unicode(cmd, 'utf-8')+'\n')
+        child = subprocess.Popen(shlex.split(cmd),
                                  stderr=subprocess.STDOUT,
                                  stdout=subprocess.PIPE)
         child.wait()
 
-        os.remove(moved_file)
-        final_file = os.path.splitext(moved_file)[0] + extension
+        os.remove(dummy_file)
         try:
-            shutil.move(final_file, to_file)
+            shutil.move(converted_file, to_file)
         except IOError:
-            # unoconv conversion failed and final_file does not exist
+            # unoconv conversion failed and converted_file does not exist
             pass
 
         final_output = unicode(child.stdout.read(), 'utf-8')
@@ -435,7 +437,7 @@ class Progress(QDialog):
 
         return_code = child.poll()
 
-        log_data = {'command' : unicode(command, 'utf-8'),
+        log_data = {'command' : unicode(cmd, 'utf-8'),
                     'returncode' : return_code, 'type' : 'DOCUMENT'}
         log_lvl = logging.info if return_code == 0 else logging.error
         log_lvl(final_output, extra=log_data)

@@ -512,9 +512,11 @@ class MainWindow(QMainWindow):
         if not self.pmagick:
             missing.append('PythonMagick')
 
-        missing = ', '.join(missing) if missing else self.tr('None')
-        status = self.tr('Missing dependencies:') + ' ' + missing
-        self.dependenciesLabel.setText(status)
+        # It would nice and clean for user if nothing missed.
+        if missing:
+            missing = ', '.join(missing)
+            status = self.tr('Missing dependencies:') + ' ' + missing
+            self.dependenciesLabel.setText(status)
 
     def about(self):
         """Call the about dialog with the appropriate values."""

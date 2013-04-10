@@ -98,7 +98,8 @@ class ShowPresets(QDialog):
                 self.tree = etree.parse(self.original_presets_file)
             except IOError:
                 # when program is not installed
-                self.tree = etree.parse('../data/presets.xml')
+                # self.tree = etree.parse('../data/presets.xml')    # Wrong path?
+                self.tree = etree.parse('../share/presets.xml')
             if not os.path.exists(self.config_folder):
                 os.makedirs(self.config_folder)
         self.root = self.tree.getroot()
@@ -316,7 +317,7 @@ class AddorEditPreset(QDialog):
 
         Return True if all tests pass, else False.
         """
-        self.name_text = str(self.nameLineEdit.text()).strip()
+        self.name_text = unicode(self.nameLineEdit.text()).strip()
         self.label_text = unicode(self.labelLineEdit.text()).strip()
         self.command_text = unicode(self.commandLineEdit.text()).strip()
         self.ext_text = unicode(self.extLineEdit.text()).strip()

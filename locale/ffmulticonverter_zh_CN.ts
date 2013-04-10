@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="zh_CN" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="zh_CN">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="41"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="55"/>
         <source>About FF Multi Converter</source>
-        <translation type="unfinished"></translation>
+        <translation>关于 FF Multi Converter</translation>
     </message>
 </context>
 <context>
@@ -176,17 +177,17 @@ You will not be able to convert audio/video files until you install one of them.
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="73"/>
         <source>Written by</source>
-        <translation type="unfinished"></translation>
+        <translation>编写人员</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="74"/>
         <source>Translated by</source>
-        <translation type="unfinished"></translation>
+        <translation>翻译人员</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="75"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭</translation>
     </message>
 </context>
 <context>
@@ -216,12 +217,12 @@ You will not be able to convert document files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="1004"/>
         <source>%1 is not %2!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 不同于 %2!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="1007"/>
         <source>You can not make parallel document conversions.</source>
-        <translation type="unfinished"></translation>
+        <translation>无法并行转换文档。</translation>
     </message>
 </context>
 <context>
@@ -261,7 +262,7 @@ You will not be able to convert image files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="943"/>
         <source>%1 is of unknown image file type!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 未知图片类型！</translation>
     </message>
 </context>
 <context>
@@ -515,28 +516,28 @@ You can change this from preferences.</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
         <source>Add</source>
-        <translation type="unfinished">添加</translation>
+        <translation>添加</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="115"/>
         <source>Delete</source>
-        <translation type="unfinished">删除</translation>
+        <translation>删除</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
         <source>Clear All</source>
-        <translation type="unfinished"></translation>
+        <translation>清空</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="366"/>
         <source>You must add at least one file to convert!</source>
-        <translation type="unfinished"></translation>
+        <translation>至少需要添加一个文件才能转换！</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
         <source>Save each file in the same
 folder as input file</source>
-        <translation type="unfinished"></translation>
+        <translation>将输出文件保存在输入文件所在文件夹</translation>
     </message>
 </context>
 <context>

@@ -37,7 +37,7 @@ class AboutDialog(QDialog):
         textLabel = QLabel()
         textLabel.setText(text)
         textLabel.setOpenExternalLinks(True)
-        creditsButton = QPushButton('Credits')
+        creditsButton = QPushButton(self.tr('C&redits'))
         closeButton = QPushButton(self.tr('&Close'))
 
         vlayout1 = pyqttools.add_to_layout(QVBoxLayout(), imageLabel, None)
@@ -82,7 +82,7 @@ class CreditsDialog(QDialog):
 
         self.setMinimumSize(QSize(335, 370))
         self.setMaximumSize(QSize(335, 370))
-        self.setWindowTitle('Credits')
+        self.setWindowTitle(self.tr('Credits'))
 
 if __name__ == '__main__':
     #test dialog

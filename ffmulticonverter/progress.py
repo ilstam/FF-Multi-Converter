@@ -313,7 +313,7 @@ class Progress(QDialog):
 
             myline += out
             if out in (str('\r'), str('\n')):
-                m = re.search("Duration: ([0-9:.]+), start: [0-9.]+", myline)
+                m = re.search("Duration: ([0-9:.]+)", myline)
                 if m:
                     total = self.duration_in_seconds(m.group(1))
                 n = re.search("time=([0-9:]+)", myline)
@@ -326,7 +326,7 @@ class Progress(QDialog):
                     now_sec = int(float(time))
                     try:
                         self.refr_bars_signal.emit(100 * now_sec / total)
-                    except ZeroDivisionError:
+                    except UnboundLocalError, ZeroDivisionError:
                         pass
                 self.update_text_edit_signal.emit(myline)
                 final_output += myline

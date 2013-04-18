@@ -669,17 +669,17 @@ ursprünglichen Ordner</translation>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="128"/>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
         <source>Report</source>
-        <translation type="obsolete">Bericht</translation>
+        <translation type="unfinished">Bericht</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
         <source>Converted: %1/%2</source>
         <translation>Konvertiert: %1/%2</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>Wollen Sie wirklich die Umwandlung abbrechen?</translation>
     </message>
@@ -689,12 +689,12 @@ ursprünglichen Ordner</translation>
         <translation>Konvertiere</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>Konvertierung abbrechen</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>In Arbeit:</translation>
     </message>

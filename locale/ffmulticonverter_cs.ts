@@ -131,7 +131,7 @@
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="603"/>
         <source>Frame Rate (fps):</source>
-        <translation>Počet snímků (fps)</translation>
+        <translation>Počet snímků (fps):</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="604"/>
@@ -494,7 +494,7 @@ jeho původní složky</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="38"/>
         <source>Existing files:</source>
-        <translation>Existující soubory</translation>
+        <translation>Existující soubory:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="39"/>
@@ -509,7 +509,7 @@ jeho původní složky</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="46"/>
         <source>Default output destination:</source>
-        <translation>Výchozí cílové umístění</translation>
+        <translation>Výchozí cílové umístění:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="53"/>
@@ -595,24 +595,29 @@ jeho původní složky</translation>
         <translation>Konverze</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
         <source>Converted: %1/%2</source>
         <translation>Převedeno: %1/%2</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>Zrušit konverzi</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>Opravdu chcete přerušit konverzi?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>Probíhá:</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
+        <source>Report</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

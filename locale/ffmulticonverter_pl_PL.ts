@@ -63,7 +63,7 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="330"/>
         <source>Preset name must be one word and contain only letters and digits.</source>
-        <translation>Nazwa preset musi być w formie jednego słowa i może zawierać tylko litery i cyfry</translation>
+        <translation>Nazwa preset musi być w formie jednego słowa i może zawierać tylko litery i cyfry.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="337"/>
@@ -204,7 +204,7 @@ Dopóki nie zainstalujesz jednego z nich, nie możesz konwertować plików audio
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="977"/>
         <source>Convert:</source>
-        <translation>Konwertuj</translation>
+        <translation>Konwertuj:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="998"/>
@@ -596,24 +596,29 @@ katalogu co pliki wejściowe</translation>
         <translation>Konwersja</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
         <source>Converted: %1/%2</source>
         <translation>Przekonwertowano: %1/%2</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>Zatrzymaj konwersję</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>Czy na pewno anulować konwersję?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>W toku:</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
+        <source>Report</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

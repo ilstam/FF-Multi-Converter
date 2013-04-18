@@ -5,7 +5,7 @@
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="55"/>
         <source>About FF Multi Converter</source>
-        <translation type="unfinished">Sobre o  FF Multi Converter</translation>
+        <translation>Sobre o  FF Multi Converter</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="41"/>
@@ -181,7 +181,7 @@ Não conseguirá converter os ficheiros até que instale um deles.</translation>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="85"/>
         <source>Credits</source>
-        <translation type="unfinished">Créditos</translation>
+        <translation>Créditos</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="73"/>
@@ -669,17 +669,17 @@ na pasta de origem</translation>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="128"/>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
         <source>Report</source>
-        <translation type="obsolete">Relatório</translation>
+        <translation>Relatório</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
         <source>Converted: %1/%2</source>
         <translation>Convertido: %1/%2</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>Tem a certeza que quer cancelar a conversão?</translation>
     </message>
@@ -689,12 +689,12 @@ na pasta de origem</translation>
         <translation>Conversão</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>Cancelar conversão</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>A decorrer:</translation>
     </message>

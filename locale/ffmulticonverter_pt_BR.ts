@@ -78,7 +78,7 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="347"/>
         <source>Extension label can&apos;t be left blank.</source>
-        <translation>Extensão da etiqueta não pode ser deixada em branco</translation>
+        <translation>Extensão da etiqueta não pode ser deixada em branco.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="352"/>
@@ -577,7 +577,7 @@ pasta que o arquivo original</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="86"/>
         <source>Total:</source>
-        <translation>Total</translation>
+        <translation>Total:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="91"/>
@@ -595,24 +595,29 @@ pasta que o arquivo original</translation>
         <translation>Conversão</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
         <source>Converted: %1/%2</source>
         <translation>Convertido: %1/%2</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>Cancelar Conversão</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>Tem certeza que quer cancelar a conversão?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>Em progresso:</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
+        <source>Report</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

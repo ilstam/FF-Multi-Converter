@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ru" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="ru">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="41"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="55"/>
         <source>About FF Multi Converter</source>
-        <translation type="unfinished"></translation>
+        <translation>О FF Multi Converter</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="40"/>
         <source>C&amp;redits</source>
-        <translation type="unfinished"></translation>
+        <translation>Об &amp;авторах</translation>
     </message>
 </context>
 <context>
@@ -39,6 +40,11 @@
         <location filename="../ffmulticonverter/presets_dlgs.py" line="277"/>
         <source>Output file extension</source>
         <translation>Расширение выходного файла</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="302"/>
+        <source>Edit %1</source>
+        <translation>Редактировать %1</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="304"/>
@@ -79,11 +85,6 @@
         <location filename="../ffmulticonverter/presets_dlgs.py" line="352"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>Расширение должно быть одним словом и не начинаться с точки.</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="302"/>
-        <source>Edit %1</source>
-        <translation>Редактировать %1</translation>
     </message>
 </context>
 <context>
@@ -159,6 +160,13 @@
         <translation>Ошибка!</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="748"/>
+        <source>Neither ffmpeg nor avconv are installed.
+You will not be able to convert audio/video files until you install one of them.</source>
+        <translation>Ни ffmpeg, ни avconv не обнаружены.
+Вы не сможете конвертировать аудио/видео файлы пока не установите одну из этих программ.</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="756"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>Расширение должно быть одним словом и не начинаться с точки.</translation>
@@ -168,35 +176,28 @@
         <source>The command LineEdit may not be empty.</source>
         <translation>Команда LineEdit не может быть пустой.</translation>
     </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="748"/>
-        <source>Neither ffmpeg nor avconv are installed.
-You will not be able to convert audio/video files until you install one of them.</source>
-        <translation>Ни ffmpeg, ни avconv не обнаружены.
-Вы не сможете конвертировать аудио/видео файлы пока не установите одну из этих программ.</translation>
-    </message>
 </context>
 <context>
     <name>CreditsDialog</name>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="73"/>
         <source>Written by</source>
-        <translation type="unfinished"></translation>
+        <translation>Создание</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="74"/>
         <source>Translated by</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевод</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="75"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Закрыть</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="85"/>
         <source>Credits</source>
-        <translation type="unfinished"></translation>
+        <translation>Об авторах</translation>
     </message>
 </context>
 <context>
@@ -219,32 +220,22 @@ You will not be able to convert document files until you install it.</source>
         <translation>Ошибка!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1237"/>
-        <source>Given file is not %1!</source>
-        <translation type="obsolete">Данный файл не %1!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="1005"/>
         <source>%1 is not %2!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 не %2!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="1008"/>
         <source>You can not make parallel document conversions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы не можете выполнять параллельное конвертирование документов.</translation>
     </message>
 </context>
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="933"/>
-        <source>The size LineEdit may not be empty.</source>
-        <translation>Размер LineEdit не может быть пустым.</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="944"/>
-        <source>Error!</source>
-        <translation>Ошибка!</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="888"/>
+        <source>Convert to:</source>
+        <translation>Конвертировать в:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="895"/>
@@ -252,9 +243,9 @@ You will not be able to convert document files until you install it.</source>
         <translation>Размер изображения:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="888"/>
-        <source>Convert to:</source>
-        <translation>Конвертировать в:</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="944"/>
+        <source>Error!</source>
+        <translation>Ошибка!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="928"/>
@@ -264,22 +255,27 @@ You will not be able to convert image files until you install it.</source>
 Вы не сможете конвертировать изображения пока не установите его.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1129"/>
-        <source>Could not convert this file type!</source>
-        <translation type="obsolete">Не могу конвертировать данный тип файла!</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="933"/>
+        <source>The size LineEdit may not be empty.</source>
+        <translation>Размер LineEdit не может быть пустым.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="944"/>
         <source>%1 is of unknown image file type!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 не является известным форматом изображения!</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
-        <source>Select file:</source>
-        <translation type="obsolete">Выберите файл:</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
+        <source>Output folder:</source>
+        <translation>Папка назначения:</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
+        <source>Audio/Video</source>
+        <translation>Аудио/Видео</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
@@ -292,33 +288,9 @@ You will not be able to convert image files until you install it.</source>
         <translation>Документы</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="103"/>
-        <source>Convert all files
-in this folder</source>
-        <translation type="obsolete">Конвертировать все файлы
-в этой папке</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="105"/>
-        <source>Convert files
-recursively</source>
-        <translation type="obsolete">Конвертировать файлы
-рекурсивно</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="147"/>
         <source>Delete original</source>
         <translation>Удалить оригинал</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="111"/>
-        <source>Same type</source>
-        <translation type="obsolete">Тот же тип</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
-        <source>Same extension</source>
-        <translation type="obsolete">То же расширение</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="148"/>
@@ -349,133 +321,6 @@ recursively</source>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="171"/>
         <source>Quit</source>
         <translation>Выход</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
-        <source>Clear</source>
-        <translation>Очистить</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
-        <source>Clear form</source>
-        <translation>Очистить форму</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="183"/>
-        <source>Preferences</source>
-        <translation>Настройки</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="185"/>
-        <source>About</source>
-        <translation>О программе</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="188"/>
-        <source>File</source>
-        <translation>Файл</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="189"/>
-        <source>Edit</source>
-        <translation>Редактировать</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="191"/>
-        <source>Help</source>
-        <translation>Помощь</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="263"/>
-        <source>Each file to its original folder</source>
-        <translation type="obsolete">Каждый файл в его исходную папку</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="277"/>
-        <source>All Files</source>
-        <translation>Все файлы</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
-        <source>Image Files</source>
-        <translation>Файлы изображений</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
-        <source>Document Files</source>
-        <translation>Файлы документов</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
-        <source>Choose File</source>
-        <translation>Выберите файл</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="326"/>
-        <source>Choose output destination</source>
-        <translation>Выберите назначение для вывода</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
-        <source>Save Location!</source>
-        <translation type="obsolete">Сохраните расположение!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
-        <source>You have chosen to save every file to its original folder.
-You can change this from preferences.</source>
-        <translation type="obsolete">Вы выбрали сохранение каждого файла в его исходную папку.
-Вы можете изменить это в &quot;Настройках&quot;.</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="338"/>
-        <source>You must choose a file to convert!</source>
-        <translation type="obsolete">Вы должны выбрать файл для конвертирования!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="341"/>
-        <source>The selected file does not exists!</source>
-        <translation type="obsolete">Выбранный файл не существует!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="369"/>
-        <source>You must choose an output folder!</source>
-        <translation>Вы должны выбрать папку назначения!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="373"/>
-        <source>Output folder does not exists!</source>
-        <translation>Папка назначения не существует!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="379"/>
-        <source>Error!</source>
-        <translation>Ошибка!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="523"/>
-        <source>Convert among several file types to other extensions</source>
-        <translation>Конвертирование различных типов файлов</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="515"/>
-        <source>None</source>
-        <translation type="obsolete">Пусто</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="517"/>
-        <source>Missing dependencies:</source>
-        <translation>Пропущенные зависимости:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
-        <source>Output folder:</source>
-        <translation>Папка назначения</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
-        <source>Audio/Video</source>
-        <translation>Аудио/Видео</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="173"/>
@@ -513,9 +358,49 @@ You can change this from preferences.</source>
         <translation>Сбросить предустановки</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
+        <source>Clear</source>
+        <translation>Очистить</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
+        <source>Clear form</source>
+        <translation>Очистить форму</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="183"/>
+        <source>Preferences</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="185"/>
+        <source>About</source>
+        <translation>О программе</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="188"/>
+        <source>File</source>
+        <translation>Файл</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="189"/>
+        <source>Edit</source>
+        <translation>Редактировать</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="190"/>
         <source>Presets</source>
         <translation>Предустановки</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="191"/>
+        <source>Help</source>
+        <translation>Помощь</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="277"/>
+        <source>All Files</source>
+        <translation>Все файлы</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="277"/>
@@ -523,87 +408,84 @@ You can change this from preferences.</source>
         <translation>Аудио/Видео файлы</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
+        <source>Image Files</source>
+        <translation>Файлы изображений</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="278"/>
+        <source>Document Files</source>
+        <translation>Файлы документов</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
+        <source>Choose File</source>
+        <translation>Выберите файл</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="326"/>
+        <source>Choose output destination</source>
+        <translation>Выберите назначение для вывода</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="369"/>
+        <source>You must choose an output folder!</source>
+        <translation>Вы должны выбрать папку назначения!</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="373"/>
+        <source>Output folder does not exists!</source>
+        <translation>Папка назначения не существует!</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="379"/>
+        <source>Error!</source>
+        <translation>Ошибка!</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="523"/>
+        <source>Convert among several file types to other extensions</source>
+        <translation>Конвертирование различных типов файлов</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="517"/>
+        <source>Missing dependencies:</source>
+        <translation>Пропущенные зависимости:</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
         <source>Add</source>
-        <translation type="unfinished">Добавить</translation>
+        <translation>Добавить</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="115"/>
         <source>Delete</source>
-        <translation type="unfinished">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
         <source>Clear All</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить все</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="366"/>
         <source>You must add at least one file to convert!</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы должны добавить хотя бы один файл для конвертирования!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
         <source>Save each file in the same
 folder as input file</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить каждый файл в той же папке,
+что и исходный входной файл</translation>
     </message>
 </context>
 <context>
     <name>Preferences</name>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="38"/>
-        <source>Save all files
-to ouput destination</source>
-        <translation type="obsolete">Сохранить все файлы
-в папку назначения</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="40"/>
-        <source>Save each file to
-its original folder</source>
-        <translation type="obsolete">Сохранить каждый файл
-в его исходную папку</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
-        <source>Rebuild files structure</source>
-        <translation type="obsolete">Перестроить структуру файлов</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="89"/>
-        <source>General</source>
-        <translation>Основное</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="138"/>
-        <source>Preferences</source>
-        <translation>Настройки</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="54"/>
-        <source>Prefix:</source>
-        <translation>Префикс:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
-        <source>Suffix:</source>
-        <translation>Постфикс:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="144"/>
-        <source>Choose default output destination</source>
-        <translation>Выберите папку назначения по умолчанию</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="37"/>
         <source>Save files</source>
         <translation>Сохранить файлы</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="53"/>
-        <source>Name files</source>
-        <translation>Дать имя файлам</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="38"/>
@@ -623,7 +505,22 @@ its original folder</source>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="46"/>
         <source>Default output destination:</source>
-        <translation>Папка назначения по умолчанию</translation>
+        <translation>Папка назначения по умолчанию:</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="53"/>
+        <source>Name files</source>
+        <translation>Дать имя файлам</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="54"/>
+        <source>Prefix:</source>
+        <translation>Префикс:</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
+        <source>Suffix:</source>
+        <translation>Постфикс:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="73"/>
@@ -633,7 +530,7 @@ its original folder</source>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="70"/>
         <source>Default command:</source>
-        <translation>Команда по умолчанию</translation>
+        <translation>Команда по умолчанию:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="72"/>
@@ -646,9 +543,24 @@ its original folder</source>
         <translation>avconv</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="89"/>
+        <source>General</source>
+        <translation>Основное</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="90"/>
         <source>Audio/Video</source>
         <translation>Аудио/Видео</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="138"/>
+        <source>Preferences</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="144"/>
+        <source>Choose default output destination</source>
+        <translation>Выберите папку назначения по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -669,19 +581,9 @@ its original folder</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="128"/>
-        <source>Report</source>
-        <translation type="obsolete">Отчет</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
-        <source>Converted: %1/%2</source>
-        <translation>Обработано: %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
-        <source>Are you sure you want to cancel conversion?</source>
-        <translation>Вы уверены, что хотите отменить обработку?</translation>
+        <location filename="../ffmulticonverter/progress.py" line="93"/>
+        <source>Details</source>
+        <translation>Подробности</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="128"/>
@@ -689,19 +591,29 @@ its original folder</source>
         <translation>Обработка</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
+        <source>Converted: %1/%2</source>
+        <translation>Обработано: %1/%2</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>Отменить обработку</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
+        <source>Are you sure you want to cancel conversion?</source>
+        <translation>Вы уверены, что хотите отменить обработку?</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>Обработка:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="93"/>
-        <source>Details</source>
-        <translation>Подробности</translation>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
+        <source>Report</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

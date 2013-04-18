@@ -655,17 +655,17 @@ az eredeti mappába</translation>
         <translation>Megszakítás</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="128"/>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
         <source>Report</source>
-        <translation type="obsolete">Jelentés</translation>
+        <translation type="unfinished">Jelentés</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
         <source>Converted: %1/%2</source>
         <translation>Konvertálva: %1/%2</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>Biztos benne, hogy meg akarja szakítani a konvertálást?</translation>
     </message>
@@ -675,12 +675,12 @@ az eredeti mappába</translation>
         <translation>Konvertálás</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>Konvertálás megállítása</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>Folyamatban:</translation>
     </message>

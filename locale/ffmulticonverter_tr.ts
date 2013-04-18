@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="tr" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="tr">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -669,17 +670,17 @@ dizinine kaydet</translation>
         <translation>Durdur</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="128"/>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
         <source>Report</source>
-        <translation type="obsolete">Raporla</translation>
+        <translation>Raporla</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
         <source>Converted: %1/%2</source>
         <translation>Converted: %1/%2</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>Dönüştürmeyi durdurmak istediğinizden emin misiniz ?</translation>
     </message>
@@ -689,12 +690,12 @@ dizinine kaydet</translation>
         <translation>Dönüştürme</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>Dönüştürmeyi durdur</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>İşlem:</translation>
     </message>

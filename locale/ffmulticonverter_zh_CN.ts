@@ -579,12 +579,12 @@ folder as input file</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
         <source>Converted: %1/%2</source>
         <translation>已转换：%1/%2</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>您确定要取消转换吗？</translation>
     </message>
@@ -594,12 +594,12 @@ folder as input file</source>
         <translation>转换</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>取消转换</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>正在进行：</translation>
     </message>
@@ -607,6 +607,11 @@ folder as input file</source>
         <location filename="../ffmulticonverter/progress.py" line="93"/>
         <source>Details</source>
         <translation>详情</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
+        <source>Report</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

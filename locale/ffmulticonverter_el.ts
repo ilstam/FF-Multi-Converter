@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="el">
+<!DOCTYPE TS><TS version="2.0" language="el" sourcelanguage="">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -673,17 +672,17 @@ its original folder</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="128"/>
+        <location filename="../ffmulticonverter/progress.py" line="168"/>
         <source>Report</source>
-        <translation type="obsolete">Αναφορά</translation>
+        <translation>Αναφορά</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="166"/>
+        <location filename="../ffmulticonverter/progress.py" line="169"/>
         <source>Converted: %1/%2</source>
         <translation>Μετατράπηκαν: %1/%2</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>Είστε σίγουρος οτι θέλετε να ακυρώσετε την διαδικασία;</translation>
     </message>
@@ -693,12 +692,12 @@ its original folder</source>
         <translation>Μετατροπή</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="198"/>
+        <location filename="../ffmulticonverter/progress.py" line="200"/>
         <source>Cancel Conversion</source>
         <translation>Διακοπή μετατροπής</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="234"/>
+        <location filename="../ffmulticonverter/progress.py" line="236"/>
         <source>In progress:</source>
         <translation>Σε πρόοδο:</translation>
     </message>

@@ -163,10 +163,12 @@ class Progress(QDialog):
             self.totalBar.setValue(100)
         if self.totalBar.value() >= 100:
             sum_files = self.ok + self.error
-            dialog = Report(
-                       self.tr('Converted: %1/%2').arg(self.ok).arg(sum_files),
-                       self)
-            dialog.show()
+            msg = QMessageBox(self)
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.setWindowTitle(self.tr("Report"))
+            msg.setText(self.tr("Converted: %1/%2").arg(self.ok).arg(sum_files))
+            msg.setModal(False)
+            msg.show()
             if self._type == 'Documents':
                 self.parent.docconv = False  # doc conversion end
         else:
@@ -444,28 +446,11 @@ class Progress(QDialog):
 
         return return_code == 0
 
-class Report(QDialog):
-    def __init__(self, text, parent=None):
-        super(Report, self).__init__(parent)
-        label = QLabel(text)
-        button = QPushButton('OK')
-
-        hlayout = pyqttools.add_to_layout(QHBoxLayout(), None, label, None)
-        hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), None, button)
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout, hlayout2)
-        self.setLayout(final_layout)
-
-        button.clicked.connect(self.close)
-
-        self.resize(170, 100)
-        self.setWindowTitle('Report')
-
 
 if __name__ == '__main__':
     #test dialog
     import sys
     app = QApplication(sys.argv)
     dialog = Progress([], '', '', False, '', False, test=True)
-    #dialog = Report('Converted 1/1')
     dialog.show()
     app.exec_()

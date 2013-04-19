@@ -420,6 +420,7 @@ class MainWindow(QMainWindow):
         assert ext_to.startswith('.'), 'ext_to must start with a dot (.)'
 
         conversion_list = []
+        dummy = []
 
         for _file in files_list:
             _dir, name = os.path.split(_file)
@@ -431,10 +432,11 @@ class MainWindow(QMainWindow):
                 y = output + '/' + y
 
             if not overwrite_existing:
-                while os.path.exists(y):
+                while os.path.exists(y) or y in dummy:
                     _dir2, _name2 = os.path.split(y)
                     y = _dir2 + '/~' + _name2
 
+            dummy.append(y)
             # Add quotations to paths in order to avoid error in special
             # cases such as spaces or special characters.
             _file = '"' + _file + '"'

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="cs" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -15,7 +14,7 @@
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="40"/>
         <source>C&amp;redits</source>
-        <translation type="unfinished"></translation>
+        <translation>Z&amp;ásluhy</translation>
     </message>
 </context>
 <context>
@@ -196,7 +195,7 @@ Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="85"/>
         <source>Credits</source>
-        <translation type="unfinished"></translation>
+        <translation>Zásluhy</translation>
     </message>
 </context>
 <context>
@@ -447,11 +446,6 @@ Obrázky nebude možné převést do té doby, než ho nainstalujete. </translat
         <translation>Převod mezi několika typy souborů do jiných přípon</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="515"/>
-        <source>None</source>
-        <translation type="obsolete">Žádné</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="517"/>
         <source>Missing dependencies:</source>
         <translation>Chybějící závislosti:</translation>
@@ -617,7 +611,7 @@ jeho původní složky</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="168"/>
         <source>Report</source>
-        <translation type="unfinished"></translation>
+        <translation>Oznámit</translation>
     </message>
 </context>
 <context>

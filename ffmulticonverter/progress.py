@@ -46,8 +46,8 @@ class Progress(QDialog):
     refr_bars_signal = pyqtSignal(int)
     update_text_edit_signal = pyqtSignal(str)
 
-    def __init__(self, files, _type, cmd, ffmpeg, size, delete,
-                 parent=None, test=False):
+    def __init__(self, files, _type, cmd, ffmpeg, size, mntaspect, delete,
+                 parent, test=False):
         """
         Keyword arguments:
         files  -- list with dicts containing file names
@@ -57,6 +57,8 @@ class Progress(QDialog):
                   for audio/video conversions
         size   -- new image size string of type 'widthxheight' eg. '300x300'
                   for image conversions
+        mntaspect -- boolean indicating whether aspect ratio must be maintained
+                     for image conversions
         delete -- boolean that shows if files must removed after conversion
 
         files:
@@ -73,6 +75,7 @@ class Progress(QDialog):
         self.cmd = cmd
         self.ffmpeg = ffmpeg
         self.size = size
+        self.mntaspect = mntaspect
 
         self.files = files
         self.delete = delete
@@ -250,7 +253,7 @@ class Progress(QDialog):
                 params = (from_file, to_file, self.cmd, self.ffmpeg)
             elif self._type == 'Images':
                 conv_func = self.convert_image
-                params = (from_file, to_file, self.size)
+                params = (from_file, to_file, self.size, self.mntaspect)
             else:
                 conv_func = self.convert_doc
                 params = (from_file, to_file)
@@ -344,7 +347,7 @@ class Progress(QDialog):
 
         return return_code == 0
 
-    def convert_image(self, from_file, to_file, size):
+    def convert_image(self, from_file, to_file, size, mntaspect):
         """
         Convert an image with the desired size using PythonMagick.
         Create conversion info ("command") and emit the corresponding signal
@@ -372,7 +375,9 @@ class Progress(QDialog):
                 os.remove(to_file)
             img = PythonMagick.Image(from_file)
             if size:
-                img.transform(size)
+                if not mntaspect:
+                    size = str('!') + size
+                img.sample(size)
             img.write(to_file)
             converted = True
         except (RuntimeError, OSError, Exception) as e:
@@ -451,6 +456,6 @@ if __name__ == '__main__':
     #test dialog
     import sys
     app = QApplication(sys.argv)
-    dialog = Progress([], '', '', False, '', False, test=True)
+    dialog = Progress([], '', '', False, '', False, False, None, test=True)
     dialog.show()
     app.exec_()

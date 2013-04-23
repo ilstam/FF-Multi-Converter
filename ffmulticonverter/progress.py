@@ -172,6 +172,8 @@ class Progress(QDialog):
             msg.setText(self.tr("Converted: %1/%2").arg(self.ok).arg(sum_files))
             msg.setModal(False)
             msg.show()
+
+            self.cancelButton.setText(self.tr("Close"))
             if self._type == 'Documents':
                 self.parent.docconv = False  # doc conversion end
         else:

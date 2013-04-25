@@ -219,11 +219,11 @@ class ShowPresets(QDialog):
         if reply == QMessageBox.Yes:
             fname = QFileDialog.getOpenFileName(self, title)
             if fname:
-                msg = 'Succesful import!'
+                msg = self.tr('Succesful import!')
                 try:
                     self.tree = etree.parse(fname)
                 except:
-                    msg = 'Import failed!'
+                    msg = self.tr('Import failed!')
                 else:
                     self.root = self.tree.getroot()
                     self.save_tree()

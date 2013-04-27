@@ -479,9 +479,9 @@ class MainWindow(QMainWindow):
         else:
             self.docconv = True
 
-        dialog = progress.Progress(_list, tab.name, cmd, self.ffmpeg, size,
-                                   mntaspect, self.deleteCheckBox.isChecked(),
-                                   self)
+        dialog = progress.Progress(_list, tab.name, cmd,
+                                   not self.avconv_prefered, size, mntaspect,
+                                   self.deleteCheckBox.isChecked(), self)
         dialog.show()
 
     def is_installed(self, program):

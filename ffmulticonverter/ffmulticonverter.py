@@ -550,7 +550,8 @@ class MainWindow(QMainWindow):
                        ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
                        ['[el] Greek', 'Ilias Stamatis'],
                        ['[hu] Hungarian', 'Farkas Norbert'],
-                       ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'],
+                       ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'
+                                    '\n     Piotr Surdacki'],
                        ['[pt] Portuguese', 'Sérgio Marques'],
                        ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'],
                        ['[ru] Russian', 'Andrew Lapshin'],

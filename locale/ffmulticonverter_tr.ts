@@ -89,87 +89,87 @@
 <context>
     <name>AudioVideoTab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="581"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="582"/>
         <source>No Change</source>
         <translation>Değişiklik yok</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="588"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="589"/>
         <source>Convert to:</source>
         <translation>Dönüştür:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="590"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="591"/>
         <source>Other</source>
         <translation>Diğer</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="598"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="599"/>
         <source>Command:</source>
         <translation>Komut:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="600"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="601"/>
         <source>Preset</source>
         <translation>Ön ayar</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="601"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="602"/>
         <source>Default</source>
         <translation>Varsayılan</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="606"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="607"/>
         <source>Video Size:</source>
         <translation>Video boyutu:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="607"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="608"/>
         <source>Aspect:</source>
         <translation>Boyut:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="608"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="609"/>
         <source>Frame Rate (fps):</source>
         <translation>Kare hızı (fps):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="609"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="610"/>
         <source>Video Bitrate (kbps):</source>
         <translation>Video bit hızı (kpbs):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="638"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="639"/>
         <source>Frequency (Hz):</source>
         <translation>Frekans (Hz):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="639"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="640"/>
         <source>Channels:</source>
         <translation>Kanallar:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="640"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="641"/>
         <source>Audio Bitrate (kbps):</source>
         <translation>Audio Bit hızı (kpbs):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="768"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="769"/>
         <source>Error!</source>
         <translation>Hata!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="761"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="762"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>Uzantı tek sözcükten oluşmalı ve nokta ile başlamamalı.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="768"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="769"/>
         <source>The command LineEdit may not be empty.</source>
         <translation>Komut giriş satırı boş bırakılamaz.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="753"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="754"/>
         <source>Neither ffmpeg nor avconv are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
         <translation>ffmpeg ve avconv yüklü değil.
@@ -202,19 +202,19 @@ Mezkur programlar yüklenmeden audio/video dosyaları dönüştürülemez.</tran
 <context>
     <name>DocumentTab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="986"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="987"/>
         <source>Convert:</source>
         <translation>Dönüştür:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1007"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1008"/>
         <source>Unocov is not installed.
 You will not be able to convert document files until you install it.</source>
         <translation>Unocov yüklü değil.
 Mezkur programlar yüklenmeden dökümanlar dönüştürülemez.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1022"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1023"/>
         <source>Error!</source>
         <translation>Hata!</translation>
     </message>
@@ -224,17 +224,17 @@ Mezkur programlar yüklenmeden dökümanlar dönüştürülemez.</translation>
         <translation type="obsolete">Belirtilen dosya %1 değil!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1014"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1015"/>
         <source>%1 is not %2!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1017"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1018"/>
         <source>You can not make parallel document conversions.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="983"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="984"/>
         <source>%1 to %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -242,27 +242,27 @@ Mezkur programlar yüklenmeden dökümanlar dönüştürülemez.</translation>
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="942"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="943"/>
         <source>The size LineEdit may not be empty.</source>
         <translation>Boyut giriş satırı boş bırakılamaz.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="953"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="954"/>
         <source>Error!</source>
         <translation>Hata!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="900"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="901"/>
         <source>Image Size:</source>
         <translation>Resim Boyutu:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="893"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="894"/>
         <source>Convert to:</source>
         <translation>Dönüştür:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="937"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="938"/>
         <source>PythonMagick is not installed.
 You will not be able to convert image files until you install it.</source>
         <translation>PythonMagick yüklü değil.
@@ -274,12 +274,12 @@ Mezkur programlar yüklenmeden resimler dönüştürülemez.</translation>
         <translation type="obsolete">Bu dosya tipinden dönüşüm yapılamıyor!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="953"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="954"/>
         <source>%1 is of unknown image file type!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="908"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="909"/>
         <source>Maintain aspect ratio</source>
         <translation type="unfinished"></translation>
     </message>
@@ -807,7 +807,7 @@ Devam etmek istediğinizden emin misiniz ?</translation>
 <context>
     <name>Tab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="676"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="677"/>
         <source>More</source>
         <translation>Daha fazla</translation>
     </message>

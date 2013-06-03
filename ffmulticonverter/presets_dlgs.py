@@ -250,6 +250,42 @@ class ShowPresets(QDialog):
             if os.path.exists(self.current_presets_file):
                 os.remove(self.current_presets_file)
 
+    def synchronize(self):
+        def_tree = etree.parse(self.original_presets_file)
+        def_root = def_tree.getroot()
+        self.load_xml()
+
+        for i in def_root:
+            for n, y in enumerate(self.root):
+                if i.tag == y.tag:
+                    if not (i[0].text == y[0].text
+                            and i[1].text == y[1].text
+                            and i[2].text == y[2].text):
+                        # copy element and change its name
+                        elem = etree.Element(y.tag)
+                        label = etree.Element('label')
+                        label.text = i[0].text
+                        command = etree.Element('params')
+                        command.text = i[1].text
+                        ext = etree.Element('extension')
+                        ext.text = i[2].text
+                        elem.insert(0, label)
+                        elem.insert(1, command)
+                        elem.insert(2, ext)
+
+                        y.tag = y.tag + '__OLD'
+                        self.root.insert(n+1, elem)
+                    break
+            else:
+                # preset not found
+                index = sorted([x.tag for x in self.root] +
+                               [i.tag]).index(i.tag)
+                self.root.insert(index, i)
+        self.save_tree()
+
+    def remove_old(self):
+        pass
+
     def accept(self):
         """
         Save current xml element's values in order to be used from

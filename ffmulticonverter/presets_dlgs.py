@@ -16,11 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt4.QtCore import QTimer
+from PyQt4.QtCore import Qt, QTimer
 from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
                          QLabel, QLineEdit, QListWidget, QListWidgetItem,
-                         QMessageBox, QPushButton, QSizePolicy, QSpacerItem,
-                         QVBoxLayout)
+                         QMessageBox, QPushButton, QShortcut, QSizePolicy,
+                         QSpacerItem, QVBoxLayout)
 
 import os
 import re
@@ -82,6 +82,10 @@ class ShowPresets(QDialog):
         self.deleteButton.clicked.connect(self.delete_preset)
         self.delete_allButton.clicked.connect(self.delete_all_presets)
         self.editButton.clicked.connect(self.edit_preset)
+
+        del_shortcut = QShortcut(self)
+        del_shortcut.setKey(Qt.Key_Delete)
+        del_shortcut.activated.connect(self.delete_preset)
 
         self.resize(410, 410)
         self.setWindowTitle(self.tr('Edit Presets'))

@@ -284,7 +284,12 @@ class ShowPresets(QDialog):
         self.save_tree()
 
     def remove_old(self):
-        pass
+        """Remove those xml elements which their tags has an __OLD prefix."""
+        self.load_xml()
+        for i in self.root:
+            if i.tag.endswith('__OLD'):
+                self.root.remove(i)
+        self.save_tree()
 
     def accept(self):
         """

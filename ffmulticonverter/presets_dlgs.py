@@ -264,6 +264,13 @@ class ShowPresets(QDialog):
           different attributes, then add this preset to current presets and
           add an '__OLD' suffix to matching preset's name
         """
+        reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
+            'Presets Synchronization'), self.tr('Current presets and default '
+            'presets will be merged. Are you sure that you want to continue?'),
+            QMessageBox.Yes|QMessageBox.Cancel)
+        if not reply == QMessageBox.Yes:
+            return
+
         def_tree = etree.parse(self.original_presets_file)
         def_root = def_tree.getroot()
         self.load_xml()
@@ -298,6 +305,13 @@ class ShowPresets(QDialog):
 
     def remove_old(self):
         """Remove those xml elements which their tags has an __OLD prefix."""
+        reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
+            'Remove old presets'), self.tr('All presets with an __OLD prefix '
+            'will be deleted. Are you sure that you want to continue?'),
+            QMessageBox.Yes|QMessageBox.Cancel)
+        if not reply == QMessageBox.Yes:
+            return
+
         self.load_xml()
         for i in self.root:
             if i.tag.endswith('__OLD'):

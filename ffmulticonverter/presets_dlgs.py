@@ -251,6 +251,15 @@ class ShowPresets(QDialog):
                 os.remove(self.current_presets_file)
 
     def synchronize(self):
+        """
+        Synchronize current presets with default presets.
+
+        For each preset in default presets:
+        - if not contained in current presets, add it to current presets
+        - if has the same name with some preset in current presets but
+          different attributes, then add this preset to current presets and
+          add an '__OLD' suffix to matching preset's name
+        """
         def_tree = etree.parse(self.original_presets_file)
         def_root = def_tree.getroot()
         self.load_xml()

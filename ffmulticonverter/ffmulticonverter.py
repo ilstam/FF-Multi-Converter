@@ -178,6 +178,12 @@ class MainWindow(QMainWindow):
                              self.tr('Export presets'), self.export_presets)
         resetAction = c_act(self, self.tr('Reset'), None, None,
                             self.tr('Reset presets'), self.reset_presets)
+        syncAction = c_act(self, self.tr('Synchronize'), None, None,
+                                  self.tr('Synchronize presets'),
+                                  self.sync_presets)
+        removeoldAction = c_act(self, self.tr('Remove old'), None, None,
+                                self.tr('Remove old presets'),
+                                self.removeold_presets)
         clearallAction = c_act(self, self.tr('Clear All'), None, None,
                                self.tr('Clear form'), self.clear_all)
         preferencesAction = c_act(self, self.tr('Preferences'), 'Alt+Ctrl+P',
@@ -192,7 +198,8 @@ class MainWindow(QMainWindow):
         pyqttools.add_actions(fileMenu,
                               [openAction, convertAction, None, quitAction])
         pyqttools.add_actions(presetsMenu, [edit_presetsAction, importAction,
-                                            exportAction, resetAction])
+                                            exportAction, resetAction, None,
+                                            syncAction, removeoldAction])
         pyqttools.add_actions(editMenu,
                               [clearallAction, None, preferencesAction])
         pyqttools.add_actions(helpMenu, [aboutAction])
@@ -349,6 +356,12 @@ class MainWindow(QMainWindow):
 
     def reset_presets(self):
         presets_dlgs.ShowPresets().reset()
+
+    def sync_presets(self):
+        presets_dlgs.ShowPresets().synchronize()
+
+    def removeold_presets(self):
+        presets_dlgs.ShowPresets().remove_old()
 
     def ok_to_continue(self):
         """

@@ -18,6 +18,18 @@
     <extension>wav</extension>
     <category>Audio</category>
   </CDWavStereo>
+  <CopyExtractAudioAAC>
+    <label>Extract (copy) audio aac (mp4-video->aac-audio)</label>
+    <params>-acodec copy</params>
+    <extension>aac</extension>
+    <category>Scattered</category>
+  </CopyExtractAudioAAC>
+  <CopyExtractAudioMP3>
+    <label>Extract (copy) audio mp3 (flv-video->mp3-audio)</label>
+    <params>-acodec copy</params>
+    <extension>mp3</extension>
+    <category>Scattered</category>
+  </CopyExtractAudioMP3>
   <GigabeatFS>
     <label>RB Toshiba Gigabeat F/X Fullscreen</label>
     <params>-acodec libmp3lame -b:a 128k -ar 44100 -vcodec mpeg2video -vf scale=320:240 -b:v 600k -strict -1</params>
@@ -126,6 +138,12 @@
     <extension>3gp</extension>
     <category>Mobile Phones</category>
   </MP3GP320x240stereo43>
+  <MP3VBR>
+    <label>mp3lame VBR-preset 2 (good-standard 170-210k)</label>
+    <params>-aq 2 -acodec libmp3lame</params>
+    <extension>mp3</extension>
+    <category>Scattered</category>
+  </MP3VBR>
   <MPEG4VideoHQ>
     <label>MPEG-4 H.264 video (high quality)</label>
     <params>-crf 35.0 -vcodec libx264 -preset slow -acodec libfaac -ar 48000 -b:a 128k -coder 1 -flags +loop -cmp chroma -partitions +parti4x4+partp8x8+partb8x8 -me_method hex -subq 6 -me_range 16 -g 250 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -b_strategy 1 -threads 0</params>

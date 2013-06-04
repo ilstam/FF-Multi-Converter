@@ -18,9 +18,9 @@
 
 from PyQt4.QtCore import Qt, QTimer
 from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
-                         QLabel, QLineEdit, QListWidget, QListWidgetItem,
-                         QMessageBox, QPushButton, QShortcut, QSizePolicy,
-                         QSpacerItem, QVBoxLayout)
+                         QHBoxLayout, QLabel, QLineEdit, QListWidget,
+                         QListWidgetItem, QMessageBox, QPushButton, QShortcut,
+                         QSizePolicy, QSpacerItem, QVBoxLayout)
 
 import os
 import re
@@ -58,21 +58,28 @@ class PresetsDlg(QDialog):
         self.deleteButton = QPushButton(self.tr('Delete'))
         self.delete_allButton = QPushButton(self.tr('Delete all'))
         self.editButton = QPushButton(self.tr('Edit'))
+        searchLabel = QLabel(self.tr('Search'))
+        self.searchLineEdit = QLineEdit()
         okButton = QPushButton(self.tr('OK'))
         okButton.setDefault(True)
 
         spc1 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         spc2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        spc3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         grid = pyqttools.add_to_grid(QGridLayout(),
-                          [self.delete_allButton, addButton, spc1, None],
-                          [self.deleteButton, self.editButton, spc2, okButton])
+                          [self.delete_allButton, addButton, spc1],
+                          [self.deleteButton, self.editButton, spc2])
+
+        hlayout = pyqttools.add_to_layout(QHBoxLayout(), searchLabel,
+                                          self.searchLineEdit, None, okButton)
 
         final_layout = pyqttools.add_to_layout(QVBoxLayout(),
                                                self.presListWidget, labelLabel,
                                                self.labelLineEdit, commandLabel,
                                                self.commandLineEdit, extLabel,
-                                               self.extLineEdit, grid)
+                                               self.extLineEdit, grid, spc3,
+                                               hlayout)
 
         self.setLayout(final_layout)
 
@@ -82,12 +89,13 @@ class PresetsDlg(QDialog):
         self.deleteButton.clicked.connect(self.delete_preset)
         self.delete_allButton.clicked.connect(self.delete_all_presets)
         self.editButton.clicked.connect(self.edit_preset)
+        self.searchLineEdit.textEdited.connect(self.search)
 
         del_shortcut = QShortcut(self)
         del_shortcut.setKey(Qt.Key_Delete)
         del_shortcut.activated.connect(self.delete_preset)
 
-        self.resize(410, 410)
+        self.resize(430, 480)
         self.setWindowTitle(self.tr('Edit Presets'))
 
         QTimer.singleShot(0, self.load_xml)
@@ -124,8 +132,10 @@ class PresetsDlg(QDialog):
         for i in sorted([y.tag for y in self.root]):
             elem = self.root.find(i)
             self.presListWidget.addItem(MyListItem(i, elem))
-            self.presListWidget.setCurrentRow(0)
+
+        self.presListWidget.setCurrentRow(0)
         self.set_buttons_clear_lineEdits()
+        self.searchLineEdit.clear()
 
     def show_preset(self):
         """Fill LineEdits with current xml element's values."""
@@ -205,6 +215,29 @@ class PresetsDlg(QDialog):
             elem[2].text = dialog.ext_text
             self.save_tree()
             self.fill_presListWidget()
+
+    def search(self):
+        """
+        Search for keywords in presets data.
+
+        Show a preset only if its tag, label or extension matches any of
+        search string's tokens.
+        """
+        txt = str(self.searchLineEdit.text()).strip().lower()
+        if not txt:
+            self.fill_presListWidget()
+            return
+
+        self.presListWidget.clear()
+        for i in txt.split(' '):
+            for p in sorted([y.tag for y in self.root]):
+                elem = self.root.find(p)
+                if (i.strip() and (i in elem.tag.lower()
+                    or i in elem[0].text.lower() or i in elem[2].text.lower())):
+                    self.presListWidget.addItem(MyListItem(p, elem))
+
+        self.presListWidget.setCurrentRow(0)
+        self.set_buttons_clear_lineEdits()
 
     def save_tree(self):
         """Save xml tree."""

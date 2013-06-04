@@ -427,7 +427,7 @@ class AddorEditPreset(QDialog):
                 self.tr("Preset name can't be left blank."))
             self.nameLineEdit.setFocus()
             return False
-        if not re.match('^[A-Za-z0-9]*$', self.name_text):
+        if not re.match('^[A-Za-z0-9_]*$', self.name_text):
             QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
                 self.tr('Preset name must be one word and contain only letters '
                 'and digits.'))

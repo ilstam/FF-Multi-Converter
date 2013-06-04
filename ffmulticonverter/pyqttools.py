@@ -17,7 +17,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """
-Some useful functions to automate some parts of ui creation.
+Useful functions to automate some parts of ui creation.
 """
 
 from PyQt4.QtCore import QSize, Qt
@@ -136,4 +136,3 @@ def create_LineEdit(maxsize, validator, maxlength):
     if maxlength is not None:
         lineEdit.setMaxLength(maxlength)
     return lineEdit
-

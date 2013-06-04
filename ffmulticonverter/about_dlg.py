@@ -23,9 +23,9 @@ from PyQt4.QtGui import (QDialog, QHBoxLayout, QLabel, QPixmap, QPlainTextEdit,
 import pyqttools
 
 
-class AboutDialog(QDialog):
+class AboutDlg(QDialog):
     def __init__(self, text, image, authors, translators, parent=None):
-        super(AboutDialog, self).__init__(parent)
+        super(AboutDlg, self).__init__(parent)
         self.parent = parent
         self.authors = authors
         self.translators = translators
@@ -55,14 +55,14 @@ class AboutDialog(QDialog):
         self.setWindowTitle(self.tr('About FF Multi Converter'))
 
     def show_credits(self):
-        """Call CreditsDialog."""
-        dialog = CreditsDialog(self.authors, self.translators, self)
+        """Call CreditsDlg."""
+        dialog = CreditsDlg(self.authors, self.translators, self)
         dialog.exec_()
 
 
-class CreditsDialog(QDialog):
+class CreditsDlg(QDialog):
     def __init__(self, authors, translators, parent=None):
-        super(CreditsDialog, self).__init__(parent)
+        super(CreditsDlg, self).__init__(parent)
         self.parent = parent
 
         authorsLabel = QPlainTextEdit(authors)
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     import qrc_resources
     import sys
     app = QApplication(sys.argv)
-    dialog = AboutDialog('About Dialog', ':/ffmulticonverter.png',
+    dialog = AboutDlg('About Dialog', ':/ffmulticonverter.png',
                          'Authors', 'Translators')
     dialog.show()
     app.exec_()

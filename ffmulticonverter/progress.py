@@ -41,7 +41,7 @@ except ImportError:
     pass
 
 
-class Progress(QDialog):
+class ProgressDlg(QDialog):
     file_converted_signal = pyqtSignal()
     refr_bars_signal = pyqtSignal(int)
     update_text_edit_signal = pyqtSignal(str)
@@ -69,7 +69,7 @@ class Progress(QDialog):
         Example list:
         [{"/foo/bar.png" : "/foo/bar.bmp"}, {"/f/bar2.png" : "/f/bar2.bmp"}]
         """
-        super(Progress, self).__init__(parent)
+        super(ProgressDlg, self).__init__(parent)
         self.parent = parent
         self._type = _type
         self.cmd = cmd
@@ -458,6 +458,6 @@ if __name__ == '__main__':
     #test dialog
     import sys
     app = QApplication(sys.argv)
-    dialog = Progress([], '', '', False, '', False, False, None, test=True)
+    dialog = ProgressDlg([], '', '', False, '', False, False, None, test=True)
     dialog.show()
     app.exec_()

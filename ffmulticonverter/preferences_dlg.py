@@ -28,9 +28,9 @@ import os
 import pyqttools
 
 
-class PreferencesDlg(QDialog):
+class Preferences(QDialog):
     def __init__(self, parent=None, test = False):
-        super(PreferencesDlg, self).__init__(parent)
+        super(Preferences, self).__init__(parent)
         self.parent = parent
         self.home = os.getenv('HOME')
 
@@ -173,6 +173,6 @@ if __name__ == '__main__':
     from PyQt4.QtGui import QApplication
     import sys
     app = QApplication(sys.argv)
-    dialog = PreferencesDlg(test=True)
+    dialog = Preferences(test=True)
     dialog.show()
     app.exec_()

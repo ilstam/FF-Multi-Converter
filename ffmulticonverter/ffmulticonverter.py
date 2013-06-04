@@ -339,29 +339,29 @@ class MainWindow(QMainWindow):
 
     def preferences(self):
         """Open the preferences dialog."""
-        dialog = preferences_dlg.PreferencesDlg(self)
+        dialog = preferences_dlg.Preferences(self)
         if dialog.exec_():
             self.load_settings()
 
     def presets(self):
         """Open the presets dialog."""
-        dialog = presets_dlgs.PresetsDlg(self)
+        dialog = presets_dlgs.ShowPresets(self)
         dialog.exec_()
 
     def import_presets(self):
-        presets_dlgs.PresetsDlg().import_presets()
+        presets_dlgs.ShowPresets().import_presets()
 
     def export_presets(self):
-        presets_dlgs.PresetsDlg().export_presets()
+        presets_dlgs.ShowPresets().export_presets()
 
     def reset_presets(self):
-        presets_dlgs.PresetsDlg().reset()
+        presets_dlgs.ShowPresets().reset()
 
     def sync_presets(self):
-        presets_dlgs.PresetsDlg().synchronize()
+        presets_dlgs.ShowPresets().synchronize()
 
     def removeold_presets(self):
-        presets_dlgs.PresetsDlg().remove_old()
+        presets_dlgs.ShowPresets().remove_old()
 
     def ok_to_continue(self):
         """
@@ -464,7 +464,7 @@ class MainWindow(QMainWindow):
     def start_conversion(self):
         """
         Extract the appropriate information from GUI and call the
-        ProgressDlg dialog with the suitable argumens.
+        Progress dialog with the suitable argumens.
         """
         if not self.ok_to_continue():
             return
@@ -492,7 +492,7 @@ class MainWindow(QMainWindow):
         else:
             self.docconv = True
 
-        dialog = progress.ProgressDlg(_list, tab.name, cmd,
+        dialog = progress.Progress(_list, tab.name, cmd,
                                    not self.avconv_prefered, size, mntaspect,
                                    self.deleteCheckBox.isChecked(), self)
         dialog.show()
@@ -575,7 +575,7 @@ class MainWindow(QMainWindow):
             translators += '{0}\n     {1}\n\n'.format(i[0], i[1])
         translators = translators[:-2]
 
-        dialog = about_dlg.AboutDlg(text, image, authors, translators, self)
+        dialog = about_dlg.AboutDialog(text, image, authors, translators, self)
         dialog.exec_()
 
 
@@ -795,7 +795,7 @@ class AudioVideoTab(QWidget):
         Open the presets dialog and update self.commandLineEdit,
         self.extComboBox and self.extLineEdit with the appropriate values.
         """
-        dialog = presets_dlgs.PresetsDlg()
+        dialog = presets_dlgs.ShowPresets()
         if dialog.exec_() and dialog.the_command is not None:
             self.commandLineEdit.setText(dialog.the_command)
             self.commandLineEdit.home(False)

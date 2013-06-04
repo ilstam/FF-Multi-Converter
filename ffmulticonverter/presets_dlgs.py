@@ -37,9 +37,9 @@ class MyListItem(QListWidgetItem):
         self.xml_element = xml_element
 
 
-class PresetsDlg(QDialog):
+class ShowPresets(QDialog):
     def __init__(self, parent=None):
-        super(PresetsDlg, self).__init__(parent)
+        super(ShowPresets, self).__init__(parent)
         self.original_presets_file = '/usr/share/ffmulticonverter/presets.xml'
         self.config_folder = os.getenv('HOME') + '/.config/ffmulticonverter/'
         self.current_presets_file = self.config_folder + 'presets.xml'
@@ -150,8 +150,8 @@ class PresetsDlg(QDialog):
         self.extLineEdit.setText(xml_elem[2].text)
 
     def add_preset(self):
-        """Open AddEditDlg() dialog and add a preset xml root."""
-        dialog = AddEditDlg(None, False, self)
+        """Open AddorEditPreset() dialog and add a preset xml root."""
+        dialog = AddorEditPreset(None, False, self)
         if dialog.exec_():
             element = etree.Element(dialog.name_text)
             label = etree.Element('label')
@@ -204,9 +204,9 @@ class PresetsDlg(QDialog):
             self.fill_presListWidget()
 
     def edit_preset(self):
-        """Call the AddEditDlg() dialog and update xml element's values."""
+        """Call the AddorEditPreset() dialog and update xml element's values."""
         elem = self.presListWidget.currentItem().xml_element
-        dialog = AddEditDlg(elem, True)
+        dialog = AddorEditPreset(elem, True)
 
         if dialog.exec_():
             elem.tag = dialog.name_text
@@ -365,9 +365,9 @@ class PresetsDlg(QDialog):
         QDialog.accept(self)
 
 
-class AddEditDlg(QDialog):
+class AddorEditPreset(QDialog):
     def __init__(self, xml_element, edit=False, parent=None):
-        super(AddEditDlg, self).__init__(parent)
+        super(AddorEditPreset, self).__init__(parent)
 
         nameLabel = QLabel(self.tr('Preset name (one word, A-z, 0-9)'))
         self.nameLineEdit = QLineEdit()
@@ -468,6 +468,6 @@ if __name__ == '__main__':
     from PyQt4.QtGui import QApplication
     import sys
     app = QApplication(sys.argv)
-    dialog = PresetsDlg()
+    dialog = ShowPresets()
     dialog.show()
     app.exec_()

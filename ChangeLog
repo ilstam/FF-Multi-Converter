@@ -1,3 +1,16 @@
+Version 1.5.2
+--------------
+
+* Updated presets list.
+
+* New presets options: synchronization and remove old.
+
+* New option to maintain or not aspect ratio when resizing an image.
+
+* Bugfix #20: really use avconv when chosen.
+
+* French and Bulgarian translations.
+
 Version 1.5.1
 --------------
 

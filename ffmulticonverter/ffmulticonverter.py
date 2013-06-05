@@ -559,12 +559,15 @@ class MainWindow(QMainWindow):
         image = ':/ffmulticonverter.png'
         authors = 'Ilias Stamatis <stamatis.iliass@gmail.com>\n\n'
         authors += 'Contributors:\nPanagiotis Mavrogiorgos'
-        transl_list = [['[cs] Czech', 'Petr Simacek'],
+        transl_list = [['[bg] Bulgarian', 'Vasil Blagoev'],
+                       ['[cs] Czech', 'Petr Simacek'],
                        ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
                        ['[el] Greek', 'Ilias Stamatis'],
+                       ['[fr] French', 'Rémi Mercier'
+                                '\n     Lebarhon'],
                        ['[hu] Hungarian', 'Farkas Norbert'],
                        ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'
-                                    '\n     Piotr Surdacki'],
+                                            '\n     Piotr Surdacki'],
                        ['[pt] Portuguese', 'Sérgio Marques'],
                        ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'],
                        ['[ru] Russian', 'Andrew Lapshin'],

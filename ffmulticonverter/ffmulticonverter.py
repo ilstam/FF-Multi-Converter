@@ -942,7 +942,6 @@ class ImageTab(QWidget):
 
         Check if:
         - PythonMagick is missing.
-        - Given files can be converted.
         - Either none or both size lineEdits are active at a time.
 
         Return True if all tests pass, else False.
@@ -963,14 +962,6 @@ class ImageTab(QWidget):
             else:
                 self.widthLineEdit.setFocus()
             return False
-        for i in self.parent.fnames:
-            i = unicode(i)
-            file_ext = os.path.splitext(i)[-1][1:]
-            if not file_ext in self.formats and not file_ext in self.extra_img:
-                QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
-                       'Error!'),
-                       self.tr('%1 is of unknown image file type!').arg(i))
-                return False
         return True
 
 

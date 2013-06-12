@@ -1,21 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="tr" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="41"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kapat</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="55"/>
         <source>About FF Multi Converter</source>
-        <translation type="unfinished"></translation>
+        <translation>FF Multi Converter Hakkında</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="40"/>
         <source>C&amp;redits</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -39,6 +38,11 @@
         <location filename="../ffmulticonverter/presets_dlgs.py" line="378"/>
         <source>Output file extension</source>
         <translation>Çıktı dosyası uzantısı</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="403"/>
+        <source>Edit %1</source>
+        <translation>%1&apos;i düzenle</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="405"/>
@@ -79,11 +83,6 @@
         <location filename="../ffmulticonverter/presets_dlgs.py" line="453"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>Uzantı tek sözcük olup nokta ile başlamamalı.</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="403"/>
-        <source>Edit %1</source>
-        <translation>%1&apos;i düzenle</translation>
     </message>
 </context>
 <context>
@@ -159,6 +158,13 @@
         <translation>Hata!</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="770"/>
+        <source>Neither ffmpeg nor avconv are installed.
+You will not be able to convert audio/video files until you install one of them.</source>
+        <translation>ffmpeg ve avconv yüklü değil.
+Mezkur programlar yüklenmeden audio/video dosyaları dönüştürülemez.</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="778"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>Uzantı tek sözcükten oluşmalı ve nokta ile başlamamalı.</translation>
@@ -168,35 +174,28 @@
         <source>The command LineEdit may not be empty.</source>
         <translation>Komut giriş satırı boş bırakılamaz.</translation>
     </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="770"/>
-        <source>Neither ffmpeg nor avconv are installed.
-You will not be able to convert audio/video files until you install one of them.</source>
-        <translation>ffmpeg ve avconv yüklü değil.
-Mezkur programlar yüklenmeden audio/video dosyaları dönüştürülemez.</translation>
-    </message>
 </context>
 <context>
     <name>CreditsDialog</name>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="73"/>
         <source>Written by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="74"/>
         <source>Translated by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="75"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kapat</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="85"/>
         <source>Credits</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -219,37 +218,27 @@ Mezkur programlar yüklenmeden dökümanlar dönüştürülemez.</translation>
         <translation>Hata!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1237"/>
-        <source>Given file is not %1!</source>
-        <translation type="obsolete">Belirtilen dosya %1 değil!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="1022"/>
         <source>%1 is not %2!</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2 değil!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="1025"/>
         <source>You can not make parallel document conversions.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
         <source>%1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
-        <source>The size LineEdit may not be empty.</source>
-        <translation>Boyut giriş satırı boş bırakılamaz.</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
-        <source>Error!</source>
-        <translation>Hata!</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="910"/>
+        <source>Convert to:</source>
+        <translation>Dönüştür:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="917"/>
@@ -257,9 +246,9 @@ Mezkur programlar yüklenmeden dökümanlar dönüştürülemez.</translation>
         <translation>Resim Boyutu:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="910"/>
-        <source>Convert to:</source>
-        <translation>Dönüştür:</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
+        <source>Error!</source>
+        <translation>Hata!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="953"/>
@@ -269,22 +258,27 @@ You will not be able to convert image files until you install it.</source>
 Mezkur programlar yüklenmeden resimler dönüştürülemez.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1129"/>
-        <source>Could not convert this file type!</source>
-        <translation type="obsolete">Bu dosya tipinden dönüşüm yapılamıyor!</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
+        <source>The size LineEdit may not be empty.</source>
+        <translation>Boyut giriş satırı boş bırakılamaz.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="925"/>
         <source>Maintain aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="77"/>
-        <source>Select file:</source>
-        <translation type="obsolete">Dosya seçin:</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
+        <source>Output folder:</source>
+        <translation>Çıktı dizini:</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
+        <source>Audio/Video</source>
+        <translation>Audio/Video</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
@@ -297,33 +291,9 @@ Mezkur programlar yüklenmeden resimler dönüştürülemez.</translation>
         <translation>Belge</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="103"/>
-        <source>Convert all files
-in this folder</source>
-        <translation type="obsolete">Bu dizindeki tüm 
-dosyaları dönüştür</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="105"/>
-        <source>Convert files
-recursively</source>
-        <translation type="obsolete">Dosyaları art arda 
-dönüştür</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="147"/>
         <source>Delete original</source>
         <translation>Ana dosyayı sil</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="111"/>
-        <source>Same type</source>
-        <translation type="obsolete">Aynı tür</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
-        <source>Same extension</source>
-        <translation type="obsolete">Aynı uzantı</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="148"/>
@@ -354,133 +324,6 @@ dönüştür</translation>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="171"/>
         <source>Quit</source>
         <translation>Çıkış</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
-        <source>Clear</source>
-        <translation>Temizle</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="187"/>
-        <source>Clear form</source>
-        <translation>Formu temizle</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="189"/>
-        <source>Preferences</source>
-        <translation>Seçenekler</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="191"/>
-        <source>About</source>
-        <translation>Hakkında</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="194"/>
-        <source>File</source>
-        <translation>Dosya</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="195"/>
-        <source>Edit</source>
-        <translation>Düzen</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="197"/>
-        <source>Help</source>
-        <translation>Yardım</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="263"/>
-        <source>Each file to its original folder</source>
-        <translation type="obsolete">Her dönüştürülmüş dosya özgün dizininde</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="284"/>
-        <source>All Files</source>
-        <translation>Tüm dosyalar</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
-        <source>Image Files</source>
-        <translation>Resim dosyaları</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
-        <source>Document Files</source>
-        <translation>Belgeler</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="292"/>
-        <source>Choose File</source>
-        <translation>Dosya seçin</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="333"/>
-        <source>Choose output destination</source>
-        <translation>Kayıt konumunu belirleyin</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
-        <source>Save Location!</source>
-        <translation type="obsolete">Konumu kaydet!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="302"/>
-        <source>You have chosen to save every file to its original folder.
-You can change this from preferences.</source>
-        <translation type="obsolete">Her dosyanın özgün dizinine kaydedilmesini seçtiniz.
-Bunu Seçenekler menüsünden değiştirebilirsiniz.</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="338"/>
-        <source>You must choose a file to convert!</source>
-        <translation type="obsolete">Dönüştürülecek bir dosya seçin!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="341"/>
-        <source>The selected file does not exists!</source>
-        <translation type="obsolete">Seçilen dosya bulunamadı!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="382"/>
-        <source>You must choose an output folder!</source>
-        <translation>Kayıt dizinini belirleyin!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="386"/>
-        <source>Output folder does not exists!</source>
-        <translation>Kayıt dizini bulunamadı!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="392"/>
-        <source>Error!</source>
-        <translation>Hata!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="541"/>
-        <source>Convert among several file types to other extensions</source>
-        <translation>Dosya türlerini diğer uzantılara dönüştürün</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="515"/>
-        <source>None</source>
-        <translation type="obsolete">Hiçbiri</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="535"/>
-        <source>Missing dependencies:</source>
-        <translation>Eksik bağımlılıklar:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
-        <source>Output folder:</source>
-        <translation>Çıktı dizini:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
-        <source>Audio/Video</source>
-        <translation>Audio/Video</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="173"/>
@@ -518,9 +361,49 @@ Bunu Seçenekler menüsünden değiştirebilirsiniz.</translation>
         <translation>Ön ayarları sıfırla</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
+        <source>Clear</source>
+        <translation>Temizle</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="187"/>
+        <source>Clear form</source>
+        <translation>Formu temizle</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="189"/>
+        <source>Preferences</source>
+        <translation>Seçenekler</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="191"/>
+        <source>About</source>
+        <translation>Hakkında</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="194"/>
+        <source>File</source>
+        <translation>Dosya</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="195"/>
+        <source>Edit</source>
+        <translation>Düzen</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="196"/>
         <source>Presets</source>
         <translation>Ön ayarlar:</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="197"/>
+        <source>Help</source>
+        <translation>Yardım</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="284"/>
+        <source>All Files</source>
+        <translation>Tüm dosyalar</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="284"/>
@@ -528,107 +411,103 @@ Bunu Seçenekler menüsünden değiştirebilirsiniz.</translation>
         <translation>Audio/Video Dosyaları</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
+        <source>Image Files</source>
+        <translation>Resim dosyaları</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
+        <source>Document Files</source>
+        <translation>Belgeler</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="292"/>
+        <source>Choose File</source>
+        <translation>Dosya seçin</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="333"/>
+        <source>Choose output destination</source>
+        <translation>Kayıt konumunu belirleyin</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="382"/>
+        <source>You must choose an output folder!</source>
+        <translation>Kayıt dizinini belirleyin!</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="386"/>
+        <source>Output folder does not exists!</source>
+        <translation>Kayıt dizini bulunamadı!</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="392"/>
+        <source>Error!</source>
+        <translation>Hata!</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="541"/>
+        <source>Convert among several file types to other extensions</source>
+        <translation>Dosya türlerini diğer uzantılara dönüştürün</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="535"/>
+        <source>Missing dependencies:</source>
+        <translation>Eksik bağımlılıklar:</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
         <source>Add</source>
-        <translation type="unfinished">Ekle</translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="115"/>
         <source>Delete</source>
-        <translation type="unfinished">Sil</translation>
+        <translation>Sil</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="187"/>
         <source>Clear All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tümünü sil</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="379"/>
         <source>You must add at least one file to convert!</source>
-        <translation type="unfinished"></translation>
+        <translation>Dönüştürmek için en az bir dosya seçin!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
         <source>Save each file in the same
 folder as input file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
         <source>Synchronize presets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="184"/>
         <source>Remove old</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="184"/>
         <source>Remove old presets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Preferences</name>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="38"/>
-        <source>Save all files
-to ouput destination</source>
-        <translation type="obsolete">Tüm dosyaları çıkış
-konumuna kaydet</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="40"/>
-        <source>Save each file to
-its original folder</source>
-        <translation type="obsolete">Her dosyayı özgün 
-dizinine kaydet</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
-        <source>Rebuild files structure</source>
-        <translation type="obsolete">Dosya yapılarını yeniden inşa et</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="89"/>
-        <source>General</source>
-        <translation>Genel</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="138"/>
-        <source>Preferences</source>
-        <translation>Seçenekler</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="54"/>
-        <source>Prefix:</source>
-        <translation>Ön ek:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
-        <source>Suffix:</source>
-        <translation>Son ek:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="144"/>
-        <source>Choose default output destination</source>
-        <translation>Varsayılan kayıt konumunu seç</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="37"/>
         <source>Save files</source>
         <translation>Dosyaları kaydet</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="53"/>
-        <source>Name files</source>
-        <translation>Dosyaları adlandır</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="38"/>
@@ -651,6 +530,21 @@ dizinine kaydet</translation>
         <translation>Kayıt konumunu varsayılana ayarla:</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="53"/>
+        <source>Name files</source>
+        <translation>Dosyaları adlandır</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="54"/>
+        <source>Prefix:</source>
+        <translation>Ön ek:</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
+        <source>Suffix:</source>
+        <translation>Son ek:</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="73"/>
         <source>FFmpeg</source>
         <translation>FFmpeg</translation>
@@ -671,9 +565,24 @@ dizinine kaydet</translation>
         <translation>avconv</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="89"/>
+        <source>General</source>
+        <translation>Genel</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="90"/>
         <source>Audio/Video</source>
         <translation>Ses/Video</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="138"/>
+        <source>Preferences</source>
+        <translation>Seçenekler</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="144"/>
+        <source>Choose default output destination</source>
+        <translation>Varsayılan kayıt konumunu seç</translation>
     </message>
 </context>
 <context>
@@ -694,9 +603,14 @@ dizinine kaydet</translation>
         <translation>Durdur</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="171"/>
-        <source>Report</source>
-        <translation>Raporla</translation>
+        <location filename="../ffmulticonverter/progress.py" line="96"/>
+        <source>Details</source>
+        <translation>Ayrıntılar</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/progress.py" line="131"/>
+        <source>Conversion</source>
+        <translation>Dönüştürme</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="172"/>
@@ -705,18 +619,13 @@ dizinine kaydet</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="205"/>
-        <source>Are you sure you want to cancel conversion?</source>
-        <translation>Dönüştürmeyi durdurmak istediğinizden emin misiniz ?</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/progress.py" line="131"/>
-        <source>Conversion</source>
-        <translation>Dönüştürme</translation>
+        <source>Cancel Conversion</source>
+        <translation>Dönüştürmeyi durdur</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="205"/>
-        <source>Cancel Conversion</source>
-        <translation>Dönüştürmeyi durdur</translation>
+        <source>Are you sure you want to cancel conversion?</source>
+        <translation>Dönüştürmeyi durdurmak istediğinizden emin misiniz ?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="241"/>
@@ -724,14 +633,14 @@ dizinine kaydet</translation>
         <translation>İşlem:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="96"/>
-        <source>Details</source>
-        <translation>Ayrıntılar</translation>
+        <location filename="../ffmulticonverter/progress.py" line="171"/>
+        <source>Report</source>
+        <translation>Raporla</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="176"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -811,37 +720,37 @@ Devam etmek istediğinizden emin misiniz ?</translation>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="259"/>
         <source>Succesful import!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="263"/>
         <source>Import failed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="61"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
         <source>Presets Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
         <source>Current presets and default presets will be merged. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
         <source>Remove old presets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
         <source>All presets with an __OLD prefix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

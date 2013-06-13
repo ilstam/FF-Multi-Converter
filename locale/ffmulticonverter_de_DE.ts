@@ -233,11 +233,6 @@ Sie können keine Dokumente konvertieren, bis Sie Unoconv installiert haben.</tr
         <source>You can not make parallel document conversions.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
-        <source>%1 to %2</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ImageTab</name>

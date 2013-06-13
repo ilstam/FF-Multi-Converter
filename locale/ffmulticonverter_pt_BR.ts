@@ -231,7 +231,7 @@ Você não poderá converter arquivos de documento até que o instale.</translat
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
         <source>%1 to %2</source>
-        <translation>%1 para %2</translation>
+        <translation type="obsolete">%1 para %2</translation>
     </message>
 </context>
 <context>

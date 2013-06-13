@@ -1,4 +1,5 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS><TS version="2.0" language="fr" sourcelanguage="">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -230,7 +231,7 @@ Vous ne pourrez pas convertir de fichiers document avant de l&apos;avoir install
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
         <source>%1 to %2</source>
-        <translation>%1 vers %2</translation>
+        <translation type="obsolete">%1 vers %2</translation>
     </message>
 </context>
 <context>

@@ -1,4 +1,5 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS><TS version="2.0" language="cs" sourcelanguage="">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -230,7 +231,7 @@ Nebudete moci převádět dokumenty dokud ho nenainstalujete.</translation>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
         <source>%1 to %2</source>
-        <translation>%1 až %2</translation>
+        <translation type="obsolete">%1 až %2</translation>
     </message>
 </context>
 <context>

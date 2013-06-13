@@ -231,7 +231,7 @@ Dopóki go nie zainstalujesz, nie możesz konwertować dokumentów.</translation
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
         <source>%1 to %2</source>
-        <translation>%1 do %2</translation>
+        <translation type="obsolete">%1 do %2</translation>
     </message>
 </context>
 <context>

@@ -988,7 +988,7 @@ class DocumentTab(QWidget):
         flist = []
         for i in self.formats:
             for y in self.formats[i]:
-                flist.append(self.tr('%1 to %2').arg(i, y))
+                flist.append(i + ' to ' + y)
         flist.sort()
 
         convertLabel = QLabel(self.tr('Convert:'))

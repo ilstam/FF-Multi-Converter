@@ -448,7 +448,7 @@ You will not be able to convert image files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="541"/>
         <source>Convert among several file types to other extensions</source>
-        <translation>Конвертиране сред няколко видове файлове kъм други приставки. </translation>
+        <translation>Конвертиране на файлове kъм други формати.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="535"/>
@@ -523,7 +523,7 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="41"/>
         <source>Overwrite</source>
-        <translation>Замени като запишеш върху файлът</translation>
+        <translation>Запиши върху сегашният файл.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="46"/>

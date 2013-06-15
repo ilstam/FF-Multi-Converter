@@ -566,6 +566,7 @@ class MainWindow(QMainWindow):
                        ['[fr] French', 'Rémi Mercier'
                                 '\n     Lebarhon'],
                        ['[hu] Hungarian', 'Farkas Norbert'],
+                       ['[it] Italian', 'Fabio Boccaletti'],
                        ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'
                                             '\n     Piotr Surdacki'],
                        ['[pt] Portuguese', 'Sérgio Marques'],

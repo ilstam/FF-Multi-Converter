@@ -1,5 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
+<file alias="ffmulticonverter.png">../share/ffmulticonverter.png</file>
 <file alias="ffmulticonverter_el.qm">../locale/ffmulticonverter_el.qm</file>
 <file alias="ffmulticonverter_tr.qm">../locale/ffmulticonverter_tr.qm</file>
 <file alias="ffmulticonverter_ru.qm">../locale/ffmulticonverter_ru.qm</file>
@@ -12,7 +13,6 @@
 <file alias="ffmulticonverter_cs.qm">../locale/ffmulticonverter_cs.qm</file>
 <file alias="ffmulticonverter_fr.qm">../locale/ffmulticonverter_fr.qm</file>
 <file alias="ffmulticonverter_bg.qm">../locale/ffmulticonverter_bg.qm</file>
-<file alias="ffmulticonverter.png">../share/ffmulticonverter.png</file>
+<file alias="ffmulticonverter_it.qm">../locale/ffmulticonverter_it.qm</file>
 </qresource>
 </RCC>
-

@@ -22,17 +22,17 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="372"/>
         <source>Preset name (one word, A-z, 0-9)</source>
-        <translation>Nome preconfigurazione (una parola, A-z, 0-9)</translation>
+        <translation>Nome preimpostazione (una parola, A-z, 0-9)</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="374"/>
         <source>Preset label</source>
-        <translation>Etichetta preconfigurazione</translation>
+        <translation>Etichetta preimpostazione</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="376"/>
         <source>Preset command line parameters</source>
-        <translation>Prarametri linea di comnado della preconfigurazione</translation>
+        <translation>Prarametri linea di comnado della preimpostazione</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="378"/>
@@ -47,7 +47,7 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="405"/>
         <source>Add preset</source>
-        <translation>Aggiungi preconfigurazione</translation>
+        <translation>Aggiungi preimpostazione</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="453"/>
@@ -57,17 +57,17 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="426"/>
         <source>Preset name can&apos;t be left blank.</source>
-        <translation>Il nome della preconfigurazione non può essere lasciato vuoto.</translation>
+        <translation>Il nome della preimpostazione non può essere lasciato vuoto.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="431"/>
         <source>Preset name must be one word and contain only letters and digits.</source>
-        <translation>Il nome della preconfigurazione deve essere di una parola e contenere solo lettere e numeri.</translation>
+        <translation>Il nome della preimpostazione deve essere di una parola e contenere solo lettere e numeri.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="438"/>
         <source>Preset label can&apos;t be left blank.</source>
-        <translation>L&apos;etichetta della preconfigurazione non può essere lasciata vuota.</translation>
+        <translation>L&apos;etichetta della preimpostazione non può essere lasciata vuota.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="443"/>
@@ -90,7 +90,7 @@
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="598"/>
         <source>No Change</source>
-        <translation>Nessun cambiamento</translation>
+        <translation>Nessun Cambiamento</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="605"/>
@@ -110,7 +110,7 @@
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="617"/>
         <source>Preset</source>
-        <translation>Preconfigurazione</translation>
+        <translation>Preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="618"/>
@@ -120,7 +120,7 @@
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="623"/>
         <source>Video Size:</source>
-        <translation>Dimensione video:</translation>
+        <translation>Dimensione Video:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="624"/>
@@ -260,12 +260,12 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
         <source>The size LineEdit may not be empty.</source>
-        <translation>Lo spazio LineEdit non può essere vuoto.</translation>
+        <translation>Lo dimensione LineEdit non può essere vuoto.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="925"/>
         <source>Maintain aspect ratio</source>
-        <translation>Mantieni il rapporto dell&apos;aspetto</translation>
+        <translation>Mantieni proporzioni</translation>
     </message>
 </context>
 <context>
@@ -318,7 +318,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="169"/>
         <source>Convert files</source>
-        <translation>Converti i file</translation>
+        <translation>Converti file</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="171"/>
@@ -328,7 +328,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="173"/>
         <source>Edit Presets</source>
-        <translation>Modifica Preconfigurazioni</translation>
+        <translation>Modifica Preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="175"/>
@@ -338,7 +338,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="175"/>
         <source>Import presets</source>
-        <translation>Importa preconfigurazioni</translation>
+        <translation>Importa preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="177"/>
@@ -348,7 +348,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="177"/>
         <source>Export presets</source>
-        <translation>Esporta preconfigurazioni</translation>
+        <translation>Esporta preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="179"/>
@@ -358,7 +358,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="179"/>
         <source>Reset presets</source>
-        <translation>Reimposta preconfigurazioni</translation>
+        <translation>Reimposta preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
@@ -368,7 +368,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="187"/>
         <source>Clear form</source>
-        <translation>Pulisci campo</translation>
+        <translation>Cancella campo</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="189"/>
@@ -393,7 +393,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="196"/>
         <source>Presets</source>
-        <translation>Preconfigurazioni</translation>
+        <translation>Preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="197"/>
@@ -403,7 +403,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="284"/>
         <source>All Files</source>
-        <translation>Tutti i file</translation>
+        <translation>Tutti i File</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="284"/>
@@ -423,7 +423,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="292"/>
         <source>Choose File</source>
-        <translation>Scegli il file</translation>
+        <translation>Scegli File</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="333"/>
@@ -448,7 +448,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="541"/>
         <source>Convert among several file types to other extensions</source>
-        <translation>Converte diversi tipi di file in altre estensioni</translation>
+        <translation>Converte diversi formati di file in altri</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="535"/>
@@ -468,7 +468,7 @@ Non sarai in grado di convertire file immagine finché non lo installerai.</tran
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="187"/>
         <source>Clear All</source>
-        <translation>Pulisci Tutto</translation>
+        <translation>Cancella Tutto</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="379"/>
@@ -490,17 +490,17 @@ del file di input</translation>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
         <source>Synchronize presets</source>
-        <translation>Sincronizza le preconfigurazioni</translation>
+        <translation>Sincronizza preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="184"/>
         <source>Remove old</source>
-        <translation>Rimuovi le vecchie</translation>
+        <translation>Rimuovi vecchie</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="184"/>
         <source>Remove old presets</source>
-        <translation>Rimuovi le vecchie preconfigurazioni</translation>
+        <translation>Rimuovi vecchie preconfigurazioni</translation>
     </message>
 </context>
 <context>
@@ -508,7 +508,7 @@ del file di input</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="37"/>
         <source>Save files</source>
-        <translation>Salva i file</translation>
+        <translation>Salva file</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="38"/>
@@ -533,7 +533,7 @@ del file di input</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="53"/>
         <source>Name files</source>
-        <translation>Nome dei file</translation>
+        <translation>Nome file</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="54"/>
@@ -591,7 +591,7 @@ del file di input</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="88"/>
         <source>In progress: </source>
-        <translation>In esecuzione:</translation>
+        <translation>In corso:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="89"/>
@@ -631,7 +631,7 @@ del file di input</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="241"/>
         <source>In progress:</source>
-        <translation>In esecuzione:</translation>
+        <translation>In corso:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="171"/>
@@ -649,12 +649,12 @@ del file di input</translation>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="48"/>
         <source>Preset label</source>
-        <translation>Etichetta preconfigurazioni</translation>
+        <translation>Etichetta preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="51"/>
         <source>Preset command line parameters</source>
-        <translation>Parametri della linea di comando preconfigurati</translation>
+        <translation>Parametri della linea di comando preimpostati</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="54"/>
@@ -689,34 +689,34 @@ del file di input</translation>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="99"/>
         <source>Edit Presets</source>
-        <translation>Modifica Preconfigurazioni</translation>
+        <translation>Modifica Preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="283"/>
         <source>Delete Preset</source>
-        <translation>Elimina Preconfigurazione</translation>
+        <translation>Elimina Preimpostazione</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="184"/>
         <source>Are you sure that you want to delete the %1 preset?</source>
-        <translation>Sei sicuro di voler eliminare la preconfigurazione %1 ?</translation>
+        <translation>Sei sicuro di voler eliminare la preimpostazione %1 ?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="198"/>
         <source>Are you sure that you want to delete all presets?</source>
-        <translation>Sei sicuro di voler eliminare tutte le preconfigurazioni?</translation>
+        <translation>Sei sicuro di voler eliminare tutte le preimpostazioni?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="253"/>
         <source>All current presets will be deleted.
 Are you sure that you want to continue?</source>
-        <translation>Tutte le preconfigurazione correnti verranno eliminate.
+        <translation>Tutte le preimpostazioni correnti verranno eliminate.
 Sei sicuro di voler continuare?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="283"/>
         <source>Are you sure that you want to restore the default presets?</source>
-        <translation>Sei sicuro di voler ripristinare le preconfigurazioni di default?</translation>
+        <translation>Sei sicuro di voler ripristinare le preimpostazioni di default?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="259"/>
@@ -736,22 +736,22 @@ Sei sicuro di voler continuare?</translation>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
         <source>Presets Synchronization</source>
-        <translation>Sincronizzazione Preconfigurazioni</translation>
+        <translation>Sincronizzazione Preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
         <source>Current presets and default presets will be merged. Are you sure that you want to continue?</source>
-        <translation>Le preconfigurazioni attuali e quelle di default saranno unite. Sei sicuro di voler continuare?</translation>
+        <translation>Le preimpostazioni attuali e quelle di default saranno unite. Sei sicuro di voler continuare?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
         <source>Remove old presets</source>
-        <translation>Rimuovi le vecchie preconfigurazioni</translation>
+        <translation>Rimuovi vecchie preimpostazioni</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
         <source>All presets with an __OLD prefix will be deleted. Are you sure that you want to continue?</source>
-        <translation>Tutte le preconfigurazioni con prefisso an __OLD verranno cancellate. Sei sicuro di voler continuare?</translation>
+        <translation>Tutte le preimpostazioni con prefisso an __OLD verranno cancellate. Sei sicuro di voler continuare?</translation>
     </message>
 </context>
 <context>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ru" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -228,6 +227,11 @@ You will not be able to convert document files until you install it.</source>
         <source>You can not make parallel document conversions.</source>
         <translation>Вы не можете выполнять параллельное конвертирование документов.</translation>
     </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
+        <source>%1 to %2</source>
+        <translation>%1 в %2</translation>
+    </message>
 </context>
 <context>
     <name>ImageTab</name>
@@ -259,14 +263,9 @@ You will not be able to convert image files until you install it.</source>
         <translation>Размер LineEdit не может быть пустым.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="967"/>
-        <source>%1 is of unknown image file type!</source>
-        <translation type="obsolete">%1 не является известным форматом изображения!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="925"/>
         <source>Maintain aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранять пропроции</translation>
     </message>
 </context>
 <context>
@@ -486,22 +485,22 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Синхронизировать</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
         <source>Synchronize presets</source>
-        <translation type="unfinished"></translation>
+        <translation>Синхронизировать предустановки</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="184"/>
         <source>Remove old</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить старые</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="184"/>
         <source>Remove old presets</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить старые предустановки</translation>
     </message>
 </context>
 <context>
@@ -637,12 +636,12 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="171"/>
         <source>Report</source>
-        <translation type="unfinished"></translation>
+        <translation>Отчет</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="176"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть</translation>
     </message>
 </context>
 <context>
@@ -722,37 +721,39 @@ Are you sure that you want to continue?</source>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="259"/>
         <source>Succesful import!</source>
-        <translation type="unfinished"></translation>
+        <translation>Импортирование завершено!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="263"/>
         <source>Import failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Импортирование завершилось с ошибкой!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="61"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
         <source>Presets Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>Синхронизация предустановок</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
         <source>Current presets and default presets will be merged. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущие предустановки и предустановки по умолчанию будут объединены.
+Вы уверены, что хотите продолжить?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
         <source>Remove old presets</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить старые предустановки</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
         <source>All presets with an __OLD prefix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Все предустановки с префиксом __OLD будут удалены.
+Вы уверены, что хотите продолжить?</translation>
     </message>
 </context>
 <context>

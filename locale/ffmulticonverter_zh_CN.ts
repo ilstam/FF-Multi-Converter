@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="zh_CN" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -41,6 +40,11 @@
         <translation>输出文件扩展</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="403"/>
+        <source>Edit %1</source>
+        <translation>编辑 %1</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="405"/>
         <source>Add preset</source>
         <translation>添加预设</translation>
@@ -79,11 +83,6 @@
         <location filename="../ffmulticonverter/presets_dlgs.py" line="453"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>扩展必须为一个单词且不能以圆点开头。</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="403"/>
-        <source>Edit %1</source>
-        <translation>编辑 %1</translation>
     </message>
 </context>
 <context>
@@ -159,6 +158,13 @@
         <translation>错误！</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="770"/>
+        <source>Neither ffmpeg nor avconv are installed.
+You will not be able to convert audio/video files until you install one of them.</source>
+        <translation>ffmpeg 和 avconv 未安装。
+如果它们中的一个都没有安装则无法转换音频/视频文件。</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="778"/>
         <source>Extension must be one word and must not start with a dot.</source>
         <translation>扩展必须为一个单词且不能以圆点开头。</translation>
@@ -167,13 +173,6 @@
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="785"/>
         <source>The command LineEdit may not be empty.</source>
         <translation>命令行编辑可能不为空。</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="770"/>
-        <source>Neither ffmpeg nor avconv are installed.
-You will not be able to convert audio/video files until you install one of them.</source>
-        <translation>ffmpeg 和 avconv 未安装。
-如果它们中的一个都没有安装则无法转换音频/视频文件。</translation>
     </message>
 </context>
 <context>
@@ -228,18 +227,18 @@ You will not be able to convert document files until you install it.</source>
         <source>You can not make parallel document conversions.</source>
         <translation>无法并行转换文档。</translation>
     </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
+        <source>%1 to %2</source>
+        <translation>%1 到 %2</translation>
+    </message>
 </context>
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
-        <source>The size LineEdit may not be empty.</source>
-        <translation>LineEdit 大小不能为空。</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
-        <source>Error!</source>
-        <translation>出错！</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="910"/>
+        <source>Convert to:</source>
+        <translation>转换为：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="917"/>
@@ -247,9 +246,9 @@ You will not be able to convert document files until you install it.</source>
         <translation>图像大小：</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="910"/>
-        <source>Convert to:</source>
-        <translation>转换为：</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
+        <source>Error!</source>
+        <translation>出错！</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="953"/>
@@ -259,18 +258,28 @@ You will not be able to convert image files until you install it.</source>
 如果不安装该软件包则无法转换图像文件。</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="967"/>
-        <source>%1 is of unknown image file type!</source>
-        <translation type="obsolete">%1 未知图片类型！</translation>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
+        <source>The size LineEdit may not be empty.</source>
+        <translation>LineEdit 大小不能为空。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="925"/>
         <source>Maintain aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>保持宽高比</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
+        <source>Output folder:</source>
+        <translation>输出文件夹：</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
+        <source>Audio/Video</source>
+        <translation>音频/视频</translation>
+    </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
         <source>Images</source>
@@ -317,6 +326,41 @@ You will not be able to convert image files until you install it.</source>
         <translation>退出</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="173"/>
+        <source>Edit Presets</source>
+        <translation>编辑预设</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="175"/>
+        <source>Import</source>
+        <translation>导入</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="175"/>
+        <source>Import presets</source>
+        <translation>导入预设</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="177"/>
+        <source>Export</source>
+        <translation>导出</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="177"/>
+        <source>Export presets</source>
+        <translation>导出预设</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="179"/>
+        <source>Reset</source>
+        <translation>重置</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="179"/>
+        <source>Reset presets</source>
+        <translation>重置预设</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
         <source>Clear</source>
         <translation>清除</translation>
@@ -347,6 +391,11 @@ You will not be able to convert image files until you install it.</source>
         <translation>编辑</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="196"/>
+        <source>Presets</source>
+        <translation>预设</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="197"/>
         <source>Help</source>
         <translation>帮助</translation>
@@ -355,6 +404,11 @@ You will not be able to convert image files until you install it.</source>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="284"/>
         <source>All Files</source>
         <translation>全部文件</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="284"/>
+        <source>Audio/Video Files</source>
+        <translation>音频/视频文件</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="285"/>
@@ -402,61 +456,6 @@ You will not be able to convert image files until you install it.</source>
         <translation>缺少依赖：</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
-        <source>Output folder:</source>
-        <translation>输出文件夹：</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
-        <source>Audio/Video</source>
-        <translation>音频/视频</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="173"/>
-        <source>Edit Presets</source>
-        <translation>编辑预设</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="175"/>
-        <source>Import</source>
-        <translation>导入</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="175"/>
-        <source>Import presets</source>
-        <translation>导入预设</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="177"/>
-        <source>Export</source>
-        <translation>导出</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="177"/>
-        <source>Export presets</source>
-        <translation>导出预设</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="179"/>
-        <source>Reset</source>
-        <translation>重置</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="179"/>
-        <source>Reset presets</source>
-        <translation>重置预设</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="196"/>
-        <source>Presets</source>
-        <translation>预设</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="284"/>
-        <source>Audio/Video Files</source>
-        <translation>音频/视频文件</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
         <source>Add</source>
         <translation>添加</translation>
@@ -485,60 +484,30 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>同步</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="181"/>
         <source>Synchronize presets</source>
-        <translation type="unfinished"></translation>
+        <translation>同步预设</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="184"/>
         <source>Remove old</source>
-        <translation type="unfinished"></translation>
+        <translation>删除旧文件</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="184"/>
         <source>Remove old presets</source>
-        <translation type="unfinished"></translation>
+        <translation>删除旧预设文件</translation>
     </message>
 </context>
 <context>
     <name>Preferences</name>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="89"/>
-        <source>General</source>
-        <translation>常规</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="138"/>
-        <source>Preferences</source>
-        <translation>首选项</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="54"/>
-        <source>Prefix:</source>
-        <translation>前缀：</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
-        <source>Suffix:</source>
-        <translation>后缀：</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="144"/>
-        <source>Choose default output destination</source>
-        <translation>选择默认的输出目的地</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="37"/>
         <source>Save files</source>
         <translation>保存文件</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="53"/>
-        <source>Name files</source>
-        <translation>命名文件</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="38"/>
@@ -561,6 +530,21 @@ folder as input file</source>
         <translation>默认输出目的地：</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="53"/>
+        <source>Name files</source>
+        <translation>命名文件</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="54"/>
+        <source>Prefix:</source>
+        <translation>前缀：</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
+        <source>Suffix:</source>
+        <translation>后缀：</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="73"/>
         <source>FFmpeg</source>
         <translation>FFmpeg</translation>
@@ -581,9 +565,24 @@ folder as input file</source>
         <translation>avconv</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="89"/>
+        <source>General</source>
+        <translation>常规</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="90"/>
         <source>Audio/Video</source>
         <translation>音频/视频</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="138"/>
+        <source>Preferences</source>
+        <translation>首选项</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="144"/>
+        <source>Choose default output destination</source>
+        <translation>选择默认的输出目的地</translation>
     </message>
 </context>
 <context>
@@ -604,14 +603,9 @@ folder as input file</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="172"/>
-        <source>Converted: %1/%2</source>
-        <translation>已转换：%1/%2</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/progress.py" line="205"/>
-        <source>Are you sure you want to cancel conversion?</source>
-        <translation>您确定要取消转换吗？</translation>
+        <location filename="../ffmulticonverter/progress.py" line="96"/>
+        <source>Details</source>
+        <translation>详情</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="131"/>
@@ -619,9 +613,19 @@ folder as input file</source>
         <translation>转换</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/progress.py" line="172"/>
+        <source>Converted: %1/%2</source>
+        <translation>已转换：%1/%2</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/progress.py" line="205"/>
         <source>Cancel Conversion</source>
         <translation>取消转换</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/progress.py" line="205"/>
+        <source>Are you sure you want to cancel conversion?</source>
+        <translation>您确定要取消转换吗？</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="241"/>
@@ -629,19 +633,14 @@ folder as input file</source>
         <translation>正在进行：</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="96"/>
-        <source>Details</source>
-        <translation>详情</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/progress.py" line="171"/>
         <source>Report</source>
-        <translation type="unfinished"></translation>
+        <translation>报告</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="176"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭</translation>
     </message>
 </context>
 <context>
@@ -721,37 +720,37 @@ Are you sure that you want to continue?</source>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="259"/>
         <source>Succesful import!</source>
-        <translation type="unfinished"></translation>
+        <translation>成功导入！</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="263"/>
         <source>Import failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>导入失败！</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="61"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>搜索</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
         <source>Presets Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>预设同步</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
         <source>Current presets and default presets will be merged. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>当然预设和默认预设将会被合并。您确定要继续吗？</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
         <source>Remove old presets</source>
-        <translation type="unfinished"></translation>
+        <translation>删除旧预设文件</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
         <source>All presets with an __OLD prefix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

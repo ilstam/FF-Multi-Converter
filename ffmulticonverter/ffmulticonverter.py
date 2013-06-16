@@ -588,11 +588,10 @@ class AudioVideoTab(QWidget):
         super(AudioVideoTab, self).__init__(parent)
         self.parent = parent
         self.name = 'AudioVideo'
-        self.formats = ['aac', 'ac3', 'afc', 'aiff', 'amr', 'asf', 'au',
-                        'avi', 'dvd', 'flac', 'flv', 'mka',
-                        'mkv', 'mmf', 'mov', 'mp3', 'mp4', 'mpg',
-                        'ogg', 'ogv', 'psp', 'rm', 'spx', 'vob',
-                        'wav', 'webm', 'wma', 'wmv']
+        self.formats = ['3gp', 'aac', 'ac3', 'afc', 'aiff', 'amr', 'asf', 'au',
+                        'avi', 'dvd', 'flac', 'flv', 'mka', 'mkv', 'mmf',
+                        'mov', 'mp3', 'mp4', 'mpg', 'ogg', 'ogv', 'psp', 'rm',
+                        'spx', 'vob', 'wav', 'webm', 'wma', 'wmv']
         self.extra_formats = ['aifc', 'm2t', 'm4a', 'm4v', 'mp2', 'mpeg',
                               'ra', 'ts']
 

@@ -5,10 +5,10 @@ import ffmulticonverter
 from distutils.core import setup
 
 
-data_files = [('/usr/share/applications/', ['share/ffmulticonverter.desktop']),
-              ('/usr/share/pixmaps/', ['share/ffmulticonverter.png']),
-              ('/usr/share/ffmulticonverter', ['share/presets.xml']),
-              ('/usr/share/man/man1', ['man/ffmulticonverter.1.gz'])]
+data_files = [('share/applications/', ['share/ffmulticonverter.desktop']),
+              ('share/pixmaps/', ['share/ffmulticonverter.png']),
+              ('share/ffmulticonverter', ['share/presets.xml']),
+              ('share/man/man1', ['man/ffmulticonverter.1.gz'])]
 
 setup(
     name = 'ffmulticonverter',

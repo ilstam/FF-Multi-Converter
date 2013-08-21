@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #

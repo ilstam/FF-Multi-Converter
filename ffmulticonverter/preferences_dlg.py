@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -15,8 +14,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-from __future__ import unicode_literals
 
 from PyQt4.QtCore import QSettings
 from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
@@ -101,14 +98,15 @@ class Preferences(QDialog):
         self.buttonBox.rejected.connect(self.reject)
 
         settings = QSettings()
-        overwrite_existing = settings.value('overwrite_existing').toBool()
-        default_output = settings.value('default_output').toString()
-        prefix = settings.value('prefix').toString()
-        suffix = settings.value('suffix').toString()
-        avconv_prefered = settings.value('avconv_prefered').toBool()
-        default_command = settings.value('default_command').toString()
+        overwrite_existing = settings.value('overwrite_existing')
+        default_output = settings.value('default_output')
+        prefix = settings.value('prefix')
+        suffix = settings.value('suffix')
+        avconv_prefered = settings.value('avconv_prefered')
+        default_command = settings.value('default_command')
 
-        if overwrite_existing:
+        # QSettings.value() returns str() in python3, not QVariant() as in p2
+        if overwrite_existing == 'true':
             self.exst_overwriteRadioButton.setChecked(True)
         else:
             self.exst_add_prefixRadioButton.setChecked(True)
@@ -118,7 +116,7 @@ class Preferences(QDialog):
             self.prefixLineEdit.setText(prefix)
         if suffix:
             self.suffixLineEdit.setText(suffix)
-        if avconv_prefered:
+        if avconv_prefered == 'true':
             self.avconvRadioButton.setChecked(True)
         else:
             self.ffmpegRadioButton.setChecked(True)
@@ -143,7 +141,6 @@ class Preferences(QDialog):
         if self.defaultLineEdit.isEnabled():
             _dir = QFileDialog.getExistingDirectory(self, 'FF Multi Converter '
                 '- ' + self.tr('Choose default output destination'), self.home)
-            #_dir = unicode(_dir)
             if _dir:
                 self.defaultLineEdit.setText(_dir)
 
@@ -151,11 +148,11 @@ class Preferences(QDialog):
         """Set settings values, extracting the appropriate information from
         the graphical widgets."""
         overwrite_existing = self.exst_overwriteRadioButton.isChecked()
-        default_output = unicode(self.defaultLineEdit.text())
-        prefix = unicode(self.prefixLineEdit.text())
-        suffix = unicode(self.suffixLineEdit.text())
+        default_output = self.defaultLineEdit.text()
+        prefix = self.prefixLineEdit.text()
+        suffix = self.suffixLineEdit.text()
         avconv_prefered = self.avconvRadioButton.isChecked()
-        default_command = unicode(self.commandLineEdit.text())
+        default_command = self.commandLineEdit.text()
 
         settings = QSettings()
         settings.setValue('overwrite_existing', overwrite_existing)

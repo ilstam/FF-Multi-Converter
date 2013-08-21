@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -16,10 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
-from __future__ import division
-
-from PyQt4.QtCore import pyqtSignal, QString, QTimer
+from PyQt4.QtCore import pyqtSignal, QTimer
 from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
                   QFrame, QLabel, QPushButton, QProgressBar, QMessageBox,
                   QTextEdit, QCommandLinkButton, QTextCursor, QSizePolicy)
@@ -229,8 +225,8 @@ class Progress(QDialog):
         """
         if not self.files:
             return
-        from_file = self.files[0].keys()[0]
-        to_file = self.files[0].values()[0]
+        from_file = list(self.files[0].keys())[0]
+        to_file = list(self.files[0].values())[0]
 
         if len(from_file) > 40:
             # split file name if it is too long in order to display it properly
@@ -298,15 +294,13 @@ class Progress(QDialog):
 
         Return True if conversion succeed, else False.
         """
-        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
         assert from_file.startswith('"') and from_file.endswith('"')
         assert to_file.startswith('"') and to_file.endswith('"')
 
         converter = 'ffmpeg' if ffmpeg else 'avconv'
         convert_cmd = '{0} -y -i {1} {2} {3}'.format(converter, from_file,
                                                      command, to_file)
-        convert_cmd = str(QString(convert_cmd).toUtf8())
-        self.update_text_edit_signal.emit(unicode(convert_cmd, 'utf-8')+'\n')
+        self.update_text_edit_signal.emit(convert_cmd + '\n')
 
         self.process = subprocess.Popen(shlex.split(convert_cmd),
                                         stderr=subprocess.STDOUT,
@@ -314,7 +308,7 @@ class Progress(QDialog):
 
         final_output = myline = str('')
         while True:
-            out = str(QString(self.process.stdout.read(1)).toUtf8())
+            out = self.process.stdout.read(1)
             if out == str('') and self.process.poll() is not None:
                 break
 
@@ -333,7 +327,7 @@ class Progress(QDialog):
                     now_sec = int(float(time))
                     try:
                         self.refr_bars_signal.emit(100 * now_sec / total)
-                    except UnboundLocalError, ZeroDivisionError:
+                    except (UnboundLocalError, ZeroDivisionError):
                         pass
                 self.update_text_edit_signal.emit(myline)
                 final_output += myline
@@ -342,10 +336,10 @@ class Progress(QDialog):
 
         return_code = self.process.poll()
 
-        log_data = {'command' : unicode(convert_cmd, 'utf-8'),
-                    'returncode' : return_code, 'type' : 'VIDEO'}
+        log_data = {'command' : convert_cmd, 'returncode' : return_code,
+                    'type' : 'VIDEO'}
         log_lvl = logging.info if return_code == 0 else logging.error
-        log_lvl(unicode(final_output, 'utf-8'), extra=log_data)
+        log_lvl(final_output, extra=log_data)
 
         return return_code == 0
 
@@ -358,15 +352,13 @@ class Progress(QDialog):
 
         Return True if conversion succeed, else False.
         """
-        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
         assert from_file.startswith('"') and from_file.endswith('"')
         assert to_file.startswith('"') and to_file.endswith('"')
 
-        from_file = str(QString(from_file).toUtf8())[1:-1]
-        to_file = str(QString(to_file).toUtf8())[1:-1]
+        from_file = from_file[1:-1]
+        to_file = to_file[1:-1]
 
-        command = 'from {0} to {1}'.format(unicode(from_file, 'utf-8'),
-                                           unicode(to_file, 'utf-8'))
+        command = 'from {0} to {1}'.format(from_file, to_file)
         if size:
             command += ' -s ' + size
         self.update_text_edit_signal.emit(command+'\n')
@@ -409,8 +401,6 @@ class Progress(QDialog):
 
         Return True if conversion succeed, else False.
         """
-        assert isinstance(from_file, unicode) and isinstance(to_file, unicode)
-
         from_file = from_file[1:-1]
         to_file = to_file[1:-1]
         from_base, from_ext = os.path.splitext(from_file)
@@ -427,8 +417,7 @@ class Progress(QDialog):
         shutil.copy(from_file, dummy_file)
 
         cmd = 'unoconv --format={0} {1}'.format(to_ext[1:], '"'+dummy_file+'"')
-        cmd = str(QString(cmd).toUtf8())
-        self.update_text_edit_signal.emit(unicode(cmd, 'utf-8')+'\n')
+        self.update_text_edit_signal.emit(cmd + '\n')
         child = subprocess.Popen(shlex.split(cmd),
                                  stderr=subprocess.STDOUT,
                                  stdout=subprocess.PIPE)
@@ -441,12 +430,12 @@ class Progress(QDialog):
             # unoconv conversion failed and converted_file does not exist
             pass
 
-        final_output = unicode(child.stdout.read(), 'utf-8')
+        final_output = child.stdout.read()
         self.update_text_edit_signal.emit(final_output+'\n\n')
 
         return_code = child.poll()
 
-        log_data = {'command' : unicode(cmd, 'utf-8'),
+        log_data = {'command' : cmd,
                     'returncode' : return_code, 'type' : 'DOCUMENT'}
         log_lvl = logging.info if return_code == 0 else logging.error
         log_lvl(final_output, extra=log_data)

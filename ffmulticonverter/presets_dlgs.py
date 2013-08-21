@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -223,7 +222,7 @@ class ShowPresets(QDialog):
         Show a preset only if its tag, label or extension matches any of
         search string's tokens.
         """
-        txt = str(self.searchLineEdit.text()).strip().lower()
+        txt = self.searchLineEdit.text().strip().lower()
         if not txt:
             self.fill_presListWidget()
             return
@@ -417,10 +416,10 @@ class AddorEditPreset(QDialog):
 
         Return True if all tests pass, else False.
         """
-        self.name_text = unicode(self.nameLineEdit.text()).strip()
-        self.label_text = unicode(self.labelLineEdit.text()).strip()
-        self.command_text = unicode(self.commandLineEdit.text()).strip()
-        self.ext_text = unicode(self.extLineEdit.text()).strip()
+        self.name_text = self.nameLineEdit.text().strip()
+        self.label_text = self.labelLineEdit.text().strip()
+        self.command_text = self.commandLineEdit.text().strip()
+        self.ext_text = self.extLineEdit.text().strip()
 
         if not self.name_text:
             QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),

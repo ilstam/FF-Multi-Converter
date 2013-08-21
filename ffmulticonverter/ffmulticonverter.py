@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -15,9 +14,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-from __future__ import unicode_literals
-from __future__ import print_function
 
 from __init__ import __version__
 
@@ -44,7 +40,7 @@ import preferences_dlg
 import presets_dlgs
 import progress
 import pyqttools
-import qrc_resources
+#import qrc_resources
 
 try:
     import PythonMagick
@@ -89,7 +85,7 @@ class FilesList(QListWidget):
             event.accept()
             links = []
             for url in event.mimeData().urls():
-                links.append(unicode(url.toLocalFile()))
+                links.append(url.toLocalFile())
             self.dropped.emit(links)
         else:
             event.ignore()
@@ -230,14 +226,12 @@ class MainWindow(QMainWindow):
     def load_settings(self):
         """Load settings values."""
         settings = QSettings()
-        self.overwrite_existing = settings.value('overwrite_existing').toBool()
-        self.default_output = unicode(
-                                   settings.value('default_output').toString())
-        self.prefix = unicode(settings.value('prefix').toString())
-        self.suffix = unicode(settings.value('suffix').toString())
-        self.avconv_prefered = settings.value('avconv_prefered').toBool()
-        self.default_command = unicode(
-                                  settings.value('default_command').toString())
+        self.overwrite_existing = settings.value('overwrite_existing')
+        self.default_output = settings.value('default_output')
+        self.prefix = settings.value('prefix')
+        self.suffix = settings.value('suffix')
+        self.avconv_prefered = settings.value('avconv_prefered')
+        self.default_command = settings.value('default_command')
         if not self.default_command:
             self.default_command = DEFAULT_COMMAND
 
@@ -295,7 +289,7 @@ class MainWindow(QMainWindow):
         if fnames:
             for i in fnames:
                 if not i in self.fnames:
-                    self.fnames.append(unicode(i))
+                    self.fnames.append(i)
             self.update_filesList()
 
     def delete_files(self):
@@ -306,7 +300,7 @@ class MainWindow(QMainWindow):
         items = self.filesList.selectedItems()
         if items:
             for i in items:
-                self.fnames.remove(unicode(i.text()))
+                self.fnames.remove(i.text())
             self.update_filesList()
 
     def clear_fileslist(self):
@@ -333,7 +327,6 @@ class MainWindow(QMainWindow):
             output = QFileDialog.getExistingDirectory(self,
                 'FF Multi Converter - ' + self.tr('Choose output destination'),
                 self.home)
-            #output = unicode(output)
             if output:
                 self.toLineEdit.setText(output)
 
@@ -382,7 +375,7 @@ class MainWindow(QMainWindow):
                 raise ValidationError(self.tr(
                                       'You must choose an output folder!'))
             elif (not self.origCheckBox.isChecked() and
-                  not os.path.exists(unicode(self.toLineEdit.text()))):
+                  not os.path.exists(self.toLineEdit.text())):
                 raise ValidationError(self.tr('Output folder does not exists!'))
             if not self.current_tab().ok_to_continue():
                 return False
@@ -390,7 +383,7 @@ class MainWindow(QMainWindow):
 
         except ValidationError as e:
             QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                                self.tr('Error!'), unicode(e))
+                                self.tr('Error!'), e)
             return False
 
     def output_ext(self):
@@ -404,9 +397,9 @@ class MainWindow(QMainWindow):
         elif tab.name == 'Images':
             ext_to = tab.extComboBox.currentText()
         else:
-            ext_to = str(tab.convertComboBox.currentText()).split()[-1]
+            ext_to = tab.convertComboBox.currentText().split()[-1]
 
-        return str('.' + ext_to)
+        return '.' + ext_to
 
     def create_paths_list(self, files_list, ext_to, prefix, suffix, output,
                           orig_dir, overwrite_existing):
@@ -472,13 +465,13 @@ class MainWindow(QMainWindow):
         ext_to = self.output_ext()
         _list = self.create_paths_list(self.fnames, ext_to,
                                        self.prefix, self.suffix,
-                                       unicode(self.toLineEdit.text()),
+                                       self.toLineEdit.text(),
                                        self.origCheckBox.isChecked(),
                                        self.overwrite_existing)
 
         tab = self.current_tab()
         cmd = ''
-        size = str('')
+        size = ''
         mntaspect = False
 
         if tab.name == 'AudioVideo':
@@ -487,7 +480,7 @@ class MainWindow(QMainWindow):
             width = tab.widthLineEdit.text()
             if width:
                 height = tab.heightLineEdit.text()
-                size = str('{0}x{1}'.format(width, height))
+                size = '{0}x{1}'.format(width, height)
                 mntaspect = tab.aspectCheckBox.isChecked()
         else:
             self.docconv = True
@@ -773,7 +766,7 @@ class AudioVideoTab(QWidget):
                 ' install one of them.'))
             return False
         if self.extLineEdit.isEnabled():
-            text = str(self.extLineEdit.text()).strip()
+            text = self.extLineEdit.text().strip()
             if len(text.split()) != 1 or text[0] == '.':
                 QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
                     'Error!'), self.tr('Extension must be one word and must '
@@ -820,7 +813,7 @@ class AudioVideoTab(QWidget):
 
     def command_elements_change(self, widget):
         """Fill self.commandLineEdit with the appropriate command parameters."""
-        command = str(self.commandLineEdit.text())
+        command = self.commandLineEdit.text()
 
         if widget == 'size':
             text1 = self.widthLineEdit.text()
@@ -1016,7 +1009,6 @@ class DocumentTab(QWidget):
                         'Unocov is not installed.\nYou will not be able '
                         'to convert document files until you install it.'))
             for i in self.parent.fnames:
-                i = unicode(i)
                 file_ext = os.path.splitext(i)[-1][1:]
                 if file_ext != decl_ext:
                     raise ValidationError(self.tr(
@@ -1028,7 +1020,7 @@ class DocumentTab(QWidget):
 
         except ValidationError as e:
             QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                    self.tr('Error!'), unicode(e))
+                    self.tr('Error!'), e)
             return False
 
 

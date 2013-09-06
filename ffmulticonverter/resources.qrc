@@ -14,5 +14,8 @@
 <file alias="ffmulticonverter_fr.qm">../locale/ffmulticonverter_fr.qm</file>
 <file alias="ffmulticonverter_bg.qm">../locale/ffmulticonverter_bg.qm</file>
 <file alias="ffmulticonverter_it.qm">../locale/ffmulticonverter_it.qm</file>
+<file alias="ffmulticonverter_es.qm">../locale/ffmulticonverter_es.qm</file>
+<file alias="ffmulticonverter_ms_MY.qm">../locale/ffmulticonverter_ms_MY.qm</file>
+<file alias="ffmulticonverter_zh_TW.qm">../locale/ffmulticonverter_zh_TW.qm</file>
 </qresource>
 </RCC>

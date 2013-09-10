@@ -35,23 +35,16 @@ def is_installed(program):
 
 def remove_consecutive_spaces(string):
     """Remove any consecutive spaces from a string and return it."""
-    temp = string
-    string = ''
-    for i in temp.split():
-        if i:
-            string += i + ' '
-    return string[:-1]
+    return ' '.join([i for i in string.split() if i])
 
 def duration_in_seconds(duration):
     """
     Return the number of seconds of duration, an integer.
-    Duration is a strinf of type hh:mm:ss.ts
+    Duration is a string of type hh:mm:ss.ts
     """
-    duration = duration.split('.')[0]
-    hours, mins, secs = duration.split(':')
-    seconds = int(secs)
-    seconds += (int(hours) * 3600) + (int(mins) * 60)
-    return seconds
+    duration = duration.split('.')[0] # get rid of milliseconds
+    hours, mins, secs = [int(i) for i in duration.split(':')]
+    return secs + (hours * 3600) + (mins * 60)
 
 def create_paths_list(files_list, ext_to, prefix, suffix, output,
                       orig_dir, overwrite_existing):

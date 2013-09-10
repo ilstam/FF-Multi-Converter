@@ -15,15 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-#############################
-# Various useful functions.
-#############################
+"""
+Various useful functions.
+"""
 
 import os
 from PyQt4.QtCore import QSize, Qt
 from PyQt4.QtGui import QAction, QLayout, QLineEdit, QMenu, QSpacerItem, QWidget
 
+
+def str_to_bool(string):
+    """Convert a string to bool and return it."""
+    return string.lower() == 'true'
 
 def is_installed(program):
     """Return True if program appears in user's PATH var, else False."""
@@ -100,11 +103,9 @@ def create_paths_list(files_list, ext_to, prefix, suffix, output,
     return conversion_list
 
 
-
 #######################################################################
 # Useful pyqt-related functions to automate some parts of ui creation.
 #######################################################################
-
 
 def add_to_layout(layout, *items):
     """Add items to QVBox and QHBox layouts easily.

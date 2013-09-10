@@ -224,11 +224,13 @@ class MainWindow(QMainWindow):
     def load_settings(self):
         """Load settings values."""
         settings = QSettings()
-        self.overwrite_existing = settings.value('overwrite_existing')
+        self.overwrite_existing = utils.str_to_bool(
+                settings.value('overwrite_existing'))
+        self.avconv_prefered = utils.str_to_bool(
+                settings.value('avconv_prefered'))
         self.default_output = settings.value('default_output')
         self.prefix = settings.value('prefix')
         self.suffix = settings.value('suffix')
-        self.avconv_prefered = settings.value('avconv_prefered')
         self.default_command = settings.value('default_command')
         if not self.default_command:
             self.default_command = DEFAULT_COMMAND

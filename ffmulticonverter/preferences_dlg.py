@@ -105,7 +105,7 @@ class Preferences(QDialog):
         default_command = settings.value('default_command')
 
         # QSettings.value() returns str() in python3, not QVariant() as in p2
-        if overwrite_existing == 'true':
+        if overwrite_existing:
             self.exst_overwriteRadioButton.setChecked(True)
         else:
             self.exst_add_prefixRadioButton.setChecked(True)
@@ -115,7 +115,7 @@ class Preferences(QDialog):
             self.prefixLineEdit.setText(prefix)
         if suffix:
             self.suffixLineEdit.setText(suffix)
-        if avconv_prefered == 'true':
+        if avconv_prefered:
             self.avconvRadioButton.setChecked(True)
         else:
             self.ffmpegRadioButton.setChecked(True)

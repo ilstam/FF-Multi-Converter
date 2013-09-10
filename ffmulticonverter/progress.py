@@ -165,7 +165,7 @@ class Progress(QDialog):
             msg = QMessageBox(self)
             msg.setStandardButtons(QMessageBox.Ok)
             msg.setWindowTitle(self.tr("Report"))
-            msg.setText(self.tr("Converted: %1/%2").arg(self.ok).arg(sum_files))
+            msg.setText(self.tr("Converted: {0}/{1}".format(self.ok,sum_files)))
             msg.setModal(False)
             msg.show()
 
@@ -374,7 +374,7 @@ class Progress(QDialog):
             img.write(to_file)
             converted = True
         except (RuntimeError, OSError, Exception) as e:
-            final_output = e
+            final_output = str(e)
             self.update_text_edit_signal.emit(final_output)
             converted = False
         self.update_text_edit_signal.emit('\n\n')

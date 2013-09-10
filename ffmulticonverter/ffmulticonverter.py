@@ -383,7 +383,7 @@ class MainWindow(QMainWindow):
 
         except ValidationError as e:
             QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                                self.tr('Error!'), e)
+                                self.tr('Error!'), str(e))
             return False
 
     def output_ext(self):
@@ -1012,7 +1012,7 @@ class DocumentTab(QWidget):
                 file_ext = os.path.splitext(i)[-1][1:]
                 if file_ext != decl_ext:
                     raise ValidationError(self.tr(
-                            '%1 is not %2!').arg(i, decl_ext))
+                            '{0} is not {1}!'.format(i, decl_ext)))
             if self.parent.docconv:
                 raise ValidationError(self.tr(
                             'You can not make parallel document conversions.'))
@@ -1020,7 +1020,7 @@ class DocumentTab(QWidget):
 
         except ValidationError as e:
             QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                    self.tr('Error!'), e)
+                    self.tr('Error!'), str(e))
             return False
 
 

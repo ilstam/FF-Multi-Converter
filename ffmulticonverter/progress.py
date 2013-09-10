@@ -29,7 +29,7 @@ import subprocess
 import shlex
 import logging
 
-import pyqttools
+import utils
 
 try:
     import PythonMagick
@@ -99,21 +99,18 @@ class Progress(QDialog):
         self.textEdit = QTextEdit()
         self.textEdit.setReadOnly(True)
         self.frame = QFrame()
-        frame_layout = pyqttools.add_to_layout(QHBoxLayout(), self.textEdit)
+        frame_layout = utils.add_to_layout(QHBoxLayout(), self.textEdit)
         self.frame.setLayout(frame_layout)
         self.frame.hide()
 
-        hlayout = pyqttools.add_to_layout(QHBoxLayout(), None, self.nowLabel,
-                                          None)
-        hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), None, totalLabel,
-                                           None)
-        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), detailsButton, line)
-        hlayout4 = pyqttools.add_to_layout(QHBoxLayout(), self.frame)
-        hlayout5 = pyqttools.add_to_layout(QHBoxLayout(), None,
-                                           self.cancelButton)
-        vlayout = pyqttools.add_to_layout(QVBoxLayout(), hlayout, self.nowBar,
-                                          hlayout2, self.totalBar, None,
-                                          hlayout3, hlayout4, hlayout5)
+        hlayout = utils.add_to_layout(QHBoxLayout(), None, self.nowLabel, None)
+        hlayout2 = utils.add_to_layout(QHBoxLayout(), None, totalLabel, None)
+        hlayout3 = utils.add_to_layout(QHBoxLayout(), detailsButton, line)
+        hlayout4 = utils.add_to_layout(QHBoxLayout(), self.frame)
+        hlayout5 = utils.add_to_layout(QHBoxLayout(), None, self.cancelButton)
+        vlayout = utils.add_to_layout(QVBoxLayout(), hlayout, self.nowBar,
+                                      hlayout2, self.totalBar, None,
+                                      hlayout3, hlayout4, hlayout5)
         self.setLayout(vlayout)
 
         detailsButton.toggled.connect(self.resize_dialog)
@@ -271,17 +268,6 @@ class Progress(QDialog):
         self.thread = threading.Thread(target=convert)
         self.thread.start()
 
-    def duration_in_seconds(self, duration):
-        """
-        Return the number of seconds of duration, an integer.
-        Duration is a strinf of type hh:mm:ss.ts
-        """
-        duration = duration.split('.')[0]
-        hours, mins, secs = duration.split(':')
-        seconds = int(secs)
-        seconds += (int(hours) * 3600) + (int(mins) * 60)
-        return seconds
-
     def convert_video(self, from_file, to_file, command, ffmpeg):
         """
         Create the ffmpeg command and execute it in a new process using the
@@ -315,14 +301,14 @@ class Progress(QDialog):
             if out in ('\r', '\n'):
                 m = re.search("Duration: ([0-9:.]+)", myline)
                 if m:
-                    total = self.duration_in_seconds(m.group(1))
+                    total = utils.duration_in_seconds(m.group(1))
                 n = re.search("time=([0-9:]+)", myline)
                 # time can be of format 'time=hh:mm:ss.ts' or 'time=ss.ts'
                 # depending on ffmpeg version
                 if n:
                     time = n.group(1)
                     if ':' in time:
-                        time = self.duration_in_seconds(time)
+                        time = utils.duration_in_seconds(time)
                     now_sec = int(float(time))
                     try:
                         self.refr_bars_signal.emit(100 * now_sec / total)

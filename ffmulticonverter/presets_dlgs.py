@@ -25,7 +25,7 @@ import os
 import re
 import xml.etree.ElementTree as etree
 
-import pyqttools
+import utils
 
 
 class ValidationError(Exception): pass
@@ -66,19 +66,19 @@ class ShowPresets(QDialog):
         spc2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         spc3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        grid = pyqttools.add_to_grid(QGridLayout(),
-                          [self.delete_allButton, addButton, spc1],
-                          [self.deleteButton, self.editButton, spc2])
+        grid = utils.add_to_grid(QGridLayout(),
+                                 [self.delete_allButton, addButton, spc1],
+                                 [self.deleteButton, self.editButton, spc2])
 
-        hlayout = pyqttools.add_to_layout(QHBoxLayout(), searchLabel,
-                                          self.searchLineEdit, None, okButton)
+        hlayout = utils.add_to_layout(QHBoxLayout(), searchLabel,
+                                      self.searchLineEdit, None, okButton)
 
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(),
-                                               self.presListWidget, labelLabel,
-                                               self.labelLineEdit, commandLabel,
-                                               self.commandLineEdit, extLabel,
-                                               self.extLineEdit, grid, spc3,
-                                               hlayout)
+        final_layout = utils.add_to_layout(QVBoxLayout(),
+                                           self.presListWidget, labelLabel,
+                                           self.labelLineEdit, commandLabel,
+                                           self.commandLineEdit, extLabel,
+                                           self.extLineEdit, grid, spc3,
+                                           hlayout)
 
         self.setLayout(final_layout)
 
@@ -379,11 +379,11 @@ class AddorEditPreset(QDialog):
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok|
                                           QDialogButtonBox.Cancel)
 
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(), nameLabel,
-                                               self.nameLineEdit, labelLabel,
-                                               self.labelLineEdit, commandLabel,
-                                               self.commandLineEdit, extLabel,
-                                               self.extLineEdit, self.buttonBox)
+        final_layout = utils.add_to_layout(QVBoxLayout(), nameLabel,
+                                           self.nameLineEdit, labelLabel,
+                                           self.labelLineEdit, commandLabel,
+                                           self.commandLineEdit, extLabel,
+                                           self.extLineEdit, self.buttonBox)
 
         self.setLayout(final_layout)
 

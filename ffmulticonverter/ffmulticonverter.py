@@ -762,7 +762,6 @@ class AudioVideoTab(QWidget):
         Check if:
         - Either ffmpeg or avconv are installed.
         - Desired extension is valid.
-        - self.commandLineEdit is empty.
 
         Return True if all tests pass, else False.
         """
@@ -781,11 +780,6 @@ class AudioVideoTab(QWidget):
                 self.extLineEdit.selectAll()
                 self.extLineEdit.setFocus()
                 return False
-        if not self.commandLineEdit.text():
-            QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
-                  'Error!'), self.tr('The command LineEdit may not be empty.'))
-            self.commandLineEdit.setFocus()
-            return False
         return True
 
     def set_default_command(self):

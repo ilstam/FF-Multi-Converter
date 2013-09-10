@@ -306,14 +306,13 @@ class Progress(QDialog):
                                         stderr=subprocess.STDOUT,
                                         stdout=subprocess.PIPE)
 
-        final_output = myline = str('')
+        final_output = myline = ''
         while True:
-            out = self.process.stdout.read(1)
-            if out == str('') and self.process.poll() is not None:
+            out = self.process.stdout.read(1).decode("utf-8")
+            if out == '' and self.process.poll() is not None:
                 break
-
             myline += out
-            if out in (str('\r'), str('\n')):
+            if out in ('\r', '\n'):
                 m = re.search("Duration: ([0-9:.]+)", myline)
                 if m:
                     total = self.duration_in_seconds(m.group(1))
@@ -331,7 +330,7 @@ class Progress(QDialog):
                         pass
                 self.update_text_edit_signal.emit(myline)
                 final_output += myline
-                myline = str('')
+                myline = ''
         self.update_text_edit_signal.emit('\n\n')
 
         return_code = self.process.poll()
@@ -370,12 +369,12 @@ class Progress(QDialog):
             img = PythonMagick.Image(from_file)
             if size:
                 if not mntaspect:
-                    size = str('!') + size
+                    size = '!' + size
                 img.sample(size)
             img.write(to_file)
             converted = True
         except (RuntimeError, OSError, Exception) as e:
-            final_output = str(e)
+            final_output = e
             self.update_text_edit_signal.emit(final_output)
             converted = False
         self.update_text_edit_signal.emit('\n\n')

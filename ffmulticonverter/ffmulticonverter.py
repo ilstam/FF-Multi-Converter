@@ -933,7 +933,7 @@ class DocumentTab(QWidget):
             for i in self.parent.fnames:
                 file_ext = os.path.splitext(i)[-1][1:]
                 if file_ext != decl_ext:
-                    raise ValidationError(self.tr(
+                    raise ValidationError(self.trUtf8(
                             '{0} is not {1}!'.format(i, decl_ext)))
             if self.parent.docconv:
                 raise ValidationError(self.tr(

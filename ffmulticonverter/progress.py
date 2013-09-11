@@ -22,6 +22,7 @@ from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
 
 import os
 import re
+import io
 import signal
 import threading
 import shutil
@@ -293,8 +294,9 @@ class Progress(QDialog):
                                         stdout=subprocess.PIPE)
 
         final_output = myline = ''
+        reader = io.TextIOWrapper(self.process.stdout, encoding='utf8')
         while True:
-            out = self.process.stdout.read(1).decode("utf-8")
+            out = reader.read(1)
             if out == '' and self.process.poll() is not None:
                 break
             myline += out
@@ -415,7 +417,8 @@ class Progress(QDialog):
             # unoconv conversion failed and converted_file does not exist
             pass
 
-        final_output = child.stdout.read()
+        reader = io.TextIOWrapper(child.stdout, encoding='utf8')
+        final_output = reader.read()
         self.update_text_edit_signal.emit(final_output+'\n\n')
 
         return_code = child.poll()

@@ -30,7 +30,7 @@ import sys
 import re
 import platform
 import logging
-import codecs
+import textwrap
 
 import ffmulticonverter as ffmc
 from ffmulticonverter import utils
@@ -465,15 +465,7 @@ class MainWindow(QMainWindow):
     def about(self):
         """Call the about dialog with the appropriate values."""
         msg = self.tr('Convert among several file types to other extensions')
-        if len(msg) > 54:
-            # break line if msg is too long to fit the window
-            nmsg = ''
-            for n, w in enumerate(msg.split(' ')):
-                if len(nmsg) > 54:
-                    break
-                nmsg += w + ' '
-            nmsg += '<br>' + msg[len(nmsg):]
-            msg = nmsg
+        msg = textwrap.fill(msg, 54).replace('\n', '<br>')
         text = '''<b> FF Multi Converter {0} </b>
                  <p>{1}
                  <p><a href="{2}">FF Multi Converter - Home Page</a>

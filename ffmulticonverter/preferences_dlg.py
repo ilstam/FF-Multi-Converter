@@ -95,11 +95,12 @@ class Preferences(QDialog):
         self.buttonBox.rejected.connect(self.reject)
 
         settings = QSettings()
-        overwrite_existing = settings.value('overwrite_existing')
+        overwrite_existing = utils.str_to_bool(
+                settings.value('overwrite_existing'))
         default_output = settings.value('default_output')
         prefix = settings.value('prefix')
         suffix = settings.value('suffix')
-        avconv_prefered = settings.value('avconv_prefered')
+        avconv_prefered = utils.str_to_bool(settings.value('avconv_prefered'))
         default_command = settings.value('default_command')
 
         # QSettings.value() returns str() in python3, not QVariant() as in p2

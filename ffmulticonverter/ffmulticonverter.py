@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-#
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __init__ import __version__
 
 from PyQt4.QtCore import (pyqtSignal, PYQT_VERSION_STR, QCoreApplication,
                           QLocale, QRegExp, QSettings, QSize, Qt, QTimer,
@@ -35,11 +32,12 @@ import platform
 import logging
 import codecs
 
-import utils
-import about_dlg
-import preferences_dlg
-import presets_dlgs
-import progress
+import ffmulticonverter as ffmc
+from ffmulticonverter import utils
+from ffmulticonverter import about_dlg
+from ffmulticonverter import preferences_dlg
+from ffmulticonverter import presets_dlgs
+from ffmulticonverter import progress
 #import qrc_resources
 
 try:
@@ -486,7 +484,7 @@ class MainWindow(QMainWindow):
                  <p>Copyright &copy; 2011-2013 Ilias Stamatis
                  <br>License: GNU GPL3
                  <p>Python {3} - Qt {4} - PyQt {5} on {6}'''\
-                 .format(__version__, msg, link, platform.python_version()[:5],
+                 .format(ffmc.__version__, msg, link, platform.python_version()[:5],
                          QT_VERSION_STR, PYQT_VERSION_STR, platform.system())
         image = ':/ffmulticonverter.png'
         authors = 'Ilias Stamatis <stamatis.iliass@gmail.com>\n\n'

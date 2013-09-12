@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-#
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -25,7 +23,7 @@ import os
 import re
 import xml.etree.ElementTree as etree
 
-import utils
+from ffmulticonverter import utils
 
 
 class ValidationError(Exception): pass

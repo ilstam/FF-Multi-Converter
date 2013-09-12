@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-#
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,7 +17,7 @@ from PyQt4.QtCore import QSize
 from PyQt4.QtGui import (QDialog, QHBoxLayout, QLabel, QPixmap, QPlainTextEdit,
                          QPushButton, QTabWidget, QVBoxLayout)
 
-import utils
+from ffmulticonverter import utils
 
 
 class AboutDialog(QDialog):

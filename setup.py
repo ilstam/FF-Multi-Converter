@@ -19,7 +19,7 @@ setup(
     author = ffmulticonverter.__author__,
     author_email = ffmulticonverter.__author_email__,
     license = ffmulticonverter.__license__,
-    platforms = ffmulticonverter.__platfroms__,
+    platforms = ffmulticonverter.__platforms__,
     url = ffmulticonverter.__url__,
     download_url = ffmulticonverter.__download_url__,
     keywords = ['convert', 'file format', 'extension', 'audio', 'video',

@@ -14,6 +14,6 @@ __description__ = __doc__
 __author__ = "Ilias Stamatis"
 __author_email__ = "stamatis.iliass@gmail.com"
 __license__ = "GNU GPL3"
-__platfroms__ = "Linux"
+__platforms__ = "Linux"
 __url__ = "https://sites.google.com/site/ffmulticonverter/"
 __download_url__ = "https://sourceforge.net/projects/ffmulticonv/files/"

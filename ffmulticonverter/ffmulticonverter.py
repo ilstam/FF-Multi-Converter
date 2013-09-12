@@ -40,11 +40,6 @@ from ffmulticonverter import presets_dlgs
 from ffmulticonverter import progress
 #import qrc_resources
 
-try:
-    import PythonMagick
-except ImportError:
-    pass
-
 
 class ValidationError(Exception):
     pass
@@ -440,22 +435,15 @@ class MainWindow(QMainWindow):
         self.ffmpeg = utils.is_installed('ffmpeg')
         self.avconv = utils.is_installed('avconv')
         self.unoconv = utils.is_installed('unoconv')
-        self.pmagick = True
-        try:
-            # We tried to import PythonMagick earlier.
-            # If that raises an error it means that PythonMagick is not
-            # available on the system.
-            PythonMagick
-        except NameError:
-            self.pmagick = False
+        self.imagemagick = utils.is_installed('convert')
 
         missing = []
         if not self.ffmpeg and not self.avconv:
-            missing.append('FFmpeg/avconv')
+            missing.append('ffmpeg/avconv')
         if not self.unoconv:
             missing.append('unoconv')
-        if not self.pmagick:
-            missing.append('PythonMagick')
+        if not self.imagemagick:
+            missing.append('imagemagick')
 
         if missing:
             missing = ', '.join(missing)
@@ -840,7 +828,7 @@ class ImageTab(QWidget):
         Check if everything is ok with imagetab to continue conversion.
 
         Check if:
-        - PythonMagick is missing.
+        - ImageMagick is missing.
         - Either none or both size lineEdits are active at a time.
 
         Return True if all tests pass, else False.
@@ -848,9 +836,9 @@ class ImageTab(QWidget):
         width = self.widthLineEdit.text()
         height = self.heightLineEdit.text()
 
-        if not self.parent.pmagick:
+        if not self.parent.imagemagick:
             QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
-                'Error!'), self.tr('PythonMagick is not installed.\nYou will '
+                'Error!'), self.tr('ImageMagick is not installed.\nYou will '
                 'not be able to convert image files until you install it.'))
             return False
         if (width and not height) or (not width and height):

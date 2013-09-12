@@ -30,11 +30,6 @@ import logging
 
 from ffmulticonverter import utils
 
-try:
-    import PythonMagick
-except ImportError:
-    pass
-
 
 class Progress(QDialog):
     file_converted_signal = pyqtSignal()
@@ -337,6 +332,7 @@ class Progress(QDialog):
 
         Return True if conversion succeed, else False.
         """
+        return False # should replaced with imagemagick code
         assert from_file.startswith('"') and from_file.endswith('"')
         assert to_file.startswith('"') and to_file.endswith('"')
 

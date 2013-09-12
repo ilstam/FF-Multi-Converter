@@ -46,13 +46,6 @@ except ImportError:
     pass
 
 
-# global variables
-MAIN_WIDTH = 700 # main window width
-MAIN_HEIGHT = 500
-MAIN_FIXED_HEIGHT = 622
-DEFAULT_COMMAND = '-ab 320k -ar 48000 -ac 2' # default ffmpeg command
-
-
 class ValidationError(Exception):
     pass
 
@@ -90,10 +83,16 @@ class FilesList(QListWidget):
 
 
 class MainWindow(QMainWindow):
+
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        self.home = os.getenv('HOME')
+        self.main_width = 700 # main window width
+        self.main_height = 500
+        self.main_fixed_height = 622
+        self.default_command = '-ab 320k -ar 48000 -ac 2' # default ffmpeg cmd
+
+        self.home = os.getenv('HOME') # home path
         self.fnames = list()  # list of file names to be converted
         self.docconv = False  # True when a documents conversion is running
 
@@ -211,7 +210,7 @@ class MainWindow(QMainWindow):
         del_shortcut.setKey(Qt.Key_Delete)
         del_shortcut.activated.connect(self.delete_files)
 
-        self.resize(MAIN_WIDTH, MAIN_HEIGHT)
+        self.resize(self.main_width, self.main_height)
         self.setWindowTitle('FF Multi Converter')
 
         QTimer.singleShot(0, self.check_for_dependencies)
@@ -230,8 +229,6 @@ class MainWindow(QMainWindow):
         self.prefix = settings.value('prefix')
         self.suffix = settings.value('suffix')
         self.default_command = settings.value('default_command')
-        if not self.default_command:
-            self.default_command = DEFAULT_COMMAND
 
         self.toLineEdit.setText(self.default_output)
 
@@ -658,9 +655,12 @@ class AudioVideoTab(QWidget):
 
     def resize_parent(self):
         """Resize MainWindow."""
-        height = MAIN_FIXED_HEIGHT if self.frame.isVisible() else MAIN_HEIGHT
-        self.parent.setMinimumSize(MAIN_WIDTH, height)
-        self.parent.resize(MAIN_WIDTH, height)
+        if self.frame.isVisible():
+            height = self.parent.main_fixed_height
+        else:
+            height = self.parent.main_height
+        self.parent.setMinimumSize(self.parent.main_width, height)
+        self.parent.resize(self.parent.main_width, height)
 
     def clear(self):
         """Clear all values of graphical widgets."""

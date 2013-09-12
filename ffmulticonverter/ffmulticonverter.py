@@ -464,7 +464,6 @@ class MainWindow(QMainWindow):
 
     def about(self):
         """Call the about dialog with the appropriate values."""
-        link = 'http://sites.google.com/site/ffmulticonverter/'
         msg = self.tr('Convert among several file types to other extensions')
         if len(msg) > 54:
             # break line if msg is too long to fit the window
@@ -478,13 +477,14 @@ class MainWindow(QMainWindow):
         text = '''<b> FF Multi Converter {0} </b>
                  <p>{1}
                  <p><a href="{2}">FF Multi Converter - Home Page</a>
-                 <p>Copyright &copy; 2011-2013 Ilias Stamatis
-                 <br>License: GNU GPL3
-                 <p>Python {3} - Qt {4} - PyQt {5} on {6}'''\
-                 .format(ffmc.__version__, msg, link, platform.python_version()[:5],
+                 <p>Copyright &copy; 2011-2013 {3}
+                 <br>License: {4}
+                 <p>Python {5} - Qt {6} - PyQt {7} on {8}'''\
+                 .format(ffmc.__version__, msg, ffmc.__url__, ffmc.__author__,
+                         ffmc.__license__, platform.python_version()[:5],
                          QT_VERSION_STR, PYQT_VERSION_STR, platform.system())
         image = ':/ffmulticonverter.png'
-        authors = 'Ilias Stamatis <stamatis.iliass@gmail.com>\n\n'
+        authors = '{0} <{1}>\n\n'.format(ffmc.__author__, ffmc.__author_email__)
         authors += 'Contributors:\nPanagiotis Mavrogiorgos'
         transl_list = [['[bg] Bulgarian', 'Vasil Blagoev'],
                        ['[cs] Czech', 'Petr Simacek'],
@@ -501,10 +501,10 @@ class MainWindow(QMainWindow):
                        ['[ru] Russian', 'Andrew Lapshin'],
                        ['[tu] Turkish', 'Tayfun Kayha'],
                        ['[zh_CN] Chinese (China)', 'Dianjin Wang']]
-        translators = ''
+        translators = []
         for i in transl_list:
-            translators += '{0}\n     {1}\n\n'.format(i[0], i[1])
-        translators = translators[:-2]
+            translators.append('{0}\n     {1}'.format(i[0], i[1]))
+        translators = '\n\n'.join(translators)
 
         dialog = about_dlg.AboutDialog(text, image, authors, translators, self)
         dialog.exec_()
@@ -955,8 +955,8 @@ def logging_config():
 
 def main():
     app = QApplication([i.encode('utf-8') for i in sys.argv])
-    app.setOrganizationName('ffmulticonverter')
-    app.setOrganizationDomain('sites.google.com/site/ffmulticonverter/')
+    app.setOrganizationName(ffmc.__name__)
+    app.setOrganizationDomain(ffmc.__url__)
     app.setApplicationName('FF Muli Converter')
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
 

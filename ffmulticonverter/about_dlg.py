@@ -80,14 +80,3 @@ class CreditsDialog(QDialog):
         self.setMinimumSize(QSize(335, 370))
         self.setMaximumSize(QSize(335, 370))
         self.setWindowTitle(self.tr('Credits'))
-
-if __name__ == '__main__':
-    #test dialog
-    from PyQt4.QtGui import QApplication
-    import qrc_resources
-    import sys
-    app = QApplication(sys.argv)
-    dialog = AboutDialog('About Dialog', ':/ffmulticonverter.png',
-                         'Authors', 'Translators')
-    dialog.show()
-    app.exec_()

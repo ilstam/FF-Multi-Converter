@@ -427,12 +427,3 @@ class Progress(QDialog):
         log_lvl(final_output, extra=log_data)
 
         return return_code == 0
-
-
-if __name__ == '__main__':
-    #test dialog
-    import sys
-    app = QApplication(sys.argv)
-    dialog = Progress([], '', '', False, '', False, False, None, test=True)
-    dialog.show()
-    app.exec_()

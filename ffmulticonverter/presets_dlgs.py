@@ -458,13 +458,3 @@ class AddorEditPreset(QDialog):
     def accept(self):
         if self.validation():
             QDialog.accept(self)
-
-
-if __name__ == '__main__':
-    #test dialog
-    from PyQt4.QtGui import QApplication
-    import sys
-    app = QApplication(sys.argv)
-    dialog = ShowPresets()
-    dialog.show()
-    app.exec_()

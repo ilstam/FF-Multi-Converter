@@ -160,13 +160,3 @@ class Preferences(QDialog):
         settings.setValue('default_command', default_command)
 
         self.accept()
-
-
-if __name__ == '__main__':
-    #test dialog
-    from PyQt4.QtGui import QApplication
-    import sys
-    app = QApplication(sys.argv)
-    dialog = Preferences(test=True)
-    dialog.show()
-    app.exec_()

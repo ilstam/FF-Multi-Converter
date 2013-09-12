@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -16,8 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
-
 from PyQt4.QtCore import QSettings
 from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
                          QHBoxLayout, QLabel, QLineEdit, QRadioButton,
@@ -25,7 +22,7 @@ from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
                          QWidget)
 
 import os
-import pyqttools
+import utils
 
 
 class Preferences(QDialog):
@@ -39,28 +36,28 @@ class Preferences(QDialog):
         self.exst_add_prefixRadioButton = QRadioButton(
                                                      self.tr("Add '~' prefix"))
         self.exst_overwriteRadioButton = QRadioButton(self.tr('Overwrite'))
-        exist_layout = pyqttools.add_to_layout(QHBoxLayout(),
-                                               self.exst_add_prefixRadioButton,
-                                               self.exst_overwriteRadioButton)
+        exist_layout = utils.add_to_layout(QHBoxLayout(),
+                                           self.exst_add_prefixRadioButton,
+                                           self.exst_overwriteRadioButton)
 
         defaultLabel = QLabel(self.tr('Default output destination:'))
         self.defaultLineEdit = QLineEdit()
         self.defaultToolButton = QToolButton()
         self.defaultToolButton.setText('...')
-        deafult_fol_layout = pyqttools.add_to_layout(QHBoxLayout(),
-                                                     self.defaultLineEdit,
-                                                     self.defaultToolButton)
+        deafult_fol_layout = utils.add_to_layout(QHBoxLayout(),
+                                                 self.defaultLineEdit,
+                                                 self.defaultToolButton)
         name_Label = QLabel('<html><b>' + self.tr('Name files') +'</b></html>')
         prefixLabel = QLabel(self.tr('Prefix:'))
         suffixLabel = QLabel(self.tr('Suffix:'))
         self.prefixLineEdit = QLineEdit()
         self.suffixLineEdit = QLineEdit()
-        grid = pyqttools.add_to_grid(QGridLayout(),
-                                     [prefixLabel, self.prefixLineEdit],
-                                     [suffixLabel, self.suffixLineEdit])
-        prefix_layout = pyqttools.add_to_layout(QHBoxLayout(), grid, None)
+        grid = utils.add_to_grid(QGridLayout(),
+                                 [prefixLabel, self.prefixLineEdit],
+                                 [suffixLabel, self.suffixLineEdit])
+        prefix_layout = utils.add_to_layout(QHBoxLayout(), grid, None)
 
-        tabwidget1_layout = pyqttools.add_to_layout(QVBoxLayout(), saveLabel,
+        tabwidget1_layout = utils.add_to_layout(QVBoxLayout(), saveLabel,
                QSpacerItem(14, 13), exist_Label, exist_layout,
                QSpacerItem(14, 13), defaultLabel, deafult_fol_layout,
                QSpacerItem(13, 13), name_Label, QSpacerItem(14, 13),
@@ -73,11 +70,10 @@ class Preferences(QDialog):
         self.ffmpegRadioButton = QRadioButton(self.tr('FFmpeg'))
         self.avconvRadioButton = QRadioButton(self.tr('avconv'))
 
-        hlayout = pyqttools.add_to_layout(QHBoxLayout(),
-                                          self.ffmpegRadioButton,
-                                          self.avconvRadioButton)
+        hlayout = utils.add_to_layout(QHBoxLayout(), self.ffmpegRadioButton,
+                                      self.avconvRadioButton)
 
-        tabwidget2_layout = pyqttools.add_to_layout(QVBoxLayout(), ffmpegLabel,
+        tabwidget2_layout = utils.add_to_layout(QVBoxLayout(), ffmpegLabel,
                 QSpacerItem(14, 13), useLabel, hlayout, QSpacerItem(14, 13),
                 default_commandLabel, self.commandLineEdit, None)
 
@@ -92,8 +88,8 @@ class Preferences(QDialog):
         self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok|
                                           QDialogButtonBox.Cancel)
 
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(), self.TabWidget,
-                                               None, self.buttonBox)
+        final_layout = utils.add_to_layout(QVBoxLayout(), self.TabWidget,
+                                           None, self.buttonBox)
         self.setLayout(final_layout)
 
         self.defaultToolButton.clicked.connect(self.open_dir)
@@ -101,13 +97,14 @@ class Preferences(QDialog):
         self.buttonBox.rejected.connect(self.reject)
 
         settings = QSettings()
-        overwrite_existing = settings.value('overwrite_existing').toBool()
-        default_output = settings.value('default_output').toString()
-        prefix = settings.value('prefix').toString()
-        suffix = settings.value('suffix').toString()
-        avconv_prefered = settings.value('avconv_prefered').toBool()
-        default_command = settings.value('default_command').toString()
+        overwrite_existing = settings.value('overwrite_existing')
+        default_output = settings.value('default_output')
+        prefix = settings.value('prefix')
+        suffix = settings.value('suffix')
+        avconv_prefered = settings.value('avconv_prefered')
+        default_command = settings.value('default_command')
 
+        # QSettings.value() returns str() in python3, not QVariant() as in p2
         if overwrite_existing:
             self.exst_overwriteRadioButton.setChecked(True)
         else:
@@ -143,7 +140,6 @@ class Preferences(QDialog):
         if self.defaultLineEdit.isEnabled():
             _dir = QFileDialog.getExistingDirectory(self, 'FF Multi Converter '
                 '- ' + self.tr('Choose default output destination'), self.home)
-            #_dir = unicode(_dir)
             if _dir:
                 self.defaultLineEdit.setText(_dir)
 
@@ -151,11 +147,11 @@ class Preferences(QDialog):
         """Set settings values, extracting the appropriate information from
         the graphical widgets."""
         overwrite_existing = self.exst_overwriteRadioButton.isChecked()
-        default_output = unicode(self.defaultLineEdit.text())
-        prefix = unicode(self.prefixLineEdit.text())
-        suffix = unicode(self.suffixLineEdit.text())
+        default_output = self.defaultLineEdit.text()
+        prefix = self.prefixLineEdit.text()
+        suffix = self.suffixLineEdit.text()
         avconv_prefered = self.avconvRadioButton.isChecked()
-        default_command = unicode(self.commandLineEdit.text())
+        default_command = self.commandLineEdit.text()
 
         settings = QSettings()
         settings.setValue('overwrite_existing', overwrite_existing)

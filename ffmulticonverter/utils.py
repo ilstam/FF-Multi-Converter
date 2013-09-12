@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -17,13 +16,96 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 """
-Useful functions to automate some parts of ui creation.
+Various useful functions.
 """
 
+import os
 from PyQt4.QtCore import QSize, Qt
-from PyQt4.QtGui import (QAction, QLayout, QLineEdit, QMenu, QSpacerItem,
-                         QWidget)
+from PyQt4.QtGui import QAction, QLayout, QLineEdit, QMenu, QSpacerItem, QWidget
 
+
+def str_to_bool(string):
+    """Convert a string to bool and return it."""
+    return string.lower() == 'true'
+
+def is_installed(program):
+    """Return True if program appears in user's PATH var, else False."""
+    for path in os.getenv('PATH').split(os.pathsep):
+        fpath = os.path.join(path, program)
+        if os.path.exists(fpath) and os.access(fpath, os.X_OK):
+            return True
+    return False
+
+def remove_consecutive_spaces(string):
+    """Remove any consecutive spaces from a string and return it."""
+    return ' '.join([i for i in string.split() if i])
+
+def duration_in_seconds(duration):
+    """
+    Return the number of seconds of duration, an integer.
+    Duration is a string of type hh:mm:ss.ts
+    """
+    duration = duration.split('.')[0] # get rid of milliseconds
+    hours, mins, secs = [int(i) for i in duration.split(':')]
+    return secs + (hours * 3600) + (mins * 60)
+
+def create_paths_list(files_list, ext_to, prefix, suffix, output,
+                      orig_dir, overwrite_existing):
+    """
+    Keyword arguments:
+    files_list -- list with files to be converted
+    ext_to     -- the extension to which each file must be converted to
+    prefix     -- string that will be added as a prefix to all filenames
+    suffix     -- string that will be added as a suffix to all filenames
+    output     -- the output folder
+    orig_dir   -- if True, each file will be saved at its original directory
+                  else, files will be saved at output
+    overwrite_existing -- if False, a '~' will be added as prefix to
+                          filenames
+
+    Create and return a list with dicts.
+    Each dict will have only one key and one corresponding value.
+    Key will be a file to be converted and it's value will be the name
+    of the new converted file.
+
+    Example list:
+    [{"/foo/bar.png" : "/foo/bar.bmp"}, {"/f/bar2.png" : "/f/bar2.bmp"}]
+    """
+    assert ext_to.startswith('.'), 'ext_to must start with a dot (.)'
+
+    conversion_list = []
+    dummy = []
+
+    for _file in files_list:
+        _dir, name = os.path.split(_file)
+        y = prefix + os.path.splitext(name)[0] + suffix + ext_to
+
+        if orig_dir:
+            y = _dir + '/' + y
+        else:
+            y = output + '/' + y
+
+        if not overwrite_existing:
+            while os.path.exists(y) or y in dummy:
+                _dir2, _name2 = os.path.split(y)
+                y = _dir2 + '/~' + _name2
+
+        dummy.append(y)
+        # Add quotations to paths in order to avoid error in special
+        # cases such as spaces or special characters.
+        _file = '"' + _file + '"'
+        y = '"' + y + '"'
+
+        _dict = {}
+        _dict[_file] = y
+        conversion_list.append(_dict)
+
+    return conversion_list
+
+
+#######################################################################
+# Useful pyqt-related functions to automate some parts of ui creation.
+#######################################################################
 
 def add_to_layout(layout, *items):
     """Add items to QVBox and QHBox layouts easily.

@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -15,9 +14,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-from __future__ import unicode_literals
-from __future__ import print_function
 
 from __init__ import __version__
 
@@ -39,12 +35,12 @@ import platform
 import logging
 import codecs
 
+import utils
 import about_dlg
 import preferences_dlg
 import presets_dlgs
 import progress
-import pyqttools
-import qrc_resources
+#import qrc_resources
 
 try:
     import PythonMagick
@@ -89,7 +85,7 @@ class FilesList(QListWidget):
             event.accept()
             links = []
             for url in event.mimeData().urls():
-                links.append(unicode(url.toLocalFile()))
+                links.append(url.toLocalFile())
             self.dropped.emit(links)
         else:
             event.ignore()
@@ -114,21 +110,20 @@ class MainWindow(QMainWindow):
         addButton = QPushButton(self.tr('Add'))
         delButton = QPushButton(self.tr('Delete'))
         clearButton = QPushButton(self.tr('Clear'))
-        vlayout1 = pyqttools.add_to_layout(QVBoxLayout(), addButton, delButton,
-                                           clearButton, None)
+        vlayout1 = utils.add_to_layout(QVBoxLayout(), addButton, delButton,
+                                       clearButton, None)
 
         self.filesList = FilesList()
         self.filesList.setSelectionMode(QAbstractItemView.ExtendedSelection)
-        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), self.filesList,
-                                           vlayout1)
+        hlayout1 = utils.add_to_layout(QHBoxLayout(), self.filesList, vlayout1)
 
         output_label = QLabel(self.tr('Output folder:'))
         self.toLineEdit = QLineEdit()
         self.toLineEdit.setReadOnly(True)
         self.toToolButton = QToolButton()
         self.toToolButton.setText('...')
-        hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), output_label,
-                                           self.toLineEdit, self.toToolButton)
+        hlayout2 = utils.add_to_layout(QHBoxLayout(), output_label,
+                                       self.toLineEdit, self.toToolButton)
 
         self.audiovideo_tab = AudioVideoTab(self)
         self.image_tab = ImageTab(self)
@@ -147,13 +142,13 @@ class MainWindow(QMainWindow):
         self.deleteCheckBox = QCheckBox(self.tr('Delete original'))
         self.convertPushButton = QPushButton(self.tr('&Convert'))
 
-        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), self.origCheckBox,
-                                           self.deleteCheckBox, None)
-        hlayout4 = pyqttools.add_to_layout(QHBoxLayout(), None,
-                                          self.convertPushButton)
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout1,
-                                               self.TabWidget, hlayout2,
-                                               hlayout3, hlayout4)
+        hlayout3 = utils.add_to_layout(QHBoxLayout(), self.origCheckBox,
+                                       self.deleteCheckBox, None)
+        hlayout4 = utils.add_to_layout(QHBoxLayout(), None,
+                                       self.convertPushButton)
+        final_layout = utils.add_to_layout(QVBoxLayout(), hlayout1,
+                                           self.TabWidget, hlayout2,
+                                           hlayout3, hlayout4)
 
         self.statusBar = self.statusBar()
         self.dependenciesLabel = QLabel()
@@ -163,7 +158,7 @@ class MainWindow(QMainWindow):
         Widget.setLayout(final_layout)
         self.setCentralWidget(Widget)
 
-        c_act = pyqttools.create_action
+        c_act = utils.create_action
         openAction = c_act(self, self.tr('Open'), QKeySequence.Open, None,
                            self.tr('Open a file'), self.add_files)
         convertAction = c_act(self, self.tr('Convert'), 'Ctrl+C', None,
@@ -195,14 +190,13 @@ class MainWindow(QMainWindow):
         editMenu = self.menuBar().addMenu(self.tr('Edit'))
         presetsMenu = self.menuBar().addMenu(self.tr('Presets'))
         helpMenu = self.menuBar().addMenu(self.tr('Help'))
-        pyqttools.add_actions(fileMenu,
-                              [openAction, convertAction, None, quitAction])
-        pyqttools.add_actions(presetsMenu, [edit_presetsAction, importAction,
-                                            exportAction, resetAction, None,
-                                            syncAction, removeoldAction])
-        pyqttools.add_actions(editMenu,
-                              [clearallAction, None, preferencesAction])
-        pyqttools.add_actions(helpMenu, [aboutAction])
+        utils.add_actions(fileMenu,
+                          [openAction, convertAction, None, quitAction])
+        utils.add_actions(presetsMenu, [edit_presetsAction, importAction,
+                                        exportAction, resetAction, None,
+                                        syncAction, removeoldAction])
+        utils.add_actions(editMenu, [clearallAction, None, preferencesAction])
+        utils.add_actions(helpMenu, [aboutAction])
 
         self.filesList.dropped.connect(self.url_dropped)
         addButton.clicked.connect(self.add_files)
@@ -230,14 +224,14 @@ class MainWindow(QMainWindow):
     def load_settings(self):
         """Load settings values."""
         settings = QSettings()
-        self.overwrite_existing = settings.value('overwrite_existing').toBool()
-        self.default_output = unicode(
-                                   settings.value('default_output').toString())
-        self.prefix = unicode(settings.value('prefix').toString())
-        self.suffix = unicode(settings.value('suffix').toString())
-        self.avconv_prefered = settings.value('avconv_prefered').toBool()
-        self.default_command = unicode(
-                                  settings.value('default_command').toString())
+        self.overwrite_existing = utils.str_to_bool(
+                settings.value('overwrite_existing'))
+        self.avconv_prefered = utils.str_to_bool(
+                settings.value('avconv_prefered'))
+        self.default_output = settings.value('default_output')
+        self.prefix = settings.value('prefix')
+        self.suffix = settings.value('suffix')
+        self.default_command = settings.value('default_command')
         if not self.default_command:
             self.default_command = DEFAULT_COMMAND
 
@@ -295,7 +289,7 @@ class MainWindow(QMainWindow):
         if fnames:
             for i in fnames:
                 if not i in self.fnames:
-                    self.fnames.append(unicode(i))
+                    self.fnames.append(i)
             self.update_filesList()
 
     def delete_files(self):
@@ -306,7 +300,7 @@ class MainWindow(QMainWindow):
         items = self.filesList.selectedItems()
         if items:
             for i in items:
-                self.fnames.remove(unicode(i.text()))
+                self.fnames.remove(i.text())
             self.update_filesList()
 
     def clear_fileslist(self):
@@ -333,7 +327,6 @@ class MainWindow(QMainWindow):
             output = QFileDialog.getExistingDirectory(self,
                 'FF Multi Converter - ' + self.tr('Choose output destination'),
                 self.home)
-            #output = unicode(output)
             if output:
                 self.toLineEdit.setText(output)
 
@@ -382,7 +375,7 @@ class MainWindow(QMainWindow):
                 raise ValidationError(self.tr(
                                       'You must choose an output folder!'))
             elif (not self.origCheckBox.isChecked() and
-                  not os.path.exists(unicode(self.toLineEdit.text()))):
+                  not os.path.exists(self.toLineEdit.text())):
                 raise ValidationError(self.tr('Output folder does not exists!'))
             if not self.current_tab().ok_to_continue():
                 return False
@@ -390,7 +383,7 @@ class MainWindow(QMainWindow):
 
         except ValidationError as e:
             QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                                self.tr('Error!'), unicode(e))
+                                self.tr('Error!'), str(e))
             return False
 
     def output_ext(self):
@@ -404,62 +397,9 @@ class MainWindow(QMainWindow):
         elif tab.name == 'Images':
             ext_to = tab.extComboBox.currentText()
         else:
-            ext_to = str(tab.convertComboBox.currentText()).split()[-1]
+            ext_to = tab.convertComboBox.currentText().split()[-1]
 
-        return str('.' + ext_to)
-
-    def create_paths_list(self, files_list, ext_to, prefix, suffix, output,
-                          orig_dir, overwrite_existing):
-        """
-        Keyword arguments:
-        files_list -- list with files to be converted
-        ext_to     -- the extension to which each file must be converted to
-        prefix     -- string that will be added as a prefix to all filenames
-        suffix     -- string that will be added as a suffix to all filenames
-        output     -- the output folder
-        orig_dir   -- if True, each file will be saved at its original directory
-                      else, files will be saved at output
-        overwrite_existing -- if False, a '~' will be added as prefix to
-                              filenames
-
-        Create and return a list with dicts.
-        Each dict will have only one key and one corresponding value.
-        Key will be a file to be converted and it's value will be the name
-        of the new converted file.
-
-        Example list:
-        [{"/foo/bar.png" : "/foo/bar.bmp"}, {"/f/bar2.png" : "/f/bar2.bmp"}]
-        """
-        assert ext_to.startswith('.'), 'ext_to must start with a dot (.)'
-
-        conversion_list = []
-        dummy = []
-
-        for _file in files_list:
-            _dir, name = os.path.split(_file)
-            y = prefix + os.path.splitext(name)[0] + suffix + ext_to
-
-            if orig_dir:
-                y = _dir + '/' + y
-            else:
-                y = output + '/' + y
-
-            if not overwrite_existing:
-                while os.path.exists(y) or y in dummy:
-                    _dir2, _name2 = os.path.split(y)
-                    y = _dir2 + '/~' + _name2
-
-            dummy.append(y)
-            # Add quotations to paths in order to avoid error in special
-            # cases such as spaces or special characters.
-            _file = '"' + _file + '"'
-            y = '"' + y + '"'
-
-            _dict = {}
-            _dict[_file] = y
-            conversion_list.append(_dict)
-
-        return conversion_list
+        return '.' + ext_to
 
     def start_conversion(self):
         """
@@ -470,15 +410,15 @@ class MainWindow(QMainWindow):
             return
 
         ext_to = self.output_ext()
-        _list = self.create_paths_list(self.fnames, ext_to,
-                                       self.prefix, self.suffix,
-                                       unicode(self.toLineEdit.text()),
-                                       self.origCheckBox.isChecked(),
-                                       self.overwrite_existing)
+        _list = utils.create_paths_list(self.fnames, ext_to,
+                                        self.prefix, self.suffix,
+                                        self.toLineEdit.text(),
+                                        self.origCheckBox.isChecked(),
+                                        self.overwrite_existing)
 
         tab = self.current_tab()
         cmd = ''
-        size = str('')
+        size = ''
         mntaspect = False
 
         if tab.name == 'AudioVideo':
@@ -487,7 +427,7 @@ class MainWindow(QMainWindow):
             width = tab.widthLineEdit.text()
             if width:
                 height = tab.heightLineEdit.text()
-                size = str('{0}x{1}'.format(width, height))
+                size = '{0}x{1}'.format(width, height)
                 mntaspect = tab.aspectCheckBox.isChecked()
         else:
             self.docconv = True
@@ -497,22 +437,14 @@ class MainWindow(QMainWindow):
                                    self.deleteCheckBox.isChecked(), self)
         dialog.show()
 
-    def is_installed(self, program):
-        """Return True if program appears in user's PATH var, else False."""
-        for path in os.getenv('PATH').split(os.pathsep):
-            fpath = os.path.join(path, program)
-            if os.path.exists(fpath) and os.access(fpath, os.X_OK):
-                return True
-        return False
-
     def check_for_dependencies(self):
         """
         Check if each one of the program dependencies are installed and
         update self.dependenciesLabel with the appropriate message.
         """
-        self.ffmpeg = self.is_installed('ffmpeg')
-        self.avconv = self.is_installed('avconv')
-        self.unoconv = self.is_installed('unoconv')
+        self.ffmpeg = utils.is_installed('ffmpeg')
+        self.avconv = utils.is_installed('avconv')
+        self.unoconv = utils.is_installed('unoconv')
         self.pmagick = True
         try:
             # We tried to import PythonMagick earlier.
@@ -609,14 +541,13 @@ class AudioVideoTab(QWidget):
         self.extLineEdit = QLineEdit()
         self.extLineEdit.setMaximumWidth(85)
         self.extLineEdit.setEnabled(False)
-        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), converttoLabel,
-                                           None, self.extComboBox,
-                                           self.extLineEdit)
+        hlayout1 = utils.add_to_layout(QHBoxLayout(), converttoLabel, None,
+                                       self.extComboBox, self.extLineEdit)
         commandLabel = QLabel(self.tr('Command:'))
         self.commandLineEdit = QLineEdit()
         self.presetButton = QPushButton(self.tr('Preset'))
         self.defaultButton = QPushButton(self.tr('Default'))
-        hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), commandLabel,
+        hlayout2 = utils.add_to_layout(QHBoxLayout(), commandLabel,
                                        self.commandLineEdit, self.presetButton,
                                        self.defaultButton)
 
@@ -625,22 +556,18 @@ class AudioVideoTab(QWidget):
         frameLabel = QLabel(self.tr('Frame Rate (fps):'))
         bitrateLabel = QLabel(self.tr('Video Bitrate (kbps):'))
 
-        self.widthLineEdit = pyqttools.create_LineEdit((50, 16777215),
-                                                       validator, 4)
-        self.heightLineEdit = pyqttools.create_LineEdit((50, 16777215),
-                                                        validator,4)
+        self.widthLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
+        self.heightLineEdit = utils.create_LineEdit((50, 16777215), validator,4)
         label = QLabel('x')
-        layout1 = pyqttools.add_to_layout(QHBoxLayout(), self.widthLineEdit,
-                                          label, self.heightLineEdit)
-        self.aspect1LineEdit = pyqttools.create_LineEdit((35, 16777215),
-                                                         validator,2)
-        self.aspect2LineEdit = pyqttools.create_LineEdit((35, 16777215),
-                                                         validator,2)
+        layout1 = utils.add_to_layout(QHBoxLayout(), self.widthLineEdit,
+                                      label, self.heightLineEdit)
+        self.aspect1LineEdit = utils.create_LineEdit((35, 16777215),validator,2)
+        self.aspect2LineEdit = utils.create_LineEdit((35, 16777215),validator,2)
         label = QLabel(':')
-        layout2 = pyqttools.add_to_layout(QHBoxLayout(), self.aspect1LineEdit,
-                                          label, self.aspect2LineEdit)
-        self.frameLineEdit = pyqttools.create_LineEdit(None, validator, 4)
-        self.bitrateLineEdit = pyqttools.create_LineEdit(None, validator, 6)
+        layout2 = utils.add_to_layout(QHBoxLayout(), self.aspect1LineEdit,
+                                      label, self.aspect2LineEdit)
+        self.frameLineEdit = utils.create_LineEdit(None, validator, 4)
+        self.bitrateLineEdit = utils.create_LineEdit(None, validator, 6)
 
         labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
         widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
@@ -649,7 +576,7 @@ class AudioVideoTab(QWidget):
         for a, b in zip(labels, widgets):
             text = a.text()
             a.setText('<html><p align="center">{0}</p></html>'.format(text))
-            layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
+            layout = utils.add_to_layout(QVBoxLayout(), a, b)
             videosettings_layout.addLayout(layout)
 
         freqLabel = QLabel(self.tr('Frequency (Hz):'))
@@ -667,9 +594,9 @@ class AudioVideoTab(QWidget):
         self.group.addButton(self.chan2RadioButton)
         spcr1 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         spcr2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
-        chanlayout = pyqttools.add_to_layout(QHBoxLayout(), spcr1,
-                                             self.chan1RadioButton,
-                                             self.chan2RadioButton, spcr2)
+        chanlayout = utils.add_to_layout(QHBoxLayout(), spcr1,
+                                         self.chan1RadioButton,
+                                         self.chan2RadioButton, spcr2)
         self.audio_bitrateComboBox = QComboBox()
         self.audio_bitrateComboBox.addItems(bitrate_values)
 
@@ -680,12 +607,11 @@ class AudioVideoTab(QWidget):
         for a, b in zip(labels, widgets):
             text = a.text()
             a.setText('<html><p align="center">{0}</p></html>'.format(text))
-            layout = pyqttools.add_to_layout(QVBoxLayout(), a, b)
+            layout = utils.add_to_layout(QVBoxLayout(), a, b)
             audiosettings_layout.addLayout(layout)
 
-        hidden_layout = pyqttools.add_to_layout(QVBoxLayout(),
-                                                videosettings_layout,
-                                                audiosettings_layout)
+        hidden_layout = utils.add_to_layout(QVBoxLayout(), videosettings_layout,
+                                            audiosettings_layout)
 
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
@@ -693,14 +619,14 @@ class AudioVideoTab(QWidget):
         self.moreButton = QPushButton(QApplication.translate('Tab', 'More'))
         self.moreButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
         self.moreButton.setCheckable(True)
-        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), line, self.moreButton)
+        hlayout3 = utils.add_to_layout(QHBoxLayout(), line, self.moreButton)
 
         self.frame = QFrame()
         self.frame.setLayout(hidden_layout)
         self.frame.hide()
 
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout1,
-                                               hlayout2, hlayout3, self.frame)
+        final_layout = utils.add_to_layout(QVBoxLayout(), hlayout1,
+                                           hlayout2, hlayout3, self.frame)
         self.setLayout(final_layout)
 
 
@@ -772,7 +698,7 @@ class AudioVideoTab(QWidget):
                 ' install one of them.'))
             return False
         if self.extLineEdit.isEnabled():
-            text = str(self.extLineEdit.text()).strip()
+            text = self.extLineEdit.text().strip()
             if len(text.split()) != 1 or text[0] == '.':
                 QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
                     'Error!'), self.tr('Extension must be one word and must '
@@ -803,18 +729,9 @@ class AudioVideoTab(QWidget):
                 self.extComboBox.setCurrentIndex(len(self.formats))
                 self.extLineEdit.setText(dialog.the_extension)
 
-    def remove_consecutive_spaces(self, string):
-        """Remove any consecutive spaces from a string and return it."""
-        temp = string
-        string = ''
-        for i in temp.split():
-            if i:
-                string += i + ' '
-        return string[:-1]
-
     def command_elements_change(self, widget):
         """Fill self.commandLineEdit with the appropriate command parameters."""
-        command = str(self.commandLineEdit.text())
+        command = self.commandLineEdit.text()
 
         if widget == 'size':
             text1 = self.widthLineEdit.text()
@@ -882,7 +799,7 @@ class AudioVideoTab(QWidget):
             command += ' -ac {0}'.format(text)
 
         self.commandLineEdit.clear()
-        self.commandLineEdit.setText(self.remove_consecutive_spaces(command))
+        self.commandLineEdit.setText(utils.remove_consecutive_spaces(command))
 
 
 class ImageTab(QWidget):
@@ -905,24 +822,22 @@ class ImageTab(QWidget):
         self.extComboBox = QComboBox()
         self.extComboBox.addItems(self.formats)
 
-        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), converttoLabel,
-                                           self.extComboBox, None)
+        hlayout1 = utils.add_to_layout(QHBoxLayout(), converttoLabel,
+                                       self.extComboBox, None)
 
         sizeLabel = QLabel('<html><p align="center">' +
                            self.tr('Image Size:') + '</p></html>')
-        self.widthLineEdit = pyqttools.create_LineEdit((50, 16777215),
-                                                       validator, 4)
-        self.heightLineEdit = pyqttools.create_LineEdit((50, 16777215),
-                                                        validator,4)
+        self.widthLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
+        self.heightLineEdit = utils.create_LineEdit((50, 16777215), validator,4)
         label = QLabel('x')
         label.setMaximumWidth(25)
         self.aspectCheckBox = QCheckBox(self.tr("Maintain aspect ratio"))
-        hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), self.widthLineEdit,
-                                           label, self.heightLineEdit)
-        vlayout = pyqttools.add_to_layout(QVBoxLayout(), sizeLabel, hlayout2)
-        hlayout3 = pyqttools.add_to_layout(QHBoxLayout(), vlayout,
-                                           self.aspectCheckBox, None)
-        final_layout = pyqttools.add_to_layout(QVBoxLayout(),hlayout1,hlayout3)
+        hlayout2 = utils.add_to_layout(QHBoxLayout(), self.widthLineEdit,
+                                       label, self.heightLineEdit)
+        vlayout = utils.add_to_layout(QVBoxLayout(), sizeLabel, hlayout2)
+        hlayout3 = utils.add_to_layout(QHBoxLayout(), vlayout,
+                                       self.aspectCheckBox, None)
+        final_layout = utils.add_to_layout(QVBoxLayout(),hlayout1,hlayout3)
         self.setLayout(final_layout)
 
     def clear(self):
@@ -988,8 +903,8 @@ class DocumentTab(QWidget):
         convertLabel = QLabel(self.tr('Convert:'))
         self.convertComboBox = QComboBox()
         self.convertComboBox.addItems(flist)
-        final_layout = pyqttools.add_to_layout(QHBoxLayout(), convertLabel,
-                                               self.convertComboBox, None)
+        final_layout = utils.add_to_layout(QHBoxLayout(), convertLabel,
+                                           self.convertComboBox, None)
         self.setLayout(final_layout)
 
     def ok_to_continue(self):
@@ -1010,11 +925,10 @@ class DocumentTab(QWidget):
                         'Unocov is not installed.\nYou will not be able '
                         'to convert document files until you install it.'))
             for i in self.parent.fnames:
-                i = unicode(i)
                 file_ext = os.path.splitext(i)[-1][1:]
                 if file_ext != decl_ext:
-                    raise ValidationError(self.tr(
-                            '%1 is not %2!').arg(i, decl_ext))
+                    raise ValidationError(self.trUtf8(
+                            '{0} is not {1}!'.format(i, decl_ext)))
             if self.parent.docconv:
                 raise ValidationError(self.tr(
                             'You can not make parallel document conversions.'))
@@ -1022,7 +936,7 @@ class DocumentTab(QWidget):
 
         except ValidationError as e:
             QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                    self.tr('Error!'), unicode(e))
+                    self.tr('Error!'), str(e))
             return False
 
 

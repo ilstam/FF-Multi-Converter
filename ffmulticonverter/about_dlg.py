@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (C) 2011-2013 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
@@ -20,7 +19,7 @@ from PyQt4.QtCore import QSize
 from PyQt4.QtGui import (QDialog, QHBoxLayout, QLabel, QPixmap, QPlainTextEdit,
                          QPushButton, QTabWidget, QVBoxLayout)
 
-import pyqttools
+import utils
 
 
 class AboutDialog(QDialog):
@@ -40,11 +39,11 @@ class AboutDialog(QDialog):
         creditsButton = QPushButton(self.tr('C&redits'))
         closeButton = QPushButton(self.tr('&Close'))
 
-        vlayout1 = pyqttools.add_to_layout(QVBoxLayout(), imageLabel, None)
-        hlayout1 = pyqttools.add_to_layout(QHBoxLayout(), vlayout1, textLabel)
-        hlayout2 = pyqttools.add_to_layout(QHBoxLayout(), creditsButton, None,
-                                           closeButton)
-        fin_layout = pyqttools.add_to_layout(QVBoxLayout(), hlayout1, hlayout2)
+        vlayout1 = utils.add_to_layout(QVBoxLayout(), imageLabel, None)
+        hlayout1 = utils.add_to_layout(QHBoxLayout(), vlayout1, textLabel)
+        hlayout2 = utils.add_to_layout(QHBoxLayout(), creditsButton, None,
+                                       closeButton)
+        fin_layout = utils.add_to_layout(QVBoxLayout(), hlayout1, hlayout2)
 
         self.setLayout(fin_layout)
 
@@ -74,8 +73,8 @@ class CreditsDialog(QDialog):
         TabWidget.addTab(translatorsLabel, self.tr('Translated by'))
         closeButton = QPushButton(self.tr('&Close'))
 
-        hlayout = pyqttools.add_to_layout(QHBoxLayout(), None, closeButton)
-        vlayout = pyqttools.add_to_layout(QVBoxLayout(), TabWidget, hlayout)
+        hlayout = utils.add_to_layout(QHBoxLayout(), None, closeButton)
+        vlayout = utils.add_to_layout(QVBoxLayout(), TabWidget, hlayout)
 
         self.setLayout(vlayout)
         closeButton.clicked.connect(self.close)

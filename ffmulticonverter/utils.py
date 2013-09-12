@@ -18,8 +18,9 @@ Various useful functions.
 """
 
 import os
-from PyQt4.QtCore import QSize, Qt
-from PyQt4.QtGui import QAction, QLayout, QLineEdit, QMenu, QSpacerItem, QWidget
+from PyQt4.QtCore import pyqtSignal, QSize, Qt
+from PyQt4.QtGui import (QAction, QLayout, QLineEdit, QListWidget,
+                         QListWidgetItem, QMenu, QSpacerItem, QWidget)
 
 
 def str_to_bool(string):
@@ -216,3 +217,45 @@ def create_LineEdit(maxsize, validator, maxlength):
     if maxlength is not None:
         lineEdit.setMaxLength(maxlength)
     return lineEdit
+
+
+######################
+# Custom pyqt widgets
+######################
+
+class XmlListItem(QListWidgetItem):
+    def __init__(self, text, xml_element, parent=None):
+        super(XmlListItem, self).__init__(text, parent)
+        self.xml_element = xml_element
+
+
+class FilesList(QListWidget):
+    dropped = pyqtSignal(list)
+
+    def __init__(self, parent=None):
+        super(FilesList, self).__init__(parent)
+        self.setAcceptDrops(True)
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.accept()
+        else:
+            event.ignore()
+
+    def dragMoveEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+            links = []
+            for url in event.mimeData().urls():
+                links.append(url.toLocalFile())
+            self.dropped.emit(links)
+        else:
+            event.ignore()

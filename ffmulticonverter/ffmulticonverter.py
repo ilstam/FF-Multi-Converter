@@ -14,16 +14,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from PyQt4.QtCore import (pyqtSignal, PYQT_VERSION_STR, QCoreApplication,
-                          QLocale, QRegExp, QSettings, QSize, Qt, QTimer,
-                          QTranslator, QT_VERSION_STR)
+from PyQt4.QtCore import (PYQT_VERSION_STR, QCoreApplication, QLocale, QRegExp,
+                          QSettings, QSize, Qt, QTimer, QTranslator,
+                          QT_VERSION_STR)
 from PyQt4.QtGui import (QAbstractItemView, QApplication, QButtonGroup,
                          QCheckBox, QComboBox, QFileDialog, QFrame,
                          QHBoxLayout, QIcon, QKeySequence, QLabel, QLineEdit,
-                         QListWidget, QMainWindow, QMessageBox, QPushButton,
-                         QRadioButton, QRegExpValidator, QShortcut, QSizePolicy,
-                         QSpacerItem, QTabWidget, QToolButton, QVBoxLayout,
-                         QWidget)
+                         QMainWindow, QMessageBox, QPushButton, QRadioButton,
+                         QRegExpValidator, QShortcut, QSizePolicy, QSpacerItem,
+                         QTabWidget, QToolButton, QVBoxLayout, QWidget)
 
 import os
 import sys
@@ -45,40 +44,7 @@ class ValidationError(Exception):
     pass
 
 
-class FilesList(QListWidget):
-    dropped = pyqtSignal(list)
-
-    def __init__(self, parent=None):
-        super(FilesList, self).__init__(parent)
-        self.setAcceptDrops(True)
-
-    def dragEnterEvent(self, event):
-        if event.mimeData().hasUrls:
-            event.accept()
-        else:
-            event.ignore()
-
-    def dragMoveEvent(self, event):
-        if event.mimeData().hasUrls:
-            event.setDropAction(Qt.CopyAction)
-            event.accept()
-        else:
-            event.ignore()
-
-    def dropEvent(self, event):
-        if event.mimeData().hasUrls:
-            event.setDropAction(Qt.CopyAction)
-            event.accept()
-            links = []
-            for url in event.mimeData().urls():
-                links.append(url.toLocalFile())
-            self.dropped.emit(links)
-        else:
-            event.ignore()
-
-
 class MainWindow(QMainWindow):
-
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
@@ -105,7 +71,7 @@ class MainWindow(QMainWindow):
         vlayout1 = utils.add_to_layout(QVBoxLayout(), addButton, delButton,
                                        clearButton, None)
 
-        self.filesList = FilesList()
+        self.filesList = utils.FilesList()
         self.filesList.setSelectionMode(QAbstractItemView.ExtendedSelection)
         hlayout1 = utils.add_to_layout(QHBoxLayout(), self.filesList, vlayout1)
 

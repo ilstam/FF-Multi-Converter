@@ -26,14 +26,6 @@ import xml.etree.ElementTree as etree
 from ffmulticonverter import utils
 
 
-class ValidationError(Exception): pass
-
-class MyListItem(QListWidgetItem):
-    def __init__(self, text, xml_element, parent=None):
-        super(MyListItem, self).__init__(text, parent)
-        self.xml_element = xml_element
-
-
 class ShowPresets(QDialog):
     def __init__(self, parent=None):
         super(ShowPresets, self).__init__(parent)
@@ -128,7 +120,7 @@ class ShowPresets(QDialog):
         self.presListWidget.clear()
         for i in sorted([y.tag for y in self.root]):
             elem = self.root.find(i)
-            self.presListWidget.addItem(MyListItem(i, elem))
+            self.presListWidget.addItem(utils.XmlListItem(i, elem))
 
         self.presListWidget.setCurrentRow(0)
         self.set_buttons_clear_lineEdits()
@@ -231,7 +223,7 @@ class ShowPresets(QDialog):
                 elem = self.root.find(p)
                 if (i.strip() and (i in elem.tag.lower()
                     or i in elem[0].text.lower() or i in elem[2].text.lower())):
-                    self.presListWidget.addItem(MyListItem(p, elem))
+                    self.presListWidget.addItem(utils.XmlListItem(p, elem))
 
         self.presListWidget.setCurrentRow(0)
         self.set_buttons_clear_lineEdits()

@@ -98,7 +98,7 @@ class MainWindow(QMainWindow):
 
         # parse command line arguments
         for i in QCoreApplication.argv()[1:]:
-            i = codecs.utf_8_decode(os.path.abspath(i))[0]
+            i = os.path.abspath(i)
             if os.path.isfile(i):
                 self.fnames.append(i)
             else:
@@ -954,7 +954,7 @@ def logging_config():
     )
 
 def main():
-    app = QApplication(sys.argv)
+    app = QApplication([i.encode('utf-8') for i in sys.argv])
     app.setOrganizationName('ffmulticonverter')
     app.setOrganizationDomain('sites.google.com/site/ffmulticonverter/')
     app.setApplicationName('FF Muli Converter')

@@ -1,5 +1,4 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 import ffmulticonverter
 from distutils.core import setup
@@ -13,7 +12,7 @@ data_files = [('share/applications/', ['share/ffmulticonverter.desktop']),
 setup(
     name = 'ffmulticonverter',
     packages = ['ffmulticonverter'],
-    scripts = ['ffmulticonverter/ffmulticonverter'],
+    scripts = ['bin/ffmulticonverter'],
     data_files = data_files,
     version = ffmulticonverter.__version__,
     description = 'GUI File Format Converter',

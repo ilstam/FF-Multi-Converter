@@ -1,4 +1,5 @@
 include AUTHORS COPYING TRANSLATORS ChangeLog uninstall.sh
+include bin/ffmulticonverter
 include share/*
 include man/*
 include locale/*

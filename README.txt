@@ -7,11 +7,11 @@ using and combining other programs. It uses ffmpeg for audio/video files,
 unoconv for document files and PythonMagick library for image file conversions.
 
 Project homepage: https://sites.google.com/site/ffmulticonverter/
-Download page: http://sourceforge.net/projects/ffmulticonv/files/
+Download page: https://sourceforge.net/projects/ffmulticonv/files/
 
 Dependencies
 -------------
-python (>= 2.6) & (< 3.0)
+python3
 pyqt4
 
 Optional dependencies
@@ -28,4 +28,3 @@ Installation
 -------------
 From application's directory run as root:
     ./setup.py install
-

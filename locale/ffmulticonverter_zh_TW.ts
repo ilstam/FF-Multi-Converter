@@ -14,7 +14,7 @@
     <message>
         <location filename="../ffmulticonverter/about_dlg.py" line="40"/>
         <source>C&amp;redits</source>
-        <translation>榮譽榜(&amp;R)</translation>
+        <translation>貢獻(&amp;R)</translation>
     </message>
 </context>
 <context>
@@ -22,7 +22,7 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="372"/>
         <source>Preset name (one word, A-z, 0-9)</source>
-        <translation type="unfinished"/>
+        <translation>預置名稱 (一個詞，A-z，0-9)</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="374"/>
@@ -32,7 +32,7 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="376"/>
         <source>Preset command line parameters</source>
-        <translation>預置命令行參數</translation>
+        <translation>預置命令列參數</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="378"/>
@@ -57,32 +57,32 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="426"/>
         <source>Preset name can&apos;t be left blank.</source>
-        <translation type="unfinished"/>
+        <translation>預置名稱不能留空白。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="431"/>
         <source>Preset name must be one word and contain only letters and digits.</source>
-        <translation type="unfinished"/>
+        <translation>預置名稱必須是一個詞，只包含字母和數字。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="438"/>
         <source>Preset label can&apos;t be left blank.</source>
-        <translation type="unfinished"/>
+        <translation>預置標籤不能留空白。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="443"/>
         <source>Command label can&apos;t be left blank.</source>
-        <translation type="unfinished"/>
+        <translation>命令標籤不能留空白。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="448"/>
         <source>Extension label can&apos;t be left blank.</source>
-        <translation type="unfinished"/>
+        <translation>副檔名標籤不能留空白。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="453"/>
         <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="unfinished"/>
+        <translation>副檔名必須是一個單詞且不能以圓點開頭。</translation>
     </message>
 </context>
 <context>
@@ -125,17 +125,17 @@
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="624"/>
         <source>Aspect:</source>
-        <translation type="unfinished"/>
+        <translation>長寬比：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="625"/>
         <source>Frame Rate (fps):</source>
-        <translation>影格率 (fps)：</translation>
+        <translation>畫面更新率 (fps)：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="626"/>
         <source>Video Bitrate (kbps):</source>
-        <translation type="unfinished"/>
+        <translation>視訊位元率 (kbps)：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="655"/>
@@ -145,12 +145,12 @@
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="656"/>
         <source>Channels:</source>
-        <translation type="unfinished"/>
+        <translation>聲道：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="657"/>
         <source>Audio Bitrate (kbps):</source>
-        <translation type="unfinished"/>
+        <translation>音訊位元率 (kbps)：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="785"/>
@@ -161,17 +161,18 @@
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="770"/>
         <source>Neither ffmpeg nor avconv are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="unfinished"/>
+        <translation>ffmpeg 和 avconv 都沒有安裝。
+您將無法轉換音訊/視訊檔，直到您安裝它們之中的一個。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="778"/>
         <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="unfinished"/>
+        <translation>副檔名必須是一單詞，並且不能以圓點開頭。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="785"/>
         <source>The command LineEdit may not be empty.</source>
-        <translation type="unfinished"/>
+        <translation>命令列不能為空白。</translation>
     </message>
 </context>
 <context>
@@ -253,12 +254,13 @@ You will not be able to convert document files until you install it.</source>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="953"/>
         <source>PythonMagick is not installed.
 You will not be able to convert image files until you install it.</source>
-        <translation type="unfinished"/>
+        <translation>PythonMagick 沒有安裝。
+您將無法轉換圖片檔，直到您安裝它。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="958"/>
         <source>The size LineEdit may not be empty.</source>
-        <translation type="unfinished"/>
+        <translation>圖片大小不能為空白。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="925"/>
@@ -356,7 +358,7 @@ You will not be able to convert image files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="179"/>
         <source>Reset presets</source>
-        <translation>重置預置</translation>
+        <translation>重設預置</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="116"/>
@@ -366,7 +368,7 @@ You will not be able to convert image files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="187"/>
         <source>Clear form</source>
-        <translation type="unfinished"/>
+        <translation>清除欄位</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="189"/>
@@ -446,7 +448,7 @@ You will not be able to convert image files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="541"/>
         <source>Convert among several file types to other extensions</source>
-        <translation type="unfinished"/>
+        <translation>轉換不同檔案類型為其它副檔名</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="535"/>
@@ -515,7 +517,7 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="39"/>
         <source>Add &apos;~&apos; prefix</source>
-        <translation type="unfinished"/>
+        <translation>加入 &apos;~&apos; 前缀</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="41"/>
@@ -530,17 +532,17 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="53"/>
         <source>Name files</source>
-        <translation type="unfinished"/>
+        <translation>命名檔案</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="54"/>
         <source>Prefix:</source>
-        <translation type="unfinished"/>
+        <translation>前綴：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="55"/>
         <source>Suffix:</source>
-        <translation type="unfinished"/>
+        <translation>後綴：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="73"/>
@@ -555,12 +557,12 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="72"/>
         <source>Use:</source>
-        <translation type="unfinished"/>
+        <translation>使用：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="74"/>
         <source>avconv</source>
-        <translation type="unfinished"/>
+        <translation>avconv</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="89"/>
@@ -588,7 +590,7 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="88"/>
         <source>In progress: </source>
-        <translation>進行中：</translation>
+        <translation>正在進行：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="89"/>
@@ -613,7 +615,7 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="172"/>
         <source>Converted: %1/%2</source>
-        <translation type="unfinished"/>
+        <translation>已轉換：%1/%2</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="205"/>
@@ -628,7 +630,7 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="241"/>
         <source>In progress:</source>
-        <translation>進行中：</translation>
+        <translation>正在進行：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="171"/>
@@ -651,7 +653,7 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="51"/>
         <source>Preset command line parameters</source>
-        <translation>預置命令行參數</translation>
+        <translation>預置命令列參數</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="54"/>
@@ -738,7 +740,7 @@ Are you sure that you want to continue?</source>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
         <source>Current presets and default presets will be merged. Are you sure that you want to continue?</source>
-        <translation type="unfinished"/>
+        <translation>目前預置和預設預置將被合併。您確定要繼續嗎？</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
@@ -748,7 +750,7 @@ Are you sure that you want to continue?</source>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
         <source>All presets with an __OLD prefix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="unfinished"/>
+        <translation>所有包含 __OLD 前綴的預置將被刪除。您確定要繼續嗎？</translation>
     </message>
 </context>
 <context>

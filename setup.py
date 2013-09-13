@@ -23,7 +23,7 @@ setup(
     url = ffmulticonverter.__url__,
     download_url = ffmulticonverter.__download_url__,
     keywords = ['convert', 'file format', 'extension', 'audio', 'video',
-                'images', 'documents'],
+                'images', 'documents', 'ffmpeg', 'imagemagick', 'unoconv'],
     classifiers = [
         'Programming Language :: Python',
         'License :: OSI Approved :: GNU General Public License (GPL)',

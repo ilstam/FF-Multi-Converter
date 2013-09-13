@@ -3,7 +3,7 @@
 import sys
 from PyQt4.QtGui import QApplication
 
-#from ffmulticonverter import qrc_resources
+from ffmulticonverter import qrc_resources
 from ffmulticonverter.about_dlg import AboutDialog
 from ffmulticonverter.presets_dlgs import ShowPresets
 from ffmulticonverter.preferences_dlg import Preferences

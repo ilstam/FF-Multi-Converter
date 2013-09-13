@@ -37,7 +37,7 @@ from ffmulticonverter import about_dlg
 from ffmulticonverter import preferences_dlg
 from ffmulticonverter import presets_dlgs
 from ffmulticonverter import progress
-#import qrc_resources
+from ffmulticonverter import qrc_resources
 
 
 class ValidationError(Exception):

@@ -230,7 +230,7 @@ class ShowPresets(QDialog):
 
     def save_tree(self):
         """Save xml tree."""
-        with open(self.current_presets_file, 'w') as _file:
+        with open(self.current_presets_file, 'wb') as _file:
             try:
                 etree.ElementTree(self.root).write(_file)
             except:
@@ -261,7 +261,7 @@ class ShowPresets(QDialog):
                                   'FF Multi Converter - Export presets','.xml')
         if fname:
             self.load_xml()
-            with open(fname, 'w') as _file:
+            with open(fname, 'wb') as _file:
                 try:
                     etree.ElementTree(self.root).write(_file)
                 except:

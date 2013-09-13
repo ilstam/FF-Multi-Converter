@@ -436,17 +436,21 @@ class MainWindow(QMainWindow):
                        ['[cs] Czech', 'Petr Simacek'],
                        ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
                        ['[el] Greek', 'Ilias Stamatis'],
+                       ['[es] Spanish', 'Miguel Ángel Rodríguez Muíños'],
                        ['[fr] French', 'Rémi Mercier'
                                 '\n     Lebarhon'],
                        ['[hu] Hungarian', 'Farkas Norbert'],
                        ['[it] Italian', 'Fabio Boccaletti'],
+                       ['[ms_MY] Malay (Malaysia)', 'abuyop'],
                        ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'
                                             '\n     Piotr Surdacki'],
                        ['[pt] Portuguese', 'Sérgio Marques'],
                        ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'],
                        ['[ru] Russian', 'Andrew Lapshin'],
                        ['[tu] Turkish', 'Tayfun Kayha'],
-                       ['[zh_CN] Chinese (China)', 'Dianjin Wang']]
+                       ['[zh_CN] Chinese (China)', 'Dianjin Wang'],
+                       ['[zh_TW] Chinese (Taiwan)', 'Taijuin Lee'],
+                      ]
         translators = []
         for i in transl_list:
             translators.append('{0}\n     {1}'.format(i[0], i[1]))

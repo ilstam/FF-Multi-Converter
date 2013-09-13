@@ -325,48 +325,38 @@ class Progress(QDialog):
 
     def convert_image(self, from_file, to_file, size, mntaspect):
         """
-        Convert an image with the desired size using PythonMagick.
-        Create conversion info ("command") and emit the corresponding signal
+        Convert an image with the desired size using ImageMagick.
+        Create conversion info ("cmd") and emit the corresponding signal
         in order an textEdit to be updated with that info.
         Finally, save log information.
 
         Return True if conversion succeed, else False.
         """
-        return False # should replaced with imagemagick code
-        assert from_file.startswith('"') and from_file.endswith('"')
-        assert to_file.startswith('"') and to_file.endswith('"')
-
-        from_file = from_file[1:-1]
-        to_file = to_file[1:-1]
-
-        command = 'from {0} to {1}'.format(from_file, to_file)
+        resize = ''
         if size:
-            command += ' -s ' + size
-        self.update_text_edit_signal.emit(command+'\n')
-        final_output = ''
+            resize = '-resize {0}'.format(size)
+            if not mntaspect:
+                resize += '\!'
 
-        try:
-            if os.path.exists(to_file):
-                os.remove(to_file)
-            img = PythonMagick.Image(from_file)
-            if size:
-                if not mntaspect:
-                    size = '!' + size
-                img.sample(size)
-            img.write(to_file)
-            converted = True
-        except (RuntimeError, OSError, Exception) as e:
-            final_output = str(e)
-            self.update_text_edit_signal.emit(final_output)
-            converted = False
-        self.update_text_edit_signal.emit('\n\n')
+        cmd = 'convert {0} {1} {2}'.format(from_file, resize, to_file)
+        self.update_text_edit_signal.emit(cmd + '\n')
+        child = subprocess.Popen(shlex.split(cmd),
+                                 stderr=subprocess.STDOUT,
+                                 stdout=subprocess.PIPE)
+        child.wait()
 
-        log_data = {'command' : command, 'returncode' : int(not converted),
+        reader = io.TextIOWrapper(child.stdout, encoding='utf8')
+        final_output = reader.read()
+        self.update_text_edit_signal.emit(final_output+'\n\n')
+
+        return_code = child.poll()
+
+        log_data = {'command' : cmd, 'returncode' : return_code,
                     'type' : 'IMAGE'}
-        log_lvl = logging.info if converted == 1 else logging.error
+        log_lvl = logging.info if return_code == 0 else logging.error
         log_lvl(final_output, extra=log_data)
 
-        return converted
+        return return_code == 0
 
     def convert_doc(self, from_file, to_file):
         """

@@ -55,7 +55,7 @@ FF Multi Converter
 -------------------
 
 Graphical application which enables you to convert audio, video, image and
-document files between all popular formats using ffmpeg, unoconv, and PythonMagick.
+document files between all popular formats using ffmpeg, unoconv, and ImageMagick.
 
 Features:
  - Conversions for several file formats.
@@ -64,6 +64,6 @@ Features:
  - Audio/video ffmpeg-presets management.
  - Options for saving and naming files.
 
-Requires: python2, pyqt4, ffmpeg, pythonmagick, unoconv
+Requires: python2, pyqt4, ffmpeg, imagemagick, unoconv
 """
 )

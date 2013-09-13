@@ -274,9 +274,7 @@ class Progress(QDialog):
 
         Return True if conversion succeed, else False.
         """
-        assert from_file.startswith('"') and from_file.endswith('"')
-        assert to_file.startswith('"') and to_file.endswith('"')
-
+        # note: from_file and to_file names are inside quotation marks
         converter = 'ffmpeg' if ffmpeg else 'avconv'
         convert_cmd = '{0} -y -i {1} {2} {3}'.format(converter, from_file,
                                                      command, to_file)
@@ -332,6 +330,7 @@ class Progress(QDialog):
 
         Return True if conversion succeed, else False.
         """
+        # note: from_file and to_file names are inside quotation marks
         resize = ''
         if size:
             resize = '-resize {0}'.format(size)
@@ -372,7 +371,8 @@ class Progress(QDialog):
 
         Return True if conversion succeed, else False.
         """
-        from_file = from_file[1:-1]
+        # note: from_file and to_file names are inside quotation marks
+        from_file = from_file[1:-1] # get rid of quotation
         to_file = to_file[1:-1]
         from_base, from_ext = os.path.splitext(from_file)
         to_base, to_ext = os.path.splitext(to_file)

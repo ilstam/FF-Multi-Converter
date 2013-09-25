@@ -183,15 +183,26 @@ class MainWindow(QMainWindow):
         """Load settings values."""
         settings = QSettings()
         self.overwrite_existing = utils.str_to_bool(
-                settings.value('overwrite_existing'))
+                self.get_str_value(settings, 'overwrite_existing'))
         self.avconv_prefered = utils.str_to_bool(
-                settings.value('avconv_prefered'))
-        self.default_output = settings.value('default_output')
-        self.prefix = settings.value('prefix')
-        self.suffix = settings.value('suffix')
-        self.default_command = settings.value('default_command')
+                self.get_str_value(settings, 'avconv_prefered'))
+        self.default_output = self.get_str_value(settings, 'default_output')
+        self.prefix = self.get_str_value(settings, 'prefix')
+        self.suffix = self.get_str_value(settings, 'suffix')
+        self.default_command = self.get_str_value(settings, 'default_command')
 
         self.toLineEdit.setText(self.default_output)
+
+    @staticmethod
+    def get_str_value(settings, name):
+        """
+        Load a setting value from settings.
+        Return the value if it's not null, else an empty string.
+        """
+        value = settings.value(name)
+        if value is not None:
+            return value
+        return ''
 
     def current_tab(self):
         """Return the corresponding object of the selected tab."""

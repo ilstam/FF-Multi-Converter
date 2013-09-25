@@ -25,7 +25,9 @@ from PyQt4.QtGui import (QAction, QLayout, QLineEdit, QListWidget,
 
 def str_to_bool(string):
     """Convert a string to bool and return it."""
-    return string.lower() == 'true'
+    if string is not None:
+        return string.lower() == 'true'
+    return False
 
 def is_installed(program):
     """Return True if program appears in user's PATH var, else False."""

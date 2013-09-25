@@ -64,6 +64,6 @@ Features:
  - Audio/video ffmpeg-presets management.
  - Options for saving and naming files.
 
-Requires: python2, pyqt4, ffmpeg, imagemagick, unoconv
+Requires: python3, pyqt4, ffmpeg, imagemagick, unoconv
 """
 )

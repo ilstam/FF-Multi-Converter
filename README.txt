@@ -27,4 +27,4 @@ but you will be able to convert any other types except image files.
 Installation
 -------------
 From application's directory run as root:
-    ./setup.py install
+    python3 setup.py install

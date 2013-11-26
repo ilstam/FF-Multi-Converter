@@ -459,6 +459,7 @@ class MainWindow(QMainWindow):
                        ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'],
                        ['[ru] Russian', 'Andrew Lapshin'],
                        ['[tu] Turkish', 'Tayfun Kayha'],
+                       ['[vi] Vietnamese', 'Anh Phan'],
                        ['[zh_CN] Chinese (China)', 'Dianjin Wang'],
                        ['[zh_TW] Chinese (Taiwan)', 'Taijuin Lee'],
                       ]

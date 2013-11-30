@@ -46,6 +46,7 @@ setup(
         'Natural Language :: Russian',
         'Natural Language :: Spanish',
         'Natural Language :: Turkish',
+        'Natural Language :: Vietnamese',
         'Intended Audience :: End Users/Desktop',
         'Topic :: Multimedia :: Video :: Conversion',
         'Topic :: Multimedia :: Sound/Audio :: Conversion',

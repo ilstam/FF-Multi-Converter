@@ -1,3 +1,14 @@
+Version 1.6.0
+--------------
+
+* The program ported to python3
+
+* PythonMagick replaced by ImageMagick.
+
+* Small corrections and changes in the presets list.
+
+* Italian, Spanish, Chinese (Taiwan) and Malay translations.
+
 Version 1.5.2
 --------------
 

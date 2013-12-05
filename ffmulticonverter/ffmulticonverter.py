@@ -782,9 +782,6 @@ class ImageTab(QWidget):
         self.extComboBox = QComboBox()
         self.extComboBox.addItems(self.formats)
 
-        hlayout1 = utils.add_to_layout(QHBoxLayout(), converttoLabel,
-                                       self.extComboBox, None)
-
         sizeLabel = QLabel('<html><p align="center">' +
                            self.tr('Image Size:') + '</p></html>')
         self.widthLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
@@ -792,18 +789,27 @@ class ImageTab(QWidget):
         label = QLabel('x')
         label.setMaximumWidth(25)
         self.aspectCheckBox = QCheckBox(self.tr("Maintain aspect ratio"))
-        hlayout2 = utils.add_to_layout(QHBoxLayout(), self.widthLineEdit,
+        hlayout1 = utils.add_to_layout(QHBoxLayout(), self.widthLineEdit,
                                        label, self.heightLineEdit)
-        vlayout = utils.add_to_layout(QVBoxLayout(), sizeLabel, hlayout2)
-        hlayout3 = utils.add_to_layout(QHBoxLayout(), vlayout,
+        vlayout = utils.add_to_layout(QVBoxLayout(), sizeLabel, hlayout1)
+        hlayout2 = utils.add_to_layout(QHBoxLayout(), vlayout,
                                        self.aspectCheckBox, None)
-        final_layout = utils.add_to_layout(QVBoxLayout(),hlayout1,hlayout3)
+        hlayout3 = utils.add_to_layout(QHBoxLayout(), converttoLabel,
+                                       self.extComboBox, hlayout2, None)
+
+        commandLabel = QLabel(self.tr('Extra options:'))
+        self.commandLineEdit = QLineEdit()
+        hlayout4 = utils.add_to_layout(QHBoxLayout(), commandLabel,
+                self.commandLineEdit, QSpacerItem(180, 40))
+
+        final_layout = utils.add_to_layout(QVBoxLayout(), hlayout3, hlayout4)
         self.setLayout(final_layout)
 
     def clear(self):
         """Clear self.widthLineEdit and self.heightLineEdit."""
         self.widthLineEdit.clear()
         self.heightLineEdit.clear()
+        self.commandLineEdit.clear()
 
     def ok_to_continue(self):
         """

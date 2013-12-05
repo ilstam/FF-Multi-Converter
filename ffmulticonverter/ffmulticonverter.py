@@ -387,6 +387,7 @@ class MainWindow(QMainWindow):
         cmd = ''
         size = ''
         mntaspect = False
+        imgcmd = ''
 
         if tab.name == 'AudioVideo':
             cmd = tab.commandLineEdit.text()
@@ -396,12 +397,13 @@ class MainWindow(QMainWindow):
                 height = tab.heightLineEdit.text()
                 size = '{0}x{1}'.format(width, height)
                 mntaspect = tab.aspectCheckBox.isChecked()
+            imgcmd = tab.commandLineEdit.text()
         else:
             self.docconv = True
 
         dialog = progress.Progress(_list, tab.name, cmd,
                                    not self.avconv_prefered, size, mntaspect,
-                                   self.deleteCheckBox.isChecked(), self)
+                                   imgcmd, self.deleteCheckBox.isChecked(),self)
         dialog.show()
 
     def check_for_dependencies(self):

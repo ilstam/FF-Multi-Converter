@@ -99,7 +99,7 @@ class ShowPresets(QDialog):
                 self.tree = etree.parse(self.original_presets_file)
             except IOError:
                 # when program is not installed
-                self.tree = etree.parse('../share/presets.xml')
+                self.tree = etree.parse('share/presets.xml')
             if not os.path.exists(self.config_folder):
                 os.makedirs(self.config_folder)
         self.root = self.tree.getroot()

@@ -3,6 +3,7 @@
 import sys
 from PyQt4.QtGui import QApplication
 
+sys.path.append('..')
 from ffmulticonverter import qrc_resources
 from ffmulticonverter.about_dlg import AboutDialog
 from ffmulticonverter.presets_dlgs import ShowPresets
@@ -16,7 +17,7 @@ def main():
     dlg_about = AboutDialog('About Dialog', ':/ffmulticonverter.png', 'Authors', 'Translators')
     dlg_showpresets = ShowPresets()
     dlg_preferences = Preferences(test=True)
-    dlg_progress = Progress([], '', '', False, '', False, False, None, test=True)
+    dlg_progress = Progress([], '', '', False, '', False, '', False, None, test=True)
 
     # uncomment the dialog you wish to test
     dlg_about.show()

@@ -20,6 +20,7 @@ from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
                          QSizePolicy, QSpacerItem, QVBoxLayout)
 
 import os
+import sys
 import re
 import xml.etree.ElementTree as etree
 
@@ -29,9 +30,11 @@ from ffmulticonverter import utils
 class ShowPresets(QDialog):
     def __init__(self, parent=None):
         super(ShowPresets, self).__init__(parent)
-        self.original_presets_file = '/usr/share/ffmulticonverter/presets.xml'
-        self.config_folder = os.getenv('HOME') + '/.config/ffmulticonverter/'
-        self.current_presets_file = self.config_folder + 'presets.xml'
+
+        self.original_presets_file = self.find_presets_file()
+        self.config_folder = os.path.join(os.getenv('HOME'),
+                                          '.config/ffmulticonverter/')
+        self.current_presets_file = os.path.join(self.config_folder, 'presets.xml')
 
         self.presListWidget = QListWidget()
         labelLabel = QLabel(self.tr('Preset label'))
@@ -89,6 +92,31 @@ class ShowPresets(QDialog):
 
         QTimer.singleShot(0, self.load_xml)
         QTimer.singleShot(0, self.fill_presListWidget)
+
+    @staticmethod
+    def find_presets_file():
+        """
+        The default presets.xml could be stored in different locations during
+        the installation depending on different Linux distributions.
+        Search for this file on each possible directory to which user
+        specific data files could be stored.
+
+        Return the path of the file if found, else an empty string.
+        """
+        possible_dirs = os.environ.get("XDG_DATA_DIRS",
+                                        "/usr/local/share/:/usr/share/")\
+                                        .split(":")
+        # for virtualenv installations
+        posdir = os.path.realpath(os.path.join(os.path.dirname(sys.argv[0]),
+                                               '..', 'share'))
+        if not posdir in possible_dirs:
+            possible_dirs.append(posdir)
+
+        for _dir in possible_dirs:
+            _file = os.path.join(_dir, 'ffmulticonverter/presets.xml')
+            if os.path.exists(_file):
+                return _file
+        return ''
 
     def load_xml(self):
         """Load xml tree and set xml root."""

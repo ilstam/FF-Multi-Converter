@@ -6,7 +6,7 @@ GUI File Format Converter
 __major__ = 1  # for major interface/format changes
 __minor__ = 6  # for minor interface/format changes
 __release__ = 0  # for tweaks, bug-fixes, or development
-__prerelease__ = "alpha" # alpha, beta, rc etc.
+__prerelease__ = "" # alpha, beta, rc etc.
 
 # package information
 __name__ = "ffmulticonverter"

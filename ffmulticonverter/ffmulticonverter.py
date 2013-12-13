@@ -189,7 +189,9 @@ class MainWindow(QMainWindow):
         self.default_output = self.get_str_value(settings, 'default_output')
         self.prefix = self.get_str_value(settings, 'prefix')
         self.suffix = self.get_str_value(settings, 'suffix')
-        self.default_command = self.get_str_value(settings, 'default_command')
+        defcmd = self.get_str_value(settings, 'default_command')
+        if defcmd:
+            self.default_command = defcmd
 
         self.toLineEdit.setText(self.default_output)
 

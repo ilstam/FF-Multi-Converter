@@ -13,6 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+import sys
+import re
+import platform
+import logging
+import textwrap
 
 from PyQt4.QtCore import (PYQT_VERSION_STR, QCoreApplication, QLocale, QRegExp,
                           QSettings, QSize, Qt, QTimer, QTranslator,
@@ -23,13 +29,6 @@ from PyQt4.QtGui import (QAbstractItemView, QApplication, QButtonGroup,
                          QMainWindow, QMessageBox, QPushButton, QRadioButton,
                          QRegExpValidator, QShortcut, QSizePolicy, QSpacerItem,
                          QTabWidget, QToolButton, QVBoxLayout, QWidget)
-
-import os
-import sys
-import re
-import platform
-import logging
-import textwrap
 
 import ffmulticonverter as ffmc
 from ffmulticonverter import utils

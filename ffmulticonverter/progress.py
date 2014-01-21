@@ -13,11 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt4.QtCore import pyqtSignal, QTimer
-from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
-                  QFrame, QLabel, QPushButton, QProgressBar, QMessageBox,
-                  QTextEdit, QCommandLinkButton, QTextCursor, QSizePolicy)
-
 import os
 import re
 import io
@@ -27,6 +22,12 @@ import shutil
 import subprocess
 import shlex
 import logging
+
+from PyQt4.QtCore import pyqtSignal, QTimer
+from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
+                         QFrame, QLabel, QPushButton, QProgressBar,
+                         QMessageBox, QTextEdit, QCommandLinkButton,
+                         QTextCursor, QSizePolicy)
 
 from ffmulticonverter import utils
 

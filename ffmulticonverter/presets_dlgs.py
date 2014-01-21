@@ -13,16 +13,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import os
+import sys
+import re
+import xml.etree.ElementTree as etree
+
 from PyQt4.QtCore import Qt, QTimer
 from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
                          QHBoxLayout, QLabel, QLineEdit, QListWidget,
                          QListWidgetItem, QMessageBox, QPushButton, QShortcut,
                          QSizePolicy, QSpacerItem, QVBoxLayout)
-
-import os
-import sys
-import re
-import xml.etree.ElementTree as etree
 
 from ffmulticonverter import utils
 

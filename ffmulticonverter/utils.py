@@ -18,6 +18,7 @@ Various useful functions.
 """
 
 import os
+
 from PyQt4.QtCore import pyqtSignal, QSize, Qt
 from PyQt4.QtGui import (QAction, QLayout, QLineEdit, QListWidget,
                          QListWidgetItem, QMenu, QSpacerItem, QWidget)

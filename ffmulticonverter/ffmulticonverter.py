@@ -47,9 +47,9 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        self.main_width = 700 # main window width
-        self.main_height = 500
-        self.main_fixed_height = 622
+        self.main_width = 760 # main window width
+        self.main_height = 510
+        self.main_fixed_height = 640
         self.default_command = '-ab 320k -ar 48000 -ac 2' # default ffmpeg cmd
 
         self.home = os.getenv('HOME') # home path
@@ -397,7 +397,7 @@ class MainWindow(QMainWindow):
             if width:
                 height = tab.heightLineEdit.text()
                 size = '{0}x{1}'.format(width, height)
-                mntaspect = tab.aspectCheckBox.isChecked()
+                mntaspect = tab.imgaspectCheckBox.isChecked()
             imgcmd = tab.commandLineEdit.text()
         else:
             self.docconv = True
@@ -437,7 +437,7 @@ class MainWindow(QMainWindow):
         text = '''<b> FF Multi Converter {0} </b>
                  <p>{1}
                  <p><a href="{2}">FF Multi Converter - Home Page</a>
-                 <p>Copyright &copy; 2011-2013 {3}
+                 <p>Copyright &copy; 2011-2014 {3}
                  <br>License: {4}
                  <p>Python {5} - Qt {6} - PyQt {7} on {8}'''\
                  .format(ffmc.__version__, msg, ffmc.__url__, ffmc.__author__,
@@ -491,8 +491,7 @@ class AudioVideoTab(QWidget):
         frequency_values = [nochange, '22050', '44100', '48000']
         bitrate_values = [nochange, '32', '96', '112', '128', '160', '192',
                           '256', '320']
-        pattern = QRegExp(r'^[1-9]\d*')
-        validator = QRegExpValidator(pattern, self)
+        validator = QRegExpValidator(QRegExp(r'^[1-9]\d*'), self)
 
         converttoLabel = QLabel(self.tr('Convert to:'))
         self.extComboBox = QComboBox()
@@ -515,22 +514,27 @@ class AudioVideoTab(QWidget):
         aspectLabel = QLabel(self.tr('Aspect:'))
         frameLabel = QLabel(self.tr('Frame Rate (fps):'))
         bitrateLabel = QLabel(self.tr('Video Bitrate (kbps):'))
+        vidcodecLabel = QLabel('Video codec:')
 
-        self.widthLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
-        self.heightLineEdit = utils.create_LineEdit((50, 16777215), validator,4)
+        self.widthLineEdit = utils.create_LineEdit((70, 16777215), validator, 4)
+        self.heightLineEdit = utils.create_LineEdit((70, 16777215), validator,4)
         label = QLabel('x')
         layout1 = utils.add_to_layout(QHBoxLayout(), self.widthLineEdit,
                                       label, self.heightLineEdit)
-        self.aspect1LineEdit = utils.create_LineEdit((35, 16777215),validator,2)
-        self.aspect2LineEdit = utils.create_LineEdit((35, 16777215),validator,2)
+        self.aspect1LineEdit = utils.create_LineEdit((50, 16777215),validator,2)
+        self.aspect2LineEdit = utils.create_LineEdit((50, 16777215),validator,2)
         label = QLabel(':')
         layout2 = utils.add_to_layout(QHBoxLayout(), self.aspect1LineEdit,
                                       label, self.aspect2LineEdit)
-        self.frameLineEdit = utils.create_LineEdit(None, validator, 4)
-        self.bitrateLineEdit = utils.create_LineEdit(None, validator, 6)
+        self.frameLineEdit = utils.create_LineEdit((120, 16777215), validator, 4)
+        self.bitrateLineEdit = utils.create_LineEdit((130, 16777215), validator, 6)
+        self.vidcodecLineEdit = QLineEdit()
 
-        labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
-        widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
+        labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel, vidcodecLabel]
+        widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit,
+                   self.vidcodecLineEdit]
+
+        self.vidaspectCheckBox = QCheckBox(self.tr("Preserve\naspect ratio"))
 
         videosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
@@ -538,10 +542,15 @@ class AudioVideoTab(QWidget):
             a.setText('<html><p align="center">{0}</p></html>'.format(text))
             layout = utils.add_to_layout(QVBoxLayout(), a, b)
             videosettings_layout.addLayout(layout)
+            if a == aspectLabel:
+                # add vidaspectCB in layout after aspectLabel
+                videosettings_layout.addWidget(self.vidaspectCheckBox)
 
         freqLabel = QLabel(self.tr('Frequency (Hz):'))
-        chanLabel = QLabel(self.tr('Channels:'))
+        chanLabel = QLabel(self.tr('Audio Channels:'))
         bitrateLabel = QLabel(self.tr('Audio Bitrate (kbps):'))
+        audcodecLabel = QLabel('Audio codec:')
+        threadsLabel = QLabel('Threads:')
 
         self.freqComboBox = QComboBox()
         self.freqComboBox.addItems(frequency_values)
@@ -559,9 +568,14 @@ class AudioVideoTab(QWidget):
                                          self.chan2RadioButton, spcr2)
         self.audio_bitrateComboBox = QComboBox()
         self.audio_bitrateComboBox.addItems(bitrate_values)
+        self.audcodecLineEdit = utils.create_LineEdit((130, 16777215), None, None)
+        validator = QRegExpValidator(QRegExp(r'^[0-9]'), self)
+        self.threadsLineEdit = utils.create_LineEdit((50, 16777215), validator,
+                                                     None)
 
-        labels = [freqLabel, chanLabel, bitrateLabel]
-        widgets = [self.freqComboBox, chanlayout, self.audio_bitrateComboBox]
+        labels = [freqLabel, chanLabel, bitrateLabel, audcodecLabel, threadsLabel]
+        widgets = [self.freqComboBox, chanlayout, self.audio_bitrateComboBox,
+                   self.audcodecLineEdit, self.threadsLineEdit]
 
         audiosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
@@ -584,6 +598,8 @@ class AudioVideoTab(QWidget):
         self.frame = QFrame()
         self.frame.setLayout(hidden_layout)
         self.frame.hide()
+        #for development
+        #self.frame.setVisible(True)
 
         final_layout = utils.add_to_layout(QVBoxLayout(), hlayout1,
                                            hlayout2, hlayout3, self.frame)
@@ -597,6 +613,12 @@ class AudioVideoTab(QWidget):
         self.extComboBox.currentIndexChanged.connect(
                 lambda: self.extLineEdit.setEnabled(
                 self.extComboBox.currentIndex() == len(self.formats)))
+        self.vidaspectCheckBox.toggled.connect(lambda:
+                self.aspect1LineEdit.setEnabled(
+                not self.vidaspectCheckBox.isChecked()))
+        self.vidaspectCheckBox.toggled.connect(lambda:
+                self.aspect2LineEdit.setEnabled(
+                not self.vidaspectCheckBox.isChecked()))
         self.widthLineEdit.textChanged.connect(
                 lambda: self.command_elements_change('size'))
         self.heightLineEdit.textChanged.connect(
@@ -631,12 +653,14 @@ class AudioVideoTab(QWidget):
         """Clear all values of graphical widgets."""
         lines = [self.commandLineEdit, self.widthLineEdit, self.heightLineEdit,
                  self.aspect1LineEdit, self.aspect2LineEdit, self.frameLineEdit,
-                 self.bitrateLineEdit, self.extLineEdit]
+                 self.bitrateLineEdit, self.extLineEdit, self.audcodecLineEdit,
+                 self.vidcodecLineEdit, self.threadsLineEdit]
         for i in lines:
             i.clear()
 
         self.freqComboBox.setCurrentIndex(0)
         self.audio_bitrateComboBox.setCurrentIndex(0)
+        self.vidaspectCheckBox.setChecked(False)
         self.group.setExclusive(False)
         self.chan1RadioButton.setChecked(False)
         self.chan2RadioButton.setChecked(False)
@@ -778,8 +802,7 @@ class ImageTab(QWidget):
                           'epsf', 'epsi', 'icon', 'jpe', 'jpg', 'pgm', 'png24',
                           'png32', 'pnm', 'ps', 'ps2', 'ps3', 'sid', 'tiff']
 
-        pattern = QRegExp(r'^[1-9]\d*')
-        validator = QRegExpValidator(pattern, self)
+        validator = QRegExpValidator(QRegExp(r'^[1-9]\d*'), self)
 
         converttoLabel = QLabel(self.tr('Convert to:'))
         self.extComboBox = QComboBox()
@@ -791,12 +814,12 @@ class ImageTab(QWidget):
         self.heightLineEdit = utils.create_LineEdit((50, 16777215), validator,4)
         label = QLabel('x')
         label.setMaximumWidth(25)
-        self.aspectCheckBox = QCheckBox(self.tr("Maintain aspect ratio"))
+        self.imgaspectCheckBox = QCheckBox(self.tr("Maintain aspect ratio"))
         hlayout1 = utils.add_to_layout(QHBoxLayout(), self.widthLineEdit,
                                        label, self.heightLineEdit)
         vlayout = utils.add_to_layout(QVBoxLayout(), sizeLabel, hlayout1)
         hlayout2 = utils.add_to_layout(QHBoxLayout(), vlayout,
-                                       self.aspectCheckBox, None)
+                                       self.imgaspectCheckBox, None)
         hlayout3 = utils.add_to_layout(QHBoxLayout(), converttoLabel,
                                        self.extComboBox, hlayout2, None)
 

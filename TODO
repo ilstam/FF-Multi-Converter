@@ -1,0 +1,28 @@
+TODO list for version 1.7.0
+----------------------------
+
+* update presets list and make it compatible with newer versions of ffmpeg
+
+* update translations
+
+* support audio/video codecs selection
+
+* support video split
+
+* add a preserve aspect ratio / video size option
+
+* add a number of threads option
+
+* support embedding subtitles to videos
+
+* add rotate and flip image options
+
+* add crop image option
+
+
+TODO list for the future
+-------------------------
+
+* port to pyqt5
+
+* port to windows

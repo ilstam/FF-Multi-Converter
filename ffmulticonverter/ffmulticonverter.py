@@ -34,6 +34,7 @@ from PyQt4.QtGui import (
 
 import ffmulticonverter as ffmc
 from ffmulticonverter import utils
+from ffmulticonverter import config
 from ffmulticonverter import about_dlg
 from ffmulticonverter import preferences_dlg
 from ffmulticonverter import presets_dlgs
@@ -1034,22 +1035,6 @@ class DocumentTab(QWidget):
                     self.tr('Error!'), str(e))
             return False
 
-
-def logging_config():
-    log_folder = os.path.join(os.getenv('HOME'), '.config/ffmulticonverter/logs')
-    if not os.path.exists(log_folder):
-        os.makedirs(log_folder)
-    log_file = os.path.join(log_folder, 'history.log')
-
-    logging.basicConfig(
-            filename = log_file,
-            level=logging.DEBUG,
-            format='%(asctime)s : %(levelname)s - %(type)s\n'
-                   'Command: %(command)s\n'
-                   'Return code: %(returncode)s\n%(message)s\n',
-            datefmt='%Y-%m-%d %H:%M:%S'
-    )
-
 def main():
     app = QApplication([i.encode('utf-8') for i in sys.argv])
     app.setOrganizationName(ffmc.__name__)
@@ -1065,7 +1050,18 @@ def main():
     if appTranslator.load('ffmulticonverter_' + locale, ':/'):
         app.installTranslator(appTranslator)
 
-    logging_config()
+    if not os.path.exists(config.log_dir):
+        os.makedirs(config.log_dir)
+
+    logging.basicConfig(
+            filename = config.log_file,
+            level=logging.DEBUG,
+            format='%(asctime)s : %(levelname)s - %(type)s\n'
+                   'Command: %(command)s\n'
+                   'Return code: %(returncode)s\n%(message)s\n',
+            datefmt='%Y-%m-%d %H:%M:%S'
+    )
+
     converter = MainWindow()
     converter.show()
     app.exec_()

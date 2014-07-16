@@ -20,8 +20,8 @@ def main():
     dlg_progress = Progress([], '', '', False, '', False, '', False, None, test=True)
 
     # uncomment the dialog you wish to test
-    dlg_about.show()
-    #dlg_showpresets.show()
+    #dlg_about.show()
+    dlg_showpresets.show()
     #dlg_preferences.show()
     #dlg_progress.show()
 

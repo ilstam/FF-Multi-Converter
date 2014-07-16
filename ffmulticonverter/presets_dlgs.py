@@ -14,7 +14,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import sys
 import re
 import xml.etree.ElementTree as etree
 
@@ -25,17 +24,16 @@ from PyQt4.QtGui import (
         )
 
 from ffmulticonverter import utils
+from ffmulticonverter import config
 
 
 class ShowPresets(QDialog):
     def __init__(self, parent=None):
         super(ShowPresets, self).__init__(parent)
 
-        self.original_presets_file = self.find_presets_file()
-        self.config_folder = os.path.join(
-                os.getenv('HOME'), '.config/ffmulticonverter/')
-        self.current_presets_file = os.path.join(
-                self.config_folder, 'presets.xml')
+        self.original_presets_file = config.find_presets_file(
+                config.presets_file_name)
+        self.current_presets_file = config.presets_file
 
         presListWidget = QListWidget()
         labelLabel = QLabel(self.tr('Preset label'))
@@ -103,31 +101,6 @@ class ShowPresets(QDialog):
         QTimer.singleShot(0, self.load_xml)
         QTimer.singleShot(0, self.fill_presListWidget)
 
-    @staticmethod
-    def find_presets_file():
-        """
-        The default presets.xml could be stored in different locations during
-        the installation depending on different Linux distributions.
-        Search for this file on each possible directory to which user
-        specific data files could be stored.
-
-        Return the path of the file if found, else an empty string.
-        """
-        possible_dirs = os.environ.get(
-                "XDG_DATA_DIRS", "/usr/local/share/:/usr/share/"
-                ).split(":")
-        # for virtualenv installations
-        posdir = os.path.realpath(
-                os.path.join(os.path.dirname(sys.argv[0]), '..', 'share'))
-        if not posdir in possible_dirs:
-            possible_dirs.append(posdir)
-
-        for _dir in possible_dirs:
-            _file = os.path.join(_dir, 'ffmulticonverter/presets.xml')
-            if os.path.exists(_file):
-                return _file
-        return ''
-
     def load_xml(self):
         """Load xml tree and set xml root."""
         try:
@@ -138,12 +111,13 @@ class ShowPresets(QDialog):
             except FileNotFoundError:
                 # when program is not installed
                 try:
-                    self.tree = etree.parse('share/presets.xml')
+                    self.tree = etree.parse('share/' + config.presets_file_name)
                 except FileNotFoundError:
                     # when running from test_dialogs.py
-                    self.tree = etree.parse('../share/presets.xml')
-            if not os.path.exists(self.config_folder):
-                os.makedirs(self.config_folder)
+                    self.tree = etree.parse(
+                            '../share/' + config.presets_file_name)
+            if not os.path.exists(config.config_dir):
+                os.makedirs(config.config_dir)
         self.root = self.tree.getroot()
 
     def set_buttons_clear_lineEdits(self):
@@ -364,7 +338,7 @@ class ShowPresets(QDialog):
                         elem.insert(1, command)
                         elem.insert(2, ext)
 
-                        y.tag = y.tag + '__OLD'
+                        y.tag = y.tag + config.presets_old
                         self.root.insert(n+1, elem)
                     break
             else:
@@ -375,9 +349,9 @@ class ShowPresets(QDialog):
         self.save_tree()
 
     def remove_old(self):
-        """Remove those xml elements which their tags has an __OLD prefix."""
+        """Remove those xml elements which their tags has an __OLD suffix."""
         reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
-            'Remove old presets'), self.tr('All presets with an __OLD prefix '
+            'Remove old presets'), self.tr('All presets with an __OLD suffix '
             'will be deleted. Are you sure that you want to continue?'),
             QMessageBox.Yes|QMessageBox.Cancel)
         if not reply == QMessageBox.Yes:
@@ -385,7 +359,7 @@ class ShowPresets(QDialog):
 
         self.load_xml()
         for i in self.root:
-            if i.tag.endswith('__OLD'):
+            if i.tag.endswith(config.presets_old):
                 self.root.remove(i)
         self.save_tree()
 

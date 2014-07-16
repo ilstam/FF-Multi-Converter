@@ -24,10 +24,10 @@ import shlex
 import logging
 
 from PyQt4.QtCore import pyqtSignal, QTimer
-from PyQt4.QtGui import (QApplication, QDialog, QVBoxLayout, QHBoxLayout,
-                         QFrame, QLabel, QPushButton, QProgressBar,
-                         QMessageBox, QTextEdit, QCommandLinkButton,
-                         QTextCursor, QSizePolicy)
+from PyQt4.QtGui import (
+        QApplication, QDialog, QFrame, QLabel, QPushButton, QProgressBar,
+        QMessageBox, QTextEdit, QCommandLinkButton, QTextCursor, QSizePolicy
+        )
 
 from ffmulticonverter import utils
 
@@ -78,13 +78,13 @@ class Progress(QDialog):
         self.error = 0
         self.running = True
 
-        self.nowLabel = QLabel(self.tr('In progress: '))
+        nowLabel = QLabel(self.tr('In progress: '))
         totalLabel = QLabel(self.tr('Total:'))
-        self.nowBar = QProgressBar()
-        self.nowBar.setValue(0)
-        self.totalBar = QProgressBar()
-        self.totalBar.setValue(0)
-        self.cancelButton = QPushButton(self.tr('Cancel'))
+        nowBar = QProgressBar()
+        nowBar.setValue(0)
+        totalBar = QProgressBar()
+        totalBar.setValue(0)
+        cancelButton = QPushButton(self.tr('Cancel'))
 
         detailsButton = QCommandLinkButton(self.tr('Details'))
         detailsButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
@@ -93,29 +93,38 @@ class Progress(QDialog):
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
-        self.textEdit = QTextEdit()
-        self.textEdit.setReadOnly(True)
-        self.frame = QFrame()
-        frame_layout = utils.add_to_layout(QHBoxLayout(), self.textEdit)
-        self.frame.setLayout(frame_layout)
-        self.frame.hide()
+        textEdit = QTextEdit()
+        textEdit.setReadOnly(True)
+        frame = QFrame()
+        frame_layout = utils.add_to_layout('h', textEdit)
+        frame.setLayout(frame_layout)
+        frame.hide()
 
-        hlayout = utils.add_to_layout(QHBoxLayout(), None, self.nowLabel, None)
-        hlayout2 = utils.add_to_layout(QHBoxLayout(), None, totalLabel, None)
-        hlayout3 = utils.add_to_layout(QHBoxLayout(), detailsButton, line)
-        hlayout4 = utils.add_to_layout(QHBoxLayout(), self.frame)
-        hlayout5 = utils.add_to_layout(QHBoxLayout(), None, self.cancelButton)
-        vlayout = utils.add_to_layout(QVBoxLayout(), hlayout, self.nowBar,
-                                      hlayout2, self.totalBar, None,
-                                      hlayout3, hlayout4, hlayout5)
+        hlayout = utils.add_to_layout('h', None, nowLabel, None)
+        hlayout2 = utils.add_to_layout('h', None, totalLabel, None)
+        hlayout3 = utils.add_to_layout('h', detailsButton, line)
+        hlayout4 = utils.add_to_layout('h', frame)
+        hlayout5 = utils.add_to_layout('h', None, cancelButton)
+        vlayout = utils.add_to_layout(
+                'v', hlayout, nowBar, hlayout2, totalBar, None,
+                hlayout3, hlayout4, hlayout5
+                )
         self.setLayout(vlayout)
 
         detailsButton.toggled.connect(self.resize_dialog)
-        detailsButton.toggled.connect(self.frame.setVisible)
-        self.cancelButton.clicked.connect(self.reject)
+        detailsButton.toggled.connect(frame.setVisible)
+        cancelButton.clicked.connect(self.reject)
         self.file_converted_signal.connect(self.file_converted)
         self.refr_bars_signal.connect(self.refresh_progress_bars)
         self.update_text_edit_signal.connect(self.update_text_edit)
+
+        #aliasing
+        self.nowLabel = nowLabel
+        self.nowBar = nowBar
+        self.totalBar = totalBar
+        self.cancelButton = cancelButton
+        self.textEdit = textEdit
+        self.frame = frame
 
         self.resize(484, 200)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
@@ -192,10 +201,12 @@ class Progress(QDialog):
         if self._type == 'AudioVideo':
             self.process.send_signal(signal.SIGSTOP)
         self.running = False
-        reply = QMessageBox.question(self,
-            'FF Multi Converter - ' + self.tr('Cancel Conversion'),
-            self.tr('Are you sure you want to cancel conversion?'),
-            QMessageBox.Yes|QMessageBox.Cancel)
+        reply = QMessageBox.question(
+                self,
+                'FF Multi Converter - ' + self.tr('Cancel Conversion'),
+                self.tr('Are you sure you want to cancel conversion?'),
+                QMessageBox.Yes|QMessageBox.Cancel
+                )
         if reply == QMessageBox.Yes:
             if self._type == 'AudioVideo':
                 self.process.kill()
@@ -280,13 +291,15 @@ class Progress(QDialog):
         """
         # note: from_file and to_file names are inside quotation marks
         converter = 'ffmpeg' if ffmpeg else 'avconv'
-        convert_cmd = '{0} -y -i {1} {2} {3}'.format(converter, from_file,
-                                                     command, to_file)
+        convert_cmd = '{0} -y -i {1} {2} {3}'.format(
+                converter, from_file, command, to_file)
         self.update_text_edit_signal.emit(convert_cmd + '\n')
 
-        self.process = subprocess.Popen(shlex.split(convert_cmd),
-                                        stderr=subprocess.STDOUT,
-                                        stdout=subprocess.PIPE)
+        self.process = subprocess.Popen(
+                shlex.split(convert_cmd),
+                stderr=subprocess.STDOUT,
+                stdout=subprocess.PIPE
+                )
 
         final_output = myline = ''
         reader = io.TextIOWrapper(self.process.stdout, encoding='utf8')
@@ -318,8 +331,11 @@ class Progress(QDialog):
 
         return_code = self.process.poll()
 
-        log_data = {'command' : convert_cmd, 'returncode' : return_code,
-                    'type' : 'VIDEO'}
+        log_data = {
+                'command' : convert_cmd,
+                'returncode' : return_code,
+                'type' : 'VIDEO'
+                }
         log_lvl = logging.info if return_code == 0 else logging.error
         log_lvl(final_output, extra=log_data)
 
@@ -344,9 +360,11 @@ class Progress(QDialog):
         imgcmd = ' ' + imgcmd.strip() + ' '
         cmd = 'convert {0} {1}{2}{3}'.format(from_file, resize, imgcmd, to_file)
         self.update_text_edit_signal.emit(cmd + '\n')
-        child = subprocess.Popen(shlex.split(cmd),
-                                 stderr=subprocess.STDOUT,
-                                 stdout=subprocess.PIPE)
+        child = subprocess.Popen(
+                shlex.split(cmd),
+                stderr=subprocess.STDOUT,
+                stdout=subprocess.PIPE
+                )
         child.wait()
 
         reader = io.TextIOWrapper(child.stdout, encoding='utf8')
@@ -355,8 +373,11 @@ class Progress(QDialog):
 
         return_code = child.poll()
 
-        log_data = {'command' : cmd, 'returncode' : return_code,
-                    'type' : 'IMAGE'}
+        log_data = {
+                'command' : cmd,
+                'returncode' : return_code,
+                'type' : 'IMAGE'
+                }
         log_lvl = logging.info if return_code == 0 else logging.error
         log_lvl(final_output, extra=log_data)
 
@@ -394,9 +415,11 @@ class Progress(QDialog):
 
         cmd = 'unoconv --format={0} {1}'.format(to_ext[1:], '"'+dummy_file+'"')
         self.update_text_edit_signal.emit(cmd + '\n')
-        child = subprocess.Popen(shlex.split(cmd),
-                                 stderr=subprocess.STDOUT,
-                                 stdout=subprocess.PIPE)
+        child = subprocess.Popen(
+                shlex.split(cmd),
+                stderr=subprocess.STDOUT,
+                stdout=subprocess.PIPE
+                )
         child.wait()
 
         os.remove(dummy_file)
@@ -412,8 +435,11 @@ class Progress(QDialog):
 
         return_code = child.poll()
 
-        log_data = {'command' : cmd,
-                    'returncode' : return_code, 'type' : 'DOCUMENT'}
+        log_data = {
+                'command' : cmd,
+                'returncode' : return_code,
+                'type' : 'DOCUMENT'
+                }
         log_lvl = logging.info if return_code == 0 else logging.error
         log_lvl(final_output, extra=log_data)
 

@@ -20,8 +20,10 @@ Various useful functions.
 import os
 
 from PyQt4.QtCore import pyqtSignal, QSize, Qt
-from PyQt4.QtGui import (QAction, QLayout, QLineEdit, QListWidget,
-                         QListWidgetItem, QMenu, QSpacerItem, QWidget)
+from PyQt4.QtGui import (
+        QAction, QLayout, QLineEdit, QListWidget, QListWidgetItem, QMenu,
+        QSpacerItem, QWidget, QHBoxLayout, QVBoxLayout, QGridLayout
+        )
 
 
 def str_to_bool(string):
@@ -51,8 +53,10 @@ def duration_in_seconds(duration):
     hours, mins, secs = [int(i) for i in duration.split(':')]
     return secs + (hours * 3600) + (mins * 60)
 
-def create_paths_list(files_list, ext_to, prefix, suffix, output,
-                      orig_dir, overwrite_existing):
+def create_paths_list(
+        files_list, ext_to, prefix, suffix, output, orig_dir,
+        overwrite_existing
+        ):
     """
     Keyword arguments:
     files_list -- list with files to be converted
@@ -113,9 +117,18 @@ def add_to_layout(layout, *items):
     """Add items to QVBox and QHBox layouts easily.
 
     Keyword arguments:
-    layout -- a layout (QVBox or QHBox)
+    layout -- a layout oject (QVBoxLayout or QHBoxLayout) or a string
+              if "v" or "h" create a QVBox or QHBox respectively
     *items -- list with items to be added
     """
+    if isinstance(layout, str):
+        if layout == "v":
+            layout = QVBoxLayout()
+        elif layout == "h":
+            layout = QHBoxLayout()
+        else:
+            raise TypeError("Invalid layout!")
+
     for item in items:
         if isinstance(item, QWidget):
             layout.addWidget(item)
@@ -129,14 +142,14 @@ def add_to_layout(layout, *items):
             raise TypeError("Argument of wrong type!")
     return layout
 
-def add_to_grid(layout, *items):
+def add_to_grid(*items):
     """Add items to a QGrid layout easily.
 
     Keyword arguments:
-    layout -- a QGridLayout
     *items -- list with lists of items to be added.
               items in the same list will be added to the same line of grid.
     """
+    layout = QGridLayout()
     # for now it adds only 1 item per cell.
     for x, _list in enumerate(items):
         for y, item in enumerate(_list):

@@ -19,10 +19,11 @@ import re
 import xml.etree.ElementTree as etree
 
 from PyQt4.QtCore import Qt, QTimer
-from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
-                         QHBoxLayout, QLabel, QLineEdit, QListWidget,
-                         QListWidgetItem, QMessageBox, QPushButton, QShortcut,
-                         QSizePolicy, QSpacerItem, QVBoxLayout)
+from PyQt4.QtGui import (
+        QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit, QListWidget,
+        QListWidgetItem, QMessageBox, QPushButton, QShortcut, QSizePolicy,
+        QSpacerItem
+        )
 
 from ffmulticonverter import utils
 
@@ -32,26 +33,27 @@ class ShowPresets(QDialog):
         super(ShowPresets, self).__init__(parent)
 
         self.original_presets_file = self.find_presets_file()
-        self.config_folder = os.path.join(os.getenv('HOME'),
-                                          '.config/ffmulticonverter/')
-        self.current_presets_file = os.path.join(self.config_folder, 'presets.xml')
+        self.config_folder = os.path.join(
+                os.getenv('HOME'), '.config/ffmulticonverter/')
+        self.current_presets_file = os.path.join(
+                self.config_folder, 'presets.xml')
 
-        self.presListWidget = QListWidget()
+        presListWidget = QListWidget()
         labelLabel = QLabel(self.tr('Preset label'))
-        self.labelLineEdit = QLineEdit()
-        self.labelLineEdit.setReadOnly(True)
+        labelLineEdit = QLineEdit()
+        labelLineEdit.setReadOnly(True)
         commandLabel = QLabel(self.tr('Preset command line parameters'))
-        self.commandLineEdit = QLineEdit()
-        self.commandLineEdit.setReadOnly(True)
+        commandLineEdit = QLineEdit()
+        commandLineEdit.setReadOnly(True)
         extLabel = QLabel(self.tr('Output file extension'))
-        self.extLineEdit = QLineEdit()
-        self.extLineEdit.setReadOnly(True)
+        extLineEdit = QLineEdit()
+        extLineEdit.setReadOnly(True)
         addButton = QPushButton(self.tr('Add'))
-        self.deleteButton = QPushButton(self.tr('Delete'))
-        self.delete_allButton = QPushButton(self.tr('Delete all'))
-        self.editButton = QPushButton(self.tr('Edit'))
+        deleteButton = QPushButton(self.tr('Delete'))
+        delete_allButton = QPushButton(self.tr('Delete all'))
+        editButton = QPushButton(self.tr('Edit'))
         searchLabel = QLabel(self.tr('Search'))
-        self.searchLineEdit = QLineEdit()
+        searchLineEdit = QLineEdit()
         okButton = QPushButton(self.tr('OK'))
         okButton.setDefault(True)
 
@@ -59,33 +61,42 @@ class ShowPresets(QDialog):
         spc2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         spc3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        grid = utils.add_to_grid(QGridLayout(),
-                                 [self.delete_allButton, addButton, spc1],
-                                 [self.deleteButton, self.editButton, spc2])
+        grid = utils.add_to_grid(
+                [delete_allButton, addButton, spc1],
+                [deleteButton, editButton, spc2]
+                )
 
-        hlayout = utils.add_to_layout(QHBoxLayout(), searchLabel,
-                                      self.searchLineEdit, None, okButton)
+        hlayout = utils.add_to_layout(
+                'h', searchLabel, searchLineEdit, None, okButton)
 
-        final_layout = utils.add_to_layout(QVBoxLayout(),
-                                           self.presListWidget, labelLabel,
-                                           self.labelLineEdit, commandLabel,
-                                           self.commandLineEdit, extLabel,
-                                           self.extLineEdit, grid, spc3,
-                                           hlayout)
+        final_layout = utils.add_to_layout(
+                'v', presListWidget, labelLabel, labelLineEdit, commandLabel,
+                commandLineEdit, extLabel, extLineEdit, grid, spc3, hlayout
+                )
 
         self.setLayout(final_layout)
 
         okButton.clicked.connect(self.accept)
-        self.presListWidget.currentRowChanged.connect(self.show_preset)
+        presListWidget.currentRowChanged.connect(self.show_preset)
         addButton.clicked.connect(self.add_preset)
-        self.deleteButton.clicked.connect(self.delete_preset)
-        self.delete_allButton.clicked.connect(self.delete_all_presets)
-        self.editButton.clicked.connect(self.edit_preset)
-        self.searchLineEdit.textEdited.connect(self.search)
+        deleteButton.clicked.connect(self.delete_preset)
+        delete_allButton.clicked.connect(self.delete_all_presets)
+        editButton.clicked.connect(self.edit_preset)
+        searchLineEdit.textEdited.connect(self.search)
 
         del_shortcut = QShortcut(self)
         del_shortcut.setKey(Qt.Key_Delete)
         del_shortcut.activated.connect(self.delete_preset)
+
+        #aliasing
+        self.presListWidget = presListWidget
+        self.labelLineEdit = labelLineEdit
+        self.commandLineEdit = commandLineEdit
+        self.extLineEdit = extLineEdit
+        self.deleteButton = deleteButton
+        self.delete_allButton = delete_allButton
+        self.editButton = editButton
+        self.searchLineEdit = searchLineEdit
 
         self.resize(430, 480)
         self.setWindowTitle(self.tr('Edit Presets'))
@@ -103,12 +114,12 @@ class ShowPresets(QDialog):
 
         Return the path of the file if found, else an empty string.
         """
-        possible_dirs = os.environ.get("XDG_DATA_DIRS",
-                                        "/usr/local/share/:/usr/share/")\
-                                        .split(":")
+        possible_dirs = os.environ.get(
+                "XDG_DATA_DIRS", "/usr/local/share/:/usr/share/"
+                ).split(":")
         # for virtualenv installations
-        posdir = os.path.realpath(os.path.join(os.path.dirname(sys.argv[0]),
-                                               '..', 'share'))
+        posdir = os.path.realpath(
+                os.path.join(os.path.dirname(sys.argv[0]), '..', 'share'))
         if not posdir in possible_dirs:
             possible_dirs.append(posdir)
 
@@ -186,8 +197,9 @@ class ShowPresets(QDialog):
 
             for num, elem in enumerate([label, command, ext, category]):
                 element.insert(num, elem)
-            index = sorted([i.tag for i in self.root] + [dialog.name_text])\
-                    .index(dialog.name_text)
+            index = sorted(
+                    [i.tag for i in self.root] + [dialog.name_text]
+                    ).index(dialog.name_text)
             self.root.insert(index, element)
             self.save_tree()
             self.fill_presListWidget()
@@ -253,8 +265,10 @@ class ShowPresets(QDialog):
         for i in txt.split(' '):
             for p in sorted([y.tag for y in self.root]):
                 elem = self.root.find(p)
-                if (i.strip() and (i in elem.tag.lower()
-                    or i in elem[0].text.lower() or i in elem[2].text.lower())):
+                if (i.strip() and (
+                        i in elem.tag.lower()
+                        or i in elem[0].text.lower()
+                        or i in elem[2].text.lower())):
                     self.presListWidget.addItem(utils.XmlListItem(p, elem))
 
         self.presListWidget.setCurrentRow(0)
@@ -289,8 +303,9 @@ class ShowPresets(QDialog):
 
     def export_presets(self):
         """Export the xml tree."""
-        fname = QFileDialog.getSaveFileName(self,
-                                  'FF Multi Converter - Export presets','.xml')
+        fname = QFileDialog.getSaveFileName(
+                self, 'FF Multi Converter - ' + self.tr('Export presets'),
+                '.xml')
         if fname:
             self.load_xml()
             with open(fname, 'wb') as _file:
@@ -318,10 +333,13 @@ class ShowPresets(QDialog):
           different attributes, then add this preset to current presets and
           add an '__OLD' suffix to matching preset's name
         """
-        reply = QMessageBox.question(self, 'FF Multi Converter - ' + self.tr(
-            'Presets Synchronization'), self.tr('Current presets and default '
-            'presets will be merged. Are you sure that you want to continue?'),
-            QMessageBox.Yes|QMessageBox.Cancel)
+        reply = QMessageBox.question(
+                self, 'FF Multi Converter - ' +
+                self.tr('Presets Synchronization'),
+                self.tr('Current presets and default presets will be merged. '
+                'Are you sure that you want to continue?'),
+                QMessageBox.Yes|QMessageBox.Cancel
+                )
         if not reply == QMessageBox.Yes:
             return
 
@@ -380,9 +398,9 @@ class ShowPresets(QDialog):
         self.the_command = None
         if self.presListWidget:
             self.the_command = self.presListWidget.currentItem()\
-                               .xml_element[1].text
+                    .xml_element[1].text
             self.the_extension = self.presListWidget.currentItem()\
-                                 .xml_element[2].text
+                    .xml_element[2].text
         QDialog.accept(self)
 
 
@@ -391,39 +409,45 @@ class AddorEditPreset(QDialog):
         super(AddorEditPreset, self).__init__(parent)
 
         nameLabel = QLabel(self.tr('Preset name (one word, A-z, 0-9)'))
-        self.nameLineEdit = QLineEdit()
+        nameLineEdit = QLineEdit()
         labelLabel = QLabel(self.tr('Preset label'))
-        self.labelLineEdit = QLineEdit()
+        labelLineEdit = QLineEdit()
         commandLabel = QLabel(self.tr('Preset command line parameters'))
-        self.commandLineEdit = QLineEdit()
+        commandLineEdit = QLineEdit()
         extLabel = QLabel(self.tr('Output file extension'))
-        self.extLineEdit = QLineEdit()
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok|
-                                          QDialogButtonBox.Cancel)
+        extLineEdit = QLineEdit()
+        buttonBox = QDialogButtonBox(
+                QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
 
-        final_layout = utils.add_to_layout(QVBoxLayout(), nameLabel,
-                                           self.nameLineEdit, labelLabel,
-                                           self.labelLineEdit, commandLabel,
-                                           self.commandLineEdit, extLabel,
-                                           self.extLineEdit, self.buttonBox)
+        final_layout = utils.add_to_layout(
+                'v', nameLabel, nameLineEdit, labelLabel, labelLineEdit,
+                commandLabel, commandLineEdit, extLabel, extLineEdit, buttonBox
+                )
 
         self.setLayout(final_layout)
 
-        self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.rejected.connect(self.reject)
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
 
         self.resize(410, 280)
 
         if edit:
-            self.nameLineEdit.setText(xml_element.tag)
-            self.labelLineEdit.setText(xml_element[0].text)
-            self.commandLineEdit.setText(xml_element[1].text)
-            self.commandLineEdit.home(False)
-            self.extLineEdit.setText(xml_element[2].text)
+            nameLineEdit.setText(xml_element.tag)
+            labelLineEdit.setText(xml_element[0].text)
+            commandLineEdit.setText(xml_element[1].text)
+            commandLineEdit.home(False)
+            extLineEdit.setText(xml_element[2].text)
 
             title = self.tr('Edit {0}'.format(xml_element.tag))
         else:
             title = self.tr('Add preset')
+
+        #aliasing
+        self.nameLineEdit = nameLineEdit
+        self.labelLineEdit = labelLineEdit
+        self.commandLineEdit = commandLineEdit
+        self.extLineEdit = extLineEdit
+        self.buttonBox = buttonBox
 
         self.resize(410, 280)
         self.setWindowTitle(title)
@@ -444,36 +468,49 @@ class AddorEditPreset(QDialog):
         self.ext_text = self.extLineEdit.text().strip()
 
         if not self.name_text:
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
-                self.tr("Preset name can't be left blank."))
+            QMessageBox.warning(
+                    self, 'Edit Preset - ' + self.tr('Error!'),
+                    self.tr("Preset name can't be left blank.")
+                    )
             self.nameLineEdit.setFocus()
             return False
         if not re.match('^[A-Za-z0-9_]*$', self.name_text):
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
-                self.tr('Preset name must be one word and contain only letters '
-                'and digits.'))
+            QMessageBox.warning(
+                    self, 'Edit Preset - ' + self.tr('Error!'),
+                    self.tr(
+                    'Preset name must be one word and contain only letters '
+                    'and digits.')
+                    )
             self.nameLineEdit.selectAll()
             self.nameLineEdit.setFocus()
             return False
         if not self.label_text:
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
-                self.tr("Preset label can't be left blank."))
+            QMessageBox.warning(
+                    self, 'Edit Preset - ' + self.tr('Error!'),
+                    self.tr("Preset label can't be left blank.")
+                    )
             self.labelLineEdit.setFocus()
             return False
         if not self.command_text:
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
-                self.tr("Command label can't be left blank."))
+            QMessageBox.warning(
+                    self, 'Edit Preset - ' + self.tr('Error!'),
+                    self.tr("Command label can't be left blank.")
+                    )
             self.commandLineEdit.setFocus()
             return False
         if not self.ext_text:
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
-                self.tr("Extension label can't be left blank."))
+            QMessageBox.warning(
+                    self, 'Edit Preset - ' + self.tr('Error!'),
+                    self.tr("Extension label can't be left blank.")
+                    )
             self.extLineEdit.setFocus()
             return False
         if len(self.ext_text.split()) != 1 or self.ext_text[0] == '.':
-            QMessageBox.warning(self, 'Edit Preset - ' + self.tr('Error!'),
-                self.tr('Extension must be one word and must not start with a'
-                ' dot.'))
+            QMessageBox.warning(
+                    self, 'Edit Preset - ' + self.tr('Error!'),
+                    self.tr(
+                    'Extension must be one word and must not start with a  dot.')
+                    )
             self.extLineEdit.selectAll()
             self.extLineEdit.setFocus()
             return False

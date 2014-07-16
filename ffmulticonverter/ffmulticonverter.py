@@ -20,15 +20,17 @@ import platform
 import logging
 import textwrap
 
-from PyQt4.QtCore import (PYQT_VERSION_STR, QCoreApplication, QLocale, QRegExp,
-                          QSettings, QSize, Qt, QTimer, QTranslator,
-                          QT_VERSION_STR)
-from PyQt4.QtGui import (QAbstractItemView, QApplication, QButtonGroup,
-                         QCheckBox, QComboBox, QFileDialog, QFrame,
-                         QHBoxLayout, QIcon, QKeySequence, QLabel, QLineEdit,
-                         QMainWindow, QMessageBox, QPushButton, QRadioButton,
-                         QRegExpValidator, QShortcut, QSizePolicy, QSpacerItem,
-                         QTabWidget, QToolButton, QVBoxLayout, QWidget)
+from PyQt4.QtCore import (
+        PYQT_VERSION_STR, QCoreApplication, QLocale, QRegExp, QSettings, QSize,
+        Qt, QTimer, QTranslator, QT_VERSION_STR
+        )
+from PyQt4.QtGui import (
+        QAbstractItemView, QApplication, QButtonGroup, QCheckBox, QComboBox,
+        QFileDialog, QFrame, QHBoxLayout, QIcon, QKeySequence, QLabel,
+        QLineEdit, QMainWindow, QMessageBox, QPushButton, QRadioButton,
+        QRegExpValidator, QShortcut, QSizePolicy, QSpacerItem, QTabWidget,
+        QToolButton, QWidget
+        )
 
 import ffmulticonverter as ffmc
 from ffmulticonverter import utils
@@ -67,20 +69,20 @@ class MainWindow(QMainWindow):
         addButton = QPushButton(self.tr('Add'))
         delButton = QPushButton(self.tr('Delete'))
         clearButton = QPushButton(self.tr('Clear'))
-        vlayout1 = utils.add_to_layout(QVBoxLayout(), addButton, delButton,
-                                       clearButton, None)
+        vlayout1 = utils.add_to_layout(
+                'v', addButton, delButton, clearButton, None)
 
         self.filesList = utils.FilesList()
         self.filesList.setSelectionMode(QAbstractItemView.ExtendedSelection)
-        hlayout1 = utils.add_to_layout(QHBoxLayout(), self.filesList, vlayout1)
+        hlayout1 = utils.add_to_layout('h', self.filesList, vlayout1)
 
         output_label = QLabel(self.tr('Output folder:'))
-        self.toLineEdit = QLineEdit()
-        self.toLineEdit.setReadOnly(True)
-        self.toToolButton = QToolButton()
-        self.toToolButton.setText('...')
-        hlayout2 = utils.add_to_layout(QHBoxLayout(), output_label,
-                                       self.toLineEdit, self.toToolButton)
+        toLineEdit = QLineEdit()
+        toLineEdit.setReadOnly(True)
+        toToolButton = QToolButton()
+        toToolButton.setText('...')
+        hlayout2 = utils.add_to_layout(
+                'h', output_label, toLineEdit, toToolButton)
 
         self.audiovideo_tab = AudioVideoTab(self)
         self.image_tab = ImageTab(self)
@@ -89,69 +91,89 @@ class MainWindow(QMainWindow):
         self.tabs = [self.audiovideo_tab, self.image_tab, self.document_tab]
         tab_names = [self.tr('Audio/Video'), self.tr('Images'),
                      self.tr('Documents')]
-        self.TabWidget = QTabWidget()
+
+        tabWidget = QTabWidget()
         for num, tab in enumerate(tab_names):
-            self.TabWidget.addTab(self.tabs[num], tab)
-        self.TabWidget.setCurrentIndex(0)
+            tabWidget.addTab(self.tabs[num], tab)
+        tabWidget.setCurrentIndex(0)
 
-        self.origCheckBox = QCheckBox(
-                   self.tr('Save each file in the same\nfolder as input file'))
-        self.deleteCheckBox = QCheckBox(self.tr('Delete original'))
-        self.convertPushButton = QPushButton(self.tr('&Convert'))
+        origCheckBox = QCheckBox(
+                self.tr('Save each file in the same\nfolder as input file'))
+        deleteCheckBox = QCheckBox(self.tr('Delete original'))
+        convertPushButton = QPushButton(self.tr('&Convert'))
 
-        hlayout3 = utils.add_to_layout(QHBoxLayout(), self.origCheckBox,
-                                       self.deleteCheckBox, None)
-        hlayout4 = utils.add_to_layout(QHBoxLayout(), None,
-                                       self.convertPushButton)
-        final_layout = utils.add_to_layout(QVBoxLayout(), hlayout1,
-                                           self.TabWidget, hlayout2,
-                                           hlayout3, hlayout4)
+        hlayout3 = utils.add_to_layout('h', origCheckBox, deleteCheckBox, None)
+        hlayout4 = utils.add_to_layout('h', None, convertPushButton)
+        final_layout = utils.add_to_layout(
+                'v', hlayout1, tabWidget, hlayout2, hlayout3, hlayout4)
 
-        self.statusBar = self.statusBar()
-        self.dependenciesLabel = QLabel()
-        self.statusBar.addPermanentWidget(self.dependenciesLabel, stretch=1)
+        dependenciesLabel = QLabel()
+        self.statusBar().addPermanentWidget(dependenciesLabel, stretch=1)
 
-        Widget = QWidget()
-        Widget.setLayout(final_layout)
-        self.setCentralWidget(Widget)
+        widget = QWidget()
+        widget.setLayout(final_layout)
+        self.setCentralWidget(widget)
 
-        c_act = utils.create_action
-        openAction = c_act(self, self.tr('Open'), QKeySequence.Open, None,
-                           self.tr('Open a file'), self.add_files)
-        convertAction = c_act(self, self.tr('Convert'), 'Ctrl+C', None,
-                              self.tr('Convert files'), self.start_conversion)
-        quitAction = c_act(self, self.tr('Quit'), 'Ctrl+Q', None,
-                           self.tr('Quit'), self.close)
-        edit_presetsAction = c_act(self, self.tr('Edit Presets'), 'Ctrl+P',
-                                   None, self.tr('Edit Presets'), self.presets)
-        importAction = c_act(self, self.tr('Import'), None, None,
-                             self.tr('Import presets'), self.import_presets)
-        exportAction = c_act(self, self.tr('Export'), None, None,
-                             self.tr('Export presets'), self.export_presets)
-        resetAction = c_act(self, self.tr('Reset'), None, None,
-                            self.tr('Reset presets'), self.reset_presets)
-        syncAction = c_act(self, self.tr('Synchronize'), None, None,
-                                  self.tr('Synchronize presets'),
-                                  self.sync_presets)
-        removeoldAction = c_act(self, self.tr('Remove old'), None, None,
-                                self.tr('Remove old presets'),
-                                self.removeold_presets)
-        clearallAction = c_act(self, self.tr('Clear All'), None, None,
-                               self.tr('Clear form'), self.clear_all)
-        preferencesAction = c_act(self, self.tr('Preferences'), 'Alt+Ctrl+P',
-                                  None, self.tr('Preferences'), self.preferences)
-        aboutAction = c_act(self, self.tr('About'), 'Ctrl+?', None,
-                            self.tr('About'), self.about)
+        openAction = utils.create_action(
+                self, self.tr('Open'), QKeySequence.Open, None,
+                self.tr('Open a file'), self.add_files
+                )
+        convertAction = utils.create_action(
+                self, self.tr('Convert'), 'Ctrl+C', None,
+                self.tr('Convert files'), self.start_conversion
+                )
+        quitAction = utils.create_action(
+                self, self.tr('Quit'), 'Ctrl+Q', None,
+                self.tr('Quit'), self.close
+                )
+        edit_presetsAction = utils.create_action(
+                self, self.tr('Edit Presets'), 'Ctrl+P', None,
+                self.tr('Edit Presets'), self.presets
+                )
+        importAction = utils.create_action(
+                self, self.tr('Import'), None, None,
+                self.tr('Import presets'), self.import_presets
+                )
+        exportAction = utils.create_action(
+                self, self.tr('Export'), None, None,
+                self.tr('Export presets'), self.export_presets
+                )
+        resetAction = utils.create_action(
+                self, self.tr('Reset'), None, None,
+                self.tr('Reset presets'), self.reset_presets
+                )
+        syncAction = utils.create_action(
+                self, self.tr('Synchronize'), None, None,
+                self.tr('Synchronize presets'), self.sync_presets
+                )
+        removeoldAction = utils.create_action(
+                self, self.tr('Remove old'), None, None,
+                self.tr('Remove old presets'), self.removeold_presets
+                )
+        clearallAction = utils.create_action(
+                self, self.tr('Clear All'), None, None,
+                self.tr('Clear form'), self.clear_all
+                )
+        preferencesAction = utils.create_action(
+                self, self.tr('Preferences'), 'Alt+Ctrl+P',
+                None, self.tr('Preferences'), self.preferences
+                )
+        aboutAction = utils.create_action(
+                self, self.tr('About'), 'Ctrl+?', None,
+                self.tr('About'), self.about
+                )
 
         fileMenu = self.menuBar().addMenu(self.tr('File'))
         editMenu = self.menuBar().addMenu(self.tr('Edit'))
         presetsMenu = self.menuBar().addMenu(self.tr('Presets'))
         helpMenu = self.menuBar().addMenu(self.tr('Help'))
-        utils.add_actions(fileMenu,
-                          [openAction, convertAction, None, quitAction])
-        utils.add_actions(presetsMenu, [edit_presetsAction, importAction,
-                                        exportAction, resetAction, None,
-                                        syncAction, removeoldAction])
+        utils.add_actions(
+                fileMenu, [openAction, convertAction, None, quitAction])
+        utils.add_actions(
+                presetsMenu,
+                [edit_presetsAction, importAction, exportAction, resetAction,
+                 None, syncAction, removeoldAction]
+                )
         utils.add_actions(editMenu, [clearallAction, None, preferencesAction])
         utils.add_actions(helpMenu, [aboutAction])
 
@@ -159,16 +181,25 @@ class MainWindow(QMainWindow):
         addButton.clicked.connect(self.add_files)
         delButton.clicked.connect(self.delete_files)
         clearButton.clicked.connect(self.clear_fileslist)
-        self.TabWidget.currentChanged.connect(lambda:
-                                     self.tabs[0].moreButton.setChecked(False))
-        self.origCheckBox.clicked.connect(lambda:
-                 self.toLineEdit.setEnabled(not self.origCheckBox.isChecked()))
-        self.toToolButton.clicked.connect(self.open_dir)
-        self.convertPushButton.clicked.connect(convertAction.triggered)
+        tabWidget.currentChanged.connect(
+                lambda: self.tabs[0].moreButton.setChecked(False))
+        origCheckBox.clicked.connect(
+                lambda: toLineEdit.setEnabled(not origCheckBox.isChecked()))
+        toToolButton.clicked.connect(self.open_dir)
+        convertPushButton.clicked.connect(convertAction.triggered)
 
         del_shortcut = QShortcut(self)
         del_shortcut.setKey(Qt.Key_Delete)
         del_shortcut.activated.connect(self.delete_files)
+
+        # aliasing
+        self.toLineEdit = toLineEdit
+        self.toToolButton = toToolButton
+        self.tabWidget = tabWidget
+        self.origCheckBox = origCheckBox
+        self.deleteCheckBox = deleteCheckBox
+        self.convertPushButton = convertPushButton
+        self.dependenciesLabel = dependenciesLabel
 
         self.resize(self.main_width, self.main_height)
         self.setWindowTitle('FF Multi Converter')
@@ -180,35 +211,30 @@ class MainWindow(QMainWindow):
 
     def load_settings(self):
         """Load settings values."""
+        def get_str_value(settings, name):
+            value = settings.value(name)
+            if value is not None:
+                return value
+            return ''
+
         settings = QSettings()
         self.overwrite_existing = utils.str_to_bool(
-                self.get_str_value(settings, 'overwrite_existing'))
+                get_str_value(settings, 'overwrite_existing'))
         self.avconv_prefered = utils.str_to_bool(
-                self.get_str_value(settings, 'avconv_prefered'))
-        self.default_output = self.get_str_value(settings, 'default_output')
-        self.prefix = self.get_str_value(settings, 'prefix')
-        self.suffix = self.get_str_value(settings, 'suffix')
-        defcmd = self.get_str_value(settings, 'default_command')
+                get_str_value(settings, 'avconv_prefered'))
+        self.default_output = get_str_value(settings, 'default_output')
+        self.prefix = get_str_value(settings, 'prefix')
+        self.suffix = get_str_value(settings, 'suffix')
+        defcmd = get_str_value(settings, 'default_command')
         if defcmd:
             self.default_command = defcmd
 
         self.toLineEdit.setText(self.default_output)
 
-    @staticmethod
-    def get_str_value(settings, name):
-        """
-        Load a setting value from settings.
-        Return the value if it's not null, else an empty string.
-        """
-        value = settings.value(name)
-        if value is not None:
-            return value
-        return ''
-
     def current_tab(self):
         """Return the corresponding object of the selected tab."""
         for i in self.tabs:
-            if self.tabs.index(i) == self.TabWidget.currentIndex():
+            if self.tabs.index(i) == self.tabWidget.currentIndex():
                 return i
 
     def update_filesList(self):
@@ -237,7 +263,7 @@ class MainWindow(QMainWindow):
         # To be passed in QFileDialog.getOpenFileNames().
         all_files = '*'
         audiovideo_files = ' '.join(
-                                 ['*.'+i for i in self.audiovideo_tab.formats])
+                ['*.'+i for i in self.audiovideo_tab.formats])
         img_formats = self.image_tab.formats[:]
         img_formats.extend(self.image_tab.extra_img)
         image_files = ' '.join(['*.'+i for i in img_formats])
@@ -252,7 +278,7 @@ class MainWindow(QMainWindow):
         filters = filters[:-2] # remove last ';;'
 
         fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' +
-                                    self.tr('Choose File'), self.home, filters)
+                self.tr('Choose File'), self.home, filters)
 
         if fnames:
             for i in fnames:
@@ -292,9 +318,10 @@ class MainWindow(QMainWindow):
         self.toLineEdit with dir's name.
         """
         if self.toLineEdit.isEnabled():
-            output = QFileDialog.getExistingDirectory(self,
-                'FF Multi Converter - ' + self.tr('Choose output destination'),
-                self.home)
+            output = QFileDialog.getExistingDirectory(
+                    self, 'FF Multi Converter - ' +
+                    self.tr('Choose output destination'),
+                    self.home)
             if output:
                 self.toLineEdit.setText(output)
 
@@ -337,11 +364,11 @@ class MainWindow(QMainWindow):
         """
         try:
             if not self.fnames:
-                raise ValidationError(self.tr(
-                                 'You must add at least one file to convert!'))
+                raise ValidationError(
+                        self.tr('You must add at least one file to convert!'))
             elif not self.origCheckBox.isChecked() and not self.toLineEdit.text():
-                raise ValidationError(self.tr(
-                                      'You must choose an output folder!'))
+                raise ValidationError(
+                        self.tr('You must choose an output folder!'))
             elif (not self.origCheckBox.isChecked() and
                   not os.path.exists(self.toLineEdit.text())):
                 raise ValidationError(self.tr('Output folder does not exists!'))
@@ -350,8 +377,8 @@ class MainWindow(QMainWindow):
             return True
 
         except ValidationError as e:
-            QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                                self.tr('Error!'), str(e))
+            QMessageBox.warning(
+                    self, 'FF Multi Converter - ' + self.tr('Error!'), str(e))
             return False
 
     def output_ext(self):
@@ -378,11 +405,11 @@ class MainWindow(QMainWindow):
             return
 
         ext_to = self.output_ext()
-        _list = utils.create_paths_list(self.fnames, ext_to,
-                                        self.prefix, self.suffix,
-                                        self.toLineEdit.text(),
-                                        self.origCheckBox.isChecked(),
-                                        self.overwrite_existing)
+        _list = utils.create_paths_list(
+                self.fnames, ext_to, self.prefix, self.suffix,
+                self.toLineEdit.text(), self.origCheckBox.isChecked(),
+                self.overwrite_existing
+                )
 
         tab = self.current_tab()
         cmd = ''
@@ -402,9 +429,10 @@ class MainWindow(QMainWindow):
         else:
             self.docconv = True
 
-        dialog = progress.Progress(_list, tab.name, cmd,
-                                   not self.avconv_prefered, size, mntaspect,
-                                   imgcmd, self.deleteCheckBox.isChecked(),self)
+        dialog = progress.Progress(
+                _list, tab.name, cmd, not self.avconv_prefered, size, mntaspect,
+                imgcmd, self.deleteCheckBox.isChecked(),self
+                )
         dialog.show()
 
     def check_for_dependencies(self):
@@ -480,82 +508,87 @@ class AudioVideoTab(QWidget):
         super(AudioVideoTab, self).__init__(parent)
         self.parent = parent
         self.name = 'AudioVideo'
-        self.formats = ['3gp', 'aac', 'ac3', 'afc', 'aiff', 'amr', 'asf', 'au',
-                        'avi', 'dvd', 'flac', 'flv', 'mka', 'mkv', 'mmf',
-                        'mov', 'mp3', 'mp4', 'mpg', 'ogg', 'ogv', 'psp', 'rm',
-                        'spx', 'vob', 'wav', 'webm', 'wma', 'wmv']
-        self.extra_formats = ['aifc', 'm2t', 'm4a', 'm4v', 'mp2', 'mpeg',
-                              'ra', 'ts']
+        self.formats = [
+                '3gp', 'aac', 'ac3', 'afc', 'aiff', 'amr', 'asf', 'au', 'avi',
+                'dvd', 'flac', 'flv', 'mka', 'mkv', 'mmf', 'mov', 'mp3', 'mp4',
+                'mpg', 'ogg', 'ogv', 'psp', 'rm', 'spx', 'vob', 'wav', 'webm',
+                'wma', 'wmv'
+                ]
+        self.extra_formats = [
+                'aifc', 'm2t', 'm4a', 'm4v', 'mp2', 'mpeg', 'ra', 'ts'
+                ]
 
-        videocodecs = ['mpeg4', 'msmpeg4', 'mpeg2video', 'h263', 'libx264',
-                       'libxvid', 'flv', 'libvpx', 'wmv2']
-        audiocodecs = ['libmp3lame', 'libvorbis', 'ac3', 'aac', 'libfaac',
-                       'libvo_aacenc', 'wmav2', 'mp2', 'copy']
+        videocodecs = [
+                'mpeg4', 'msmpeg4', 'mpeg2video', 'h263', 'libx264', 'libxvid',
+                'flv', 'libvpx', 'wmv2'
+                ]
+        audiocodecs = [
+                'libmp3lame', 'libvorbis', 'ac3', 'aac', 'libfaac',
+                'libvo_aacenc', 'wmav2', 'mp2', 'copy'
+                ]
 
         nochange = self.tr('No Change')
         other = self.tr('Other')
         frequency_values = [nochange, '22050', '44100', '48000']
-        bitrate_values = [nochange, '32', '96', '112', '128', '160', '192',
-                          '256', '320']
+        bitrate_values = [
+                nochange, '32', '96', '112', '128', '160', '192', '256', '320'
+                ]
         validator = QRegExpValidator(QRegExp(r'^[1-9]\d*'), self)
 
         converttoLabel = QLabel(self.tr('Convert to:'))
-        self.extComboBox = QComboBox()
-        self.extComboBox.addItems(self.formats + [other])
-        self.extComboBox.setMinimumWidth(130)
-        self.extLineEdit = QLineEdit()
-        self.extLineEdit.setMaximumWidth(85)
-        self.extLineEdit.setEnabled(False)
+        extComboBox = QComboBox()
+        extComboBox.addItems(self.formats + [other])
+        extComboBox.setMinimumWidth(130)
+        extLineEdit = QLineEdit()
+        extLineEdit.setMaximumWidth(85)
+        extLineEdit.setEnabled(False)
         vidcodecLabel = QLabel('Video codec:')
-        self.vidcodecComboBox = QComboBox()
-        self.vidcodecComboBox.addItems(videocodecs + [other])
-        self.vidcodecLineEdit = QLineEdit()
-        self.vidcodecLineEdit.setEnabled(False)
+        vidcodecComboBox = QComboBox()
+        vidcodecComboBox.addItems(videocodecs + [other])
+        vidcodecLineEdit = QLineEdit()
+        vidcodecLineEdit.setEnabled(False)
 
-        hlayout1 = utils.add_to_layout(QHBoxLayout(), converttoLabel,
-                self.extComboBox, self.extLineEdit, vidcodecLabel,
-                self.vidcodecComboBox, self.vidcodecLineEdit)
-                #audcodecLabel, self.audcodecComboBox, self.audcodecLineEdit)
+        hlayout1 = utils.add_to_layout(
+                'h', converttoLabel, extComboBox, extLineEdit,
+                vidcodecLabel, vidcodecComboBox, vidcodecLineEdit)
 
         commandLabel = QLabel(self.tr('Command:'))
-        self.commandLineEdit = QLineEdit()
-        self.presetButton = QPushButton(self.tr('Preset'))
-        self.defaultButton = QPushButton(self.tr('Default'))
-        hlayout2 = utils.add_to_layout(QHBoxLayout(), commandLabel,
-                                       self.commandLineEdit, self.presetButton,
-                                       self.defaultButton)
+        commandLineEdit = QLineEdit()
+        presetButton = QPushButton(self.tr('Preset'))
+        defaultButton = QPushButton(self.tr('Default'))
+        hlayout2 = utils.add_to_layout(
+                'h', commandLabel, commandLineEdit, presetButton, defaultButton)
 
         sizeLabel = QLabel(self.tr('Video Size:'))
         aspectLabel = QLabel(self.tr('Aspect:'))
         frameLabel = QLabel(self.tr('Frame Rate (fps):'))
         bitrateLabel = QLabel(self.tr('Video Bitrate (kbps):'))
 
-        self.widthLineEdit = utils.create_LineEdit((70, 16777215), validator, 4)
-        self.heightLineEdit = utils.create_LineEdit((70, 16777215), validator,4)
+        widthLineEdit = utils.create_LineEdit((70, 16777215), validator, 4)
+        heightLineEdit = utils.create_LineEdit((70, 16777215), validator, 4)
         label = QLabel('<html><p align="center">x</p></html>')
-        layout1 = utils.add_to_layout(QHBoxLayout(), self.widthLineEdit,
-                                      label, self.heightLineEdit)
-        self.aspect1LineEdit = utils.create_LineEdit((50, 16777215),validator,2)
-        self.aspect2LineEdit = utils.create_LineEdit((50, 16777215),validator,2)
+        layout1 = utils.add_to_layout('h', widthLineEdit, label, heightLineEdit)
+        aspect1LineEdit = utils.create_LineEdit((50, 16777215), validator, 2)
+        aspect2LineEdit = utils.create_LineEdit((50, 16777215), validator, 2)
         label = QLabel('<html><p align="center">:</p></html>')
-        layout2 = utils.add_to_layout(QHBoxLayout(), self.aspect1LineEdit,
-                                      label, self.aspect2LineEdit)
-        self.frameLineEdit = utils.create_LineEdit((120, 16777215), validator, 4)
-        self.bitrateLineEdit = utils.create_LineEdit((130, 16777215), validator, 6)
+        layout2 = utils.add_to_layout(
+                'h', aspect1LineEdit, label, aspect2LineEdit)
+        frameLineEdit = utils.create_LineEdit((120, 16777215), validator, 4)
+        bitrateLineEdit = utils.create_LineEdit((130, 16777215), validator, 6)
 
         labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
-        widgets = [layout1, layout2, self.frameLineEdit, self.bitrateLineEdit]
+        widgets = [layout1, layout2, frameLineEdit, bitrateLineEdit]
 
-        self.vidaspectCheckBox = QCheckBox(self.tr("Preserve\naspect ratio"))
+        vidaspectCheckBox = QCheckBox(self.tr("Preserve\naspect ratio"))
 
         videosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
             a.setText('<html><p align="center">{0}</p></html>'.format(a.text()))
-            layout = utils.add_to_layout(QVBoxLayout(), a, b)
+            layout = utils.add_to_layout('v', a, b)
             videosettings_layout.addLayout(layout)
             if a == aspectLabel:
                 # add vidaspectCB in layout after aspectLabel
-                videosettings_layout.addWidget(self.vidaspectCheckBox)
+                videosettings_layout.addWidget(vidaspectCheckBox)
 
         freqLabel = QLabel(self.tr('Frequency (Hz):'))
         chanLabel = QLabel(self.tr('Audio Channels:'))
@@ -563,55 +596,53 @@ class AudioVideoTab(QWidget):
         threadsLabel = QLabel('Threads:')
         audcodecLabel = QLabel('Audio codec:')
 
-        self.freqComboBox = QComboBox()
-        self.freqComboBox.addItems(frequency_values)
-        self.chan1RadioButton = QRadioButton('1')
-        self.chan1RadioButton.setMaximumSize(QSize(51, 16777215))
-        self.chan2RadioButton = QRadioButton('2')
-        self.chan2RadioButton.setMaximumSize(QSize(51, 16777215))
+        freqComboBox = QComboBox()
+        freqComboBox.addItems(frequency_values)
+        chan1RadioButton = QRadioButton('1')
+        chan1RadioButton.setMaximumSize(QSize(51, 16777215))
+        chan2RadioButton = QRadioButton('2')
+        chan2RadioButton.setMaximumSize(QSize(51, 16777215))
         self.group = QButtonGroup()
-        self.group.addButton(self.chan1RadioButton)
-        self.group.addButton(self.chan2RadioButton)
+        self.group.addButton(chan1RadioButton)
+        self.group.addButton(chan2RadioButton)
         spcr1 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         spcr2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
-        chanlayout = utils.add_to_layout(QHBoxLayout(), spcr1,
-                                         self.chan1RadioButton,
-                                         self.chan2RadioButton, spcr2)
-        self.audio_bitrateComboBox = QComboBox()
-        self.audio_bitrateComboBox.addItems(bitrate_values)
+        chanlayout = utils.add_to_layout(
+                'h', spcr1, chan1RadioButton, chan2RadioButton, spcr2)
+        audio_bitrateComboBox = QComboBox()
+        audio_bitrateComboBox.addItems(bitrate_values)
         validator = QRegExpValidator(QRegExp(r'^[0-9]'), self)
-        self.threadsLineEdit = utils.create_LineEdit((50, 16777215), validator,
-                                                     None)
+        threadsLineEdit = utils.create_LineEdit((50, 16777215), validator, None)
 
-        self.audcodecComboBox = QComboBox()
-        self.audcodecComboBox.addItems(audiocodecs + [other])
-        self.audcodecLineEdit = QLineEdit()
-        self.audcodecLineEdit.setEnabled(False)
+        audcodecComboBox = QComboBox()
+        audcodecComboBox.addItems(audiocodecs + [other])
+        audcodecLineEdit = QLineEdit()
+        audcodecLineEdit.setEnabled(False)
 
-        audcodhlayout = utils.add_to_layout(QHBoxLayout(),
-                self.audcodecComboBox, self.audcodecLineEdit);
+        audcodhlayout = utils.add_to_layout(
+                'h', audcodecComboBox, audcodecLineEdit);
 
         labels = [freqLabel, chanLabel, bitrateLabel, audcodecLabel,
                   threadsLabel]
-        widgets = [self.freqComboBox, chanlayout, self.audio_bitrateComboBox,
-                   audcodhlayout, self.threadsLineEdit]
+        widgets = [freqComboBox, chanlayout, audio_bitrateComboBox,
+                   audcodhlayout, threadsLineEdit]
 
         audiosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
             a.setText('<html><p align="center">{0}</p></html>'.format(a.text()))
-            layout = utils.add_to_layout(QVBoxLayout(), a, b)
+            layout = utils.add_to_layout('v', a, b)
             audiosettings_layout.addLayout(layout)
 
-        hidden_layout = utils.add_to_layout(QVBoxLayout(), videosettings_layout,
-                                            audiosettings_layout)
+        hidden_layout = utils.add_to_layout(
+                'v', videosettings_layout, audiosettings_layout)
 
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
-        self.moreButton = QPushButton(QApplication.translate('Tab', 'More'))
-        self.moreButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
-        self.moreButton.setCheckable(True)
-        hlayout3 = utils.add_to_layout(QHBoxLayout(), line, self.moreButton)
+        moreButton = QPushButton(QApplication.translate('Tab', 'More'))
+        moreButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
+        moreButton.setCheckable(True)
+        hlayout3 = utils.add_to_layout('h', line, moreButton)
 
         self.frame = QFrame()
         self.frame.setLayout(hidden_layout)
@@ -619,51 +650,79 @@ class AudioVideoTab(QWidget):
         #for development
         #self.frame.setVisible(True)
 
-        final_layout = utils.add_to_layout(QVBoxLayout(), hlayout1,
-                                           hlayout2, hlayout3, self.frame)
+        final_layout = utils.add_to_layout(
+                'v', hlayout1, hlayout2, hlayout3, self.frame)
         self.setLayout(final_layout)
 
-
-        self.presetButton.clicked.connect(self.choose_preset)
-        self.defaultButton.clicked.connect(self.set_default_command)
-        self.moreButton.toggled.connect(self.frame.setVisible)
-        self.moreButton.toggled.connect(self.resize_parent)
+        presetButton.clicked.connect(self.choose_preset)
+        defaultButton.clicked.connect(self.set_default_command)
+        moreButton.toggled.connect(self.frame.setVisible)
+        moreButton.toggled.connect(self.resize_parent)
         # enable labels when user choose 'other' which is always the last choice
-        self.extComboBox.currentIndexChanged.connect(
-                lambda: self.extLineEdit.setEnabled(
-                self.extComboBox.currentIndex() == len(self.formats)))
-        self.vidcodecComboBox.currentIndexChanged.connect(
-                lambda: self.vidcodecLineEdit.setEnabled(
-                self.vidcodecComboBox.currentIndex() == len(videocodecs)))
-        self.audcodecComboBox.currentIndexChanged.connect(
-                lambda: self.audcodecLineEdit.setEnabled(
-                self.audcodecComboBox.currentIndex() == len(audiocodecs)))
-        self.vidaspectCheckBox.toggled.connect(lambda:
-                self.aspect1LineEdit.setEnabled(
-                not self.vidaspectCheckBox.isChecked()))
-        self.vidaspectCheckBox.toggled.connect(lambda:
-                self.aspect2LineEdit.setEnabled(
-                not self.vidaspectCheckBox.isChecked()))
-        self.widthLineEdit.textChanged.connect(
+        extComboBox.currentIndexChanged.connect(
+                lambda: extLineEdit.setEnabled(
+                        extComboBox.currentIndex() == len(self.formats))
+                )
+        vidcodecComboBox.currentIndexChanged.connect(
+                lambda: vidcodecLineEdit.setEnabled(
+                        vidcodecComboBox.currentIndex() == len(videocodecs))
+                )
+        audcodecComboBox.currentIndexChanged.connect(
+                lambda: audcodecLineEdit.setEnabled(
+                        audcodecComboBox.currentIndex() == len(audiocodecs))
+                )
+        vidaspectCheckBox.toggled.connect(
+                lambda: aspect1LineEdit.setEnabled(
+                        not vidaspectCheckBox.isChecked())
+                )
+        vidaspectCheckBox.toggled.connect(
+                lambda: aspect2LineEdit.setEnabled(
+                        not vidaspectCheckBox.isChecked())
+                )
+        widthLineEdit.textChanged.connect(
                 lambda: self.command_elements_change('size'))
-        self.heightLineEdit.textChanged.connect(
+        heightLineEdit.textChanged.connect(
                 lambda: self.command_elements_change('size'))
-        self.aspect1LineEdit.textChanged.connect(
+        aspect1LineEdit.textChanged.connect(
                 lambda: self.command_elements_change('aspect'))
-        self.aspect2LineEdit.textChanged.connect(
+        aspect2LineEdit.textChanged.connect(
                 lambda: self.command_elements_change('aspect'))
-        self.frameLineEdit.textChanged.connect(
+        frameLineEdit.textChanged.connect(
                 lambda: self.command_elements_change('frames'))
-        self.bitrateLineEdit.textChanged.connect(
+        bitrateLineEdit.textChanged.connect(
                 lambda: self.command_elements_change('video_bitrate'))
-        self.freqComboBox.currentIndexChanged.connect(
+        freqComboBox.currentIndexChanged.connect(
                 lambda: self.command_elements_change('frequency'))
-        self.audio_bitrateComboBox.currentIndexChanged.connect(
+        audio_bitrateComboBox.currentIndexChanged.connect(
                 lambda: self.command_elements_change('audio_bitrate'))
-        self.chan1RadioButton.clicked.connect(
+        chan1RadioButton.clicked.connect(
                 lambda: self.command_elements_change('channels1'))
-        self.chan2RadioButton.clicked.connect(
+        chan2RadioButton.clicked.connect(
                 lambda: self.command_elements_change('channels2'))
+
+        #aliasing
+        self.extComboBox = extComboBox
+        self.extLineEdit = extLineEdit
+        self.vidcodecComboBox = vidcodecComboBox
+        self.vidcodecLineEdit = vidcodecLineEdit
+        self.commandLineEdit = commandLineEdit
+        self.presetButton = presetButton
+        self.defaultButton = defaultButton
+        self.widthLineEdit = widthLineEdit
+        self.heightLineEdit = heightLineEdit
+        self.aspect1LineEdit = aspect1LineEdit
+        self.aspect2LineEdit = aspect2LineEdit
+        self.frameLineEdit = frameLineEdit
+        self.bitrateLineEdit = bitrateLineEdit
+        self.vidaspectCheckBox = vidaspectCheckBox
+        self.freqComboBox = freqComboBox
+        self.chan1RadioButton = chan1RadioButton
+        self.chan2RadioButton = chan2RadioButton
+        self.audio_bitrateComboBox = audio_bitrateComboBox
+        self.threadsLineEdit = threadsLineEdit
+        self.audcodecComboBox = audcodecComboBox
+        self.audcodecLineEdit = audcodecLineEdit
+        self.moreButton = moreButton
 
     def resize_parent(self):
         """Resize MainWindow."""
@@ -676,10 +735,12 @@ class AudioVideoTab(QWidget):
 
     def clear(self):
         """Clear all values of graphical widgets."""
-        lines = [self.commandLineEdit, self.widthLineEdit, self.heightLineEdit,
-                 self.aspect1LineEdit, self.aspect2LineEdit, self.frameLineEdit,
-                 self.bitrateLineEdit, self.extLineEdit, self.threadsLineEdit,
-                 self.audcodecLineEdit, self.vidcodecLineEdit]
+        lines = [
+                self.commandLineEdit, self.widthLineEdit, self.heightLineEdit,
+                self.aspect1LineEdit, self.aspect2LineEdit, self.frameLineEdit,
+                self.bitrateLineEdit, self.extLineEdit, self.threadsLineEdit,
+                self.audcodecLineEdit, self.vidcodecLineEdit
+                ]
         for i in lines:
             i.clear()
 
@@ -803,8 +864,11 @@ class AudioVideoTab(QWidget):
                 command += ' -ab {0}k'.format(text)
 
         elif widget in ('channels1', 'channels2'):
-            text = self.chan1RadioButton.text() if widget == 'channels1' \
-                                            else self.chan2RadioButton.text()
+            if widget == 'channels1':
+                text = self.chan1RadioButton.text()
+            else:
+                text = self.chan2RadioButton.text()
+
             f = re.sub(r'^.*(-ac\s+\d+).*$', r'\1', command)
             if re.match(r'^.*(-ac\s+\d+).*$', f):
                 command = command.replace(f, '').strip()
@@ -819,42 +883,52 @@ class ImageTab(QWidget):
         super(ImageTab, self).__init__(parent)
         self.parent = parent
         self.name = 'Images'
-        self.formats = ['bmp', 'cgm', 'dpx', 'emf', 'eps', 'fpx', 'gif',
-                        'jbig', 'jng', 'jpeg', 'mrsid', 'p7', 'pdf', 'picon',
-                        'png', 'ppm', 'psd', 'rad', 'tga', 'tif','webp', 'xpm']
+        self.formats = [
+                'bmp', 'cgm', 'dpx', 'emf', 'eps', 'fpx', 'gif', 'jbig', 'jng',
+                'jpeg', 'mrsid', 'p7', 'pdf', 'picon', 'png', 'ppm', 'psd',
+                'rad', 'tga', 'tif','webp', 'xpm'
+                ]
 
-        self.extra_img = ['bmp2', 'bmp3', 'dib', 'epdf', 'epi', 'eps2', 'eps3',
-                          'epsf', 'epsi', 'icon', 'jpe', 'jpg', 'pgm', 'png24',
-                          'png32', 'pnm', 'ps', 'ps2', 'ps3', 'sid', 'tiff']
+        self.extra_img = [
+                'bmp2', 'bmp3', 'dib', 'epdf', 'epi', 'eps2', 'eps3', 'epsf',
+                'epsi', 'icon', 'jpe', 'jpg', 'pgm', 'png24', 'png32', 'pnm',
+                'ps', 'ps2', 'ps3', 'sid', 'tiff'
+                ]
 
         validator = QRegExpValidator(QRegExp(r'^[1-9]\d*'), self)
 
         converttoLabel = QLabel(self.tr('Convert to:'))
-        self.extComboBox = QComboBox()
-        self.extComboBox.addItems(self.formats)
+        extComboBox = QComboBox()
+        extComboBox.addItems(self.formats)
 
-        sizeLabel = QLabel('<html><p align="center">' +
-                           self.tr('Image Size:') + '</p></html>')
-        self.widthLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
-        self.heightLineEdit = utils.create_LineEdit((50, 16777215), validator,4)
+        sizeLabel = QLabel(
+                '<html><p align="center">' + self.tr('Image Size:') +
+                '</p></html>')
+        widthLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
+        heightLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
         label = QLabel('<html><p align="center">x</p></html>')
         label.setMaximumWidth(25)
-        self.imgaspectCheckBox = QCheckBox(self.tr("Maintain aspect ratio"))
-        hlayout1 = utils.add_to_layout(QHBoxLayout(), self.widthLineEdit,
-                                       label, self.heightLineEdit)
-        vlayout = utils.add_to_layout(QVBoxLayout(), sizeLabel, hlayout1)
-        hlayout2 = utils.add_to_layout(QHBoxLayout(), vlayout,
-                                       self.imgaspectCheckBox, None)
-        hlayout3 = utils.add_to_layout(QHBoxLayout(), converttoLabel,
-                                       self.extComboBox, hlayout2, None)
+        imgaspectCheckBox = QCheckBox(self.tr("Maintain aspect ratio"))
+        hlayout1 = utils.add_to_layout('h', widthLineEdit,label,heightLineEdit)
+        vlayout = utils.add_to_layout('v', sizeLabel, hlayout1)
+        hlayout2 = utils.add_to_layout('h', vlayout, imgaspectCheckBox, None)
+        hlayout3 = utils.add_to_layout(
+                'h', converttoLabel, extComboBox, hlayout2, None)
 
         commandLabel = QLabel(self.tr('Extra options:'))
-        self.commandLineEdit = QLineEdit()
-        hlayout4 = utils.add_to_layout(QHBoxLayout(), commandLabel,
-                self.commandLineEdit, QSpacerItem(180, 40))
+        commandLineEdit = QLineEdit()
+        hlayout4 = utils.add_to_layout(
+                'h', commandLabel, commandLineEdit, QSpacerItem(180, 40))
 
-        final_layout = utils.add_to_layout(QVBoxLayout(), hlayout3, hlayout4)
+        final_layout = utils.add_to_layout('v', hlayout3, hlayout4)
         self.setLayout(final_layout)
+
+        #aliasing
+        self.extComboBox = extComboBox
+        self.widthLineEdit = widthLineEdit
+        self.heightLineEdit = heightLineEdit
+        self.imgaspectCheckBox = imgaspectCheckBox
+        self.commandLineEdit = commandLineEdit
 
     def clear(self):
         """Clear self.widthLineEdit and self.heightLineEdit."""
@@ -920,8 +994,8 @@ class DocumentTab(QWidget):
         convertLabel = QLabel(self.tr('Convert:'))
         self.convertComboBox = QComboBox()
         self.convertComboBox.addItems(flist)
-        final_layout = utils.add_to_layout(QHBoxLayout(), convertLabel,
-                                           self.convertComboBox, None)
+        final_layout = utils.add_to_layout(
+                'h', convertLabel, self.convertComboBox, None)
         self.setLayout(final_layout)
 
     def ok_to_continue(self):
@@ -938,17 +1012,21 @@ class DocumentTab(QWidget):
 
         try:
             if not self.parent.unoconv:
-                raise ValidationError(self.tr(
+                raise ValidationError(
+                        self.tr(
                         'Unocov is not installed.\nYou will not be able '
-                        'to convert document files until you install it.'))
+                        'to convert document files until you install it.')
+                        )
             for i in self.parent.fnames:
                 file_ext = os.path.splitext(i)[-1][1:]
                 if file_ext != decl_ext:
-                    raise ValidationError(self.trUtf8(
-                            '{0} is not {1}!'.format(i, decl_ext)))
+                    raise ValidationError(
+                            self.trUtf8('{0} is not {1}!'.format(i, decl_ext)))
             if self.parent.docconv:
-                raise ValidationError(self.tr(
-                            'You can not make parallel document conversions.'))
+                raise ValidationError(
+                        self.tr(
+                        'You can not make parallel document conversions.')
+                        )
             return True
 
         except ValidationError as e:

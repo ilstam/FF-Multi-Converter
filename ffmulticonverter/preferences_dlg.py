@@ -16,10 +16,10 @@
 import os
 
 from PyQt4.QtCore import QSettings
-from PyQt4.QtGui import (QDialog, QDialogButtonBox, QFileDialog, QGridLayout,
-                         QHBoxLayout, QLabel, QLineEdit, QRadioButton,
-                         QSpacerItem, QTabWidget, QToolButton, QVBoxLayout,
-                         QWidget)
+from PyQt4.QtGui import (
+        QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit,
+        QRadioButton, QSpacerItem, QTabWidget, QToolButton, QWidget
+        )
 
 from ffmulticonverter import utils
 
@@ -32,68 +32,66 @@ class Preferences(QDialog):
 
         saveLabel = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
         exist_Label = QLabel(self.tr('Existing files:'))
-        self.exst_add_prefixRadioButton = QRadioButton(
-                                                     self.tr("Add '~' prefix"))
-        self.exst_overwriteRadioButton = QRadioButton(self.tr('Overwrite'))
-        exist_layout = utils.add_to_layout(QHBoxLayout(),
-                                           self.exst_add_prefixRadioButton,
-                                           self.exst_overwriteRadioButton)
+        exst_add_prefixRadioButton = QRadioButton(self.tr("Add '~' prefix"))
+        exst_overwriteRadioButton = QRadioButton(self.tr('Overwrite'))
+        exist_layout = utils.add_to_layout(
+                'h', exst_add_prefixRadioButton, exst_overwriteRadioButton)
 
         defaultLabel = QLabel(self.tr('Default output destination:'))
-        self.defaultLineEdit = QLineEdit()
-        self.defaultToolButton = QToolButton()
-        self.defaultToolButton.setText('...')
-        deafult_fol_layout = utils.add_to_layout(QHBoxLayout(),
-                                                 self.defaultLineEdit,
-                                                 self.defaultToolButton)
+        defaultLineEdit = QLineEdit()
+        defaultToolButton = QToolButton()
+        defaultToolButton.setText('...')
+        deafult_fol_layout = utils.add_to_layout(
+                'h', defaultLineEdit, defaultToolButton)
         name_Label = QLabel('<html><b>' + self.tr('Name files') +'</b></html>')
         prefixLabel = QLabel(self.tr('Prefix:'))
         suffixLabel = QLabel(self.tr('Suffix:'))
-        self.prefixLineEdit = QLineEdit()
-        self.suffixLineEdit = QLineEdit()
-        grid = utils.add_to_grid(QGridLayout(),
-                                 [prefixLabel, self.prefixLineEdit],
-                                 [suffixLabel, self.suffixLineEdit])
-        prefix_layout = utils.add_to_layout(QHBoxLayout(), grid, None)
+        prefixLineEdit = QLineEdit()
+        suffixLineEdit = QLineEdit()
+        grid = utils.add_to_grid(
+                [prefixLabel, prefixLineEdit], [suffixLabel, suffixLineEdit])
+        prefix_layout = utils.add_to_layout('h', grid, None)
 
-        tabwidget1_layout = utils.add_to_layout(QVBoxLayout(), saveLabel,
-               QSpacerItem(14, 13), exist_Label, exist_layout,
-               QSpacerItem(14, 13), defaultLabel, deafult_fol_layout,
-               QSpacerItem(13, 13), name_Label, QSpacerItem(14, 13),
-               prefix_layout)
+        tabwidget1_layout = utils.add_to_layout(
+                'v', saveLabel,
+                QSpacerItem(14, 13), exist_Label, exist_layout,
+                QSpacerItem(14, 13), defaultLabel, deafult_fol_layout,
+                QSpacerItem(13, 13), name_Label, QSpacerItem(14, 13),
+                prefix_layout
+                )
 
         ffmpegLabel = QLabel('<html><b>' + self.tr('FFmpeg') +'</b></html>')
         default_commandLabel = QLabel(self.tr('Default command:'))
-        self.commandLineEdit = QLineEdit()
+        commandLineEdit = QLineEdit()
         useLabel = QLabel(self.tr('Use:'))
-        self.ffmpegRadioButton = QRadioButton(self.tr('FFmpeg'))
-        self.avconvRadioButton = QRadioButton(self.tr('avconv'))
+        ffmpegRadioButton = QRadioButton(self.tr('FFmpeg'))
+        avconvRadioButton = QRadioButton(self.tr('avconv'))
 
-        hlayout = utils.add_to_layout(QHBoxLayout(), self.ffmpegRadioButton,
-                                      self.avconvRadioButton)
+        hlayout = utils.add_to_layout('h', ffmpegRadioButton, avconvRadioButton)
 
-        tabwidget2_layout = utils.add_to_layout(QVBoxLayout(), ffmpegLabel,
-                QSpacerItem(14, 13), useLabel, hlayout, QSpacerItem(14, 13),
-                default_commandLabel, self.commandLineEdit, None)
+        tabwidget2_layout = utils.add_to_layout(
+                'v', ffmpegLabel, QSpacerItem(14, 13), useLabel,
+                hlayout, QSpacerItem(14, 13), default_commandLabel,
+                commandLineEdit, None
+                )
 
         widget1 = QWidget()
         widget1.setLayout(tabwidget1_layout)
         widget2 = QWidget()
         widget2.setLayout(tabwidget2_layout)
-        self.TabWidget = QTabWidget()
-        self.TabWidget.addTab(widget1, self.tr('General'))
-        self.TabWidget.addTab(widget2, self.tr('Audio/Video'))
+        tabWidget = QTabWidget()
+        tabWidget.addTab(widget1, self.tr('General'))
+        tabWidget.addTab(widget2, self.tr('Audio/Video'))
 
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok|
-                                          QDialogButtonBox.Cancel)
+        buttonBox = QDialogButtonBox(
+                QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
 
-        final_layout = utils.add_to_layout(QVBoxLayout(), self.TabWidget,
-                                           None, self.buttonBox)
+        final_layout = utils.add_to_layout('v', tabWidget, None, buttonBox)
         self.setLayout(final_layout)
 
-        self.defaultToolButton.clicked.connect(self.open_dir)
-        self.buttonBox.accepted.connect(self.save_settings)
-        self.buttonBox.rejected.connect(self.reject)
+        defaultToolButton.clicked.connect(self.open_dir)
+        buttonBox.accepted.connect(self.save_settings)
+        buttonBox.rejected.connect(self.reject)
 
         settings = QSettings()
         overwrite_existing = utils.str_to_bool(
@@ -106,30 +104,42 @@ class Preferences(QDialog):
 
         # QSettings.value() returns str() in python3, not QVariant() as in p2
         if overwrite_existing:
-            self.exst_overwriteRadioButton.setChecked(True)
+            exst_overwriteRadioButton.setChecked(True)
         else:
-            self.exst_add_prefixRadioButton.setChecked(True)
+            exst_add_prefixRadioButton.setChecked(True)
         if default_output:
-            self.defaultLineEdit.setText(default_output)
+            defaultLineEdit.setText(default_output)
         if prefix:
-            self.prefixLineEdit.setText(prefix)
+            prefixLineEdit.setText(prefix)
         if suffix:
-            self.suffixLineEdit.setText(suffix)
+            suffixLineEdit.setText(suffix)
         if avconv_prefered:
-            self.avconvRadioButton.setChecked(True)
+            avconvRadioButton.setChecked(True)
         else:
-            self.ffmpegRadioButton.setChecked(True)
+            ffmpegRadioButton.setChecked(True)
         if default_command:
-            self.commandLineEdit.setText(default_command)
+            commandLineEdit.setText(default_command)
         else:
-            self.commandLineEdit.setText('-ab 320k -ar 48000 -ac 2')
+            commandLineEdit.setText('-ab 320k -ar 48000 -ac 2')
 
         if not test and not self.parent.ffmpeg:
-            self.avconvRadioButton.setChecked(True)
-            self.ffmpegRadioButton.setEnabled(False)
+            avconvRadioButton.setChecked(True)
+            ffmpegRadioButton.setEnabled(False)
         if not test and not self.parent.avconv:
-            self.ffmpegRadioButton.setChecked(True)
-            self.avconvRadioButton.setEnabled(False)
+            ffmpegRadioButton.setChecked(True)
+            avconvRadioButton.setEnabled(False)
+
+        #aliasing
+        self.exst_add_prefixRadioButton = exst_add_prefixRadioButton
+        self.exst_overwriteRadioButton = exst_overwriteRadioButton
+        self.defaultLineEdit = defaultLineEdit
+        self.defaultToolButton = defaultToolButton
+        self.prefixLineEdit = prefixLineEdit
+        self.suffixLineEdit = suffixLineEdit
+        self.commandLineEdit = commandLineEdit
+        self.ffmpegRadioButton = ffmpegRadioButton
+        self.avconvRadioButton = avconvRadioButton
+        self.buttonBox = buttonBox
 
         self.resize(400, 390)
         self.setWindowTitle(self.tr('Preferences'))
@@ -138,8 +148,10 @@ class Preferences(QDialog):
         """Get a directory name using a standard Qt dialog and update
         self.defaultLineEdit with dir's name."""
         if self.defaultLineEdit.isEnabled():
-            _dir = QFileDialog.getExistingDirectory(self, 'FF Multi Converter '
-                '- ' + self.tr('Choose default output destination'), self.home)
+            _dir = QFileDialog.getExistingDirectory(
+                    self, 'FF Multi Converter - ' +
+                    self.tr('Choose default output destination'), self.home
+                    )
             if _dir:
                 self.defaultLineEdit.setText(_dir)
 

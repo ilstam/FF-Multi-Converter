@@ -50,12 +50,12 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        self.main_width = 760 # main window width
+        # main window dimensions
+        self.main_width = 760
         self.main_height = 510
         self.main_fixed_height = 640
-        self.default_command = '-ab 320k -ar 48000 -ac 2' # default ffmpeg cmd
+        self.default_command = config.default_ffmpeg_cmd
 
-        self.home = os.getenv('HOME') # home path
         self.fnames = list()  # list of file names to be converted
         self.docconv = False  # True when a documents conversion is running
 
@@ -279,7 +279,7 @@ class MainWindow(QMainWindow):
         filters = filters[:-2] # remove last ';;'
 
         fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' +
-                self.tr('Choose File'), self.home, filters)
+                self.tr('Choose File'), config.home, filters)
 
         if fnames:
             for i in fnames:
@@ -322,7 +322,7 @@ class MainWindow(QMainWindow):
             output = QFileDialog.getExistingDirectory(
                     self, 'FF Multi Converter - ' +
                     self.tr('Choose output destination'),
-                    self.home)
+                    config.home)
             if output:
                 self.toLineEdit.setText(output)
 

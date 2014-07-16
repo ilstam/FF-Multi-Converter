@@ -12,6 +12,8 @@ presets_file = os.path.join(config_dir, presets_file_name)
 # prefix for old presets when synchronizing
 presets_old = '__OLD'
 
+default_ffmpeg_cmd = '-ab 320k -ar 48000 -ac 2'
+
 
 def find_presets_file(name):
     """

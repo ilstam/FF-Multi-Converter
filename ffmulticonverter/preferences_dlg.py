@@ -22,13 +22,13 @@ from PyQt4.QtGui import (
         )
 
 from ffmulticonverter import utils
+from ffmulticonverter import config
 
 
 class Preferences(QDialog):
     def __init__(self, parent=None, test = False):
         super(Preferences, self).__init__(parent)
         self.parent = parent
-        self.home = os.getenv('HOME')
 
         saveLabel = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
         exist_Label = QLabel(self.tr('Existing files:'))
@@ -120,7 +120,7 @@ class Preferences(QDialog):
         if default_command:
             commandLineEdit.setText(default_command)
         else:
-            commandLineEdit.setText('-ab 320k -ar 48000 -ac 2')
+            commandLineEdit.setText(config.default_ffmpeg_cmd)
 
         if not test and not self.parent.ffmpeg:
             avconvRadioButton.setChecked(True)
@@ -150,7 +150,7 @@ class Preferences(QDialog):
         if self.defaultLineEdit.isEnabled():
             _dir = QFileDialog.getExistingDirectory(
                     self, 'FF Multi Converter - ' +
-                    self.tr('Choose default output destination'), self.home
+                    self.tr('Choose default output destination'), config.home
                     )
             if _dir:
                 self.defaultLineEdit.setText(_dir)

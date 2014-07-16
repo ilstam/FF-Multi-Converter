@@ -21,8 +21,7 @@ import xml.etree.ElementTree as etree
 from PyQt4.QtCore import Qt, QTimer
 from PyQt4.QtGui import (
         QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit, QListWidget,
-        QListWidgetItem, QMessageBox, QPushButton, QShortcut, QSizePolicy,
-        QSpacerItem
+        QMessageBox, QPushButton, QShortcut, QSizePolicy, QSpacerItem
         )
 
 from ffmulticonverter import utils

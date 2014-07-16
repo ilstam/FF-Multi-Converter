@@ -59,13 +59,7 @@ class MainWindow(QMainWindow):
         self.fnames = list()  # list of file names to be converted
         self.docconv = False  # True when a documents conversion is running
 
-        # parse command line arguments
-        for i in QCoreApplication.argv()[1:]:
-            i = os.path.abspath(i)
-            if os.path.isfile(i):
-                self.fnames.append(i)
-            else:
-                print("ffmulticonverter: {0}: Not a file".format(i))
+        self.parse_cla()
 
         addButton = QPushButton(self.tr('Add'))
         delButton = QPushButton(self.tr('Delete'))
@@ -209,6 +203,15 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(0, self.load_settings)
         QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
         QTimer.singleShot(0, self.update_filesList)
+
+    def parse_cla(self):
+        """Parse command line arguments."""
+        for i in QCoreApplication.argv()[1:]:
+            i = os.path.abspath(i)
+            if os.path.isfile(i):
+                self.fnames.append(i)
+            else:
+                print("ffmulticonverter: {0}: Not a file".format(i))
 
     def load_settings(self):
         """Load settings values."""

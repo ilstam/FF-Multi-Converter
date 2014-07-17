@@ -9,6 +9,8 @@ TODO list for version 1.7.0
 
 * support video split
 
+* add rotate and flip video options
+
 * add a preserve aspect ratio / video size option
 
 * add a number of threads option

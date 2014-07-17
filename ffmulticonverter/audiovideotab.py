@@ -19,23 +19,26 @@ from PyQt4.QtCore import QRegExp, QSize
 from PyQt4.QtGui import (
         QApplication, QWidget, QComboBox, QLineEdit, QLabel, QRegExpValidator,
         QPushButton, QCheckBox, QRadioButton, QHBoxLayout, QSpacerItem,
-        QSizePolicy, QFrame, QButtonGroup, QMessageBox
+        QSizePolicy, QFrame, QButtonGroup, QMessageBox, QToolButton
         )
 
 from ffmulticonverter import utils
 from ffmulticonverter import presets_dlgs
+
 
 class AudioVideoTab(QWidget):
     def __init__(self, parent):
         super(AudioVideoTab, self).__init__(parent)
         self.parent = parent
         self.name = 'AudioVideo'
+
         self.formats = [
                 '3gp', 'aac', 'ac3', 'afc', 'aiff', 'amr', 'asf', 'au', 'avi',
                 'dvd', 'flac', 'flv', 'mka', 'mkv', 'mmf', 'mov', 'mp3', 'mp4',
                 'mpg', 'ogg', 'ogv', 'psp', 'rm', 'spx', 'vob', 'wav', 'webm',
                 'wma', 'wmv'
                 ]
+
         self.extra_formats = [
                 'aifc', 'm2t', 'm4a', 'm4v', 'mp2', 'mpeg', 'ra', 'ts'
                 ]
@@ -44,9 +47,21 @@ class AudioVideoTab(QWidget):
                 'mpeg4', 'msmpeg4', 'mpeg2video', 'h263', 'libx264', 'libxvid',
                 'flv', 'libvpx', 'wmv2'
                 ]
+
         audiocodecs = [
                 'libmp3lame', 'libvorbis', 'ac3', 'aac', 'libfaac',
                 'libvo_aacenc', 'wmav2', 'mp2', 'copy'
+                ]
+
+        rotation_options = [
+                'None',
+                '90 clockwise',
+                '90 clockwise + vertical flip',
+                '90 counter clockwise',
+                '90 counter + vertical flip',
+                '180',
+                'horizontal flip',
+                'vertical flip'
                 ]
 
         nochange = self.tr('No Change')
@@ -101,7 +116,11 @@ class AudioVideoTab(QWidget):
         labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
         widgets = [layout1, layout2, frameLineEdit, bitrateLineEdit]
 
-        vidaspectCheckBox = QCheckBox(self.tr("Preserve\naspect ratio"))
+        preserveaspectCheckBox = QCheckBox(self.tr("Preserve aspect ratio"))
+        preservesizeCheckBox = QCheckBox(self.tr("Preserve video size"))
+
+        preserve_layout = utils.add_to_layout(
+                'v', preserveaspectCheckBox, preservesizeCheckBox)
 
         videosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
@@ -110,7 +129,7 @@ class AudioVideoTab(QWidget):
             videosettings_layout.addLayout(layout)
             if a == aspectLabel:
                 # add vidaspectCB in layout after aspectLabel
-                videosettings_layout.addWidget(vidaspectCheckBox)
+                videosettings_layout.addLayout(preserve_layout)
 
         freqLabel = QLabel(self.tr('Frequency (Hz):'))
         chanLabel = QLabel(self.tr('Audio Channels:'))
@@ -155,8 +174,33 @@ class AudioVideoTab(QWidget):
             layout = utils.add_to_layout('v', a, b)
             audiosettings_layout.addLayout(layout)
 
+        time_format = " (hh:mm:ss):"
+        beginLabel = QLabel(self.tr("Split file. Begin time") + time_format)
+        beginLineEdit = QLineEdit()
+        durationLabel = QLabel(self.tr("Duration") + time_format)
+        durationLineEdit = QLineEdit()
+
+        hlayout4 = utils.add_to_layout(
+                'h',  beginLabel, beginLineEdit, durationLabel,
+                durationLineEdit)
+
+        embedLabel = QLabel(self.tr("Embed subtitle:"))
+        embedLineEdit = QLineEdit()
+        embedLineEdit.setReadOnly(True)
+        embedToolButton = QToolButton()
+        embedToolButton.setText("...")
+
+        rotateLabel = QLabel(self.tr("Rotation:"))
+        rotateComboBox = QComboBox()
+        rotateComboBox.addItems(rotation_options)
+
+        hlayout5 = utils.add_to_layout(
+                'h', rotateLabel, rotateComboBox, embedLabel, embedLineEdit,
+                embedToolButton)
+
         hidden_layout = utils.add_to_layout(
-                'v', videosettings_layout, audiosettings_layout)
+                'v', videosettings_layout, audiosettings_layout,
+                hlayout4, hlayout5)
 
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
@@ -193,13 +237,13 @@ class AudioVideoTab(QWidget):
                 lambda: audcodecLineEdit.setEnabled(
                         audcodecComboBox.currentIndex() == len(audiocodecs))
                 )
-        vidaspectCheckBox.toggled.connect(
+        preserveaspectCheckBox.toggled.connect(
                 lambda: aspect1LineEdit.setEnabled(
-                        not vidaspectCheckBox.isChecked())
+                        not preserveaspectCheckBox.isChecked())
                 )
-        vidaspectCheckBox.toggled.connect(
+        preserveaspectCheckBox.toggled.connect(
                 lambda: aspect2LineEdit.setEnabled(
-                        not vidaspectCheckBox.isChecked())
+                        not preserveaspectCheckBox.isChecked())
                 )
         widthLineEdit.textChanged.connect(
                 lambda: self.command_elements_change('size'))
@@ -236,7 +280,8 @@ class AudioVideoTab(QWidget):
         self.aspect2LineEdit = aspect2LineEdit
         self.frameLineEdit = frameLineEdit
         self.bitrateLineEdit = bitrateLineEdit
-        self.vidaspectCheckBox = vidaspectCheckBox
+        self.preserveaspectCheckBox = preserveaspectCheckBox
+        self.preservesizeCheckBox = preservesizeCheckBox
         self.freqComboBox = freqComboBox
         self.chan1RadioButton = chan1RadioButton
         self.chan2RadioButton = chan2RadioButton
@@ -245,6 +290,10 @@ class AudioVideoTab(QWidget):
         self.audcodecComboBox = audcodecComboBox
         self.audcodecLineEdit = audcodecLineEdit
         self.moreButton = moreButton
+        self.beginLineEdit = beginLineEdit
+        self.durationLineEdit = durationLineEdit
+        self.embedLineEdit = embedLineEdit
+        self.rotateComboBox = rotateComboBox
 
     def resize_parent(self):
         """Resize MainWindow."""
@@ -261,14 +310,17 @@ class AudioVideoTab(QWidget):
                 self.commandLineEdit, self.widthLineEdit, self.heightLineEdit,
                 self.aspect1LineEdit, self.aspect2LineEdit, self.frameLineEdit,
                 self.bitrateLineEdit, self.extLineEdit, self.threadsLineEdit,
-                self.audcodecLineEdit, self.vidcodecLineEdit
+                self.audcodecLineEdit, self.beginLineEdit, self.embedLineEdit,
+                self.vidcodecLineEdit, self.durationLineEdit
                 ]
         for i in lines:
             i.clear()
 
         self.freqComboBox.setCurrentIndex(0)
         self.audio_bitrateComboBox.setCurrentIndex(0)
-        self.vidaspectCheckBox.setChecked(False)
+        self.rotateComboBox.setCurrentIndex(0)
+        self.preserveaspectCheckBox.setChecked(False)
+        self.preservesizeCheckBox.setChecked(False)
         self.group.setExclusive(False)
         self.chan1RadioButton.setChecked(False)
         self.chan2RadioButton.setChecked(False)

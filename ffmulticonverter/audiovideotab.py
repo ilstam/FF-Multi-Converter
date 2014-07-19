@@ -58,7 +58,7 @@ class AudioVideoTab(QWidget):
                 '90 clockwise',
                 '90 clockwise + vertical flip',
                 '90 counter clockwise',
-                '90 counter + vertical flip',
+                '90 counter clockwise + vertical flip',
                 '180',
                 'horizontal flip',
                 'vertical flip'
@@ -82,12 +82,14 @@ class AudioVideoTab(QWidget):
         vidcodecLabel = QLabel('Video codec:')
         vidcodecComboBox = QComboBox()
         vidcodecComboBox.addItems(videocodecs + [other])
-        vidcodecLineEdit = QLineEdit()
-        vidcodecLineEdit.setEnabled(False)
+        audcodecLabel = QLabel('Audio codec:')
+        audcodecComboBox = QComboBox()
+        audcodecComboBox.addItems(audiocodecs + [other])
 
         hlayout1 = utils.add_to_layout(
                 'h', converttoLabel, extComboBox, extLineEdit,
-                vidcodecLabel, vidcodecComboBox, vidcodecLineEdit)
+                vidcodecLabel, vidcodecComboBox, audcodecLabel,
+                audcodecComboBox)
 
         commandLabel = QLabel(self.tr('Command:'))
         commandLineEdit = QLineEdit()
@@ -135,7 +137,6 @@ class AudioVideoTab(QWidget):
         chanLabel = QLabel(self.tr('Audio Channels:'))
         bitrateLabel = QLabel(self.tr('Audio Bitrate (kbps):'))
         threadsLabel = QLabel('Threads:')
-        audcodecLabel = QLabel('Audio codec:')
 
         freqComboBox = QComboBox()
         freqComboBox.addItems(frequency_values)
@@ -155,18 +156,9 @@ class AudioVideoTab(QWidget):
         validator = QRegExpValidator(QRegExp(r'^[0-9]'), self)
         threadsLineEdit = utils.create_LineEdit((50, 16777215), validator, None)
 
-        audcodecComboBox = QComboBox()
-        audcodecComboBox.addItems(audiocodecs + [other])
-        audcodecLineEdit = QLineEdit()
-        audcodecLineEdit.setEnabled(False)
-
-        audcodhlayout = utils.add_to_layout(
-                'h', audcodecComboBox, audcodecLineEdit);
-
-        labels = [freqLabel, chanLabel, bitrateLabel, audcodecLabel,
-                  threadsLabel]
-        widgets = [freqComboBox, chanlayout, audio_bitrateComboBox,
-                   audcodhlayout, threadsLineEdit]
+        labels = [freqLabel, bitrateLabel, chanLabel, threadsLabel]
+        widgets = [freqComboBox, audio_bitrateComboBox, chanlayout,
+                threadsLineEdit]
 
         audiosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
@@ -229,14 +221,6 @@ class AudioVideoTab(QWidget):
                 lambda: extLineEdit.setEnabled(
                         extComboBox.currentIndex() == len(self.formats))
                 )
-        vidcodecComboBox.currentIndexChanged.connect(
-                lambda: vidcodecLineEdit.setEnabled(
-                        vidcodecComboBox.currentIndex() == len(videocodecs))
-                )
-        audcodecComboBox.currentIndexChanged.connect(
-                lambda: audcodecLineEdit.setEnabled(
-                        audcodecComboBox.currentIndex() == len(audiocodecs))
-                )
         preserveaspectCheckBox.toggled.connect(
                 lambda: aspect1LineEdit.setEnabled(
                         not preserveaspectCheckBox.isChecked())
@@ -270,7 +254,6 @@ class AudioVideoTab(QWidget):
         self.extComboBox = extComboBox
         self.extLineEdit = extLineEdit
         self.vidcodecComboBox = vidcodecComboBox
-        self.vidcodecLineEdit = vidcodecLineEdit
         self.commandLineEdit = commandLineEdit
         self.presetButton = presetButton
         self.defaultButton = defaultButton
@@ -288,7 +271,6 @@ class AudioVideoTab(QWidget):
         self.audio_bitrateComboBox = audio_bitrateComboBox
         self.threadsLineEdit = threadsLineEdit
         self.audcodecComboBox = audcodecComboBox
-        self.audcodecLineEdit = audcodecLineEdit
         self.moreButton = moreButton
         self.beginLineEdit = beginLineEdit
         self.durationLineEdit = durationLineEdit
@@ -310,8 +292,7 @@ class AudioVideoTab(QWidget):
                 self.commandLineEdit, self.widthLineEdit, self.heightLineEdit,
                 self.aspect1LineEdit, self.aspect2LineEdit, self.frameLineEdit,
                 self.bitrateLineEdit, self.extLineEdit, self.threadsLineEdit,
-                self.audcodecLineEdit, self.beginLineEdit, self.embedLineEdit,
-                self.vidcodecLineEdit, self.durationLineEdit
+                self.beginLineEdit, self.embedLineEdit, self.durationLineEdit
                 ]
         for i in lines:
             i.clear()

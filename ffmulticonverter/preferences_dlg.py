@@ -13,10 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt4.QtCore import QSettings
+from PyQt4.QtCore import QSettings, QTimer
 from PyQt4.QtGui import (
         QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit,
-        QRadioButton, QSpacerItem, QTabWidget, QToolButton, QWidget
+        QRadioButton, QSpacerItem, QTabWidget, QToolButton, QWidget,
+        QPlainTextEdit, QPushButton
         )
 
 from ffmulticonverter import utils
@@ -27,6 +28,17 @@ class Preferences(QDialog):
     def __init__(self, parent=None, test = False):
         super(Preferences, self).__init__(parent)
         self.parent = parent
+        self.test = test
+
+        self.default_videocodecs = [
+                'mpeg4', 'msmpeg4', 'mpeg2video', 'h263', 'libx264', 'libxvid',
+                'flv', 'libvpx', 'wmv2'
+                ]
+
+        self.default_audiocodecs = [
+                'libmp3lame', 'libvorbis', 'ac3', 'aac', 'libfaac',
+                'libvo_aacenc', 'wmav2', 'mp2', 'copy'
+                ]
 
         saveLabel = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
         exist_Label = QLabel(self.tr('Existing files:'))
@@ -55,7 +67,7 @@ class Preferences(QDialog):
                 QSpacerItem(14, 13), exist_Label, exist_layout,
                 QSpacerItem(14, 13), defaultLabel, deafult_fol_layout,
                 QSpacerItem(13, 13), name_Label, QSpacerItem(14, 13),
-                prefix_layout
+                prefix_layout, None
                 )
 
         ffmpegLabel = QLabel('<html><b>' + self.tr('FFmpeg') +'</b></html>')
@@ -65,12 +77,28 @@ class Preferences(QDialog):
         ffmpegRadioButton = QRadioButton(self.tr('FFmpeg'))
         avconvRadioButton = QRadioButton(self.tr('avconv'))
 
-        hlayout = utils.add_to_layout('h', ffmpegRadioButton, avconvRadioButton)
+        hlayout = utils.add_to_layout('h', ffmpegRadioButton,avconvRadioButton)
+
+        vidcodecsLabel = QLabel(
+                '<html><b>' + self.tr('Video codecs') +'</b></html>')
+        vidcodecsTextEdit = QPlainTextEdit()
+        audcodecsLabel = QLabel(
+                '<html><b>' + self.tr('Audio codecs') +'</b></html>')
+        audcodecsTextEdit = QPlainTextEdit()
+
+        gridlayout = utils.add_to_grid([vidcodecsLabel, audcodecsLabel], [vidcodecsTextEdit, audcodecsTextEdit])
+
+        defvidcodecsButton = QPushButton(self.tr("Default video codecs"))
+        defaudcodecsButton = QPushButton(self.tr("Default audio codecs"))
+
+        hlayout2 = utils.add_to_layout(
+                'h', None, defvidcodecsButton, defaudcodecsButton)
 
         tabwidget2_layout = utils.add_to_layout(
                 'v', ffmpegLabel, QSpacerItem(14, 13), useLabel,
                 hlayout, QSpacerItem(14, 13), default_commandLabel,
-                commandLineEdit, None
+                commandLineEdit, QSpacerItem(20, 20), gridlayout, hlayout2,
+                None
                 )
 
         widget1 = QWidget()
@@ -90,42 +118,8 @@ class Preferences(QDialog):
         defaultToolButton.clicked.connect(self.open_dir)
         buttonBox.accepted.connect(self.save_settings)
         buttonBox.rejected.connect(self.reject)
-
-        settings = QSettings()
-        overwrite_existing = utils.str_to_bool(
-                settings.value('overwrite_existing'))
-        default_output = settings.value('default_output')
-        prefix = settings.value('prefix')
-        suffix = settings.value('suffix')
-        avconv_prefered = utils.str_to_bool(settings.value('avconv_prefered'))
-        default_command = settings.value('default_command')
-
-        # QSettings.value() returns str() in python3, not QVariant() as in p2
-        if overwrite_existing:
-            exst_overwriteRadioButton.setChecked(True)
-        else:
-            exst_add_prefixRadioButton.setChecked(True)
-        if default_output:
-            defaultLineEdit.setText(default_output)
-        if prefix:
-            prefixLineEdit.setText(prefix)
-        if suffix:
-            suffixLineEdit.setText(suffix)
-        if avconv_prefered:
-            avconvRadioButton.setChecked(True)
-        else:
-            ffmpegRadioButton.setChecked(True)
-        if default_command:
-            commandLineEdit.setText(default_command)
-        else:
-            commandLineEdit.setText(config.default_ffmpeg_cmd)
-
-        if not test and not self.parent.ffmpeg:
-            avconvRadioButton.setChecked(True)
-            ffmpegRadioButton.setEnabled(False)
-        if not test and not self.parent.avconv:
-            ffmpegRadioButton.setChecked(True)
-            avconvRadioButton.setEnabled(False)
+        defvidcodecsButton.clicked.connect(self.set_default_videocodecs)
+        defaudcodecsButton.clicked.connect(self.set_default_audiocodecs)
 
         #aliasing
         self.exst_add_prefixRadioButton = exst_add_prefixRadioButton
@@ -138,9 +132,68 @@ class Preferences(QDialog):
         self.ffmpegRadioButton = ffmpegRadioButton
         self.avconvRadioButton = avconvRadioButton
         self.buttonBox = buttonBox
+        self.vidcodecsTextEdit = vidcodecsTextEdit
+        self.audcodecsTextEdit = audcodecsTextEdit
 
-        self.resize(400, 390)
+        self.resize(400, 480)
         self.setWindowTitle(self.tr('Preferences'))
+
+        QTimer.singleShot(0, self.load_settings)
+
+    def load_settings(self):
+        """Load settings and update graphical widgets with loaded values."""
+        settings = QSettings()
+        overwrite_existing = utils.str_to_bool(
+                settings.value('overwrite_existing'))
+        default_output = settings.value('default_output')
+        prefix = settings.value('prefix')
+        suffix = settings.value('suffix')
+        avconv_prefered = utils.str_to_bool(settings.value('avconv_prefered'))
+        default_command = settings.value('default_command')
+        videocodecs = settings.value('videocodecs')
+        audiocodecs = settings.value('audiocodecs')
+
+        # QSettings.value() returns str() in python3, not QVariant() as in p2
+        if overwrite_existing:
+            self.exst_overwriteRadioButton.setChecked(True)
+        else:
+            self.exst_add_prefixRadioButton.setChecked(True)
+        if default_output:
+            self.defaultLineEdit.setText(default_output)
+        if prefix:
+            self.prefixLineEdit.setText(prefix)
+        if suffix:
+            self.suffixLineEdit.setText(suffix)
+        if avconv_prefered:
+            self.avconvRadioButton.setChecked(True)
+        else:
+            self.ffmpegRadioButton.setChecked(True)
+        if default_command:
+            self.commandLineEdit.setText(default_command)
+        else:
+            self.commandLineEdit.setText(config.default_ffmpeg_cmd)
+
+        if not self.test and not self.parent.ffmpeg:
+            self.avconvRadioButton.setChecked(True)
+            self.ffmpegRadioButton.setEnabled(False)
+        if not self.test and not self.parent.avconv:
+            self.ffmpegRadioButton.setChecked(True)
+            self.avconvRadioButton.setEnabled(False)
+
+        if not videocodecs:
+            self.set_default_videocodecs()
+        else:
+            self.vidcodecsTextEdit.setPlainText(videocodecs)
+        if not audiocodecs:
+            self.set_default_audiocodecs
+        else:
+            self.audcodecsTextEdit.setPlainText(audiocodecs)
+
+    def set_default_videocodecs(self):
+        self.vidcodecsTextEdit.setPlainText("\n".join(self.default_videocodecs))
+
+    def set_default_audiocodecs(self):
+        self.audcodecsTextEdit.setPlainText("\n".join(self.default_audiocodecs))
 
     def open_dir(self):
         """Get a directory name using a standard Qt dialog and update
@@ -156,19 +209,37 @@ class Preferences(QDialog):
     def save_settings(self):
         """Set settings values, extracting the appropriate information from
         the graphical widgets."""
-        overwrite_existing = self.exst_overwriteRadioButton.isChecked()
-        default_output = self.defaultLineEdit.text()
-        prefix = self.prefixLineEdit.text()
-        suffix = self.suffixLineEdit.text()
-        avconv_prefered = self.avconvRadioButton.isChecked()
-        default_command = self.commandLineEdit.text()
+        # remove empty codecs
+        videocodecs = []
+        for i in self.vidcodecsTextEdit.toPlainText().split("\n"):
+            i = i.strip()
+            if i:
+                videocodecs.append(i)
+        videocodecs = "\n".join(videocodecs)
+
+        audiocodecs = []
+        for i in self.audcodecsTextEdit.toPlainText().split("\n"):
+            i = i.strip()
+            if i:
+                audiocodecs.append(i)
+        audiocodecs = "\n".join(audiocodecs)
 
         settings = QSettings()
-        settings.setValue('overwrite_existing', overwrite_existing)
-        settings.setValue('default_output', default_output)
-        settings.setValue('prefix', prefix)
-        settings.setValue('suffix', suffix)
-        settings.setValue('avconv_prefered', avconv_prefered)
-        settings.setValue('default_command', default_command)
+        settings.setValue(
+                'overwrite_existing', self.exst_overwriteRadioButton.isChecked())
+        settings.setValue(
+                'default_output', self.defaultLineEdit.text())
+        settings.setValue(
+                'prefix', self.prefixLineEdit.text())
+        settings.setValue(
+                'suffix', self.suffixLineEdit.text())
+        settings.setValue(
+                'avconv_prefered', self.avconvRadioButton.isChecked())
+        settings.setValue(
+                'default_command', self.commandLineEdit.text())
+        settings.setValue(
+                'videocodecs', videocodecs)
+        settings.setValue(
+                'audiocodecs', audiocodecs)
 
         self.accept()

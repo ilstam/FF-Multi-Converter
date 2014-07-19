@@ -21,8 +21,8 @@ def main():
 
     # uncomment the dialog you wish to test
     #dlg_about.show()
-    dlg_showpresets.show()
-    #dlg_preferences.show()
+    #dlg_showpresets.show()
+    dlg_preferences.show()
     #dlg_progress.show()
 
     app.exec_()

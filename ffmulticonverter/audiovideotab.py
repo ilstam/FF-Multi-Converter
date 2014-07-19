@@ -43,16 +43,6 @@ class AudioVideoTab(QWidget):
                 'aifc', 'm2t', 'm4a', 'm4v', 'mp2', 'mpeg', 'ra', 'ts'
                 ]
 
-        videocodecs = [
-                'mpeg4', 'msmpeg4', 'mpeg2video', 'h263', 'libx264', 'libxvid',
-                'flv', 'libvpx', 'wmv2'
-                ]
-
-        audiocodecs = [
-                'libmp3lame', 'libvorbis', 'ac3', 'aac', 'libfaac',
-                'libvo_aacenc', 'wmav2', 'mp2', 'copy'
-                ]
-
         rotation_options = [
                 'None',
                 '90 clockwise',
@@ -66,6 +56,7 @@ class AudioVideoTab(QWidget):
 
         nochange = self.tr('No Change')
         other = self.tr('Other')
+        self.defaultStr = self.tr('Default')
         frequency_values = [nochange, '22050', '44100', '48000']
         bitrate_values = [
                 nochange, '32', '96', '112', '128', '160', '192', '256', '320'
@@ -81,10 +72,8 @@ class AudioVideoTab(QWidget):
         extLineEdit.setEnabled(False)
         vidcodecLabel = QLabel('Video codec:')
         vidcodecComboBox = QComboBox()
-        vidcodecComboBox.addItems(videocodecs + [other])
         audcodecLabel = QLabel('Audio codec:')
         audcodecComboBox = QComboBox()
-        audcodecComboBox.addItems(audiocodecs + [other])
 
         hlayout1 = utils.add_to_layout(
                 'h', converttoLabel, extComboBox, extLineEdit,
@@ -94,7 +83,7 @@ class AudioVideoTab(QWidget):
         commandLabel = QLabel(self.tr('Command:'))
         commandLineEdit = QLineEdit()
         presetButton = QPushButton(self.tr('Preset'))
-        defaultButton = QPushButton(self.tr('Default'))
+        defaultButton = QPushButton(self.defaultStr)
         hlayout2 = utils.add_to_layout(
                 'h', commandLabel, commandLineEdit, presetButton, defaultButton)
 
@@ -254,6 +243,7 @@ class AudioVideoTab(QWidget):
         self.extComboBox = extComboBox
         self.extLineEdit = extLineEdit
         self.vidcodecComboBox = vidcodecComboBox
+        self.audcodecComboBox = audcodecComboBox
         self.commandLineEdit = commandLineEdit
         self.presetButton = presetButton
         self.defaultButton = defaultButton
@@ -270,12 +260,17 @@ class AudioVideoTab(QWidget):
         self.chan2RadioButton = chan2RadioButton
         self.audio_bitrateComboBox = audio_bitrateComboBox
         self.threadsLineEdit = threadsLineEdit
-        self.audcodecComboBox = audcodecComboBox
         self.moreButton = moreButton
         self.beginLineEdit = beginLineEdit
         self.durationLineEdit = durationLineEdit
         self.embedLineEdit = embedLineEdit
         self.rotateComboBox = rotateComboBox
+
+    def fill_codecs_comboboxes(self, videocodecs, audiocodecs):
+        self.vidcodecComboBox.clear()
+        self.audcodecComboBox.clear()
+        self.vidcodecComboBox.addItems([self.defaultStr] + videocodecs)
+        self.audcodecComboBox.addItems([self.defaultStr] + audiocodecs)
 
     def resize_parent(self):
         """Resize MainWindow."""
@@ -297,6 +292,8 @@ class AudioVideoTab(QWidget):
         for i in lines:
             i.clear()
 
+        self.vidcodecComboBox.setCurrentIndex(0)
+        self.audcodecComboBox.setCurrentIndex(0)
         self.freqComboBox.setCurrentIndex(0)
         self.audio_bitrateComboBox.setCurrentIndex(0)
         self.rotateComboBox.setCurrentIndex(0)

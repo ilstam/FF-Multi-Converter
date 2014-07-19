@@ -230,10 +230,16 @@ class MainWindow(QMainWindow):
         self.prefix = get_str_value(settings, 'prefix')
         self.suffix = get_str_value(settings, 'suffix')
         defcmd = get_str_value(settings, 'default_command')
+        videocodecs = get_str_value(settings, 'videocodecs')
+        videocodecs = [i for i in videocodecs.split("\n")]
+        audiocodecs = get_str_value(settings, 'audiocodecs')
+        audiocodecs = [i for i in audiocodecs.split("\n")]
+
         if defcmd:
             self.default_command = defcmd
 
         self.toLineEdit.setText(self.default_output)
+        self.audiovideo_tab.fill_codecs_comboboxes(videocodecs, audiocodecs)
 
     def current_tab(self):
         """Return the corresponding object of the selected tab."""

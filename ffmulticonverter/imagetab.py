@@ -44,6 +44,11 @@ class ImageTab(QWidget):
         converttoLabel = QLabel(self.tr('Convert to:'))
         extComboBox = QComboBox()
         extComboBox.addItems(self.formats)
+        commandLabel = QLabel(self.tr('Extra options:'))
+        commandLineEdit = QLineEdit()
+
+        hlayout2 = utils.add_to_layout(
+                'h', converttoLabel, extComboBox, commandLabel, commandLineEdit)
 
         sizeLabel = QLabel(
                 '<html><p align="center">' + self.tr('Image Size:') +
@@ -52,19 +57,28 @@ class ImageTab(QWidget):
         heightLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
         label = QLabel('<html><p align="center">x</p></html>')
         label.setMaximumWidth(25)
-        imgaspectCheckBox = QCheckBox(self.tr("Maintain aspect ratio"))
+
         hlayout1 = utils.add_to_layout('h', widthLineEdit,label,heightLineEdit)
-        vlayout = utils.add_to_layout('v', sizeLabel, hlayout1)
-        hlayout2 = utils.add_to_layout('h', vlayout, imgaspectCheckBox, None)
+        sizelayout = utils.add_to_layout('v', sizeLabel, hlayout1)
+
+        imgaspectCheckBox = QCheckBox(self.tr("Maintain aspect ratio"))
+        autocropCheckBox = QCheckBox(self.tr("Auto-crop"))
+
+        vlayout = utils.add_to_layout('v', imgaspectCheckBox, autocropCheckBox)
+
+        rotateLabel = QLabel(
+                "<html><div align='center'>" + self.tr("Rotate") +
+                ":</div><br>(" + self.tr("degrees - clockwise") + ")</html>")
+        rotateLineEdit = utils.create_LineEdit((100, 16777215), validator, 3)
+        vflipCheckBox = QCheckBox("Vertical flip")
+        hflipCheckBox = QCheckBox("Horizontal flip")
+
+        vlayout2 = utils.add_to_layout('v', vflipCheckBox, hflipCheckBox)
         hlayout3 = utils.add_to_layout(
-                'h', converttoLabel, extComboBox, hlayout2, None)
+                'h', sizelayout, vlayout, rotateLabel, rotateLineEdit,
+                vlayout2, None)
 
-        commandLabel = QLabel(self.tr('Extra options:'))
-        commandLineEdit = QLineEdit()
-        hlayout4 = utils.add_to_layout(
-                'h', commandLabel, commandLineEdit, QSpacerItem(180, 40))
-
-        final_layout = utils.add_to_layout('v', hlayout3, hlayout4)
+        final_layout = utils.add_to_layout('v', hlayout2, hlayout3)
         self.setLayout(final_layout)
 
         #aliasing
@@ -73,12 +87,21 @@ class ImageTab(QWidget):
         self.heightLineEdit = heightLineEdit
         self.imgaspectCheckBox = imgaspectCheckBox
         self.commandLineEdit = commandLineEdit
+        self.autocropCheckBox = autocropCheckBox
+        self.rotateLineEdit = rotateLineEdit
+        self.vflipCheckBox = vflipCheckBox
+        self.hflipCheckBox = hflipCheckBox
 
     def clear(self):
         """Clear self.widthLineEdit and self.heightLineEdit."""
         self.widthLineEdit.clear()
         self.heightLineEdit.clear()
         self.commandLineEdit.clear()
+        self.rotateLineEdit.clear()
+        self.imgaspectCheckBox.setChecked(False)
+        self.autocropCheckBox.setChecked(False)
+        self.vflipCheckBox.setChecked(False)
+        self.hflipCheckBox.setChecked(False)
 
     def ok_to_continue(self):
         """

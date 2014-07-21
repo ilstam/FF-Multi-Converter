@@ -50,11 +50,11 @@ class AudioVideoTab(QWidget):
                 'vertical flip'
                 ]
 
-        nochange = self.tr('No Change')
         self.defaultStr = self.tr('Default')
-        frequency_values = [nochange, '22050', '44100', '48000']
+        frequency_values = [self.defaultStr, '22050', '44100', '48000']
         bitrate_values = [
-                nochange, '32', '96', '112', '128', '160', '192', '256', '320'
+                self.defaultStr,
+                '32', '96', '112', '128', '160', '192', '256', '320'
                 ]
         validator = QRegExpValidator(QRegExp(r'^[1-9]\d*'), self)
 
@@ -194,32 +194,36 @@ class AudioVideoTab(QWidget):
         self.defaultQPB.clicked.connect(self.set_default_command)
         self.moreQPB.toggled.connect(self.frame.setVisible)
         self.moreQPB.toggled.connect(self.resize_parent)
-        self.preserveaspectQChB.toggled.connect(
-                lambda: self.aspect1QLE.setEnabled(
-                        not self.preserveaspectQChB.isChecked()))
-        self.preserveaspectQChB.toggled.connect(
-                lambda: self.aspect2QLE.setEnabled(
-                        not self.preserveaspectQChB.isChecked()))
-        self.widthQLE.textChanged.connect(
-                lambda: self.command_elements_change('size'))
-        self.heightQLE.textChanged.connect(
-                lambda: self.command_elements_change('size'))
-        self.aspect1QLE.textChanged.connect(
-                lambda: self.command_elements_change('aspect'))
-        self.aspect2QLE.textChanged.connect(
-                lambda: self.command_elements_change('aspect'))
-        self.frameQLE.textChanged.connect(
-                lambda: self.command_elements_change('frames'))
-        self.bitrateQLE.textChanged.connect(
-                lambda: self.command_elements_change('video_bitrate'))
-        self.freqQCB.currentIndexChanged.connect(
-                lambda: self.command_elements_change('frequency'))
+        self.widthQLE.textChanged.connect(self.command_update_size)
+        self.heightQLE.textChanged.connect(self.command_update_size)
+        self.aspect1QLE.textChanged.connect(self.command_update_aspect)
+        self.aspect2QLE.textChanged.connect(self.command_update_aspect)
+        self.frameQLE.textChanged.connect(self.command_update_frames)
+        self.bitrateQLE.textChanged.connect(self.command_update_vidbitrate)
+        self.threadsQLE.textChanged.connect(self.command_update_threads)
+        self.freqQCB.currentIndexChanged.connect(self.command_update_frequency)
         self.audbitrateQCB.currentIndexChanged.connect(
-                lambda: self.command_elements_change('audio_bitrate'))
+                self.command_update_audbitrate)
         self.chan1QRB.clicked.connect(
-                lambda: self.command_elements_change('channels1'))
+                lambda: self.command_update_channels('1'))
         self.chan2QRB.clicked.connect(
-                lambda: self.command_elements_change('channels2'))
+                lambda: self.command_update_channels('2'))
+        self.preserveaspectQChB.toggled.connect(
+                lambda: (
+                        self.aspect1QLE.setEnabled(
+                                not self.preserveaspectQChB.isChecked()),
+                        self.aspect2QLE.setEnabled(
+                                not self.preserveaspectQChB.isChecked())
+                        )
+                )
+        self.preservesizeQChB.toggled.connect(
+                lambda: (
+                        self.widthQLE.setEnabled(
+                                not self.preservesizeQChB.isChecked()),
+                        self.heightQLE.setEnabled(
+                                not self.preservesizeQChB.isChecked())
+                        )
+                )
 
     def fill_video_comboboxes(self, videocodecs, audiocodecs, extraformats):
         if videocodecs:
@@ -311,77 +315,134 @@ class AudioVideoTab(QWidget):
             if find >= 0:
                 self.extQCB.setCurrentIndex(find)
 
-    def command_elements_change(self, widget):
-        """Fill self.commandQLE with the appropriate command parameters."""
+    def command_update_size(self):
         command = self.commandQLE.text()
+        text1 = self.widthQLE.text()
+        text2 = self.heightQLE.text()
 
-        if widget == 'size':
-            text1 = self.widthQLE.text()
-            text2 = self.heightQLE.text()
+        if (text1 or text2) and not (text1 and text2):
+            return
 
-            if (text1 or text2) and not (text1 and text2):
-                return
-            f = re.sub(r'^.*(-s\s+\d+x\d+).*$', r'\1', command)
-            if re.match(r'^.*(-s\s+\d+x\d+).*$', f):
-                command = command.replace(f, '').strip()
-            if text1 and text2:
-                command += ' -s {0}x{1}'.format(text1, text2)
-
-        elif widget == 'aspect':
-            text1 = self.aspect1QLE.text()
-            text2 = self.aspect2QLE.text()
-
-            if (text1 or text2) and not (text1 and text2):
-                return
-            f = re.sub(r'^.*(-aspect\s+\d+:\d+).*$', r'\1', command)
-            if re.match(r'^.*(-aspect\s+\d+:\d+).*$', f):
-                command = command.replace(f, '').strip()
-            if text1 and text2:
-                command += ' -aspect {0}:{1}'.format(text1, text2)
-
-        elif widget == 'frames':
-            text = self.frameQLE.text()
-            f = re.sub(r'^.*(-r\s+\d+).*$', r'\1', command)
-            if re.match(r'^.*(-r\s+\d+).*$', f):
-                command = command.replace(f, '').strip()
-            if text:
-                command += ' -r {0}'.format(text)
-
-        elif widget == 'video_bitrate':
-            text = self.bitrateQLE.text()
-            f = re.sub(r'^.*(-b\s+\d+k).*$', r'\1', command)
-            if re.match(r'^.*(-b\s+\d+k).*$', f):
-                command = command.replace(f, '')
-            if text:
-                command += ' -b {0}k'.format(text)
-            command = command.replace('-sameq', '').strip()
-
-        elif widget == 'frequency':
-            text = self.freqQCB.currentText()
-            f = re.sub(r'^.*(-ar\s+\d+).*$', r'\1', command)
-            if re.match(r'^.*(-ar\s+\d+).*$', f):
-                command = command.replace(f, '').strip()
-            if text != 'No Change':
-                command += ' -ar {0}'.format(text)
-
-        elif widget == 'audio_bitrate':
-            text = self.audbitrateQCB.currentText()
-            f = re.sub(r'^.*(-ab\s+\d+k).*$', r'\1', command)
-            if re.match(r'^.*(-ab\s+\d+k).*$', f):
-                command = command.replace(f, '').strip()
-            if text != 'No Change':
-                command += ' -ab {0}k'.format(text)
-
-        elif widget in ('channels1', 'channels2'):
-            if widget == 'channels1':
-                text = self.chan1QRB.text()
-            else:
-                text = self.chan2QRB.text()
-
-            f = re.sub(r'^.*(-ac\s+\d+).*$', r'\1', command)
-            if re.match(r'^.*(-ac\s+\d+).*$', f):
-                command = command.replace(f, '').strip()
-            command += ' -ac {0}'.format(text)
+        regex = r'(\s+|^)-s\s+\d+x\d+(\s+|$)'
+        s = ' -s {0}x{1} '.format(text1, text2) if text1 and text2 else ' '
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
 
         self.commandQLE.clear()
-        self.commandQLE.setText(utils.remove_consecutive_spaces(command))
+        self.commandQLE.setText(command)
+
+    def command_update_aspect(self):
+        command = self.commandQLE.text()
+        text1 = self.aspect1QLE.text()
+        text2 = self.aspect2QLE.text()
+
+        if (text1 or text2) and not (text1 and text2):
+            return
+
+        regex = r'(\s+|^)-aspect\s+\d+:\d+(\s+|$)'
+        s = ' -aspect {0}:{1} '.format(text1, text2) if text1 and text2 else ' '
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_frames(self):
+        command = self.commandQLE.text()
+        text = self.frameQLE.text()
+
+        regex = r'(\s+|^)-r\s+\d+(\s+|$)'
+        s = ' -r {0} '.format(text) if text else ' '
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_vidbitrate(self):
+        command = self.commandQLE.text()
+        text = self.bitrateQLE.text()
+
+        regex = r'(\s+|^)-b\s+\d+k(\s+|$)'
+        s = ' -b {0}k '.format(text) if text else ' '
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub('-sameq', '', command)
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_frequency(self):
+        command = self.commandQLE.text()
+        text = self.freqQCB.currentText()
+
+        regex = r'(\s+|^)-ar\s+\d+(\s+|$)'
+        s = ' -ar {0} '.format(text) if self.freqQCB.currentIndex() != 0 else ' '
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_audbitrate(self):
+        command = self.commandQLE.text()
+        text = self.audbitrateQCB.currentText()
+
+        regex = r'(\s+|^)-ab\s+\d+k(\s+|$)'
+        if self.audbitrateQCB.currentIndex() != 0:
+            s = ' -ab {0}k '.format(text)
+        else:
+            s = ' '
+
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_channels(self, channel):
+        command = self.commandQLE.text()
+
+        regex = r'(\s+|^)-ac\s+\d+(\s+|$)'
+        s = ' -ac {0} '.format(channel)
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_threads(self):
+        command = self.commandQLE.text()
+        text = self.threadsQLE.text()
+
+        regex = r'(\s+|^)-threads\s+\d+(\s+|$)'
+        s = ' -threads {0} '.format(text) if text else ' '
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)

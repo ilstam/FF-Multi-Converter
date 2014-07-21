@@ -209,21 +209,9 @@ class AudioVideoTab(QWidget):
         self.chan2QRB.clicked.connect(
                 lambda: self.command_update_channels('2'))
         self.preserveaspectQChB.toggled.connect(
-                lambda: (
-                        self.aspect1QLE.setEnabled(
-                                not self.preserveaspectQChB.isChecked()),
-                        self.aspect2QLE.setEnabled(
-                                not self.preserveaspectQChB.isChecked())
-                        )
-                )
+                self.command_update_preserve_aspect)
         self.preservesizeQChB.toggled.connect(
-                lambda: (
-                        self.widthQLE.setEnabled(
-                                not self.preservesizeQChB.isChecked()),
-                        self.heightQLE.setEnabled(
-                                not self.preservesizeQChB.isChecked())
-                        )
-                )
+                self.command_update_preserve_size)
 
     def fill_video_comboboxes(self, videocodecs, audiocodecs, extraformats):
         if videocodecs:
@@ -334,6 +322,24 @@ class AudioVideoTab(QWidget):
         self.commandQLE.clear()
         self.commandQLE.setText(command)
 
+    def command_update_preserve_size(self):
+        command = self.commandQLE.text()
+        checked = self.preservesizeQChB.isChecked()
+
+        self.widthQLE.setEnabled(not checked)
+        self.heightQLE.setEnabled(not checked)
+
+        if not checked:
+            self.command_update_size()
+            return
+
+        regex = r'(\s+|^)-s\s+\d+x\d+(\s+|$)'
+        command = re.sub(regex, ' ', command)
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
     def command_update_aspect(self):
         command = self.commandQLE.text()
         text1 = self.aspect1QLE.text()
@@ -348,6 +354,24 @@ class AudioVideoTab(QWidget):
             command = re.sub(regex, s, command)
         else:
             command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_preserve_aspect(self):
+        command = self.commandQLE.text()
+        checked = self.preserveaspectQChB.isChecked()
+
+        self.aspect1QLE.setEnabled(not checked)
+        self.aspect2QLE.setEnabled(not checked)
+
+        if not checked:
+            self.command_update_aspect()
+            return
+
+        regex = r'(\s+|^)-aspect\s+\d+:\d+(\s+|$)'
+        command = re.sub(regex, ' ', command)
         command = re.sub(' +', ' ', command).strip()
 
         self.commandQLE.clear()

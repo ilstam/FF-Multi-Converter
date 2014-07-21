@@ -78,53 +78,45 @@ class Progress(QDialog):
         self.error = 0
         self.running = True
 
-        nowLabel = QLabel(self.tr('In progress: '))
-        totalLabel = QLabel(self.tr('Total:'))
-        nowBar = QProgressBar()
-        nowBar.setValue(0)
-        totalBar = QProgressBar()
-        totalBar.setValue(0)
-        cancelButton = QPushButton(self.tr('Cancel'))
+        self.nowQL = QLabel(self.tr('In progress: '))
+        totalQL = QLabel(self.tr('Total:'))
+        self.nowQPBar = QProgressBar()
+        self.nowQPBar.setValue(0)
+        self.totalQPBar = QProgressBar()
+        self.totalQPBar.setValue(0)
+        self.cancelQPB = QPushButton(self.tr('Cancel'))
 
-        detailsButton = QCommandLinkButton(self.tr('Details'))
-        detailsButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
-        detailsButton.setCheckable(True)
-        detailsButton.setMaximumWidth(113)
+        detailsQPB = QCommandLinkButton(self.tr('Details'))
+        detailsQPB.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
+        detailsQPB.setCheckable(True)
+        detailsQPB.setMaximumWidth(113)
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
-        textEdit = QTextEdit()
-        textEdit.setReadOnly(True)
-        frame = QFrame()
-        frame_layout = utils.add_to_layout('h', textEdit)
-        frame.setLayout(frame_layout)
-        frame.hide()
+        self.outputQTE = QTextEdit()
+        self.outputQTE.setReadOnly(True)
+        self.frame = QFrame()
+        frame_layout = utils.add_to_layout('h', self.outputQTE)
+        self.frame.setLayout(frame_layout)
+        self.frame.hide()
 
-        hlayout = utils.add_to_layout('h', None, nowLabel, None)
-        hlayout2 = utils.add_to_layout('h', None, totalLabel, None)
-        hlayout3 = utils.add_to_layout('h', detailsButton, line)
-        hlayout4 = utils.add_to_layout('h', frame)
-        hlayout5 = utils.add_to_layout('h', None, cancelButton)
+        hlayout = utils.add_to_layout('h', None, self.nowQL, None)
+        hlayout2 = utils.add_to_layout('h', None, totalQL, None)
+        hlayout3 = utils.add_to_layout('h', detailsQPB, line)
+        hlayout4 = utils.add_to_layout('h', self.frame)
+        hlayout5 = utils.add_to_layout('h', None, self.cancelQPB)
         vlayout = utils.add_to_layout(
-                'v', hlayout, nowBar, hlayout2, totalBar, None,
+                'v', hlayout, self.nowQPBar, hlayout2, self.totalQPBar, None,
                 hlayout3, hlayout4, hlayout5
                 )
         self.setLayout(vlayout)
 
-        detailsButton.toggled.connect(self.resize_dialog)
-        detailsButton.toggled.connect(frame.setVisible)
-        cancelButton.clicked.connect(self.reject)
+        detailsQPB.toggled.connect(self.resize_dialog)
+        detailsQPB.toggled.connect(self.frame.setVisible)
+        self.cancelQPB.clicked.connect(self.reject)
         self.file_converted_signal.connect(self.file_converted)
         self.refr_bars_signal.connect(self.refresh_progress_bars)
         self.update_text_edit_signal.connect(self.update_text_edit)
-
-        #aliasing
-        self.nowLabel = nowLabel
-        self.nowBar = nowBar
-        self.totalBar = totalBar
-        self.cancelButton = cancelButton
-        self.textEdit = textEdit
-        self.frame = frame
 
         self.resize(484, 200)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
@@ -139,20 +131,20 @@ class Progress(QDialog):
         self.resize(484, height)
 
     def update_text_edit(self, txt):
-        """Append txt to the end of current self.textEdit's text."""
-        current = self.textEdit.toPlainText()
-        self.textEdit.setText(current+txt)
-        self.textEdit.moveCursor(QTextCursor.End)
+        """Append txt to the end of current self.outputQTE's text."""
+        current = self.outputQTE.toPlainText()
+        self.outputQTE.setText(current+txt)
+        self.outputQTE.moveCursor(QTextCursor.End)
 
     def refresh_progress_bars(self, now_percent):
-        """Refresh the values of self.nowBar and self.totalBar."""
+        """Refresh the values of self.nowQPBar and self.totalQPBar."""
         total_percent = int(((now_percent * self.step) / 100) + self.min_value)
 
-        if now_percent > self.nowBar.value() and not (now_percent > 100):
-            self.nowBar.setValue(now_percent)
-        if (total_percent > self.totalBar.value() and
+        if now_percent > self.nowQPBar.value() and not (now_percent > 100):
+            self.nowQPBar.setValue(now_percent)
+        if (total_percent > self.totalQPBar.value() and
         not (total_percent > self.max_value)):
-            self.totalBar.setValue(total_percent)
+            self.totalQPBar.setValue(total_percent)
 
     def manage_conversions(self):
         """
@@ -162,8 +154,8 @@ class Progress(QDialog):
         if not self.running:
             return
         if not self.files:
-            self.totalBar.setValue(100)
-        if self.totalBar.value() >= 100:
+            self.totalQPBar.setValue(100)
+        if self.totalQPBar.value() >= 100:
             sum_files = self.ok + self.error
             msg = QMessageBox(self)
             msg.setStandardButtons(QMessageBox.Ok)
@@ -172,7 +164,7 @@ class Progress(QDialog):
             msg.setModal(False)
             msg.show()
 
-            self.cancelButton.setText(self.tr("Close"))
+            self.cancelQPB.setText(self.tr("Close"))
             if self._type == 'Documents':
                 self.parent.docconv = False  # doc conversion end
         else:
@@ -183,8 +175,8 @@ class Progress(QDialog):
         Update progress bars values, remove converted file from self.files
         and call manage_conversions() to continue the process.
         """
-        self.totalBar.setValue(self.max_value)
-        self.nowBar.setValue(100)
+        self.totalQPBar.setValue(self.max_value)
+        self.nowQPBar.setValue(100)
         QApplication.processEvents()
         self.files.pop(0)
         self.manage_conversions()
@@ -224,7 +216,7 @@ class Progress(QDialog):
 
     def convert_a_file(self):
         """
-        Update self.nowLabel's text with current file's name, set self.nowBar
+        Update self.nowQL's text with current file's name, set self.nowQPBar
         value to zero and start the conversion procedure in a second thread
         using threading module.
         """
@@ -239,10 +231,10 @@ class Progress(QDialog):
         else:
             text = from_file
 
-        self.nowLabel.setText(self.tr('In progress:') + ' ' + text)
-        self.nowBar.setValue(0)
+        self.nowQL.setText(self.tr('In progress:') + ' ' + text)
+        self.nowQPBar.setValue(0)
 
-        self.min_value = self.totalBar.value()
+        self.min_value = self.totalQPBar.value()
         self.max_value = self.min_value + self.step
 
         if not os.path.exists(from_file[1:-1]):
@@ -284,7 +276,7 @@ class Progress(QDialog):
         estimate conversion progress using video's duration.
         With the result, emit the corresponding signal in order progressbars
         to be updated. Also emit regularly the corresponding signal in order
-        an textEdit to be updated with ffmpeg's output. Finally, save log
+        an outputQTE to be updated with ffmpeg's output. Finally, save log
         information.
 
         Return True if conversion succeed, else False.
@@ -345,7 +337,7 @@ class Progress(QDialog):
         """
         Convert an image with the desired size using ImageMagick.
         Create conversion info ("cmd") and emit the corresponding signal
-        in order an textEdit to be updated with that info.
+        in order an outputQTE to be updated with that info.
         Finally, save log information.
 
         Return True if conversion succeed, else False.
@@ -392,7 +384,7 @@ class Progress(QDialog):
           2. convert the copy
           3. rename the converted file to match the desired output file's name
 
-        Also emit the corresponding signal in order an textEdit to be updated
+        Also emit the corresponding signal in order an outputQTE to be updated
         with unoconv's output. Finally, save log information.
 
         Return True if conversion succeed, else False.

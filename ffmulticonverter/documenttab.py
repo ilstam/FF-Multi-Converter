@@ -50,11 +50,11 @@ class DocumentTab(QWidget):
                 flist.append(i + ' to ' + y)
         flist.sort()
 
-        convertLabel = QLabel(self.tr('Convert:'))
-        self.convertComboBox = QComboBox()
-        self.convertComboBox.addItems(flist)
+        convertQL = QLabel(self.tr('Convert:'))
+        self.convertQCB = QComboBox()
+        self.convertQCB.addItems(flist)
         final_layout = utils.add_to_layout(
-                'h', convertLabel, self.convertComboBox, None)
+                'h', convertQL, self.convertQCB, None)
         self.setLayout(final_layout)
 
     def ok_to_continue(self):
@@ -67,7 +67,7 @@ class DocumentTab(QWidget):
 
         Return True if all tests pass, else False.
         """
-        decl_ext = self.convertComboBox.currentText().split(' ')[0]
+        decl_ext = self.convertQCB.currentText().split(' ')[0]
 
         try:
             if not self.parent.unoconv:

@@ -61,23 +61,21 @@ class MainWindow(QMainWindow):
 
         self.parse_cla()
 
-        addButton = QPushButton(self.tr('Add'))
-        delButton = QPushButton(self.tr('Delete'))
-        clearButton = QPushButton(self.tr('Clear'))
-        vlayout1 = utils.add_to_layout(
-                'v', addButton, delButton, clearButton, None)
+        addQPB = QPushButton(self.tr('Add'))
+        delQPB = QPushButton(self.tr('Delete'))
+        clearQPB = QPushButton(self.tr('Clear'))
+        vlayout1 = utils.add_to_layout('v', addQPB, delQPB, clearQPB, None)
 
         self.filesList = utils.FilesList()
         self.filesList.setSelectionMode(QAbstractItemView.ExtendedSelection)
         hlayout1 = utils.add_to_layout('h', self.filesList, vlayout1)
 
-        output_label = QLabel(self.tr('Output folder:'))
-        toLineEdit = QLineEdit()
-        toLineEdit.setReadOnly(True)
-        toToolButton = QToolButton()
-        toToolButton.setText('...')
-        hlayout2 = utils.add_to_layout(
-                'h', output_label, toLineEdit, toToolButton)
+        outputQL = QLabel(self.tr('Output folder:'))
+        self.toQLE = QLineEdit()
+        self.toQLE.setReadOnly(True)
+        self.toQTB = QToolButton()
+        self.toQTB.setText('...')
+        hlayout2 = utils.add_to_layout('h', outputQL, self.toQLE, self.toQTB)
 
         self.audiovideo_tab = AudioVideoTab(self)
         self.image_tab = ImageTab(self)
@@ -87,23 +85,23 @@ class MainWindow(QMainWindow):
         tab_names = [self.tr('Audio/Video'), self.tr('Images'),
                      self.tr('Documents')]
 
-        tabWidget = QTabWidget()
+        self.tabWidget = QTabWidget()
         for num, tab in enumerate(tab_names):
-            tabWidget.addTab(self.tabs[num], tab)
-        tabWidget.setCurrentIndex(0)
+            self.tabWidget.addTab(self.tabs[num], tab)
+        self.tabWidget.setCurrentIndex(0)
 
-        origCheckBox = QCheckBox(
+        self.origQCB = QCheckBox(
                 self.tr('Save each file in the same\nfolder as input file'))
-        deleteCheckBox = QCheckBox(self.tr('Delete original'))
-        convertPushButton = QPushButton(self.tr('&Convert'))
+        self.deleteQCB = QCheckBox(self.tr('Delete original'))
+        convertQPB = QPushButton(self.tr('&Convert'))
 
-        hlayout3 = utils.add_to_layout('h', origCheckBox, deleteCheckBox, None)
-        hlayout4 = utils.add_to_layout('h', None, convertPushButton)
+        hlayout3 = utils.add_to_layout('h', self.origQCB, self.deleteQCB, None)
+        hlayout4 = utils.add_to_layout('h', None, convertQPB)
         final_layout = utils.add_to_layout(
-                'v', hlayout1, tabWidget, hlayout2, hlayout3, hlayout4)
+                'v', hlayout1, self.tabWidget, hlayout2, hlayout3, hlayout4)
 
-        dependenciesLabel = QLabel()
-        self.statusBar().addPermanentWidget(dependenciesLabel, stretch=1)
+        self.dependenciesQL = QLabel()
+        self.statusBar().addPermanentWidget(self.dependenciesQL, stretch=1)
 
         widget = QWidget()
         widget.setLayout(final_layout)
@@ -173,28 +171,19 @@ class MainWindow(QMainWindow):
         utils.add_actions(helpMenu, [aboutAction])
 
         self.filesList.dropped.connect(self.url_dropped)
-        addButton.clicked.connect(self.add_files)
-        delButton.clicked.connect(self.delete_files)
-        clearButton.clicked.connect(self.clear_fileslist)
-        tabWidget.currentChanged.connect(
-                lambda: self.tabs[0].moreButton.setChecked(False))
-        origCheckBox.clicked.connect(
-                lambda: toLineEdit.setEnabled(not origCheckBox.isChecked()))
-        toToolButton.clicked.connect(self.open_dir)
-        convertPushButton.clicked.connect(convertAction.triggered)
+        addQPB.clicked.connect(self.add_files)
+        delQPB.clicked.connect(self.delete_files)
+        clearQPB.clicked.connect(self.clear_fileslist)
+        self.tabWidget.currentChanged.connect(
+                lambda: self.tabs[0].moreQPB.setChecked(False))
+        self.origQCB.clicked.connect(
+                lambda: self.toQLE.setEnabled(not self.origQCB.isChecked()))
+        self.toQTB.clicked.connect(self.open_dir)
+        convertQPB.clicked.connect(convertAction.triggered)
 
         del_shortcut = QShortcut(self)
         del_shortcut.setKey(Qt.Key_Delete)
         del_shortcut.activated.connect(self.delete_files)
-
-        # aliasing
-        self.toLineEdit = toLineEdit
-        self.toToolButton = toToolButton
-        self.tabWidget = tabWidget
-        self.origCheckBox = origCheckBox
-        self.deleteCheckBox = deleteCheckBox
-        self.convertPushButton = convertPushButton
-        self.dependenciesLabel = dependenciesLabel
 
         self.resize(self.main_width, self.main_height)
         self.setWindowTitle('FF Multi Converter')
@@ -238,7 +227,7 @@ class MainWindow(QMainWindow):
         if defcmd:
             self.default_command = defcmd
 
-        self.toLineEdit.setText(self.default_output)
+        self.toQLE.setText(self.default_output)
         self.audiovideo_tab.fill_codecs_comboboxes(videocodecs, audiocodecs)
 
     def current_tab(self):
@@ -314,9 +303,9 @@ class MainWindow(QMainWindow):
 
     def clear_all(self):
         """Clear all values of graphical widgets."""
-        self.toLineEdit.clear()
-        self.origCheckBox.setChecked(False)
-        self.deleteCheckBox.setChecked(False)
+        self.toQLE.clear()
+        self.origQCB.setChecked(False)
+        self.deleteQCB.setChecked(False)
         self.clear_fileslist()
 
         self.audiovideo_tab.clear()
@@ -325,15 +314,15 @@ class MainWindow(QMainWindow):
     def open_dir(self):
         """
         Get a directory name using a standard QtDialog and update
-        self.toLineEdit with dir's name.
+        self.toQLE with dir's name.
         """
-        if self.toLineEdit.isEnabled():
+        if self.toQLE.isEnabled():
             output = QFileDialog.getExistingDirectory(
                     self, 'FF Multi Converter - ' +
                     self.tr('Choose output destination'),
                     config.home)
             if output:
-                self.toLineEdit.setText(output)
+                self.toQLE.setText(output)
 
     def preferences(self):
         """Open the preferences dialog."""
@@ -376,11 +365,11 @@ class MainWindow(QMainWindow):
             if not self.fnames:
                 raise ValidationError(
                         self.tr('You must add at least one file to convert!'))
-            elif not self.origCheckBox.isChecked() and not self.toLineEdit.text():
+            elif not self.origQCB.isChecked() and not self.toQLE.text():
                 raise ValidationError(
                         self.tr('You must choose an output folder!'))
-            elif (not self.origCheckBox.isChecked() and
-                  not os.path.exists(self.toLineEdit.text())):
+            elif (not self.origQCB.isChecked() and
+                  not os.path.exists(self.toQLE.text())):
                 raise ValidationError(self.tr('Output folder does not exists!'))
             if not self.current_tab().ok_to_continue():
                 return False
@@ -395,14 +384,11 @@ class MainWindow(QMainWindow):
         """Extract the desired output file extension from GUI and return it."""
         tab = self.current_tab()
         if tab.name == 'AudioVideo':
-            if self.audiovideo_tab.extLineEdit.isEnabled():
-                ext_to = self.audiovideo_tab.extLineEdit.text()
-            else:
-                ext_to = self.audiovideo_tab.extComboBox.currentText()
+            ext_to = self.audiovideo_tab.extQCB.currentText()
         elif tab.name == 'Images':
-            ext_to = tab.extComboBox.currentText()
+            ext_to = tab.extQCB.currentText()
         else:
-            ext_to = tab.convertComboBox.currentText().split()[-1]
+            ext_to = tab.convertQCB.currentText().split()[-1]
 
         return '.' + ext_to
 
@@ -417,7 +403,7 @@ class MainWindow(QMainWindow):
         ext_to = self.output_ext()
         _list = utils.create_paths_list(
                 self.fnames, ext_to, self.prefix, self.suffix,
-                self.toLineEdit.text(), self.origCheckBox.isChecked(),
+                self.toQLE.text(), self.origQCB.isChecked(),
                 self.overwrite_existing
                 )
 
@@ -428,27 +414,27 @@ class MainWindow(QMainWindow):
         imgcmd = ''
 
         if tab.name == 'AudioVideo':
-            cmd = tab.commandLineEdit.text()
+            cmd = tab.commandQLE.text()
         elif tab.name == 'Images':
-            width = tab.widthLineEdit.text()
+            width = tab.widthQLE.text()
             if width:
-                height = tab.heightLineEdit.text()
+                height = tab.heightQLE.text()
                 size = '{0}x{1}'.format(width, height)
-                mntaspect = tab.imgaspectCheckBox.isChecked()
-            imgcmd = tab.commandLineEdit.text()
+                mntaspect = tab.imgaspectQChB.isChecked()
+            imgcmd = tab.commandQLE.text()
         else:
             self.docconv = True
 
         dialog = progress.Progress(
                 _list, tab.name, cmd, not self.avconv_prefered, size, mntaspect,
-                imgcmd, self.deleteCheckBox.isChecked(),self
+                imgcmd, self.deleteQCB.isChecked(), self
                 )
         dialog.show()
 
     def check_for_dependencies(self):
         """
         Check if each one of the program dependencies are installed and
-        update self.dependenciesLabel with the appropriate message.
+        update self.dependenciesQL with the appropriate message.
         """
         self.ffmpeg = utils.is_installed('ffmpeg')
         self.avconv = utils.is_installed('avconv')
@@ -466,7 +452,7 @@ class MainWindow(QMainWindow):
         if missing:
             missing = ', '.join(missing)
             status = self.tr('Missing dependencies:') + ' ' + missing
-            self.dependenciesLabel.setText(status)
+            self.dependenciesQL.setText(status)
 
     def about(self):
         """Call the about dialog with the appropriate values."""

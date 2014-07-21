@@ -40,64 +40,66 @@ class Preferences(QDialog):
                 'libvo_aacenc', 'wmav2', 'mp2', 'copy'
                 ]
 
-        saveLabel = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
-        exist_Label = QLabel(self.tr('Existing files:'))
-        exst_add_prefixRadioButton = QRadioButton(self.tr("Add '~' prefix"))
-        exst_overwriteRadioButton = QRadioButton(self.tr('Overwrite'))
+        saveQL = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
+        existQL = QLabel(self.tr('Existing files:'))
+        self.exst_prefixQRB = QRadioButton(self.tr("Add '~' prefix"))
+        self.exst_overwriteQRB = QRadioButton(self.tr('Overwrite'))
         exist_layout = utils.add_to_layout(
-                'h', exst_add_prefixRadioButton, exst_overwriteRadioButton)
+                'h', self.exst_prefixQRB, self.exst_overwriteQRB)
 
-        defaultLabel = QLabel(self.tr('Default output destination:'))
-        defaultLineEdit = QLineEdit()
-        defaultToolButton = QToolButton()
-        defaultToolButton.setText('...')
+        defaultQL = QLabel(self.tr('Default output destination:'))
+        self.defaultQLE = QLineEdit()
+        self.defaultQTB = QToolButton()
+        self.defaultQTB.setText('...')
         deafult_fol_layout = utils.add_to_layout(
-                'h', defaultLineEdit, defaultToolButton)
-        name_Label = QLabel('<html><b>' + self.tr('Name files') +'</b></html>')
-        prefixLabel = QLabel(self.tr('Prefix:'))
-        suffixLabel = QLabel(self.tr('Suffix:'))
-        prefixLineEdit = QLineEdit()
-        suffixLineEdit = QLineEdit()
+                'h', self.defaultQLE, self.defaultQTB)
+        nameQL = QLabel('<html><b>' + self.tr('Name files') +'</b></html>')
+        prefixQL = QLabel(self.tr('Prefix:'))
+        suffixQL = QLabel(self.tr('Suffix:'))
+        self.prefixQLE = QLineEdit()
+        self.suffixQLE = QLineEdit()
         grid = utils.add_to_grid(
-                [prefixLabel, prefixLineEdit], [suffixLabel, suffixLineEdit])
+                [prefixQL, self.prefixQLE], [suffixQL, self.suffixQLE])
         prefix_layout = utils.add_to_layout('h', grid, None)
 
         tabwidget1_layout = utils.add_to_layout(
-                'v', saveLabel,
-                QSpacerItem(14, 13), exist_Label, exist_layout,
-                QSpacerItem(14, 13), defaultLabel, deafult_fol_layout,
-                QSpacerItem(13, 13), name_Label, QSpacerItem(14, 13),
+                'v', saveQL,
+                QSpacerItem(14, 13), existQL, exist_layout,
+                QSpacerItem(14, 13), defaultQL, deafult_fol_layout,
+                QSpacerItem(13, 13), nameQL, QSpacerItem(14, 13),
                 prefix_layout, None
                 )
 
-        ffmpegLabel = QLabel('<html><b>' + self.tr('FFmpeg') +'</b></html>')
-        default_commandLabel = QLabel(self.tr('Default command:'))
-        commandLineEdit = QLineEdit()
-        useLabel = QLabel(self.tr('Use:'))
-        ffmpegRadioButton = QRadioButton(self.tr('FFmpeg'))
-        avconvRadioButton = QRadioButton(self.tr('avconv'))
+        ffmpegQL = QLabel('<html><b>' + self.tr('FFmpeg') +'</b></html>')
+        default_cmdQL = QLabel(self.tr('Default command:'))
+        self.cmdQLE = QLineEdit()
+        useQL = QLabel(self.tr('Use:'))
+        self.ffmpegQRB = QRadioButton(self.tr('FFmpeg'))
+        self.avconvQRB = QRadioButton(self.tr('avconv'))
 
-        hlayout = utils.add_to_layout('h', ffmpegRadioButton,avconvRadioButton)
+        hlayout = utils.add_to_layout('h', self.ffmpegQRB, self.avconvQRB)
 
-        vidcodecsLabel = QLabel(
+        vidcodecsQL = QLabel(
                 '<html><b>' + self.tr('Video codecs') +'</b></html>')
-        vidcodecsTextEdit = QPlainTextEdit()
-        audcodecsLabel = QLabel(
+        self.vidcodecsQPTE = QPlainTextEdit()
+        audcodecsQL = QLabel(
                 '<html><b>' + self.tr('Audio codecs') +'</b></html>')
-        audcodecsTextEdit = QPlainTextEdit()
+        self.audcodecsQPTE = QPlainTextEdit()
 
-        gridlayout = utils.add_to_grid([vidcodecsLabel, audcodecsLabel], [vidcodecsTextEdit, audcodecsTextEdit])
+        gridlayout = utils.add_to_grid(
+                [vidcodecsQL, audcodecsQL],
+                [self.vidcodecsQPTE, self.audcodecsQPTE])
 
-        defvidcodecsButton = QPushButton(self.tr("Default video codecs"))
-        defaudcodecsButton = QPushButton(self.tr("Default audio codecs"))
+        defvidcodecsQPB = QPushButton(self.tr("Default video codecs"))
+        defaudcodecsQPB = QPushButton(self.tr("Default audio codecs"))
 
         hlayout2 = utils.add_to_layout(
-                'h', None, defvidcodecsButton, defaudcodecsButton)
+                'h', None, defvidcodecsQPB, defaudcodecsQPB)
 
         tabwidget2_layout = utils.add_to_layout(
-                'v', ffmpegLabel, QSpacerItem(14, 13), useLabel,
-                hlayout, QSpacerItem(14, 13), default_commandLabel,
-                commandLineEdit, QSpacerItem(20, 20), gridlayout, hlayout2,
+                'v', ffmpegQL, QSpacerItem(14, 13), useQL,
+                hlayout, QSpacerItem(14, 13), default_cmdQL,
+                self.cmdQLE, QSpacerItem(20, 20), gridlayout, hlayout2,
                 None
                 )
 
@@ -115,25 +117,11 @@ class Preferences(QDialog):
         final_layout = utils.add_to_layout('v', tabWidget, None, buttonBox)
         self.setLayout(final_layout)
 
-        defaultToolButton.clicked.connect(self.open_dir)
+        self.defaultQTB.clicked.connect(self.open_dir)
         buttonBox.accepted.connect(self.save_settings)
         buttonBox.rejected.connect(self.reject)
-        defvidcodecsButton.clicked.connect(self.set_default_videocodecs)
-        defaudcodecsButton.clicked.connect(self.set_default_audiocodecs)
-
-        #aliasing
-        self.exst_add_prefixRadioButton = exst_add_prefixRadioButton
-        self.exst_overwriteRadioButton = exst_overwriteRadioButton
-        self.defaultLineEdit = defaultLineEdit
-        self.defaultToolButton = defaultToolButton
-        self.prefixLineEdit = prefixLineEdit
-        self.suffixLineEdit = suffixLineEdit
-        self.commandLineEdit = commandLineEdit
-        self.ffmpegRadioButton = ffmpegRadioButton
-        self.avconvRadioButton = avconvRadioButton
-        self.buttonBox = buttonBox
-        self.vidcodecsTextEdit = vidcodecsTextEdit
-        self.audcodecsTextEdit = audcodecsTextEdit
+        defvidcodecsQPB.clicked.connect(self.set_default_videocodecs)
+        defaudcodecsQPB.clicked.connect(self.set_default_audiocodecs)
 
         self.resize(400, 480)
         self.setWindowTitle(self.tr('Preferences'))
@@ -155,70 +143,70 @@ class Preferences(QDialog):
 
         # QSettings.value() returns str() in python3, not QVariant() as in p2
         if overwrite_existing:
-            self.exst_overwriteRadioButton.setChecked(True)
+            self.exst_overwriteQRB.setChecked(True)
         else:
-            self.exst_add_prefixRadioButton.setChecked(True)
+            self.exst_prefixQRB.setChecked(True)
         if default_output:
-            self.defaultLineEdit.setText(default_output)
+            self.defaultQLE.setText(default_output)
         if prefix:
-            self.prefixLineEdit.setText(prefix)
+            self.prefixQLE.setText(prefix)
         if suffix:
-            self.suffixLineEdit.setText(suffix)
+            self.suffixQLE.setText(suffix)
         if avconv_prefered:
-            self.avconvRadioButton.setChecked(True)
+            self.avconvQRB.setChecked(True)
         else:
-            self.ffmpegRadioButton.setChecked(True)
+            self.ffmpegQRB.setChecked(True)
         if default_command:
-            self.commandLineEdit.setText(default_command)
+            self.cmdQLE.setText(default_command)
         else:
-            self.commandLineEdit.setText(config.default_ffmpeg_cmd)
+            self.cmdQLE.setText(config.default_ffmpeg_cmd)
 
         if not self.test and not self.parent.ffmpeg:
-            self.avconvRadioButton.setChecked(True)
-            self.ffmpegRadioButton.setEnabled(False)
+            self.avconvQRB.setChecked(True)
+            self.ffmpegQRB.setEnabled(False)
         if not self.test and not self.parent.avconv:
-            self.ffmpegRadioButton.setChecked(True)
-            self.avconvRadioButton.setEnabled(False)
+            self.ffmpegQRB.setChecked(True)
+            self.avconvQRB.setEnabled(False)
 
         if not videocodecs:
             self.set_default_videocodecs()
         else:
-            self.vidcodecsTextEdit.setPlainText(videocodecs)
+            self.vidcodecsQPTE.setPlainText(videocodecs)
         if not audiocodecs:
             self.set_default_audiocodecs
         else:
-            self.audcodecsTextEdit.setPlainText(audiocodecs)
+            self.audcodecsQPTE.setPlainText(audiocodecs)
 
     def set_default_videocodecs(self):
-        self.vidcodecsTextEdit.setPlainText("\n".join(self.default_videocodecs))
+        self.vidcodecsQPTE.setPlainText("\n".join(self.default_videocodecs))
 
     def set_default_audiocodecs(self):
-        self.audcodecsTextEdit.setPlainText("\n".join(self.default_audiocodecs))
+        self.audcodecsQPTE.setPlainText("\n".join(self.default_audiocodecs))
 
     def open_dir(self):
         """Get a directory name using a standard Qt dialog and update
-        self.defaultLineEdit with dir's name."""
-        if self.defaultLineEdit.isEnabled():
+        self.defaultQLE with dir's name."""
+        if self.defaultQLE.isEnabled():
             _dir = QFileDialog.getExistingDirectory(
                     self, 'FF Multi Converter - ' +
                     self.tr('Choose default output destination'), config.home
                     )
             if _dir:
-                self.defaultLineEdit.setText(_dir)
+                self.defaultQLE.setText(_dir)
 
     def save_settings(self):
         """Set settings values, extracting the appropriate information from
         the graphical widgets."""
         # remove empty codecs
         videocodecs = []
-        for i in self.vidcodecsTextEdit.toPlainText().split("\n"):
+        for i in self.vidcodecsQPTE.toPlainText().split("\n"):
             i = i.strip()
             if i:
                 videocodecs.append(i)
         videocodecs = "\n".join(videocodecs)
 
         audiocodecs = []
-        for i in self.audcodecsTextEdit.toPlainText().split("\n"):
+        for i in self.audcodecsQPTE.toPlainText().split("\n"):
             i = i.strip()
             if i:
                 audiocodecs.append(i)
@@ -226,17 +214,17 @@ class Preferences(QDialog):
 
         settings = QSettings()
         settings.setValue(
-                'overwrite_existing', self.exst_overwriteRadioButton.isChecked())
+                'overwrite_existing', self.exst_overwriteQRB.isChecked())
         settings.setValue(
-                'default_output', self.defaultLineEdit.text())
+                'default_output', self.defaultQLE.text())
         settings.setValue(
-                'prefix', self.prefixLineEdit.text())
+                'prefix', self.prefixQLE.text())
         settings.setValue(
-                'suffix', self.suffixLineEdit.text())
+                'suffix', self.suffixQLE.text())
         settings.setValue(
-                'avconv_prefered', self.avconvRadioButton.isChecked())
+                'avconv_prefered', self.avconvQRB.isChecked())
         settings.setValue(
-                'default_command', self.commandLineEdit.text())
+                'default_command', self.cmdQLE.text())
         settings.setValue(
                 'videocodecs', videocodecs)
         settings.setValue(

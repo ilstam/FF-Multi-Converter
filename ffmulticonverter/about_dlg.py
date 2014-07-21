@@ -28,25 +28,25 @@ class AboutDialog(QDialog):
         self.authors = authors
         self.translators = translators
 
-        imageLabel = QLabel()
-        imageLabel.setMaximumSize(QSize(63, 61))
-        imageLabel.setPixmap(QPixmap(image))
-        imageLabel.setScaledContents(True)
-        textLabel = QLabel()
-        textLabel.setText(text)
-        textLabel.setOpenExternalLinks(True)
-        creditsButton = QPushButton(self.tr('C&redits'))
-        closeButton = QPushButton(self.tr('&Close'))
+        imageQL = QLabel()
+        imageQL.setMaximumSize(QSize(63, 61))
+        imageQL.setPixmap(QPixmap(image))
+        imageQL.setScaledContents(True)
+        textQL = QLabel()
+        textQL.setText(text)
+        textQL.setOpenExternalLinks(True)
+        creditsQPB = QPushButton(self.tr('C&redits'))
+        closeQPB = QPushButton(self.tr('&Close'))
 
-        vlayout1 = utils.add_to_layout('v', imageLabel, None)
-        hlayout1 = utils.add_to_layout('h', vlayout1, textLabel)
-        hlayout2 = utils.add_to_layout('h', creditsButton, None, closeButton)
+        vlayout1 = utils.add_to_layout('v', imageQL, None)
+        hlayout1 = utils.add_to_layout('h', vlayout1, textQL)
+        hlayout2 = utils.add_to_layout('h', creditsQPB, None, closeQPB)
         fin_layout = utils.add_to_layout('v', hlayout1, hlayout2)
 
         self.setLayout(fin_layout)
 
-        closeButton.clicked.connect(self.close)
-        creditsButton.clicked.connect(self.show_credits)
+        closeQPB.clicked.connect(self.close)
+        creditsQPB.clicked.connect(self.show_credits)
 
         self.resize(455, 200)
         self.setWindowTitle(self.tr('About FF Multi Converter'))
@@ -69,13 +69,13 @@ class CreditsDialog(QDialog):
         TabWidget = QTabWidget()
         TabWidget.addTab(authorsLabel, self.tr('Written by'))
         TabWidget.addTab(translatorsLabel, self.tr('Translated by'))
-        closeButton = QPushButton(self.tr('&Close'))
+        closeQPB = QPushButton(self.tr('&Close'))
 
-        hlayout = utils.add_to_layout('h', None, closeButton)
+        hlayout = utils.add_to_layout('h', None, closeQPB)
         vlayout = utils.add_to_layout('v', TabWidget, hlayout)
 
         self.setLayout(vlayout)
-        closeButton.clicked.connect(self.close)
+        closeQPB.clicked.connect(self.close)
 
         self.setMinimumSize(QSize(335, 370))
         self.setMaximumSize(QSize(335, 370))

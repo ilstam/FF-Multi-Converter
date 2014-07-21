@@ -63,88 +63,87 @@ class AudioVideoTab(QWidget):
                 ]
         validator = QRegExpValidator(QRegExp(r'^[1-9]\d*'), self)
 
-        converttoLabel = QLabel(self.tr('Convert to:'))
-        extComboBox = QComboBox()
-        extComboBox.addItems(self.formats + [other])
-        extComboBox.setMinimumWidth(130)
-        vidcodecLabel = QLabel('Video codec:')
-        vidcodecComboBox = QComboBox()
-        audcodecLabel = QLabel('Audio codec:')
-        audcodecComboBox = QComboBox()
+        converttoQL = QLabel(self.tr('Convert to:'))
+        self.extQCB = QComboBox()
+        self.extQCB.addItems(self.formats + [other])
+        self.extQCB.setMinimumWidth(130)
+        vidcodecQL = QLabel('Video codec:')
+        self.vidcodecQCB = QComboBox()
+        audcodecQL = QLabel('Audio codec:')
+        self.audcodecQCB = QComboBox()
 
         hlayout1 = utils.add_to_layout(
-                'h', converttoLabel, extComboBox, QSpacerItem(150, 20),
-                vidcodecLabel, vidcodecComboBox, audcodecLabel,
-                audcodecComboBox)
+                'h', converttoQL, self.extQCB, QSpacerItem(150, 20),
+                vidcodecQL, self.vidcodecQCB, audcodecQL, self.audcodecQCB)
 
-        commandLabel = QLabel(self.tr('Command:'))
-        commandLineEdit = QLineEdit()
-        presetButton = QPushButton(self.tr('Preset'))
-        defaultButton = QPushButton(self.defaultStr)
+        commandQL = QLabel(self.tr('Command:'))
+        self.commandQLE = QLineEdit()
+        self.presetQPB = QPushButton(self.tr('Preset'))
+        self.defaultQPB = QPushButton(self.defaultStr)
         hlayout2 = utils.add_to_layout(
-                'h', commandLabel, commandLineEdit, presetButton, defaultButton)
+                'h', commandQL, self.commandQLE, self.presetQPB,
+                self.defaultQPB)
 
-        sizeLabel = QLabel(self.tr('Video Size:'))
-        aspectLabel = QLabel(self.tr('Aspect:'))
-        frameLabel = QLabel(self.tr('Frame Rate (fps):'))
-        bitrateLabel = QLabel(self.tr('Video Bitrate (kbps):'))
+        sizeQL = QLabel(self.tr('Video Size:'))
+        aspectQL = QLabel(self.tr('Aspect:'))
+        frameQL = QLabel(self.tr('Frame Rate (fps):'))
+        bitrateQL = QLabel(self.tr('Video Bitrate (kbps):'))
 
-        widthLineEdit = utils.create_LineEdit((70, 16777215), validator, 4)
-        heightLineEdit = utils.create_LineEdit((70, 16777215), validator, 4)
+        self.widthQLE = utils.create_LineEdit((70, 16777215), validator, 4)
+        self.heightQLE = utils.create_LineEdit((70, 16777215), validator, 4)
         label = QLabel('<html><p align="center">x</p></html>')
-        layout1 = utils.add_to_layout('h', widthLineEdit, label, heightLineEdit)
-        aspect1LineEdit = utils.create_LineEdit((50, 16777215), validator, 2)
-        aspect2LineEdit = utils.create_LineEdit((50, 16777215), validator, 2)
+        layout1 = utils.add_to_layout('h', self.widthQLE, label,self.heightQLE)
+        self.aspect1QLE = utils.create_LineEdit((50, 16777215), validator, 2)
+        self.aspect2QLE = utils.create_LineEdit((50, 16777215), validator, 2)
         label = QLabel('<html><p align="center">:</p></html>')
         layout2 = utils.add_to_layout(
-                'h', aspect1LineEdit, label, aspect2LineEdit)
-        frameLineEdit = utils.create_LineEdit((120, 16777215), validator, 4)
-        bitrateLineEdit = utils.create_LineEdit((130, 16777215), validator, 6)
+                'h', self.aspect1QLE, label, self.aspect2QLE)
+        self.frameQLE = utils.create_LineEdit((120, 16777215), validator, 4)
+        self.bitrateQLE = utils.create_LineEdit((130, 16777215), validator, 6)
 
-        labels = [sizeLabel, aspectLabel, frameLabel, bitrateLabel]
-        widgets = [layout1, layout2, frameLineEdit, bitrateLineEdit]
+        labels = [sizeQL, aspectQL, frameQL, bitrateQL]
+        widgets = [layout1, layout2, self.frameQLE, self.bitrateQLE]
 
-        preserveaspectCheckBox = QCheckBox(self.tr("Preserve aspect ratio"))
-        preservesizeCheckBox = QCheckBox(self.tr("Preserve video size"))
+        self.preserveaspectQChB = QCheckBox(self.tr("Preserve aspect ratio"))
+        self.preservesizeQChB = QCheckBox(self.tr("Preserve video size"))
 
         preserve_layout = utils.add_to_layout(
-                'v', preserveaspectCheckBox, preservesizeCheckBox)
+                'v', self.preserveaspectQChB, self.preservesizeQChB)
 
         videosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
             a.setText('<html><p align="center">{0}</p></html>'.format(a.text()))
             layout = utils.add_to_layout('v', a, b)
             videosettings_layout.addLayout(layout)
-            if a == aspectLabel:
-                # add vidaspectCB in layout after aspectLabel
+            if a == aspectQL:
+                # add vidaspectCB in layout after aspectQL
                 videosettings_layout.addLayout(preserve_layout)
 
-        freqLabel = QLabel(self.tr('Frequency (Hz):'))
-        chanLabel = QLabel(self.tr('Audio Channels:'))
-        bitrateLabel = QLabel(self.tr('Audio Bitrate (kbps):'))
-        threadsLabel = QLabel('Threads:')
+        freqQL = QLabel(self.tr('Frequency (Hz):'))
+        chanQL = QLabel(self.tr('Audio Channels:'))
+        bitrateQL = QLabel(self.tr('Audio Bitrate (kbps):'))
+        threadsQL = QLabel('Threads:')
 
-        freqComboBox = QComboBox()
-        freqComboBox.addItems(frequency_values)
-        chan1RadioButton = QRadioButton('1')
-        chan1RadioButton.setMaximumSize(QSize(51, 16777215))
-        chan2RadioButton = QRadioButton('2')
-        chan2RadioButton.setMaximumSize(QSize(51, 16777215))
+        self.freqQCB = QComboBox()
+        self.freqQCB.addItems(frequency_values)
+        self.chan1QRB = QRadioButton('1')
+        self.chan1QRB.setMaximumSize(QSize(51, 16777215))
+        self.chan2QRB = QRadioButton('2')
+        self.chan2QRB.setMaximumSize(QSize(51, 16777215))
         self.group = QButtonGroup()
-        self.group.addButton(chan1RadioButton)
-        self.group.addButton(chan2RadioButton)
+        self.group.addButton(self.chan1QRB)
+        self.group.addButton(self.chan2QRB)
         spcr1 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         spcr2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         chanlayout = utils.add_to_layout(
-                'h', spcr1, chan1RadioButton, chan2RadioButton, spcr2)
-        audio_bitrateComboBox = QComboBox()
-        audio_bitrateComboBox.addItems(bitrate_values)
+                'h', spcr1, self.chan1QRB, self.chan2QRB, spcr2)
+        self.audbitrateQCB = QComboBox()
+        self.audbitrateQCB.addItems(bitrate_values)
         validator = QRegExpValidator(QRegExp(r'^[0-9]'), self)
-        threadsLineEdit = utils.create_LineEdit((50, 16777215), validator, None)
+        self.threadsQLE = utils.create_LineEdit((50, 16777215), validator, None)
 
-        labels = [freqLabel, bitrateLabel, chanLabel, threadsLabel]
-        widgets = [freqComboBox, audio_bitrateComboBox, chanlayout,
-                threadsLineEdit]
+        labels = [freqQL, bitrateQL, chanQL, threadsQL]
+        widgets = [self.freqQCB, self.audbitrateQCB, chanlayout,self.threadsQLE]
 
         audiosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
@@ -153,27 +152,26 @@ class AudioVideoTab(QWidget):
             audiosettings_layout.addLayout(layout)
 
         time_format = " (hh:mm:ss):"
-        beginLabel = QLabel(self.tr("Split file. Begin time") + time_format)
-        beginLineEdit = QLineEdit()
-        durationLabel = QLabel(self.tr("Duration") + time_format)
-        durationLineEdit = QLineEdit()
+        beginQL = QLabel(self.tr("Split file. Begin time") + time_format)
+        self.beginQLE = QLineEdit()
+        durationQL = QLabel(self.tr("Duration") + time_format)
+        self.duratioinQLE = QLineEdit()
 
         hlayout4 = utils.add_to_layout(
-                'h',  beginLabel, beginLineEdit, durationLabel,
-                durationLineEdit)
+                'h',  beginQL, self.beginQLE, durationQL, self.duratioinQLE)
 
-        embedLabel = QLabel(self.tr("Embed subtitle:"))
-        embedLineEdit = QLineEdit()
-        embedLineEdit.setReadOnly(True)
+        embedQL = QLabel(self.tr("Embed subtitle:"))
+        self.embedQLE = QLineEdit()
+        self.embedQLE.setReadOnly(True)
         embedToolButton = QToolButton()
         embedToolButton.setText("...")
 
-        rotateLabel = QLabel(self.tr("Rotation:"))
-        rotateComboBox = QComboBox()
-        rotateComboBox.addItems(rotation_options)
+        rotateQL = QLabel(self.tr("Rotation:"))
+        self.rotateQCB = QComboBox()
+        self.rotateQCB.addItems(rotation_options)
 
         hlayout5 = utils.add_to_layout(
-                'h', rotateLabel, rotateComboBox, embedLabel, embedLineEdit,
+                'h', rotateQL, self.rotateQCB, embedQL, self.embedQLE,
                 embedToolButton)
 
         hidden_layout = utils.add_to_layout(
@@ -183,10 +181,10 @@ class AudioVideoTab(QWidget):
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
-        moreButton = QPushButton(QApplication.translate('Tab', 'More'))
-        moreButton.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
-        moreButton.setCheckable(True)
-        hlayout3 = utils.add_to_layout('h', line, moreButton)
+        self.moreQPB = QPushButton(QApplication.translate('Tab', 'More'))
+        self.moreQPB.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
+        self.moreQPB.setCheckable(True)
+        hlayout3 = utils.add_to_layout('h', line, self.moreQPB)
 
         self.frame = QFrame()
         self.frame.setLayout(hidden_layout)
@@ -198,70 +196,42 @@ class AudioVideoTab(QWidget):
                 'v', hlayout1, hlayout2, hlayout3, self.frame)
         self.setLayout(final_layout)
 
-        presetButton.clicked.connect(self.choose_preset)
-        defaultButton.clicked.connect(self.set_default_command)
-        moreButton.toggled.connect(self.frame.setVisible)
-        moreButton.toggled.connect(self.resize_parent)
-        preserveaspectCheckBox.toggled.connect(
-                lambda: aspect1LineEdit.setEnabled(
-                        not preserveaspectCheckBox.isChecked())
-                )
-        preserveaspectCheckBox.toggled.connect(
-                lambda: aspect2LineEdit.setEnabled(
-                        not preserveaspectCheckBox.isChecked())
-                )
-        widthLineEdit.textChanged.connect(
+        self.presetQPB.clicked.connect(self.choose_preset)
+        self.defaultQPB.clicked.connect(self.set_default_command)
+        self.moreQPB.toggled.connect(self.frame.setVisible)
+        self.moreQPB.toggled.connect(self.resize_parent)
+        self.preserveaspectQChB.toggled.connect(
+                lambda: self.aspect1QLE.setEnabled(
+                        not self.preserveaspectQChB.isChecked()))
+        self.preserveaspectQChB.toggled.connect(
+                lambda: self.aspect2QLE.setEnabled(
+                        not self.preserveaspectQChB.isChecked()))
+        self.widthQLE.textChanged.connect(
                 lambda: self.command_elements_change('size'))
-        heightLineEdit.textChanged.connect(
+        self.heightQLE.textChanged.connect(
                 lambda: self.command_elements_change('size'))
-        aspect1LineEdit.textChanged.connect(
+        self.aspect1QLE.textChanged.connect(
                 lambda: self.command_elements_change('aspect'))
-        aspect2LineEdit.textChanged.connect(
+        self.aspect2QLE.textChanged.connect(
                 lambda: self.command_elements_change('aspect'))
-        frameLineEdit.textChanged.connect(
+        self.frameQLE.textChanged.connect(
                 lambda: self.command_elements_change('frames'))
-        bitrateLineEdit.textChanged.connect(
+        self.bitrateQLE.textChanged.connect(
                 lambda: self.command_elements_change('video_bitrate'))
-        freqComboBox.currentIndexChanged.connect(
+        self.freqQCB.currentIndexChanged.connect(
                 lambda: self.command_elements_change('frequency'))
-        audio_bitrateComboBox.currentIndexChanged.connect(
+        self.audbitrateQCB.currentIndexChanged.connect(
                 lambda: self.command_elements_change('audio_bitrate'))
-        chan1RadioButton.clicked.connect(
+        self.chan1QRB.clicked.connect(
                 lambda: self.command_elements_change('channels1'))
-        chan2RadioButton.clicked.connect(
+        self.chan2QRB.clicked.connect(
                 lambda: self.command_elements_change('channels2'))
 
-        #aliasing
-        self.extComboBox = extComboBox
-        self.vidcodecComboBox = vidcodecComboBox
-        self.audcodecComboBox = audcodecComboBox
-        self.commandLineEdit = commandLineEdit
-        self.presetButton = presetButton
-        self.defaultButton = defaultButton
-        self.widthLineEdit = widthLineEdit
-        self.heightLineEdit = heightLineEdit
-        self.aspect1LineEdit = aspect1LineEdit
-        self.aspect2LineEdit = aspect2LineEdit
-        self.frameLineEdit = frameLineEdit
-        self.bitrateLineEdit = bitrateLineEdit
-        self.preserveaspectCheckBox = preserveaspectCheckBox
-        self.preservesizeCheckBox = preservesizeCheckBox
-        self.freqComboBox = freqComboBox
-        self.chan1RadioButton = chan1RadioButton
-        self.chan2RadioButton = chan2RadioButton
-        self.audio_bitrateComboBox = audio_bitrateComboBox
-        self.threadsLineEdit = threadsLineEdit
-        self.moreButton = moreButton
-        self.beginLineEdit = beginLineEdit
-        self.durationLineEdit = durationLineEdit
-        self.embedLineEdit = embedLineEdit
-        self.rotateComboBox = rotateComboBox
-
     def fill_codecs_comboboxes(self, videocodecs, audiocodecs):
-        self.vidcodecComboBox.clear()
-        self.audcodecComboBox.clear()
-        self.vidcodecComboBox.addItems([self.defaultStr] + videocodecs)
-        self.audcodecComboBox.addItems([self.defaultStr] + audiocodecs)
+        self.vidcodecQCB.clear()
+        self.audcodecQCB.clear()
+        self.vidcodecQCB.addItems([self.defaultStr] + videocodecs)
+        self.audcodecQCB.addItems([self.defaultStr] + audiocodecs)
 
     def resize_parent(self):
         """Resize MainWindow."""
@@ -275,24 +245,24 @@ class AudioVideoTab(QWidget):
     def clear(self):
         """Clear all values of graphical widgets."""
         lines = [
-                self.commandLineEdit, self.widthLineEdit, self.heightLineEdit,
-                self.aspect1LineEdit, self.aspect2LineEdit, self.frameLineEdit,
-                self.bitrateLineEdit, self.threadsLineEdit, self.beginLineEdit,
-                self.embedLineEdit, self.durationLineEdit
+                self.commandQLE, self.widthQLE, self.heightQLE,
+                self.aspect1QLE, self.aspect2QLE, self.frameQLE,
+                self.bitrateQLE, self.threadsQLE, self.beginQLE,
+                self.embedQLE, self.duratioinQLE
                 ]
         for i in lines:
             i.clear()
 
-        self.vidcodecComboBox.setCurrentIndex(0)
-        self.audcodecComboBox.setCurrentIndex(0)
-        self.freqComboBox.setCurrentIndex(0)
-        self.audio_bitrateComboBox.setCurrentIndex(0)
-        self.rotateComboBox.setCurrentIndex(0)
-        self.preserveaspectCheckBox.setChecked(False)
-        self.preservesizeCheckBox.setChecked(False)
+        self.vidcodecQCB.setCurrentIndex(0)
+        self.audcodecQCB.setCurrentIndex(0)
+        self.freqQCB.setCurrentIndex(0)
+        self.audbitrateQCB.setCurrentIndex(0)
+        self.rotateQCB.setCurrentIndex(0)
+        self.preserveaspectQChB.setChecked(False)
+        self.preservesizeQChB.setChecked(False)
         self.group.setExclusive(False)
-        self.chan1RadioButton.setChecked(False)
-        self.chan2RadioButton.setChecked(False)
+        self.chan1QRB.setChecked(False)
+        self.chan2QRB.setChecked(False)
         self.group.setExclusive(True)
         # setExclusive(False) in order to be able to uncheck checkboxes and
         # then setExclusive(True) so only one radio button can be set
@@ -315,30 +285,30 @@ class AudioVideoTab(QWidget):
         return True
 
     def set_default_command(self):
-        """Set the default value to self.commandLineEdit."""
+        """Set the default value to self.commandQLE."""
         self.clear()
-        self.commandLineEdit.setText(self.parent.default_command)
+        self.commandQLE.setText(self.parent.default_command)
 
     def choose_preset(self):
         """
-        Open the presets dialog and update self.commandLineEdit,
-        and self.extComboBox and with the appropriate values.
+        Open the presets dialog and update self.commandQLE,
+        and self.extQCB and with the appropriate values.
         """
         dialog = presets_dlgs.ShowPresets()
         if dialog.exec_() and dialog.the_command is not None:
-            self.commandLineEdit.setText(dialog.the_command)
-            self.commandLineEdit.home(False)
-            find = self.extComboBox.findText(dialog.the_extension)
+            self.commandQLE.setText(dialog.the_command)
+            self.commandQLE.home(False)
+            find = self.extQCB.findText(dialog.the_extension)
             if find >= 0:
-                self.extComboBox.setCurrentIndex(find)
+                self.extQCB.setCurrentIndex(find)
 
     def command_elements_change(self, widget):
-        """Fill self.commandLineEdit with the appropriate command parameters."""
-        command = self.commandLineEdit.text()
+        """Fill self.commandQLE with the appropriate command parameters."""
+        command = self.commandQLE.text()
 
         if widget == 'size':
-            text1 = self.widthLineEdit.text()
-            text2 = self.heightLineEdit.text()
+            text1 = self.widthQLE.text()
+            text2 = self.heightQLE.text()
 
             if (text1 or text2) and not (text1 and text2):
                 return
@@ -349,8 +319,8 @@ class AudioVideoTab(QWidget):
                 command += ' -s {0}x{1}'.format(text1, text2)
 
         elif widget == 'aspect':
-            text1 = self.aspect1LineEdit.text()
-            text2 = self.aspect2LineEdit.text()
+            text1 = self.aspect1QLE.text()
+            text2 = self.aspect2QLE.text()
 
             if (text1 or text2) and not (text1 and text2):
                 return
@@ -361,7 +331,7 @@ class AudioVideoTab(QWidget):
                 command += ' -aspect {0}:{1}'.format(text1, text2)
 
         elif widget == 'frames':
-            text = self.frameLineEdit.text()
+            text = self.frameQLE.text()
             f = re.sub(r'^.*(-r\s+\d+).*$', r'\1', command)
             if re.match(r'^.*(-r\s+\d+).*$', f):
                 command = command.replace(f, '').strip()
@@ -369,7 +339,7 @@ class AudioVideoTab(QWidget):
                 command += ' -r {0}'.format(text)
 
         elif widget == 'video_bitrate':
-            text = self.bitrateLineEdit.text()
+            text = self.bitrateQLE.text()
             f = re.sub(r'^.*(-b\s+\d+k).*$', r'\1', command)
             if re.match(r'^.*(-b\s+\d+k).*$', f):
                 command = command.replace(f, '')
@@ -378,7 +348,7 @@ class AudioVideoTab(QWidget):
             command = command.replace('-sameq', '').strip()
 
         elif widget == 'frequency':
-            text = self.freqComboBox.currentText()
+            text = self.freqQCB.currentText()
             f = re.sub(r'^.*(-ar\s+\d+).*$', r'\1', command)
             if re.match(r'^.*(-ar\s+\d+).*$', f):
                 command = command.replace(f, '').strip()
@@ -386,7 +356,7 @@ class AudioVideoTab(QWidget):
                 command += ' -ar {0}'.format(text)
 
         elif widget == 'audio_bitrate':
-            text = self.audio_bitrateComboBox.currentText()
+            text = self.audbitrateQCB.currentText()
             f = re.sub(r'^.*(-ab\s+\d+k).*$', r'\1', command)
             if re.match(r'^.*(-ab\s+\d+k).*$', f):
                 command = command.replace(f, '').strip()
@@ -395,14 +365,14 @@ class AudioVideoTab(QWidget):
 
         elif widget in ('channels1', 'channels2'):
             if widget == 'channels1':
-                text = self.chan1RadioButton.text()
+                text = self.chan1QRB.text()
             else:
-                text = self.chan2RadioButton.text()
+                text = self.chan2QRB.text()
 
             f = re.sub(r'^.*(-ac\s+\d+).*$', r'\1', command)
             if re.match(r'^.*(-ac\s+\d+).*$', f):
                 command = command.replace(f, '').strip()
             command += ' -ac {0}'.format(text)
 
-        self.commandLineEdit.clear()
-        self.commandLineEdit.setText(utils.remove_consecutive_spaces(command))
+        self.commandQLE.clear()
+        self.commandQLE.setText(utils.remove_consecutive_spaces(command))

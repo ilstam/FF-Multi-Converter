@@ -35,71 +35,61 @@ class ShowPresets(QDialog):
                 config.presets_file_name)
         self.current_presets_file = config.presets_file
 
-        presListWidget = QListWidget()
-        labelLabel = QLabel(self.tr('Preset label'))
-        labelLineEdit = QLineEdit()
-        labelLineEdit.setReadOnly(True)
-        commandLabel = QLabel(self.tr('Preset command line parameters'))
-        commandLineEdit = QLineEdit()
-        commandLineEdit.setReadOnly(True)
-        extLabel = QLabel(self.tr('Output file extension'))
-        extLineEdit = QLineEdit()
-        extLineEdit.setReadOnly(True)
-        addButton = QPushButton(self.tr('Add'))
-        deleteButton = QPushButton(self.tr('Delete'))
-        delete_allButton = QPushButton(self.tr('Delete all'))
-        editButton = QPushButton(self.tr('Edit'))
-        searchLabel = QLabel(self.tr('Search'))
-        searchLineEdit = QLineEdit()
-        okButton = QPushButton(self.tr('OK'))
-        okButton.setDefault(True)
+        self.presQLW = QListWidget()
+        labelQL = QLabel(self.tr('Preset label'))
+        self.labelQLE = QLineEdit()
+        self.labelQLE.setReadOnly(True)
+        commandQL = QLabel(self.tr('Preset command line parameters'))
+        self.commandQLE = QLineEdit()
+        self.commandQLE.setReadOnly(True)
+        extQL = QLabel(self.tr('Output file extension'))
+        self.extQLE = QLineEdit()
+        self.extQLE.setReadOnly(True)
+        addQPB = QPushButton(self.tr('Add'))
+        self.deleteQPB = QPushButton(self.tr('Delete'))
+        self.delete_allQPB = QPushButton(self.tr('Delete all'))
+        self.editQPB = QPushButton(self.tr('Edit'))
+        searchQL = QLabel(self.tr('Search'))
+        self.searchQLE = QLineEdit()
+        okQPB = QPushButton(self.tr('OK'))
+        okQPB.setDefault(True)
 
         spc1 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         spc2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         spc3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         grid = utils.add_to_grid(
-                [delete_allButton, addButton, spc1],
-                [deleteButton, editButton, spc2]
+                [self.delete_allQPB, addQPB, spc1],
+                [self.deleteQPB, self.editQPB, spc2]
                 )
 
         hlayout = utils.add_to_layout(
-                'h', searchLabel, searchLineEdit, None, okButton)
+                'h', searchQL, self.searchQLE, None, okQPB)
 
         final_layout = utils.add_to_layout(
-                'v', presListWidget, labelLabel, labelLineEdit, commandLabel,
-                commandLineEdit, extLabel, extLineEdit, grid, spc3, hlayout
+                'v', self.presQLW, labelQL, self.labelQLE, commandQL,
+                self.commandQLE, extQL, self.extQLE, grid, spc3, hlayout
                 )
 
         self.setLayout(final_layout)
 
-        okButton.clicked.connect(self.accept)
-        presListWidget.currentRowChanged.connect(self.show_preset)
-        addButton.clicked.connect(self.add_preset)
-        deleteButton.clicked.connect(self.delete_preset)
-        delete_allButton.clicked.connect(self.delete_all_presets)
-        editButton.clicked.connect(self.edit_preset)
-        searchLineEdit.textEdited.connect(self.search)
+        okQPB.clicked.connect(self.accept)
+        self.presQLW.currentRowChanged.connect(self.show_preset)
+        addQPB.clicked.connect(self.add_preset)
+        self.deleteQPB.clicked.connect(self.delete_preset)
+        self.delete_allQPB.clicked.connect(self.delete_all_presets)
+        self.editQPB.clicked.connect(self.edit_preset)
+        self.searchQLE.textEdited.connect(self.search)
 
         del_shortcut = QShortcut(self)
         del_shortcut.setKey(Qt.Key_Delete)
         del_shortcut.activated.connect(self.delete_preset)
 
-        #aliasing
-        self.presListWidget = presListWidget
-        self.labelLineEdit = labelLineEdit
-        self.commandLineEdit = commandLineEdit
-        self.extLineEdit = extLineEdit
-        self.deleteButton = deleteButton
-        self.delete_allButton = delete_allButton
-        self.editButton = editButton
-        self.searchLineEdit = searchLineEdit
-
         self.resize(430, 480)
         self.setWindowTitle(self.tr('Edit Presets'))
 
         QTimer.singleShot(0, self.load_xml)
-        QTimer.singleShot(0, self.fill_presListWidget)
+        QTimer.singleShot(0, self.fill_presQLW)
 
     def load_xml(self):
         """Load xml tree and set xml root."""
@@ -122,37 +112,37 @@ class ShowPresets(QDialog):
 
     def set_buttons_clear_lineEdits(self):
         """Enable or disable button's and clear lineEdits."""
-        enable = bool(self.presListWidget)
-        self.editButton.setEnabled(enable)
-        self.deleteButton.setEnabled(enable)
-        self.delete_allButton.setEnabled(enable)
+        enable = bool(self.presQLW)
+        self.editQPB.setEnabled(enable)
+        self.deleteQPB.setEnabled(enable)
+        self.delete_allQPB.setEnabled(enable)
         if not enable:
-            self.labelLineEdit.clear()
-            self.commandLineEdit.clear()
-            self.extLineEdit.clear()
+            self.labelQLE.clear()
+            self.commandQLE.clear()
+            self.extQLE.clear()
 
-    def fill_presListWidget(self):
-        """Clear self.presListWidget and to it presets' tags."""
-        self.presListWidget.clear()
+    def fill_presQLW(self):
+        """Clear self.presQLW and to it presets' tags."""
+        self.presQLW.clear()
         for i in sorted([y.tag for y in self.root]):
             elem = self.root.find(i)
-            self.presListWidget.addItem(utils.XmlListItem(i, elem))
+            self.presQLW.addItem(utils.XmlListItem(i, elem))
 
-        self.presListWidget.setCurrentRow(0)
+        self.presQLW.setCurrentRow(0)
         self.set_buttons_clear_lineEdits()
-        self.searchLineEdit.clear()
+        self.searchQLE.clear()
 
     def show_preset(self):
         """Fill LineEdits with current xml element's values."""
         try:
-            xml_elem = self.presListWidget.currentItem().xml_element
+            xml_elem = self.presQLW.currentItem().xml_element
         except AttributeError:
             return
 
-        self.labelLineEdit.setText(xml_elem[0].text)
-        self.commandLineEdit.setText(xml_elem[1].text)
-        self.commandLineEdit.home(False)
-        self.extLineEdit.setText(xml_elem[2].text)
+        self.labelQLE.setText(xml_elem[0].text)
+        self.commandQLE.setText(xml_elem[1].text)
+        self.commandQLE.home(False)
+        self.extQLE.setText(xml_elem[2].text)
 
     def add_preset(self):
         """Open AddorEditPreset() dialog and add a preset xml root."""
@@ -175,7 +165,7 @@ class ShowPresets(QDialog):
                     ).index(dialog.name_text)
             self.root.insert(index, element)
             self.save_tree()
-            self.fill_presListWidget()
+            self.fill_presQLW()
 
     def delete_preset(self):
         """
@@ -183,7 +173,7 @@ class ShowPresets(QDialog):
         If so, delete the preset from xml root.
         """
         try:
-            xml_elem = self.presListWidget.currentItem().xml_element
+            xml_elem = self.presQLW.currentItem().xml_element
         except AttributeError:
             return
 
@@ -194,7 +184,7 @@ class ShowPresets(QDialog):
         if reply == QMessageBox.Yes:
             self.root.remove(xml_elem)
             self.save_tree()
-            self.fill_presListWidget()
+            self.fill_presQLW()
 
     def delete_all_presets(self):
         """
@@ -207,11 +197,11 @@ class ShowPresets(QDialog):
         if reply == QMessageBox.Yes:
             self.root.clear()
             self.save_tree()
-            self.fill_presListWidget()
+            self.fill_presQLW()
 
     def edit_preset(self):
         """Call the AddorEditPreset() dialog and update xml element's values."""
-        elem = self.presListWidget.currentItem().xml_element
+        elem = self.presQLW.currentItem().xml_element
         dialog = AddorEditPreset(elem, True)
 
         if dialog.exec_():
@@ -220,7 +210,7 @@ class ShowPresets(QDialog):
             elem[1].text = dialog.command_text
             elem[2].text = dialog.ext_text
             self.save_tree()
-            self.fill_presListWidget()
+            self.fill_presQLW()
 
     def search(self):
         """
@@ -229,12 +219,12 @@ class ShowPresets(QDialog):
         Show a preset only if its tag, label or extension matches any of
         search string's tokens.
         """
-        txt = self.searchLineEdit.text().strip().lower()
+        txt = self.searchQLE.text().strip().lower()
         if not txt:
-            self.fill_presListWidget()
+            self.fill_presQLW()
             return
 
-        self.presListWidget.clear()
+        self.presQLW.clear()
         for i in txt.split(' '):
             for p in sorted([y.tag for y in self.root]):
                 elem = self.root.find(p)
@@ -242,9 +232,9 @@ class ShowPresets(QDialog):
                         i in elem.tag.lower()
                         or i in elem[0].text.lower()
                         or i in elem[2].text.lower())):
-                    self.presListWidget.addItem(utils.XmlListItem(p, elem))
+                    self.presQLW.addItem(utils.XmlListItem(p, elem))
 
-        self.presListWidget.setCurrentRow(0)
+        self.presQLW.setCurrentRow(0)
         self.set_buttons_clear_lineEdits()
 
     def save_tree(self):
@@ -369,10 +359,10 @@ class ShowPresets(QDialog):
         main program and close (accept) dialog.
         """
         self.the_command = None
-        if self.presListWidget:
-            self.the_command = self.presListWidget.currentItem()\
+        if self.presQLW:
+            self.the_command = self.presQLW.currentItem()\
                     .xml_element[1].text
-            self.the_extension = self.presListWidget.currentItem()\
+            self.the_extension = self.presQLW.currentItem()\
                     .xml_element[2].text
         QDialog.accept(self)
 
@@ -381,20 +371,20 @@ class AddorEditPreset(QDialog):
     def __init__(self, xml_element, edit=False, parent=None):
         super(AddorEditPreset, self).__init__(parent)
 
-        nameLabel = QLabel(self.tr('Preset name (one word, A-z, 0-9)'))
-        nameLineEdit = QLineEdit()
-        labelLabel = QLabel(self.tr('Preset label'))
-        labelLineEdit = QLineEdit()
-        commandLabel = QLabel(self.tr('Preset command line parameters'))
-        commandLineEdit = QLineEdit()
-        extLabel = QLabel(self.tr('Output file extension'))
-        extLineEdit = QLineEdit()
+        nameQL = QLabel(self.tr('Preset name (one word, A-z, 0-9)'))
+        self.nameQLE = QLineEdit()
+        labelQL = QLabel(self.tr('Preset label'))
+        self.labelQLE = QLineEdit()
+        commandQL = QLabel(self.tr('Preset command line parameters'))
+        self.commandQLE = QLineEdit()
+        extQL = QLabel(self.tr('Output file extension'))
+        self.extQLE = QLineEdit()
         buttonBox = QDialogButtonBox(
                 QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
 
         final_layout = utils.add_to_layout(
-                'v', nameLabel, nameLineEdit, labelLabel, labelLineEdit,
-                commandLabel, commandLineEdit, extLabel, extLineEdit, buttonBox
+                'v', nameQL, self.nameQLE, labelQL, self.labelQLE,
+                commandQL, self.commandQLE, extQL, self.extQLE, buttonBox
                 )
 
         self.setLayout(final_layout)
@@ -405,22 +395,15 @@ class AddorEditPreset(QDialog):
         self.resize(410, 280)
 
         if edit:
-            nameLineEdit.setText(xml_element.tag)
-            labelLineEdit.setText(xml_element[0].text)
-            commandLineEdit.setText(xml_element[1].text)
-            commandLineEdit.home(False)
-            extLineEdit.setText(xml_element[2].text)
+            self.nameQLE.setText(xml_element.tag)
+            self.labelQLE.setText(xml_element[0].text)
+            self.commandQLE.setText(xml_element[1].text)
+            self.commandQLE.home(False)
+            self.extQLE.setText(xml_element[2].text)
 
             title = self.tr('Edit {0}'.format(xml_element.tag))
         else:
             title = self.tr('Add preset')
-
-        #aliasing
-        self.nameLineEdit = nameLineEdit
-        self.labelLineEdit = labelLineEdit
-        self.commandLineEdit = commandLineEdit
-        self.extLineEdit = extLineEdit
-        self.buttonBox = buttonBox
 
         self.resize(410, 280)
         self.setWindowTitle(title)
@@ -435,17 +418,17 @@ class AddorEditPreset(QDialog):
 
         Return True if all tests pass, else False.
         """
-        self.name_text = self.nameLineEdit.text().strip()
-        self.label_text = self.labelLineEdit.text().strip()
-        self.command_text = self.commandLineEdit.text().strip()
-        self.ext_text = self.extLineEdit.text().strip()
+        self.name_text = self.nameQLE.text().strip()
+        self.label_text = self.labelQLE.text().strip()
+        self.command_text = self.commandQLE.text().strip()
+        self.ext_text = self.extQLE.text().strip()
 
         if not self.name_text:
             QMessageBox.warning(
                     self, 'Edit Preset - ' + self.tr('Error!'),
                     self.tr("Preset name can't be left blank.")
                     )
-            self.nameLineEdit.setFocus()
+            self.nameQLE.setFocus()
             return False
         if not re.match('^[A-Za-z0-9_]*$', self.name_text):
             QMessageBox.warning(
@@ -454,29 +437,29 @@ class AddorEditPreset(QDialog):
                     'Preset name must be one word and contain only letters '
                     'and digits.')
                     )
-            self.nameLineEdit.selectAll()
-            self.nameLineEdit.setFocus()
+            self.nameQLE.selectAll()
+            self.nameQLE.setFocus()
             return False
         if not self.label_text:
             QMessageBox.warning(
                     self, 'Edit Preset - ' + self.tr('Error!'),
                     self.tr("Preset label can't be left blank.")
                     )
-            self.labelLineEdit.setFocus()
+            self.labelQLE.setFocus()
             return False
         if not self.command_text:
             QMessageBox.warning(
                     self, 'Edit Preset - ' + self.tr('Error!'),
                     self.tr("Command label can't be left blank.")
                     )
-            self.commandLineEdit.setFocus()
+            self.commandQLE.setFocus()
             return False
         if not self.ext_text:
             QMessageBox.warning(
                     self, 'Edit Preset - ' + self.tr('Error!'),
                     self.tr("Extension label can't be left blank.")
                     )
-            self.extLineEdit.setFocus()
+            self.extQLE.setFocus()
             return False
         if len(self.ext_text.split()) != 1 or self.ext_text[0] == '.':
             QMessageBox.warning(
@@ -484,8 +467,8 @@ class AddorEditPreset(QDialog):
                     self.tr(
                     'Extension must be one word and must not start with a  dot.')
                     )
-            self.extLineEdit.selectAll()
-            self.extLineEdit.setFocus()
+            self.extQLE.selectAll()
+            self.extQLE.setFocus()
             return False
         return True
 

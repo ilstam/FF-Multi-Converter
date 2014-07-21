@@ -41,67 +41,56 @@ class ImageTab(QWidget):
 
         validator = QRegExpValidator(QRegExp(r'^[1-9]\d*'), self)
 
-        converttoLabel = QLabel(self.tr('Convert to:'))
-        extComboBox = QComboBox()
-        extComboBox.addItems(self.formats)
-        commandLabel = QLabel(self.tr('Extra options:'))
-        commandLineEdit = QLineEdit()
+        converttoQL = QLabel(self.tr('Convert to:'))
+        self.extQCB = QComboBox()
+        self.extQCB.addItems(self.formats)
+        commandQL = QLabel(self.tr('Extra options:'))
+        self.commandQLE = QLineEdit()
 
         hlayout2 = utils.add_to_layout(
-                'h', converttoLabel, extComboBox, commandLabel, commandLineEdit)
+                'h', converttoQL, self.extQCB, commandQL, self.commandQLE)
 
-        sizeLabel = QLabel(
+        sizeQL = QLabel(
                 '<html><p align="center">' + self.tr('Image Size:') +
                 '</p></html>')
-        widthLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
-        heightLineEdit = utils.create_LineEdit((50, 16777215), validator, 4)
+        self.widthQLE = utils.create_LineEdit((50, 16777215), validator, 4)
+        self.heightQLE = utils.create_LineEdit((50, 16777215), validator, 4)
         label = QLabel('<html><p align="center">x</p></html>')
         label.setMaximumWidth(25)
 
-        hlayout1 = utils.add_to_layout('h', widthLineEdit,label,heightLineEdit)
-        sizelayout = utils.add_to_layout('v', sizeLabel, hlayout1)
+        hlayout1 = utils.add_to_layout('h', self.widthQLE, label,self.heightQLE)
+        sizelayout = utils.add_to_layout('v', sizeQL, hlayout1)
 
-        imgaspectCheckBox = QCheckBox(self.tr("Maintain aspect ratio"))
-        autocropCheckBox = QCheckBox(self.tr("Auto-crop"))
+        self.imgaspectQChB = QCheckBox(self.tr("Maintain aspect ratio"))
+        self.autocropQChB = QCheckBox(self.tr("Auto-crop"))
 
-        vlayout = utils.add_to_layout('v', imgaspectCheckBox, autocropCheckBox)
+        vlayout = utils.add_to_layout('v', self.imgaspectQChB,self.autocropQChB)
 
-        rotateLabel = QLabel(
+        rotateQL = QLabel(
                 "<html><div align='center'>" + self.tr("Rotate") +
                 ":</div><br>(" + self.tr("degrees - clockwise") + ")</html>")
-        rotateLineEdit = utils.create_LineEdit((100, 16777215), validator, 3)
-        vflipCheckBox = QCheckBox("Vertical flip")
-        hflipCheckBox = QCheckBox("Horizontal flip")
+        self.rotateQLE = utils.create_LineEdit((100, 16777215), validator, 3)
+        self.vflipQChB = QCheckBox("Vertical flip")
+        self.hflipQChB = QCheckBox("Horizontal flip")
 
-        vlayout2 = utils.add_to_layout('v', vflipCheckBox, hflipCheckBox)
+        vlayout2 = utils.add_to_layout('v', self.vflipQChB, self.hflipQChB)
         hlayout3 = utils.add_to_layout(
-                'h', sizelayout, vlayout, rotateLabel, rotateLineEdit,
+                'h', sizelayout, vlayout, rotateQL, self.rotateQLE,
                 vlayout2, None)
 
         final_layout = utils.add_to_layout('v', hlayout2, hlayout3)
         self.setLayout(final_layout)
 
-        #aliasing
-        self.extComboBox = extComboBox
-        self.widthLineEdit = widthLineEdit
-        self.heightLineEdit = heightLineEdit
-        self.imgaspectCheckBox = imgaspectCheckBox
-        self.commandLineEdit = commandLineEdit
-        self.autocropCheckBox = autocropCheckBox
-        self.rotateLineEdit = rotateLineEdit
-        self.vflipCheckBox = vflipCheckBox
-        self.hflipCheckBox = hflipCheckBox
-
     def clear(self):
-        """Clear self.widthLineEdit and self.heightLineEdit."""
-        self.widthLineEdit.clear()
-        self.heightLineEdit.clear()
-        self.commandLineEdit.clear()
-        self.rotateLineEdit.clear()
-        self.imgaspectCheckBox.setChecked(False)
-        self.autocropCheckBox.setChecked(False)
-        self.vflipCheckBox.setChecked(False)
-        self.hflipCheckBox.setChecked(False)
+        """Clear self.widthQLE and self.heightQLE."""
+        self.widthQLE.clear()
+        self.heightQLE.clear()
+        self.commandQLE.clear()
+        self.rotateQLE.clear()
+        self.imgaspectQChB.setChecked(False)
+        self.autocropQChB.setChecked(False)
+        self.vflipQChB.setChecked(False)
+        self.hflipQChB.setChecked(False)
 
     def ok_to_continue(self):
         """
@@ -113,8 +102,8 @@ class ImageTab(QWidget):
 
         Return True if all tests pass, else False.
         """
-        width = self.widthLineEdit.text()
-        height = self.heightLineEdit.text()
+        width = self.widthQLE.text()
+        height = self.heightQLE.text()
 
         if not self.parent.imagemagick:
             QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
@@ -125,8 +114,8 @@ class ImageTab(QWidget):
             QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
                      'Error!'), self.tr('The size LineEdit may not be empty.'))
             if width and not height:
-                self.heightLineEdit.setFocus()
+                self.heightQLE.setFocus()
             else:
-                self.widthLineEdit.setFocus()
+                self.widthQLE.setFocus()
             return False
         return True

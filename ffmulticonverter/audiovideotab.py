@@ -56,7 +56,9 @@ class AudioVideoTab(QWidget):
                 self.defaultStr,
                 '32', '96', '112', '128', '160', '192', '256', '320'
                 ]
-        validator = QRegExpValidator(QRegExp(r'^[1-9]\d*'), self)
+        digits_validator = QRegExpValidator(QRegExp(r'\d*'), self)
+        time_validator = QRegExpValidator(
+                QRegExp(r'\d{1,2}:\d{1,2}:\d{1,2}\.\d+'), self)
 
         converttoQL = QLabel(self.tr('Convert to:'))
         self.extQCB = QComboBox()
@@ -83,17 +85,23 @@ class AudioVideoTab(QWidget):
         frameQL = QLabel(self.tr('Frame Rate (fps):'))
         bitrateQL = QLabel(self.tr('Video Bitrate (kbps):'))
 
-        self.widthQLE = utils.create_LineEdit((70, 16777215), validator, 4)
-        self.heightQLE = utils.create_LineEdit((70, 16777215), validator, 4)
+        self.widthQLE = utils.create_LineEdit(
+                (70, 16777215), digits_validator, 4)
+        self.heightQLE = utils.create_LineEdit(
+                (70, 16777215), digits_validator, 4)
         label = QLabel('<html><p align="center">x</p></html>')
         layout1 = utils.add_to_layout('h', self.widthQLE, label,self.heightQLE)
-        self.aspect1QLE = utils.create_LineEdit((50, 16777215), validator, 2)
-        self.aspect2QLE = utils.create_LineEdit((50, 16777215), validator, 2)
+        self.aspect1QLE = utils.create_LineEdit(
+                (50, 16777215), digits_validator, 2)
+        self.aspect2QLE = utils.create_LineEdit(
+                (50, 16777215), digits_validator, 2)
         label = QLabel('<html><p align="center">:</p></html>')
         layout2 = utils.add_to_layout(
                 'h', self.aspect1QLE, label, self.aspect2QLE)
-        self.frameQLE = utils.create_LineEdit((120, 16777215), validator, 4)
-        self.bitrateQLE = utils.create_LineEdit((130, 16777215), validator, 6)
+        self.frameQLE = utils.create_LineEdit(
+                (120, 16777215), digits_validator, 4)
+        self.bitrateQLE = utils.create_LineEdit(
+                (130, 16777215), digits_validator, 6)
 
         labels = [sizeQL, aspectQL, frameQL, bitrateQL]
         widgets = [layout1, layout2, self.frameQLE, self.bitrateQLE]
@@ -133,8 +141,8 @@ class AudioVideoTab(QWidget):
                 'h', spcr1, self.chan1QRB, self.chan2QRB, spcr2)
         self.audbitrateQCB = QComboBox()
         self.audbitrateQCB.addItems(bitrate_values)
-        validator = QRegExpValidator(QRegExp(r'^[0-9]'), self)
-        self.threadsQLE = utils.create_LineEdit((50, 16777215), validator, None)
+        self.threadsQLE = utils.create_LineEdit(
+                (50, 16777215), digits_validator, 1)
 
         labels = [freqQL, bitrateQL, chanQL, threadsQL]
         widgets = [self.freqQCB, self.audbitrateQCB, chanlayout,self.threadsQLE]
@@ -147,12 +155,12 @@ class AudioVideoTab(QWidget):
 
         time_format = " (hh:mm:ss):"
         beginQL = QLabel(self.tr("Split file. Begin time") + time_format)
-        self.beginQLE = QLineEdit()
+        self.beginQLE = utils.create_LineEdit(None, time_validator, None)
         durationQL = QLabel(self.tr("Duration") + time_format)
-        self.duratioinQLE = QLineEdit()
+        self.durationQLE = utils.create_LineEdit(None, time_validator, None)
 
         hlayout4 = utils.add_to_layout(
-                'h',  beginQL, self.beginQLE, durationQL, self.duratioinQLE)
+                'h',  beginQL, self.beginQLE, durationQL, self.durationQLE)
 
         embedQL = QLabel(self.tr("Embed subtitle:"))
         self.embedQLE = QLineEdit()
@@ -201,6 +209,8 @@ class AudioVideoTab(QWidget):
         self.frameQLE.textChanged.connect(self.command_update_frames)
         self.bitrateQLE.textChanged.connect(self.command_update_vidbitrate)
         self.threadsQLE.textChanged.connect(self.command_update_threads)
+        self.beginQLE.textChanged.connect(self.command_update_begin_time)
+        self.durationQLE.textChanged.connect(self.command_update_duration)
         self.freqQCB.currentIndexChanged.connect(self.command_update_frequency)
         self.audbitrateQCB.currentIndexChanged.connect(
                 self.command_update_audbitrate)
@@ -249,7 +259,7 @@ class AudioVideoTab(QWidget):
                 self.commandQLE, self.widthQLE, self.heightQLE,
                 self.aspect1QLE, self.aspect2QLE, self.frameQLE,
                 self.bitrateQLE, self.threadsQLE, self.beginQLE,
-                self.embedQLE, self.duratioinQLE
+                self.embedQLE, self.durationQLE
                 ]
         for i in lines:
             i.clear()
@@ -462,6 +472,36 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-threads\s+\d+(\s+|$)'
         s = ' -threads {0} '.format(text) if text else ' '
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_begin_time(self):
+        command = self.commandQLE.text()
+        text = self.beginQLE.text()
+
+        regex = r'(\s+|^)-ss\s+\S+(\s+|$)'
+        s = ' -ss {0} '.format(text) if text else ' '
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_duration(self):
+        command = self.commandQLE.text()
+        text = self.durationQLE.text()
+
+        regex = r'(\s+|^)-t\s+\S+(\s+|$)'
+        s = ' -t {0} '.format(text) if text else ' '
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:

@@ -67,16 +67,13 @@ class AudioVideoTab(QWidget):
         extComboBox = QComboBox()
         extComboBox.addItems(self.formats + [other])
         extComboBox.setMinimumWidth(130)
-        extLineEdit = QLineEdit()
-        extLineEdit.setMaximumWidth(85)
-        extLineEdit.setEnabled(False)
         vidcodecLabel = QLabel('Video codec:')
         vidcodecComboBox = QComboBox()
         audcodecLabel = QLabel('Audio codec:')
         audcodecComboBox = QComboBox()
 
         hlayout1 = utils.add_to_layout(
-                'h', converttoLabel, extComboBox, extLineEdit,
+                'h', converttoLabel, extComboBox, QSpacerItem(150, 20),
                 vidcodecLabel, vidcodecComboBox, audcodecLabel,
                 audcodecComboBox)
 
@@ -205,11 +202,6 @@ class AudioVideoTab(QWidget):
         defaultButton.clicked.connect(self.set_default_command)
         moreButton.toggled.connect(self.frame.setVisible)
         moreButton.toggled.connect(self.resize_parent)
-        # enable labels when user choose 'other' which is always the last choice
-        extComboBox.currentIndexChanged.connect(
-                lambda: extLineEdit.setEnabled(
-                        extComboBox.currentIndex() == len(self.formats))
-                )
         preserveaspectCheckBox.toggled.connect(
                 lambda: aspect1LineEdit.setEnabled(
                         not preserveaspectCheckBox.isChecked())
@@ -241,7 +233,6 @@ class AudioVideoTab(QWidget):
 
         #aliasing
         self.extComboBox = extComboBox
-        self.extLineEdit = extLineEdit
         self.vidcodecComboBox = vidcodecComboBox
         self.audcodecComboBox = audcodecComboBox
         self.commandLineEdit = commandLineEdit
@@ -286,8 +277,8 @@ class AudioVideoTab(QWidget):
         lines = [
                 self.commandLineEdit, self.widthLineEdit, self.heightLineEdit,
                 self.aspect1LineEdit, self.aspect2LineEdit, self.frameLineEdit,
-                self.bitrateLineEdit, self.extLineEdit, self.threadsLineEdit,
-                self.beginLineEdit, self.embedLineEdit, self.durationLineEdit
+                self.bitrateLineEdit, self.threadsLineEdit, self.beginLineEdit,
+                self.embedLineEdit, self.durationLineEdit
                 ]
         for i in lines:
             i.clear()
@@ -312,7 +303,6 @@ class AudioVideoTab(QWidget):
 
         Check if:
         - Either ffmpeg or avconv are installed.
-        - Desired extension is valid.
 
         Return True if all tests pass, else False.
         """
@@ -322,15 +312,6 @@ class AudioVideoTab(QWidget):
                 '\nYou will not be able to convert audio/video files until you'
                 ' install one of them.'))
             return False
-        if self.extLineEdit.isEnabled():
-            text = self.extLineEdit.text().strip()
-            if len(text.split()) != 1 or text[0] == '.':
-                QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
-                    'Error!'), self.tr('Extension must be one word and must '
-                    'not start with a dot.'))
-                self.extLineEdit.selectAll()
-                self.extLineEdit.setFocus()
-                return False
         return True
 
     def set_default_command(self):
@@ -341,7 +322,7 @@ class AudioVideoTab(QWidget):
     def choose_preset(self):
         """
         Open the presets dialog and update self.commandLineEdit,
-        self.extComboBox and self.extLineEdit with the appropriate values.
+        and self.extComboBox and with the appropriate values.
         """
         dialog = presets_dlgs.ShowPresets()
         if dialog.exec_() and dialog.the_command is not None:
@@ -350,9 +331,6 @@ class AudioVideoTab(QWidget):
             find = self.extComboBox.findText(dialog.the_extension)
             if find >= 0:
                 self.extComboBox.setCurrentIndex(find)
-            else:
-                self.extComboBox.setCurrentIndex(len(self.formats))
-                self.extLineEdit.setText(dialog.the_extension)
 
     def command_elements_change(self, widget):
         """Fill self.commandLineEdit with the appropriate command parameters."""

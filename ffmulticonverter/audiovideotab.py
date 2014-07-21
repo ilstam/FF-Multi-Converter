@@ -62,14 +62,16 @@ class AudioVideoTab(QWidget):
 
         converttoQL = QLabel(self.tr('Convert to:'))
         self.extQCB = QComboBox()
-        self.extQCB.setMinimumWidth(130)
+        self.extQCB.setMinimumWidth(100)
         vidcodecQL = QLabel('Video codec:')
         self.vidcodecQCB = QComboBox()
+        self.vidcodecQCB.setMinimumWidth(110)
         audcodecQL = QLabel('Audio codec:')
         self.audcodecQCB = QComboBox()
+        self.audcodecQCB.setMinimumWidth(110)
 
         hlayout1 = utils.add_to_layout(
-                'h', converttoQL, self.extQCB, QSpacerItem(150, 20),
+                'h', converttoQL, self.extQCB, QSpacerItem(180, 20),
                 vidcodecQL, self.vidcodecQCB, audcodecQL, self.audcodecQCB)
 
         commandQL = QLabel(self.tr('Command:'))
@@ -211,6 +213,8 @@ class AudioVideoTab(QWidget):
         self.threadsQLE.textChanged.connect(self.command_update_threads)
         self.beginQLE.textChanged.connect(self.command_update_begin_time)
         self.durationQLE.textChanged.connect(self.command_update_duration)
+        self.vidcodecQCB.currentIndexChanged.connect(self.command_update_vcodec)
+        self.audcodecQCB.currentIndexChanged.connect(self.command_update_acodec)
         self.freqQCB.currentIndexChanged.connect(self.command_update_frequency)
         self.audbitrateQCB.currentIndexChanged.connect(
                 self.command_update_audbitrate)
@@ -502,6 +506,44 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-t\s+\S+(\s+|$)'
         s = ' -t {0} '.format(text) if text else ' '
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_vcodec(self):
+        command = self.commandQLE.text()
+        text = self.vidcodecQCB.currentText()
+
+        regex = r'(\s+|^)-vcodec\s+\S+(\s+|$)'
+        if self.vidcodecQCB.currentIndex() != 0:
+            s = ' -vcodec {0} '.format(text)
+        else:
+            s = ' '
+
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_acodec(self):
+        command = self.commandQLE.text()
+        text = self.audcodecQCB.currentText()
+
+        regex = r'(\s+|^)-acodec\s+\S+(\s+|$)'
+        if self.audcodecQCB.currentIndex() != 0:
+            s = ' -acodec {0} '.format(text)
+        else:
+            s = ' '
+
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:

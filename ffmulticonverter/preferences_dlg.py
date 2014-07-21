@@ -31,13 +31,13 @@ class Preferences(QDialog):
         self.test = test
 
         self.default_videocodecs = [
-                'mpeg4', 'msmpeg4', 'mpeg2video', 'h263', 'libx264', 'libxvid',
-                'flv', 'libvpx', 'wmv2'
+                'flv', 'h263', 'libvpx', 'libx264', 'libxvid', 'mpeg2video',
+                'mpeg4', 'msmpeg4', 'wmv2'
                 ]
 
         self.default_audiocodecs = [
-                'libmp3lame', 'libvorbis', 'ac3', 'aac', 'libfaac',
-                'libvo_aacenc', 'wmav2', 'mp2', 'copy'
+                'aac', 'ac3', 'copy', 'libfaac', 'libmp3lame', 'libvo_aacenc',
+                'libvorbis', 'mp2', 'wmav2'
                 ]
 
         saveQL = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
@@ -209,22 +209,22 @@ class Preferences(QDialog):
 
         for i in self.vidcodecsQPTE.toPlainText().split("\n"):
             i = i.strip()
-            if i:
+            if len(i.split()) == 1: # single word
                 videocodecs.append(i)
 
         for i in self.audcodecsQPTE.toPlainText().split("\n"):
             i = i.strip()
-            if i:
+            if len(i.split()) == 1:
                 audiocodecs.append(i)
 
         for i in self.extraformatsQPTE.toPlainText().split("\n"):
             i = i.strip()
-            if len(i.split()) == 1: # single word
+            if len(i.split()) == 1:
                 extraformats.append(i)
 
-        videocodecs = "\n".join(videocodecs)
-        audiocodecs = "\n".join(audiocodecs)
-        extraformats = "\n".join(extraformats)
+        videocodecs = "\n".join(sorted(videocodecs))
+        audiocodecs = "\n".join(sorted(audiocodecs))
+        extraformats = "\n".join(sorted(extraformats))
 
         settings = QSettings()
         settings.setValue(

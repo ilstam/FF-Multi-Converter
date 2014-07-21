@@ -1,5 +1,6 @@
 import os
 import sys
+import logging
 
 home = os.getenv("HOME")
 config_dir = os.path.join(home, '.config/ffmulticonverter/')
@@ -14,6 +15,16 @@ presets_old = '__OLD'
 
 default_ffmpeg_cmd = '-ab 320k -ar 48000 -ac 2'
 
+
+def logging_config(log_file):
+    logging.basicConfig(
+            filename = log_file,
+            level=logging.DEBUG,
+            format='%(asctime)s : %(levelname)s - %(type)s\n'
+                   'Command: %(command)s\n'
+                   'Return code: %(returncode)s\n%(message)s\n',
+            datefmt='%Y-%m-%d %H:%M:%S'
+    )
 
 def find_presets_file(name):
     """

@@ -16,7 +16,6 @@
 import os
 import sys
 import platform
-import logging
 import textwrap
 
 from PyQt4.QtCore import (
@@ -517,14 +516,7 @@ def main():
     if not os.path.exists(config.log_dir):
         os.makedirs(config.log_dir)
 
-    logging.basicConfig(
-            filename = config.log_file,
-            level=logging.DEBUG,
-            format='%(asctime)s : %(levelname)s - %(type)s\n'
-                   'Command: %(command)s\n'
-                   'Return code: %(returncode)s\n%(message)s\n',
-            datefmt='%Y-%m-%d %H:%M:%S'
-    )
+    config.logging_config(config.log_file)
 
     converter = MainWindow()
     converter.show()

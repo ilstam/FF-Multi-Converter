@@ -40,10 +40,6 @@ def is_installed(program):
             return True
     return False
 
-def remove_consecutive_spaces(string):
-    """Remove any consecutive spaces from a string and return it."""
-    return ' '.join([i for i in string.split() if i])
-
 def duration_in_seconds(duration):
     """
     Return the number of seconds of duration, an integer.

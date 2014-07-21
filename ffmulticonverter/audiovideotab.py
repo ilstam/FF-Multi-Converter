@@ -34,13 +34,9 @@ class AudioVideoTab(QWidget):
 
         self.formats = [
                 '3gp', 'aac', 'ac3', 'afc', 'aiff', 'amr', 'asf', 'au', 'avi',
-                'dvd', 'flac', 'flv', 'mka', 'mkv', 'mmf', 'mov', 'mp3', 'mp4',
-                'mpg', 'ogg', 'ogv', 'psp', 'rm', 'spx', 'vob', 'wav', 'webm',
-                'wma', 'wmv'
-                ]
-
-        self.extra_formats = [
-                'aifc', 'm2t', 'm4a', 'm4v', 'mp2', 'mpeg', 'ra', 'ts'
+                'dvd', 'flac', 'flv', 'mka', 'mkv', 'mmf', 'mov', 'mp2', 'mp3',
+                'mp4', 'mpeg', 'ogg', 'ogv', 'psp', 'rm', 'spx', 'vob', 'wav',
+                'webm', 'wma', 'wmv'
                 ]
 
         rotation_options = [
@@ -55,7 +51,6 @@ class AudioVideoTab(QWidget):
                 ]
 
         nochange = self.tr('No Change')
-        other = self.tr('Other')
         self.defaultStr = self.tr('Default')
         frequency_values = [nochange, '22050', '44100', '48000']
         bitrate_values = [
@@ -65,7 +60,6 @@ class AudioVideoTab(QWidget):
 
         converttoQL = QLabel(self.tr('Convert to:'))
         self.extQCB = QComboBox()
-        self.extQCB.addItems(self.formats + [other])
         self.extQCB.setMinimumWidth(130)
         vidcodecQL = QLabel('Video codec:')
         self.vidcodecQCB = QComboBox()
@@ -227,11 +221,26 @@ class AudioVideoTab(QWidget):
         self.chan2QRB.clicked.connect(
                 lambda: self.command_elements_change('channels2'))
 
-    def fill_codecs_comboboxes(self, videocodecs, audiocodecs):
+    def fill_video_comboboxes(self, videocodecs, audiocodecs, extraformats):
+        if videocodecs:
+            videocodecs = [i for i in videocodecs.split("\n")]
+        else:
+            videocodecs = []
+        if audiocodecs:
+            audiocodecs = [i for i in audiocodecs.split("\n")]
+        else:
+            audiocodecs = []
+        if extraformats:
+            extraformats = [i for i in extraformats.split("\n")]
+        else:
+            extraformats = []
+
         self.vidcodecQCB.clear()
         self.audcodecQCB.clear()
+        self.extQCB.clear()
         self.vidcodecQCB.addItems([self.defaultStr] + videocodecs)
         self.audcodecQCB.addItems([self.defaultStr] + audiocodecs)
+        self.extQCB.addItems(sorted(self.formats + extraformats))
 
     def resize_parent(self):
         """Resize MainWindow."""

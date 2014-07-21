@@ -85,10 +85,13 @@ class Preferences(QDialog):
         audcodecsQL = QLabel(
                 '<html><b>' + self.tr('Audio codecs') +'</b></html>')
         self.audcodecsQPTE = QPlainTextEdit()
+        extraformatsQL = QLabel(
+                '<html><b>' + self.tr('Extra formats') +'</b></html>')
+        self.extraformatsQPTE = QPlainTextEdit()
 
         gridlayout = utils.add_to_grid(
-                [vidcodecsQL, audcodecsQL],
-                [self.vidcodecsQPTE, self.audcodecsQPTE])
+                [vidcodecsQL, audcodecsQL, extraformatsQL],
+                [self.vidcodecsQPTE, self.audcodecsQPTE, self.extraformatsQPTE])
 
         defvidcodecsQPB = QPushButton(self.tr("Default video codecs"))
         defaudcodecsQPB = QPushButton(self.tr("Default audio codecs"))
@@ -140,6 +143,7 @@ class Preferences(QDialog):
         default_command = settings.value('default_command')
         videocodecs = settings.value('videocodecs')
         audiocodecs = settings.value('audiocodecs')
+        extraformats = settings.value('extraformats')
 
         # QSettings.value() returns str() in python3, not QVariant() as in p2
         if overwrite_existing:
@@ -176,6 +180,7 @@ class Preferences(QDialog):
             self.set_default_audiocodecs
         else:
             self.audcodecsQPTE.setPlainText(audiocodecs)
+        self.extraformatsQPTE.setPlainText(extraformats)
 
     def set_default_videocodecs(self):
         self.vidcodecsQPTE.setPlainText("\n".join(self.default_videocodecs))
@@ -199,18 +204,27 @@ class Preferences(QDialog):
         the graphical widgets."""
         # remove empty codecs
         videocodecs = []
+        audiocodecs = []
+        extraformats = []
+
         for i in self.vidcodecsQPTE.toPlainText().split("\n"):
             i = i.strip()
             if i:
                 videocodecs.append(i)
-        videocodecs = "\n".join(videocodecs)
 
-        audiocodecs = []
         for i in self.audcodecsQPTE.toPlainText().split("\n"):
             i = i.strip()
             if i:
                 audiocodecs.append(i)
+
+        for i in self.extraformatsQPTE.toPlainText().split("\n"):
+            i = i.strip()
+            if len(i.split()) == 1: # single word
+                extraformats.append(i)
+
+        videocodecs = "\n".join(videocodecs)
         audiocodecs = "\n".join(audiocodecs)
+        extraformats = "\n".join(extraformats)
 
         settings = QSettings()
         settings.setValue(
@@ -229,5 +243,7 @@ class Preferences(QDialog):
                 'videocodecs', videocodecs)
         settings.setValue(
                 'audiocodecs', audiocodecs)
+        settings.setValue(
+                'extraformats', extraformats)
 
         self.accept()

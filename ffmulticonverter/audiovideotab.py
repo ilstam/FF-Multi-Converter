@@ -170,7 +170,7 @@ class AudioVideoTab(QWidget):
         embedToolButton = QToolButton()
         embedToolButton.setText("...")
 
-        rotateQL = QLabel(self.tr("Rotation:"))
+        rotateQL = QLabel(self.tr("Rotate:"))
         self.rotateQCB = QComboBox()
         self.rotateQCB.addItems(rotation_options)
 
@@ -216,6 +216,7 @@ class AudioVideoTab(QWidget):
         self.vidcodecQCB.currentIndexChanged.connect(self.command_update_vcodec)
         self.audcodecQCB.currentIndexChanged.connect(self.command_update_acodec)
         self.freqQCB.currentIndexChanged.connect(self.command_update_frequency)
+        self.rotateQCB.currentIndexChanged.connect(self.command_update_rotation)
         self.audbitrateQCB.currentIndexChanged.connect(
                 self.command_update_audbitrate)
         self.chan1QRB.clicked.connect(
@@ -543,6 +544,38 @@ class AudioVideoTab(QWidget):
             s = ' -acodec {0} '.format(text)
         else:
             s = ' '
+
+        if re.search(regex, command):
+            command = re.sub(regex, s, command)
+        else:
+            command += s
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
+    def command_update_rotation(self):
+        command = self.commandQLE.text()
+        rotate = self.rotateQCB.currentIndex()
+
+        if rotate == 0: # none
+            s = ' '
+        elif rotate == 1: # 90 clockwise
+            s = ' -vf "transpose=1" '
+        elif rotate == 2: # 90 clockwise + vertical flip
+            s = ' -vf "transpose=3" '
+        elif rotate == 3: # 90 counter clockwise
+            s = ' -vf "transpose=2" '
+        elif rotate == 4: # 90 counter clockwise + vertical flip
+            s = ' -vf "transpose=0" '
+        elif rotate == 5: # 180
+            s = ' -vf "transpose=2,transpose=2" '
+        elif rotate == 6: # horizontal flip
+            s = ' -vf hflip '
+        elif rotate == 7: # vertical flip
+            s = ' -vf vflip '
+
+        regex = r'(\s+|^)-vf\s+(transpose=\d(,transpose=\d)*|"\s*transpose.*"|hflip|vflip|"\s*hflip.*"|"\s*vflip.*")(\s+|$)'
 
         if re.search(regex, command):
             command = re.sub(regex, s, command)

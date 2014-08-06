@@ -19,11 +19,13 @@ from PyQt4.QtCore import QRegExp, QSize
 from PyQt4.QtGui import (
         QApplication, QWidget, QComboBox, QLineEdit, QLabel, QRegExpValidator,
         QPushButton, QCheckBox, QRadioButton, QHBoxLayout, QSpacerItem,
-        QSizePolicy, QFrame, QButtonGroup, QMessageBox, QToolButton
+        QSizePolicy, QFrame, QButtonGroup, QMessageBox, QToolButton,
+        QFileDialog
         )
 
 from ffmulticonverter import utils
 from ffmulticonverter import presets_dlgs
+from ffmulticonverter import config
 
 
 class AudioVideoTab(QWidget):
@@ -166,9 +168,8 @@ class AudioVideoTab(QWidget):
 
         embedQL = QLabel(self.tr("Embed subtitle:"))
         self.embedQLE = QLineEdit()
-        self.embedQLE.setReadOnly(True)
-        embedToolButton = QToolButton()
-        embedToolButton.setText("...")
+        self.embedQTB = QToolButton()
+        self.embedQTB.setText("...")
 
         rotateQL = QLabel(self.tr("Rotate:"))
         self.rotateQCB = QComboBox()
@@ -176,7 +177,7 @@ class AudioVideoTab(QWidget):
 
         hlayout5 = utils.add_to_layout(
                 'h', rotateQL, self.rotateQCB, embedQL, self.embedQLE,
-                embedToolButton)
+                self.embedQTB)
 
         hidden_layout = utils.add_to_layout(
                 'v', videosettings_layout, audiosettings_layout,
@@ -202,6 +203,7 @@ class AudioVideoTab(QWidget):
 
         self.presetQPB.clicked.connect(self.choose_preset)
         self.defaultQPB.clicked.connect(self.set_default_command)
+        self.embedQTB.clicked.connect(self.open_subtitle_file)
         self.moreQPB.toggled.connect(self.frame.setVisible)
         self.moreQPB.toggled.connect(self.resize_parent)
         self.widthQLE.textChanged.connect(self.command_update_size)
@@ -213,6 +215,7 @@ class AudioVideoTab(QWidget):
         self.threadsQLE.textChanged.connect(self.command_update_threads)
         self.beginQLE.textChanged.connect(self.command_update_begin_time)
         self.durationQLE.textChanged.connect(self.command_update_duration)
+        self.embedQLE.textChanged.connect(self.command_update_subtitles)
         self.vidcodecQCB.currentIndexChanged.connect(self.command_update_vcodec)
         self.audcodecQCB.currentIndexChanged.connect(self.command_update_acodec)
         self.freqQCB.currentIndexChanged.connect(self.command_update_frequency)
@@ -227,27 +230,6 @@ class AudioVideoTab(QWidget):
                 self.command_update_preserve_aspect)
         self.preservesizeQChB.toggled.connect(
                 self.command_update_preserve_size)
-
-    def fill_video_comboboxes(self, videocodecs, audiocodecs, extraformats):
-        if videocodecs:
-            videocodecs = [i for i in videocodecs.split("\n")]
-        else:
-            videocodecs = []
-        if audiocodecs:
-            audiocodecs = [i for i in audiocodecs.split("\n")]
-        else:
-            audiocodecs = []
-        if extraformats:
-            extraformats = [i for i in extraformats.split("\n")]
-        else:
-            extraformats = []
-
-        self.vidcodecQCB.clear()
-        self.audcodecQCB.clear()
-        self.extQCB.clear()
-        self.vidcodecQCB.addItems([self.defaultStr] + videocodecs)
-        self.audcodecQCB.addItems([self.defaultStr] + audiocodecs)
-        self.extQCB.addItems(sorted(self.formats + extraformats))
 
     def resize_parent(self):
         """Resize MainWindow."""
@@ -283,6 +265,27 @@ class AudioVideoTab(QWidget):
         # setExclusive(False) in order to be able to uncheck checkboxes and
         # then setExclusive(True) so only one radio button can be set
 
+    def fill_video_comboboxes(self, videocodecs, audiocodecs, extraformats):
+        if videocodecs:
+            videocodecs = [i for i in videocodecs.split("\n")]
+        else:
+            videocodecs = []
+        if audiocodecs:
+            audiocodecs = [i for i in audiocodecs.split("\n")]
+        else:
+            audiocodecs = []
+        if extraformats:
+            extraformats = [i for i in extraformats.split("\n")]
+        else:
+            extraformats = []
+
+        self.vidcodecQCB.clear()
+        self.audcodecQCB.clear()
+        self.extQCB.clear()
+        self.vidcodecQCB.addItems([self.defaultStr] + videocodecs)
+        self.audcodecQCB.addItems([self.defaultStr] + audiocodecs)
+        self.extQCB.addItems(sorted(self.formats + extraformats))
+
     def ok_to_continue(self):
         """
         Check if everything is ok with audiovideotab to continue conversion.
@@ -299,6 +302,15 @@ class AudioVideoTab(QWidget):
                 ' install one of them.'))
             return False
         return True
+
+    def open_subtitle_file(self):
+        """
+        Get the filename using standard QtDialog and update embedQLE's text.
+        """
+        fname = QFileDialog.getOpenFileName(self, 'FF Multi Converter - ' +
+                self.tr('Choose File'), config.home, 'Subtitles (*.srt *.sub)')
+        if fname:
+            self.embedQLE.setText(fname)
 
     def set_default_command(self):
         """Set the default value to self.commandQLE."""
@@ -554,33 +566,78 @@ class AudioVideoTab(QWidget):
         self.commandQLE.clear()
         self.commandQLE.setText(command)
 
+    def command_update_subtitles(self):
+        command = self.commandQLE.text()
+        text = self.embedQLE.text()
+
+        regex1 = r'(,*\s*){0,1}(subtitles=\'.*\')(,*\s*){0,1}'
+        regex2 = r'(-vf "[^"]*)"'
+
+        s = "subtitles='{0}'".format(text) if text else ''
+
+        search = re.search(regex1, command)
+        if search:
+            if text:
+                command = re.sub(regex1, r'\1{0}\3'.format(s), command)
+            else:
+                if search.groups()[0] and search.groups()[3]:
+                    command = re.sub(regex1, ', ', command)
+                else:
+                    command = re.sub(regex1, s, command)
+        elif re.search(regex2, command):
+            command = re.sub(regex2, r'\1, {0}"'.format(s), command)
+        else:
+            command += ' -vf "' + s + '"'
+
+        if not text:
+            command = re.sub(r'-vf "\s*"', '', command)
+
+        command = re.sub(' +', ' ', command).strip()
+
+        self.commandQLE.clear()
+        self.commandQLE.setText(command)
+
     def command_update_rotation(self):
         command = self.commandQLE.text()
         rotate = self.rotateQCB.currentIndex()
 
         if rotate == 0: # none
-            s = ' '
+            s = ''
         elif rotate == 1: # 90 clockwise
-            s = ' -vf "transpose=1" '
+            s = 'transpose=1'
         elif rotate == 2: # 90 clockwise + vertical flip
-            s = ' -vf "transpose=3" '
+            s = 'transpose=3'
         elif rotate == 3: # 90 counter clockwise
-            s = ' -vf "transpose=2" '
+            s = 'transpose=2'
         elif rotate == 4: # 90 counter clockwise + vertical flip
-            s = ' -vf "transpose=0" '
+            s = 'transpose=0'
         elif rotate == 5: # 180
-            s = ' -vf "transpose=2,transpose=2" '
+            s = 'transpose=2, transpose=2'
         elif rotate == 6: # horizontal flip
-            s = ' -vf hflip '
+            s = 'hflip'
         elif rotate == 7: # vertical flip
-            s = ' -vf vflip '
+            s = 'vflip'
 
-        regex = r'(\s+|^)-vf\s+(transpose=\d(,transpose=\d)*|"\s*transpose.*"|hflip|vflip|"\s*hflip.*"|"\s*vflip.*")(\s+|$)'
+        regex1 = r'(,*\s*){0,1}(transpose=\d(,\s*transpose=\d)*|vflip|hflip)(,*\s*){0,1}'
+        regex2 = r'(-vf "[^"]*)"'
 
-        if re.search(regex, command):
-            command = re.sub(regex, s, command)
+        search = re.search(regex1, command)
+        if search:
+            if rotate != 0:
+                command = re.sub(regex1, r'\1{0}\4'.format(s), command)
+            else:
+                if search.groups()[0] and search.groups()[3]:
+                    command = re.sub(regex1, ', ', command)
+                else:
+                    command = re.sub(regex1, s, command)
+        elif re.search(regex2, command):
+            command = re.sub(regex2, r'\1, {0}"'.format(s), command)
         else:
-            command += s
+            command += ' -vf "' + s + '"'
+
+        if rotate == 0:
+            command = re.sub(r'-vf "\s*"', '', command)
+
         command = re.sub(' +', ' ', command).strip()
 
         self.commandQLE.clear()

@@ -128,6 +128,15 @@ class Progress(QDialog):
                 self.size = '{0}x{1}'.format(width, height)
                 self.mntaspect = self.tab.imgaspectQChB.isChecked()
             self.imgcmd = self.tab.commandQLE.text()
+            if self.tab.autocropQChB.isChecked():
+                self.imgcmd += ' -trim +repage'
+            rotate = self.tab.rotateQLE.text().strip()
+            if rotate:
+                self.imgcmd += ' -rotate {0}'.format(rotate)
+            if self.tab.vflipQChB.isChecked():
+                self.imgcmd += ' -flip'
+            if self.tab.hflipQChB.isChecked():
+                self.imgcmd += ' -flop'
 
     def resize_dialog(self):
         """Resize dialog."""

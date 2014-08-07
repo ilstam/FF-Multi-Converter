@@ -460,6 +460,8 @@ class MainWindow(QMainWindow):
                        ['[es] Spanish', 'Miguel Ángel Rodríguez Muíños'],
                        ['[fr] French', 'Rémi Mercier'
                                 '\n     Lebarhon'],
+                       ['[gl] Galician', 'Miguel Anxo Bouzada'],
+                       ['[gl_ES] Galician (Spain)', 'Miguel Anxo Bouzada'],
                        ['[hu] Hungarian', 'Farkas Norbert'],
                        ['[it] Italian', 'Fabio Boccaletti'],
                        ['[ms_MY] Malay (Malaysia)', 'abuyop'],

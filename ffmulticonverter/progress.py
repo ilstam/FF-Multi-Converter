@@ -37,21 +37,14 @@ class Progress(QDialog):
     refr_bars_signal = pyqtSignal(int)
     update_text_edit_signal = pyqtSignal(str)
 
-    def __init__(self, files, _type, cmd, ffmpeg, size, mntaspect, imgcmd,
-                 delete, parent, test=False):
+    def __init__(self, files, tab, delete, parent, test=False):
         """
         Keyword arguments:
         files  -- list with dicts containing file names
-        _type  -- 'AudioVideo', 'Images' or 'Documents' depending files type
-        cmd    -- ffmpeg command, for audio/video conversions
-        ffmpeg -- if True ffmpeg will be used, else avconv
-                  for audio/video conversions
-        size   -- new image size string of type 'widthxheight' eg. '300x300'
-                  for image conversions
-        mntaspect -- boolean indicating whether aspect ratio must be maintained
-                     for image conversions
-        imgcmd -- ImageMagick command, for image conversions
+        tab -- instanseof AudioVideoTab, ImageTab or DocumentTab
+               indicating currently active tab
         delete -- boolean that shows if files must removed after conversion
+        parent -- parent widget
 
         files:
         Each dict have only one key and one corresponding value.
@@ -63,14 +56,10 @@ class Progress(QDialog):
         """
         super(Progress, self).__init__(parent)
         self.parent = parent
-        self._type = _type
-        self.cmd = cmd
-        self.ffmpeg = ffmpeg
-        self.size = size
-        self.mntaspect = mntaspect
-        self.imgcmd = imgcmd
 
         self.files = files
+        self.tab = tab
+        self._type = tab.name
         self.delete = delete
         if not test:
             self.step = int(100 / len(files))
@@ -121,8 +110,24 @@ class Progress(QDialog):
         self.resize(484, 200)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
 
+        self.get_data() # should be first and not in singleShot()
         if not test:
             QTimer.singleShot(0, self.manage_conversions)
+
+    def get_data(self):
+        """Collect conversion data from parents' widgets."""
+        if self._type == 'AudioVideo':
+            self.cmd = self.tab.commandQLE.text()
+            self.ffmpeg = not self.parent.avconv_prefered
+        elif self._type == 'Images':
+            width = self.tab.widthQLE.text()
+            self.size = ''
+            self.mntaspect = False
+            if width:
+                height = self.tab.heightQLE.text()
+                self.size = '{0}x{1}'.format(width, height)
+                self.mntaspect = self.tab.imgaspectQChB.isChecked()
+            self.imgcmd = self.tab.commandQLE.text()
 
     def resize_dialog(self):
         """Resize dialog."""

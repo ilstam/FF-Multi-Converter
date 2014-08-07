@@ -407,27 +407,11 @@ class MainWindow(QMainWindow):
                 )
 
         tab = self.current_tab()
-        cmd = ''
-        size = ''
-        mntaspect = False
-        imgcmd = ''
-
-        if tab.name == 'AudioVideo':
-            cmd = tab.commandQLE.text()
-        elif tab.name == 'Images':
-            width = tab.widthQLE.text()
-            if width:
-                height = tab.heightQLE.text()
-                size = '{0}x{1}'.format(width, height)
-                mntaspect = tab.imgaspectQChB.isChecked()
-            imgcmd = tab.commandQLE.text()
-        else:
+        if tab.name == 'Documents':
             self.docconv = True
 
         dialog = progress.Progress(
-                _list, tab.name, cmd, not self.avconv_prefered, size, mntaspect,
-                imgcmd, self.deleteQCB.isChecked(), self
-                )
+                _list, tab, self.deleteQCB.isChecked(), self)
         dialog.show()
 
     def check_for_dependencies(self):

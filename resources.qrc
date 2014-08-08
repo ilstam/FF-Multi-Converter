@@ -1,0 +1,24 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+<file alias="ffmulticonverter.png">share/ffmulticonverter.png</file>
+<file alias="ffmulticonverter_el.qm">locale/ffmulticonverter_el.qm</file>
+<file alias="ffmulticonverter_tr.qm">locale/ffmulticonverter_tr.qm</file>
+<file alias="ffmulticonverter_ru.qm">locale/ffmulticonverter_ru.qm</file>
+<file alias="ffmulticonverter_zh_CN.qm">locale/ffmulticonverter_zh_CN.qm</file>
+<file alias="ffmulticonverter_de_DE.qm">locale/ffmulticonverter_de_DE.qm</file>
+<file alias="ffmulticonverter_hu.qm">locale/ffmulticonverter_hu.qm</file>
+<file alias="ffmulticonverter_pt.qm">locale/ffmulticonverter_pt.qm</file>
+<file alias="ffmulticonverter_pt_BR.qm">locale/ffmulticonverter_pt_BR.qm</file>
+<file alias="ffmulticonverter_pl_PL.qm">locale/ffmulticonverter_pl_PL.qm</file>
+<file alias="ffmulticonverter_cs.qm">locale/ffmulticonverter_cs.qm</file>
+<file alias="ffmulticonverter_fr.qm">locale/ffmulticonverter_fr.qm</file>
+<file alias="ffmulticonverter_bg.qm">locale/ffmulticonverter_bg.qm</file>
+<file alias="ffmulticonverter_it.qm">locale/ffmulticonverter_it.qm</file>
+<file alias="ffmulticonverter_es.qm">locale/ffmulticonverter_es.qm</file>
+<file alias="ffmulticonverter_ms_MY.qm">locale/ffmulticonverter_ms_MY.qm</file>
+<file alias="ffmulticonverter_zh_TW.qm">locale/ffmulticonverter_zh_TW.qm</file>
+<file alias="ffmulticonverter_vi.qm">locale/ffmulticonverter_vi.qm</file>
+<file alias="ffmulticonverter_gl.qm">locale/ffmulticonverter_gl.qm</file>
+<file alias="ffmulticonverter_gl_ES.qm">locale/ffmulticonverter_gl_ES.qm</file>
+</qresource>
+</RCC>

@@ -26,7 +26,9 @@ setup(
                 'images', 'documents', 'ffmpeg', 'imagemagick', 'unoconv'],
     classifiers = [
         'Programming Language :: Python',
+        'Programming Language :: Python 3',
         'License :: OSI Approved :: GNU General Public License (GPL)',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: POSIX :: Linux',
         'Development Status :: 5 - Production/Stable',
         'Environment :: X11 Applications :: Qt',
@@ -36,6 +38,7 @@ setup(
         'Natural Language :: Czech',
         'Natural Language :: French',
         'Natural Language :: Italian',
+        'Natural Language :: Galician',
         'Natural Language :: German',
         'Natural Language :: Greek',
         'Natural Language :: Hungarian',

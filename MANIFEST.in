@@ -1,9 +1,8 @@
-include AUTHORS COPYING TRANSLATORS ChangeLog uninstall.sh
+include AUTHORS COPYING TRANSLATORS ChangeLog resources.qrc uninstall.sh
 include bin/ffmulticonverter
 include test/*
 include share/*
 include man/*
 include locale/*
 exclude locale/*qm
-include ffmulticonverter/resources.qrc
 recursive-exclude ffmulticonverter *pyc

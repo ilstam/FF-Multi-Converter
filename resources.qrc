@@ -20,5 +20,6 @@
 <file alias="ffmulticonverter_vi.qm">locale/ffmulticonverter_vi.qm</file>
 <file alias="ffmulticonverter_gl.qm">locale/ffmulticonverter_gl.qm</file>
 <file alias="ffmulticonverter_gl_ES.qm">locale/ffmulticonverter_gl_ES.qm</file>
+<file alias="ffmulticonverter_ro_RO.qm">locale/ffmulticonverter_ro_RO.qm</file>
 </qresource>
 </RCC>

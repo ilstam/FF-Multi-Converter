@@ -8,4 +8,4 @@ TRANSLATIONS += ffmulticonverter_hu.ts ffmulticonverter_pt.ts ffmulticonverter_p
 TRANSLATIONS += ffmulticonverter_cs.ts ffmulticonverter_pt_BR.ts ffmulticonverter_fr.ts
 TRANSLATIONS += ffmulticonverter_bg.ts ffmulticonverter_it.ts ffmulticonverter_es.ts
 TRANSLATIONS += ffmulticonverter_ms_MY.ts ffmulticonverter_zh_TW.ts ffmulticonverter_vi.ts
-TRANSLATIONS += ffmulticonverter_gl.ts ffmulticonverter_gl_ES.ts
+TRANSLATIONS += ffmulticonverter_gl.ts ffmulticonverter_gl_ES.ts ffmulticonverter_ro_RO.ts

@@ -469,6 +469,7 @@ class MainWindow(QMainWindow):
                                             '\n     Piotr Surdacki'],
                        ['[pt] Portuguese', 'Sérgio Marques'],
                        ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'],
+                       ['[ro_RO] Romanian (Romania)', 'Angelescu Constantin'],
                        ['[ru] Russian', 'Andrew Lapshin'],
                        ['[tu] Turkish', 'Tayfun Kayha'],
                        ['[vi] Vietnamese', 'Anh Phan'],

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="pl_PL" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl_PL" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -41,11 +40,6 @@
         <translation>Rozszerzenie pliku wyjściowego</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="403"/>
-        <source>Edit %1</source>
-        <translation type="obsolete">Edytuj %1</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="406"/>
         <source>Add preset</source>
         <translation>Dodaj preset</translation>
@@ -81,37 +75,22 @@
         <translation>Pole rozszerzenia pliku nie może być puste.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="453"/>
-        <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="obsolete">Rozszerzenie musi być w formie jednego słowa i nie może zaczynać się od kropki.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="404"/>
         <source>Edit {0}</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="465"/>
         <source>Extension must be one word and must not start with a  dot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozszerzenie musi być w formie jednego słowa i nie może zaczynać się od kropki.</translation>
     </message>
 </context>
 <context>
     <name>AudioVideoTab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="598"/>
-        <source>No Change</source>
-        <translation type="obsolete">Bez zmian</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="65"/>
         <source>Convert to:</source>
         <translation>Konwertuj do:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="607"/>
-        <source>Other</source>
-        <translation type="obsolete">Inny</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="79"/>
@@ -154,11 +133,6 @@
         <translation>Częstotliwość (Hz):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="656"/>
-        <source>Channels:</source>
-        <translation type="obsolete">Tryb kanałów:</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="130"/>
         <source>Audio Bitrate (kbps):</source>
         <translation>Jakość (w kb/s):</translation>
@@ -176,54 +150,44 @@ You will not be able to convert audio/video files until you install one of them.
 Dopóki nie zainstalujesz jednego z nich, nie możesz konwertować plików audio/video.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="778"/>
-        <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="obsolete">Rozszerzenie musi być w formie jednego słowa i nie może zaczynać się od kropki.</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="785"/>
-        <source>The command LineEdit may not be empty.</source>
-        <translation type="obsolete">Polecenie nie może być puste.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="113"/>
         <source>Preserve aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachowaj proporcję</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="114"/>
         <source>Preserve video size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="129"/>
         <source>Audio Channels:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="161"/>
         <source>Split file. Begin time</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="163"/>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="169"/>
         <source>Embed subtitle:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="174"/>
         <source>Rotate:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="310"/>
         <source>Choose File</source>
-        <translation type="unfinished">Wybierz pliki</translation>
+        <translation>Wybierz pliki</translation>
     </message>
 </context>
 <context>
@@ -269,24 +233,14 @@ Dopóki go nie zainstalujesz, nie możesz konwertować dokumentów.</translation
         <translation>Błąd!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1022"/>
-        <source>%1 is not %2!</source>
-        <translation type="obsolete">%1 nie jest %2!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="85"/>
         <source>You can not make parallel document conversions.</source>
         <translation>Niestety nie możesz konwertować kilku dokumentów jednocześnie.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
-        <source>%1 to %2</source>
-        <translation type="obsolete">%1 do %2</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="82"/>
         <source>{0} is not {1}!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -307,13 +261,6 @@ Dopóki go nie zainstalujesz, nie możesz konwertować dokumentów.</translation
         <translation>Błąd!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="953"/>
-        <source>PythonMagick is not installed.
-You will not be able to convert image files until you install it.</source>
-        <translation type="obsolete">Program PythonMagick nie jest zainstalowany.
-Dopóki go nie zainstalujesz, nie będziesz mógł konwertować plików graficznych.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/imagetab.py" line="114"/>
         <source>The size LineEdit may not be empty.</source>
         <translation>Wymiary obrazka nie mogą być puste.</translation>
@@ -326,28 +273,29 @@ Dopóki go nie zainstalujesz, nie będziesz mógł konwertować plików graficzn
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="47"/>
         <source>Extra options:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="65"/>
         <source>Auto-crop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="69"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="69"/>
         <source>degrees - clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="109"/>
         <source>ImageMagick is not installed.
 You will not be able to convert image files until you install it.</source>
-        <translation type="unfinished"></translation>
+        <translation>ImageMagick nie jest zainstalowany.
+Dopóki go nie zainstalujesz, nie będziesz mógł konwertować plików graficznych.</translation>
     </message>
 </context>
 <context>
@@ -671,27 +619,27 @@ katalogu co pliki wejściowe</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="82"/>
         <source>Video codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodeki wideo</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="85"/>
         <source>Audio codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodeki dźwięku</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="88"/>
         <source>Extra formats</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="96"/>
         <source>Default video codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślne kodeki wideo</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="97"/>
         <source>Default audio codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślne kodeki dźwięku</translation>
     </message>
 </context>
 <context>
@@ -722,11 +670,6 @@ katalogu co pliki wejściowe</translation>
         <translation>Konwersja</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="172"/>
-        <source>Converted: %1/%2</source>
-        <translation type="obsolete">Przekonwertowano: %1/%2</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/progress.py" line="211"/>
         <source>Cancel Conversion</source>
         <translation>Zatrzymaj konwersję</translation>
@@ -754,7 +697,7 @@ katalogu co pliki wejściowe</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="178"/>
         <source>Converted: {0}/{1}</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -810,11 +753,6 @@ katalogu co pliki wejściowe</translation>
         <translation>Usuń preset</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="184"/>
-        <source>Are you sure that you want to delete the %1 preset?</source>
-        <translation type="obsolete">Czy jesteś pewien że chcesz usunąć %1 preset?</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="194"/>
         <source>Are you sure that you want to delete all presets?</source>
         <translation>Czy jesteś pewien że chcesz usunąć wszystkie presets?</translation>
@@ -862,24 +800,19 @@ Czy jesteś pewien że chcesz to zrobić?</translation>
         <translation>Usuń stare presets</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
-        <source>All presets with an __OLD prefix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="obsolete">Wszystkie presets opatrzone prefiksem __OLD zostaną usunięte. Czy na pewno chcesz wykonać tą operację?</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="180"/>
         <source>Are you sure that you want to delete the {0} preset?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="269"/>
         <source>Export presets</source>
-        <translation type="unfinished">Eksportuj presets</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="343"/>
         <source>All presets with an __OLD suffix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie presets opatrzone prefiksem __OLD zostaną usunięte. Czy na pewno chcesz wykonać tą operację?</translation>
     </message>
 </context>
 <context>

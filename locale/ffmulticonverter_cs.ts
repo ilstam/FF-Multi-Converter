@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="cs" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -41,11 +40,6 @@
         <translation>Přípona výstupního souboru</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="403"/>
-        <source>Edit %1</source>
-        <translation type="obsolete">Upravit %1</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="406"/>
         <source>Add preset</source>
         <translation>Přidat předvolbu</translation>
@@ -81,37 +75,22 @@
         <translation>Štítek předvolby nemůže být prázdný.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="453"/>
-        <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="obsolete">Přípona musí být jedno slovo a nesmí začínat tečkou.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="404"/>
         <source>Edit {0}</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravit {0}</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="465"/>
         <source>Extension must be one word and must not start with a  dot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přípona musí být jedno slovo a nesmí začínat tečkou.</translation>
     </message>
 </context>
 <context>
     <name>AudioVideoTab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="598"/>
-        <source>No Change</source>
-        <translation type="obsolete">Žádná změna</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="65"/>
         <source>Convert to:</source>
         <translation>Převést na:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="607"/>
-        <source>Other</source>
-        <translation type="obsolete">Ostatní</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="79"/>
@@ -154,11 +133,6 @@
         <translation>Frekvence (Hz):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="656"/>
-        <source>Channels:</source>
-        <translation type="obsolete">Kanály:</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="130"/>
         <source>Audio Bitrate (kbps):</source>
         <translation>Datový tok zvuku (kbps):</translation>
@@ -176,54 +150,44 @@ You will not be able to convert audio/video files until you install one of them.
 Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="778"/>
-        <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="obsolete">Přípona musí být jedno slovo a nesmí začínat tečkou.</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="785"/>
-        <source>The command LineEdit may not be empty.</source>
-        <translation type="obsolete">Velikost editačního řádku by neměla být prázdná.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="113"/>
         <source>Preserve aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachovat poměr stran</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="114"/>
         <source>Preserve video size</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachovat velikost videa</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="129"/>
         <source>Audio Channels:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvukové kanály:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="161"/>
         <source>Split file. Begin time</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit soubor. Čas začátku</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="163"/>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Doba trvání</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="169"/>
         <source>Embed subtitle:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit titulek:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="174"/>
         <source>Rotate:</source>
-        <translation type="unfinished"></translation>
+        <translation>O</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="310"/>
         <source>Choose File</source>
-        <translation type="unfinished">Vybrat soubor</translation>
+        <translation>Vybrat soubor</translation>
     </message>
 </context>
 <context>
@@ -269,24 +233,14 @@ Nebudete moci převádět dokumenty dokud ho nenainstalujete.</translation>
         <translation>Chyba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1022"/>
-        <source>%1 is not %2!</source>
-        <translation type="obsolete">%1 není %2!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="85"/>
         <source>You can not make parallel document conversions.</source>
         <translation>Nelze realizovat paralelní konverze dokumentů.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
-        <source>%1 to %2</source>
-        <translation type="obsolete">%1 až %2</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="82"/>
         <source>{0} is not {1}!</source>
-        <translation type="unfinished"></translation>
+        <translation>{0} není {1}!</translation>
     </message>
 </context>
 <context>
@@ -307,13 +261,6 @@ Nebudete moci převádět dokumenty dokud ho nenainstalujete.</translation>
         <translation>Chyba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="953"/>
-        <source>PythonMagick is not installed.
-You will not be able to convert image files until you install it.</source>
-        <translation type="obsolete">PythonMagick není nainstalován.
-Obrázky nebude možné převést do té doby, než ho nainstalujete. </translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/imagetab.py" line="114"/>
         <source>The size LineEdit may not be empty.</source>
         <translation>Velikost editačního řádku by neměla být prázdná.</translation>
@@ -326,28 +273,29 @@ Obrázky nebude možné převést do té doby, než ho nainstalujete. </translat
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="47"/>
         <source>Extra options:</source>
-        <translation type="unfinished"></translation>
+        <translation>Další volby</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="65"/>
         <source>Auto-crop</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatické oříznutí</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="69"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Otočit</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="69"/>
         <source>degrees - clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>stupňů - ve směru hodinových ručiček</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="109"/>
         <source>ImageMagick is not installed.
 You will not be able to convert image files until you install it.</source>
-        <translation type="unfinished"></translation>
+        <translation>ImageMagick není nainstalován.
+Obrázky nebude možné převést do té doby, než ho nainstalujete. </translation>
     </message>
 </context>
 <context>
@@ -670,27 +618,27 @@ jeho původní složky</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="82"/>
         <source>Video codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Video kodeky</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="85"/>
         <source>Audio codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvukové kodeky</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="88"/>
         <source>Extra formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Další formáty</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="96"/>
         <source>Default video codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí video kodeky</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="97"/>
         <source>Default audio codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí zvukové kodeky</translation>
     </message>
 </context>
 <context>
@@ -721,11 +669,6 @@ jeho původní složky</translation>
         <translation>Konverze</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="172"/>
-        <source>Converted: %1/%2</source>
-        <translation type="obsolete">Převedeno: %1/%2</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/progress.py" line="211"/>
         <source>Cancel Conversion</source>
         <translation>Zrušit konverzi</translation>
@@ -753,7 +696,7 @@ jeho původní složky</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="178"/>
         <source>Converted: {0}/{1}</source>
-        <translation type="unfinished"></translation>
+        <translation>Převedeno: {0}/{1}</translation>
     </message>
 </context>
 <context>
@@ -809,11 +752,6 @@ jeho původní složky</translation>
         <translation>Vymazat předvolby</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="184"/>
-        <source>Are you sure that you want to delete the %1 preset?</source>
-        <translation type="obsolete">Opravdu chcete smazat %1 předvolbu?</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="194"/>
         <source>Are you sure that you want to delete all presets?</source>
         <translation>Opravdu chcete smazat všechny předvolby?</translation>
@@ -861,24 +799,19 @@ Opravdu chcete pokračovat?</translation>
         <translation>Odstranit staré předvolby</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
-        <source>All presets with an __OLD prefix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="obsolete">Všechny předvolby se __OLD předponou budou vymazány. Opravdu chcete pokračovat?</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="180"/>
         <source>Are you sure that you want to delete the {0} preset?</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravdu chcete smazat {0} předvolbu?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="269"/>
         <source>Export presets</source>
-        <translation type="unfinished">Export předvoleb</translation>
+        <translation>Export předvoleb</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="343"/>
         <source>All presets with an __OLD suffix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny předvolby se __OLD předponou budou vymazány. Opravdu chcete pokračovat?</translation>
     </message>
 </context>
 <context>

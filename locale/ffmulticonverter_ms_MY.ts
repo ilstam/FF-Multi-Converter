@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ms_MY" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms_MY" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -41,11 +40,6 @@
         <translation>Sambungan fail output</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="403"/>
-        <source>Edit %1</source>
-        <translation type="obsolete">Sunting %1</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="406"/>
         <source>Add preset</source>
         <translation>Tambah praset</translation>
@@ -81,37 +75,22 @@
         <translation>Label sambungan tidak boleh dibiarkan kosong.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="453"/>
-        <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="obsolete">Sambungan mestilah satu perkataan yang tidak bermula dengan titik.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="404"/>
         <source>Edit {0}</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunting {0}</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="465"/>
         <source>Extension must be one word and must not start with a  dot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sambungan mesti satu perkataan dan mesti tidak bermula dengan titik.</translation>
     </message>
 </context>
 <context>
     <name>AudioVideoTab</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="598"/>
-        <source>No Change</source>
-        <translation type="obsolete">Tiada Perubahan</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="65"/>
         <source>Convert to:</source>
         <translation>Tukar ke:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="607"/>
-        <source>Other</source>
-        <translation type="obsolete">Lain-lain</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="79"/>
@@ -154,11 +133,6 @@
         <translation>Frekuensi (Hz):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="656"/>
-        <source>Channels:</source>
-        <translation type="obsolete">Saluran:</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="130"/>
         <source>Audio Bitrate (kbps):</source>
         <translation>Kadar Bit Audio (kbps):</translation>
@@ -176,54 +150,44 @@ You will not be able to convert audio/video files until you install one of them.
 Anda tidak boleh tukar fail audio/video sehinggal anda memasang salah satu darinya.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="778"/>
-        <source>Extension must be one word and must not start with a dot.</source>
-        <translation type="obsolete">Sambungan mesti satu perkataan dan tidak bermula dengan titik.</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="785"/>
-        <source>The command LineEdit may not be empty.</source>
-        <translation type="obsolete">Perintah LineEdit mungkin tidak kosong.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="113"/>
         <source>Preserve aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Kekal nisbah bidang</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="114"/>
         <source>Preserve video size</source>
-        <translation type="unfinished"></translation>
+        <translation>Kekal saiz video</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="129"/>
         <source>Audio Channels:</source>
-        <translation type="unfinished"></translation>
+        <translation>Saluran Audio:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="161"/>
         <source>Split file. Begin time</source>
-        <translation type="unfinished"></translation>
+        <translation>Pisah fail. Masa mula</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="163"/>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Jangkamasa</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="169"/>
         <source>Embed subtitle:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sarikata terbenam:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="174"/>
         <source>Rotate:</source>
-        <translation type="unfinished"></translation>
+        <translation>Putar:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="310"/>
         <source>Choose File</source>
-        <translation type="unfinished">Pilih Fail</translation>
+        <translation>Pilih Fail</translation>
     </message>
 </context>
 <context>
@@ -269,24 +233,14 @@ Anda tidak boleh menukar fail dokumen sehingga anda memasangnya.</translation>
         <translation>Ralat!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="1022"/>
-        <source>%1 is not %2!</source>
-        <translation type="obsolete">%1 bukanlah %2!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="85"/>
         <source>You can not make parallel document conversions.</source>
         <translation>Anda tidak boleh buat penukaran dokumen secara serentak.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="991"/>
-        <source>%1 to %2</source>
-        <translation type="obsolete">%1 ke %2</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="82"/>
         <source>{0} is not {1}!</source>
-        <translation type="unfinished"></translation>
+        <translation>{0} bukan {1}!</translation>
     </message>
 </context>
 <context>
@@ -307,13 +261,6 @@ Anda tidak boleh menukar fail dokumen sehingga anda memasangnya.</translation>
         <translation>Ralat!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="953"/>
-        <source>PythonMagick is not installed.
-You will not be able to convert image files until you install it.</source>
-        <translation type="obsolete">PythonMagick tidak dipasang.
-Anda tidak boleh menukar fail imej sehingga anda memasangnya.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/imagetab.py" line="114"/>
         <source>The size LineEdit may not be empty.</source>
         <translation>Saiz LineEdit mungkin tidak kosong.</translation>
@@ -326,28 +273,29 @@ Anda tidak boleh menukar fail imej sehingga anda memasangnya.</translation>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="47"/>
         <source>Extra options:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilihan tambahan:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="65"/>
         <source>Auto-crop</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto-kerat</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="69"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Putar</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="69"/>
         <source>degrees - clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>darjah - ikut jam</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="109"/>
         <source>ImageMagick is not installed.
 You will not be able to convert image files until you install it.</source>
-        <translation type="unfinished"></translation>
+        <translation>ImageMagick tidak dipasang.
+Anda tidak dapat menukar fail imej sehinggalah anda memasangnya.</translation>
     </message>
 </context>
 <context>
@@ -671,27 +619,27 @@ fail input</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="82"/>
         <source>Video codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodeks video</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="85"/>
         <source>Audio codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodeks audio</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="88"/>
         <source>Extra formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Format tambahan</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="96"/>
         <source>Default video codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodeks video lalai</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="97"/>
         <source>Default audio codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kodeks audio lalai</translation>
     </message>
 </context>
 <context>
@@ -722,11 +670,6 @@ fail input</translation>
         <translation>Penukaran</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="172"/>
-        <source>Converted: %1/%2</source>
-        <translation type="obsolete">Ditukar: %1/%2</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/progress.py" line="211"/>
         <source>Cancel Conversion</source>
         <translation>Batal Penukaran</translation>
@@ -754,7 +697,7 @@ fail input</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="178"/>
         <source>Converted: {0}/{1}</source>
-        <translation type="unfinished"></translation>
+        <translation>Ditukar: {0}/{1}</translation>
     </message>
 </context>
 <context>
@@ -810,11 +753,6 @@ fail input</translation>
         <translation>Padam Praset</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="184"/>
-        <source>Are you sure that you want to delete the %1 preset?</source>
-        <translation type="obsolete">Anda pasti hendak padam %1 praset?</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="194"/>
         <source>Are you sure that you want to delete all presets?</source>
         <translation>Anda pasti hendak padam semua praset?</translation>
@@ -862,24 +800,19 @@ Anda pasti hendak teruskan?</translation>
         <translation>Buang praset lama</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="341"/>
-        <source>All presets with an __OLD prefix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="obsolete">Semua praset dengan awalan __OLD akan dipadam. Anda pasti hendak teruskan?</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="180"/>
         <source>Are you sure that you want to delete the {0} preset?</source>
-        <translation type="unfinished"></translation>
+        <translation>Anda pasti mahu memadam praset {0}?</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="269"/>
         <source>Export presets</source>
-        <translation type="unfinished">Eksport praset</translation>
+        <translation>Eksport praset</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="343"/>
         <source>All presets with an __OLD suffix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Semua praset  dengan akhiran __OLD akan dipadam. Anda pasti mahu teruskan?</translation>
     </message>
 </context>
 <context>

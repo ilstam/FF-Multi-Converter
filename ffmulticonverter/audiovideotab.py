@@ -35,10 +35,9 @@ class AudioVideoTab(QWidget):
         self.name = 'AudioVideo'
 
         self.formats = [
-                '3gp', 'aac', 'ac3', 'afc', 'aiff', 'amr', 'asf', 'au', 'avi',
-                'dvd', 'flac', 'flv', 'mka', 'mkv', 'mmf', 'mov', 'mp2', 'mp3',
-                'mp4', 'mpeg', 'ogg', 'ogv', 'psp', 'rm', 'spx', 'vob', 'wav',
-                'webm', 'wma', 'wmv'
+                '3g2', '3gp', 'aac', 'ac3', 'avi', 'dv', 'flac', 'flv', 'm4a',
+                'm4v', 'mka', 'mkv', 'mov', 'mp3', 'mp4', 'mpg', 'ogg', 'vob',
+                'wav', 'webm', 'wma', 'wmv'
                 ]
 
         rotation_options = [

@@ -57,7 +57,8 @@ class AudioVideoTab(QWidget):
                 self.defaultStr,
                 '32', '96', '112', '128', '160', '192', '256', '320'
                 ]
-        digits_validator = QRegExpValidator(QRegExp(r'\d*'), self)
+        digits_validator = QRegExpValidator(QRegExp(r'[1-9]\d*'), self)
+        digits_validator_wzero = QRegExpValidator(QRegExp(r'\d*'), self)
         time_validator = QRegExpValidator(
                 QRegExp(r'\d{1,2}:\d{1,2}:\d{1,2}\.\d+'), self)
 
@@ -145,7 +146,7 @@ class AudioVideoTab(QWidget):
         self.audbitrateQCB = QComboBox()
         self.audbitrateQCB.addItems(bitrate_values)
         self.threadsQLE = utils.create_LineEdit(
-                (50, 16777215), digits_validator, 1)
+                (50, 16777215), digits_validator_wzero, 1)
 
         labels = [freqQL, bitrateQL, chanQL, threadsQL]
         widgets = [self.freqQCB, self.audbitrateQCB, chanlayout,self.threadsQLE]

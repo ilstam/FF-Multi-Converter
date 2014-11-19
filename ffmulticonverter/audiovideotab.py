@@ -338,7 +338,7 @@ class AudioVideoTab(QWidget):
         if (text1 or text2) and not (text1 and text2):
             return
 
-        regex = r'(\s+|^)-s\s+\d+x\d+(\s+|$)'
+        regex = r'(\s+|^)-s(:v){0,1}\s+\d+x\d+(\s+|$)'
         s = ' -s {0}x{1} '.format(text1, text2) if text1 and text2 else ' '
         if re.search(regex, command):
             command = re.sub(regex, s, command)
@@ -423,8 +423,8 @@ class AudioVideoTab(QWidget):
         command = self.commandQLE.text()
         text = self.bitrateQLE.text()
 
-        regex = r'(\s+|^)-b\s+\d+[kKmM](\s+|$)'
-        s = ' -b {0}k '.format(text) if text else ' '
+        regex = r'(\s+|^)-b(:v){0,1}\s+\d+[kKmM](\s+|$)'
+        s = ' -b:v {0}k '.format(text) if text else ' '
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:
@@ -454,9 +454,9 @@ class AudioVideoTab(QWidget):
         command = self.commandQLE.text()
         text = self.audbitrateQCB.currentText()
 
-        regex = r'(\s+|^)-ab\s+\d+[kKmM](\s+|$)'
+        regex = r'(\s+|^)-(ab|b:a)\s+\d+[kKmM](\s+|$)'
         if self.audbitrateQCB.currentIndex() != 0:
-            s = ' -ab {0}k '.format(text)
+            s = ' -b:a {0}k '.format(text)
         else:
             s = ' '
 
@@ -532,7 +532,7 @@ class AudioVideoTab(QWidget):
         command = self.commandQLE.text()
         text = self.vidcodecQCB.currentText()
 
-        regex = r'(\s+|^)-vcodec\s+\S+(\s+|$)'
+        regex = r'(\s+|^)-(vcodec|c:v)\s+\S+(\s+|$)'
         if self.vidcodecQCB.currentIndex() != 0:
             s = ' -vcodec {0} '.format(text)
         else:
@@ -551,7 +551,7 @@ class AudioVideoTab(QWidget):
         command = self.commandQLE.text()
         text = self.audcodecQCB.currentText()
 
-        regex = r'(\s+|^)-acodec\s+\S+(\s+|$)'
+        regex = r'(\s+|^)-(acodec|c:a)\s+\S+(\s+|$)'
         if self.audcodecQCB.currentIndex() != 0:
             s = ' -acodec {0} '.format(text)
         else:

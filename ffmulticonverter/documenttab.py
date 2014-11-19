@@ -18,6 +18,7 @@ import os
 from PyQt4.QtGui import QWidget, QLabel, QComboBox, QMessageBox
 
 from ffmulticonverter import utils
+from ffmulticonverter import config
 
 
 class ValidationError(Exception):
@@ -29,20 +30,7 @@ class DocumentTab(QWidget):
         self.parent = parent
         super(DocumentTab, self).__init__(parent)
         self.name = 'Documents'
-        self.formats = {
-                'doc' : ['odt', 'pdf'],
-                'html' : ['odt'],
-                'odp' : ['pdf', 'ppt'],
-                'ods' : ['pdf'],
-                'odt' : ['doc', 'html', 'pdf', 'rtf', 'sxw', 'txt','xml'],
-                'ppt' : ['odp'],
-                'rtf' : ['odt'],
-                'sdw' : ['odt'],
-                'sxw' : ['odt'],
-                'txt' : ['odt'],
-                'xls' : ['ods'],
-                'xml' : ['doc', 'odt', 'pdf']
-                }
+        self.formats = config.document_formats
 
         flist = []
         for i in self.formats:

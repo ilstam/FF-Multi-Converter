@@ -183,10 +183,10 @@ class Preferences(QDialog):
         self.extraformatsQPTE.setPlainText(extraformats)
 
     def set_default_videocodecs(self):
-        self.vidcodecsQPTE.setPlainText("\n".join(self.default_videocodecs))
+        self.vidcodecsQPTE.setPlainText("\n".join(config.video_codecs))
 
     def set_default_audiocodecs(self):
-        self.audcodecsQPTE.setPlainText("\n".join(self.default_audiocodecs))
+        self.audcodecsQPTE.setPlainText("\n".join(config.audio_codecs))
 
     def open_dir(self):
         """Get a directory name using a standard Qt dialog and update

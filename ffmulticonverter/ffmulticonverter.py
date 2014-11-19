@@ -201,8 +201,13 @@ class MainWindow(QMainWindow):
             else:
                 print("ffmulticonverter: {0}: Not a file".format(i))
 
-    def load_settings(self):
-        """Load settings values."""
+    def load_settings(self, onstart=True):
+        """
+        Load settings values.
+
+        onstart -- True means that this is the first time the method called,
+                   usually when program beggins
+        """
         def get_str_value(settings, name):
             value = settings.value(name)
             if value is not None:
@@ -225,9 +230,11 @@ class MainWindow(QMainWindow):
         if defcmd:
             self.default_command = defcmd
 
-        self.toQLE.setText(self.default_output)
         self.audiovideo_tab.fill_video_comboboxes(
                 videocodecs, audiocodecs, extraformats)
+
+        if onstart:
+            self.toQLE.setText(self.default_output)
 
     def current_tab(self):
         """Return the corresponding object of the selected tab."""
@@ -327,7 +334,7 @@ class MainWindow(QMainWindow):
         """Open the preferences dialog."""
         dialog = preferences_dlg.Preferences(self)
         if dialog.exec_():
-            self.load_settings()
+            self.load_settings(onstart=False)
 
     def presets(self):
         """Open the presets dialog."""
@@ -453,31 +460,8 @@ class MainWindow(QMainWindow):
         image = ':/ffmulticonverter.png'
         authors = '{0} <{1}>\n\n'.format(ffmc.__author__, ffmc.__author_email__)
         authors += 'Contributors:\nPanagiotis Mavrogiorgos'
-        transl_list = [['[bg] Bulgarian', 'Vasil Blagoev'],
-                       ['[cs] Czech', 'Petr Simacek'],
-                       ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
-                       ['[el] Greek', 'Ilias Stamatis'],
-                       ['[es] Spanish', 'Miguel Ángel Rodríguez Muíños'],
-                       ['[fr] French', 'Rémi Mercier'
-                                '\n     Lebarhon'],
-                       ['[gl] Galician', 'Miguel Anxo Bouzada'],
-                       ['[gl_ES] Galician (Spain)', 'Miguel Anxo Bouzada'],
-                       ['[hu] Hungarian', 'Farkas Norbert'],
-                       ['[it] Italian', 'Fabio Boccaletti'],
-                       ['[ms_MY] Malay (Malaysia)', 'abuyop'],
-                       ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'
-                                            '\n     Piotr Surdacki'],
-                       ['[pt] Portuguese', 'Sérgio Marques'],
-                       ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'],
-                       ['[ro_RO] Romanian (Romania)', 'Angelescu Constantin'],
-                       ['[ru] Russian', 'Andrew Lapshin'],
-                       ['[tu] Turkish', 'Tayfun Kayha'],
-                       ['[vi] Vietnamese', 'Anh Phan'],
-                       ['[zh_CN] Chinese (China)', 'Dianjin Wang'],
-                       ['[zh_TW] Chinese (Taiwan)', 'Taijuin Lee'],
-                      ]
         translators = []
-        for i in transl_list:
+        for i in config.translators:
             translators.append('{0}\n     {1}'.format(i[0], i[1]))
         translators = '\n\n'.join(translators)
 

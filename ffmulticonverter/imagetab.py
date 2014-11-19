@@ -20,6 +20,7 @@ from PyQt4.QtGui import (
         )
 
 from ffmulticonverter import utils
+from ffmulticonverter import config
 
 
 class ImageTab(QWidget):
@@ -27,17 +28,9 @@ class ImageTab(QWidget):
         super(ImageTab, self).__init__(parent)
         self.parent = parent
         self.name = 'Images'
-        self.formats = [
-                'bmp', 'cgm', 'dpx', 'emf', 'eps', 'fpx', 'gif', 'jbig', 'jng',
-                'jpeg', 'mrsid', 'p7', 'pdf', 'picon', 'png', 'ppm', 'psd',
-                'rad', 'tga', 'tif','webp', 'xpm'
-                ]
 
-        self.extra_img = [
-                'bmp2', 'bmp3', 'dib', 'epdf', 'epi', 'eps2', 'eps3', 'epsf',
-                'epsi', 'icon', 'jpe', 'jpg', 'pgm', 'png24', 'png32', 'pnm',
-                'ps', 'ps2', 'ps3', 'sid', 'tiff'
-                ]
+        self.formats = config.image_formats
+        self.extra_img = config.image_extra_formats
 
         validator = QRegExpValidator(QRegExp(r'^[1-9]\d*'), self)
 

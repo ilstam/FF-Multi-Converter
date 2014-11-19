@@ -34,29 +34,12 @@ class AudioVideoTab(QWidget):
         self.parent = parent
         self.name = 'AudioVideo'
 
-        self.formats = [
-                '3g2', '3gp', 'aac', 'ac3', 'avi', 'dv', 'flac', 'flv', 'm4a',
-                'm4v', 'mka', 'mkv', 'mov', 'mp3', 'mp4', 'mpg', 'ogg', 'vob',
-                'wav', 'webm', 'wma', 'wmv'
-                ]
-
-        rotation_options = [
-                'None',
-                '90 clockwise',
-                '90 clockwise + vertical flip',
-                '90 counter clockwise',
-                '90 counter clockwise + vertical flip',
-                '180',
-                'horizontal flip',
-                'vertical flip'
-                ]
-
         self.defaultStr = self.tr('Default')
-        frequency_values = [self.defaultStr, '22050', '44100', '48000']
-        bitrate_values = [
-                self.defaultStr,
-                '32', '96', '112', '128', '160', '192', '256', '320'
-                ]
+
+        self.formats = config.video_formats
+        frequency_values = [self.defaultStr] + config.video_frequency_values
+        bitrate_values = [self.defaultStr] + config.video_bitrate_values
+
         digits_validator = QRegExpValidator(QRegExp(r'[1-9]\d*'), self)
         digits_validator_wzero = QRegExpValidator(QRegExp(r'\d*'), self)
         time_validator = QRegExpValidator(
@@ -173,7 +156,7 @@ class AudioVideoTab(QWidget):
 
         rotateQL = QLabel(self.tr("Rotate:"))
         self.rotateQCB = QComboBox()
-        self.rotateQCB.addItems(rotation_options)
+        self.rotateQCB.addItems(config.video_rotation_options)
 
         hlayout5 = utils.add_to_layout(
                 'h', rotateQL, self.rotateQCB, embedQL, self.embedQLE,

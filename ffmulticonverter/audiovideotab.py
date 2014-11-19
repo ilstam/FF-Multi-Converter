@@ -423,7 +423,7 @@ class AudioVideoTab(QWidget):
         command = self.commandQLE.text()
         text = self.bitrateQLE.text()
 
-        regex = r'(\s+|^)-b\s+\d+k(\s+|$)'
+        regex = r'(\s+|^)-b\s+\d+[kKmM](\s+|$)'
         s = ' -b {0}k '.format(text) if text else ' '
         if re.search(regex, command):
             command = re.sub(regex, s, command)
@@ -454,7 +454,7 @@ class AudioVideoTab(QWidget):
         command = self.commandQLE.text()
         text = self.audbitrateQCB.currentText()
 
-        regex = r'(\s+|^)-ab\s+\d+k(\s+|$)'
+        regex = r'(\s+|^)-ab\s+\d+[kKmM](\s+|$)'
         if self.audbitrateQCB.currentIndex() != 0:
             s = ' -ab {0}k '.format(text)
         else:

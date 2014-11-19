@@ -570,8 +570,9 @@ class AudioVideoTab(QWidget):
         command = self.commandQLE.text()
         text = self.embedQLE.text()
 
-        regex1 = r'(,*\s*){0,1}(subtitles=\'.*\')(,*\s*){0,1}'
+        regex1 = r'(,*\s*){0,1}(subtitles=\'.*\')(\s*,*\s*){0,1}'
         regex2 = r'(-vf "[^"]*)"'
+        regex3 = r'-vf +([^ ]+)'
 
         s = "subtitles='{0}'".format(text) if text else ''
 
@@ -580,12 +581,14 @@ class AudioVideoTab(QWidget):
             if text:
                 command = re.sub(regex1, r'\1{0}\3'.format(s), command)
             else:
-                if search.groups()[0] and search.groups()[3]:
-                    command = re.sub(regex1, ', ', command)
+                if search.groups()[0] and search.groups()[2]:
+                    command = re.sub(regex1, ',', command)
                 else:
                     command = re.sub(regex1, s, command)
         elif re.search(regex2, command):
-            command = re.sub(regex2, r'\1, {0}"'.format(s), command)
+            command = re.sub(regex2, r'\1,{0}"'.format(s), command)
+        elif re.search(regex3, command):
+            command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
         else:
             command += ' -vf "' + s + '"'
 
@@ -612,14 +615,15 @@ class AudioVideoTab(QWidget):
         elif rotate == 4: # 90 counter clockwise + vertical flip
             s = 'transpose=0'
         elif rotate == 5: # 180
-            s = 'transpose=2, transpose=2'
+            s = 'transpose=2,transpose=2'
         elif rotate == 6: # horizontal flip
             s = 'hflip'
         elif rotate == 7: # vertical flip
             s = 'vflip'
 
-        regex1 = r'(,*\s*){0,1}(transpose=\d(,\s*transpose=\d)*|vflip|hflip)(,*\s*){0,1}'
+        regex1 = r'(,*\s*){0,1}(transpose=\d(,\s*transpose=\d)*|vflip|hflip)(\s*,*\s*){0,1}'
         regex2 = r'(-vf "[^"]*)"'
+        regex3 = r'-vf +([^ ]+)'
 
         search = re.search(regex1, command)
         if search:
@@ -627,11 +631,13 @@ class AudioVideoTab(QWidget):
                 command = re.sub(regex1, r'\1{0}\4'.format(s), command)
             else:
                 if search.groups()[0] and search.groups()[3]:
-                    command = re.sub(regex1, ', ', command)
+                    command = re.sub(regex1, ',', command)
                 else:
                     command = re.sub(regex1, s, command)
         elif re.search(regex2, command):
-            command = re.sub(regex2, r'\1, {0}"'.format(s), command)
+            command = re.sub(regex2, r'\1,{0}"'.format(s), command)
+        elif re.search(regex3, command):
+            command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
         else:
             command += ' -vf "' + s + '"'
 

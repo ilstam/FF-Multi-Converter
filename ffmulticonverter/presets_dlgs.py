@@ -31,8 +31,11 @@ class ShowPresets(QDialog):
     def __init__(self, parent=None):
         super(ShowPresets, self).__init__(parent)
 
-        self.original_presets_file = config.find_presets_file(
-                config.presets_file_name)
+        self.original_presets_file = utils.find_presets_file(
+                config.presets_file_name,
+                config.presets_lookup_dirs,
+                config.presets_lookup_virtenv
+                )
         self.current_presets_file = config.presets_file
 
         self.presQLW = QListWidget()

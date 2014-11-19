@@ -18,6 +18,7 @@ Various useful functions.
 """
 
 import os
+import sys
 
 from PyQt4.QtCore import pyqtSignal, QSize, Qt
 from PyQt4.QtGui import (
@@ -32,14 +33,6 @@ def str_to_bool(string):
         return string.lower() == 'true'
     return False
 
-def is_installed(program):
-    """Return True if program appears in user's PATH var, else False."""
-    for path in os.getenv('PATH').split(os.pathsep):
-        fpath = os.path.join(path, program)
-        if os.path.exists(fpath) and os.access(fpath, os.X_OK):
-            return True
-    return False
-
 def duration_in_seconds(duration):
     """
     Return the number of seconds of duration, an integer.
@@ -49,11 +42,56 @@ def duration_in_seconds(duration):
     hours, mins, secs = [int(i) for i in duration.split(':')]
     return secs + (hours * 3600) + (mins * 60)
 
+def is_installed(program):
+    """Return True if program appears in user's PATH var, else False."""
+    for path in os.getenv('PATH').split(os.pathsep):
+        fpath = os.path.join(path, program)
+        if os.path.exists(fpath) and os.access(fpath, os.X_OK):
+            return True
+    return False
+
+def find_presets_file(fname, lookup_dirs, lookup_virtenv):
+    """
+    The default presets.xml could be stored in different locations during
+    the installation depending on different Linux distributions.
+    Search for this file on each possible directory to which user
+    specific data files could be stored.
+
+    Keyword arguments:
+    fname          -- file name
+    lookup_dirs    -- list of the directories to search for fname
+    lookup_virtent -- directory to search for fname in virtualenv
+
+    Return the path of the file if found, else an empty string.
+    """
+    possible_dirs = os.environ.get(
+            "XDG_DATA_DIRS", ":".join(lookup_dirs)
+            ).split(":")
+    # for virtualenv installations
+    posdir = os.path.realpath(
+            os.path.join(os.path.dirname(sys.argv[0]), '..', lookup_virtenv))
+    if not posdir in possible_dirs:
+        possible_dirs.append(posdir)
+
+    for _dir in possible_dirs:
+        _file = os.path.join(_dir, 'ffmulticonverter/' + fname)
+        if os.path.exists(_file):
+            return _file
+    return ''
+
 def create_paths_list(
         files_list, ext_to, prefix, suffix, output, orig_dir,
         overwrite_existing
         ):
     """
+    Create and return a list with dicts.
+    Each dict will have only one key and one corresponding value.
+    Key will be a file to be converted and it's value will be the name
+    of the new converted file.
+
+    Example list:
+    [{"/foo/bar.png" : "/foo/bar.bmp"}, {"/f/bar2.png" : "/f/bar2.bmp"}]
+
     Keyword arguments:
     files_list -- list with files to be converted
     ext_to     -- the extension to which each file must be converted to
@@ -64,14 +102,6 @@ def create_paths_list(
                   else, files will be saved at output
     overwrite_existing -- if False, a '~' will be added as prefix to
                           filenames
-
-    Create and return a list with dicts.
-    Each dict will have only one key and one corresponding value.
-    Key will be a file to be converted and it's value will be the name
-    of the new converted file.
-
-    Example list:
-    [{"/foo/bar.png" : "/foo/bar.bmp"}, {"/f/bar2.png" : "/f/bar2.bmp"}]
     """
     assert ext_to.startswith('.'), 'ext_to must start with a dot (.)'
 

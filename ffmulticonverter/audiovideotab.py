@@ -248,25 +248,16 @@ class AudioVideoTab(QWidget):
         # setExclusive(False) in order to be able to uncheck checkboxes and
         # then setExclusive(True) so only one radio button can be set
 
-    def fill_video_comboboxes(self, videocodecs, audiocodecs, extraformats):
-        if videocodecs:
-            videocodecs = [i for i in videocodecs.split("\n")]
-        else:
-            videocodecs = []
-        if audiocodecs:
-            audiocodecs = [i for i in audiocodecs.split("\n")]
-        else:
-            audiocodecs = []
-        if extraformats:
-            extraformats = [i for i in extraformats.split("\n")]
-        else:
-            extraformats = []
+    def fill_video_comboboxes(self, vcodecs, acodecs, extraformats):
+        vcodecs = [i for i in vcodecs.split("\n")] if vcodecs else []
+        acodecs = [i for i in acodecs.split("\n")] if acodecs else []
+        extraformats = [i for i in extraformats.split("\n")] if extraformats else []
 
         self.vidcodecQCB.clear()
         self.audcodecQCB.clear()
         self.extQCB.clear()
-        self.vidcodecQCB.addItems([self.defaultStr] + videocodecs)
-        self.audcodecQCB.addItems([self.defaultStr] + audiocodecs)
+        self.vidcodecQCB.addItems([self.defaultStr] + vcodecs)
+        self.audcodecQCB.addItems([self.defaultStr] + acodecs)
         self.extQCB.addItems(sorted(self.formats + extraformats))
 
     def ok_to_continue(self):

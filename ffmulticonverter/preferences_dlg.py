@@ -209,17 +209,18 @@ class Preferences(QDialog):
 
         for i in self.vidcodecsQPTE.toPlainText().split("\n"):
             i = i.strip()
-            if len(i.split()) == 1: # single word
+            if len(i.split()) == 1 and i not in videocodecs: # i single word
                 videocodecs.append(i)
 
         for i in self.audcodecsQPTE.toPlainText().split("\n"):
             i = i.strip()
-            if len(i.split()) == 1:
+            if len(i.split()) == 1 and i not in audiocodecs:
                 audiocodecs.append(i)
 
         for i in self.extraformatsQPTE.toPlainText().split("\n"):
             i = i.strip()
-            if len(i.split()) == 1:
+            if len(i.split()) == 1 and i not in extraformats \
+            and i not in config.video_formats:
                 extraformats.append(i)
 
         videocodecs = "\n".join(sorted(videocodecs))

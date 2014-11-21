@@ -16,7 +16,7 @@ pyqt4
 
 Optional dependencies
 ----------------------
-ffmpeg
+ffmpeg or libav
 imagemagick
 unoconv
 

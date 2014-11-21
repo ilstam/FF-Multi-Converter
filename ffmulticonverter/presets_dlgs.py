@@ -433,12 +433,14 @@ class AddorEditPreset(QDialog):
                     )
             self.nameQLE.setFocus()
             return False
-        if not re.match('^[A-Za-z0-9_]*$', self.name_text):
+        if not re.match('^(?![xX][mM][lL])[A-Za-z][A-Za-z0-9_.-:]*$',
+                self.name_text):
             QMessageBox.warning(
                     self, 'Edit Preset - ' + self.tr('Error!'),
                     self.tr(
-                    'Preset name must be one word and contain only letters '
-                    'and digits.')
+                    'Preset name must be one word, start with a letter and '
+                    'contain only letters, digits, underscores, hyphens, '
+                    'colons and periods. It cannot also start with xml.')
                     )
             self.nameQLE.selectAll()
             self.nameQLE.setFocus()

@@ -118,7 +118,6 @@ class Progress(QDialog):
         """Collect conversion data from parents' widgets."""
         if self._type == 'AudioVideo':
             self.cmd = self.tab.commandQLE.text()
-            self.ffmpeg = not self.parent.avconv_prefered
         elif self._type == 'Images':
             width = self.tab.widthQLE.text()
             self.size = ''
@@ -259,7 +258,7 @@ class Progress(QDialog):
         def convert():
             if self._type == 'AudioVideo':
                 conv_func = self.convert_video
-                params = (from_file, to_file, self.cmd, self.ffmpeg)
+                params = (from_file, to_file, self.cmd)
             elif self._type == 'Images':
                 conv_func = self.convert_image
                 params = (from_file, to_file, self.size, self.mntaspect,
@@ -283,7 +282,7 @@ class Progress(QDialog):
         self.thread = threading.Thread(target=convert)
         self.thread.start()
 
-    def convert_video(self, from_file, to_file, command, ffmpeg):
+    def convert_video(self, from_file, to_file, command):
         """
         Create the ffmpeg command and execute it in a new process using the
         subprocess module. While the process is alive, parse ffmpeg output,
@@ -296,9 +295,8 @@ class Progress(QDialog):
         Return True if conversion succeed, else False.
         """
         # note: from_file and to_file names are inside quotation marks
-        converter = 'ffmpeg' if ffmpeg else 'avconv'
         convert_cmd = '{0} -y -i {1} {2} {3}'.format(
-                converter, from_file, command, to_file)
+                self.parent.vidconverter, from_file, command, to_file)
         self.update_text_edit_signal.emit(convert_cmd + '\n')
 
         self.process = subprocess.Popen(

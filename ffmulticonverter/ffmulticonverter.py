@@ -218,8 +218,6 @@ class MainWindow(QMainWindow):
         settings = QSettings()
         self.overwrite_existing = utils.str_to_bool(
                 get_str_value(settings, 'overwrite_existing'))
-        self.avconv_prefered = utils.str_to_bool(
-                get_str_value(settings, 'avconv_prefered'))
         self.default_output = get_str_value(settings, 'default_output')
         self.prefix = get_str_value(settings, 'prefix')
         self.suffix = get_str_value(settings, 'suffix')
@@ -427,13 +425,16 @@ class MainWindow(QMainWindow):
         Check if each one of the program dependencies are installed and
         update self.dependenciesQL with the appropriate message.
         """
-        self.ffmpeg = utils.is_installed('ffmpeg')
-        self.avconv = utils.is_installed('avconv')
+        self.vidconverter = None
+        if utils.is_installed('ffmpeg'):
+            self.vidconverter = 'ffmpeg'
+        elif utils.is_installed('avconv'):
+            self.vidconverter = 'avconv'
         self.unoconv = utils.is_installed('unoconv')
         self.imagemagick = utils.is_installed('convert')
 
         missing = []
-        if not self.ffmpeg and not self.avconv:
+        if self.vidconverter is None:
             missing.append('ffmpeg/avconv')
         if not self.unoconv:
             missing.append('unoconv')

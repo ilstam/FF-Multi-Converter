@@ -269,9 +269,9 @@ class AudioVideoTab(QWidget):
 
         Return True if all tests pass, else False.
         """
-        if not self.parent.ffmpeg and not self.parent.avconv:
+        if self.parent.vidconverter is None:
             QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
-                'Error!'), self.tr('Neither ffmpeg nor avconv are installed.'
+                'Error!'), self.tr('Neither ffmpeg nor libav are installed.'
                 '\nYou will not be able to convert audio/video files until you'
                 ' install one of them.'))
             return False

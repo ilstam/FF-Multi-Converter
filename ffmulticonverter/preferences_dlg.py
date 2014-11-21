@@ -73,11 +73,6 @@ class Preferences(QDialog):
         ffmpegQL = QLabel('<html><b>' + self.tr('FFmpeg') +'</b></html>')
         default_cmdQL = QLabel(self.tr('Default command:'))
         self.cmdQLE = QLineEdit()
-        useQL = QLabel(self.tr('Use:'))
-        self.ffmpegQRB = QRadioButton(self.tr('FFmpeg'))
-        self.avconvQRB = QRadioButton(self.tr('avconv'))
-
-        hlayout = utils.add_to_layout('h', self.ffmpegQRB, self.avconvQRB)
 
         vidcodecsQL = QLabel(
                 '<html><b>' + self.tr('Video codecs') +'</b></html>')
@@ -100,10 +95,9 @@ class Preferences(QDialog):
                 'h', None, defvidcodecsQPB, defaudcodecsQPB)
 
         tabwidget2_layout = utils.add_to_layout(
-                'v', ffmpegQL, QSpacerItem(14, 13), useQL,
-                hlayout, QSpacerItem(14, 13), default_cmdQL,
-                self.cmdQLE, QSpacerItem(20, 20), gridlayout, hlayout2,
-                None
+                'v', ffmpegQL,
+                QSpacerItem(14, 13), default_cmdQL, self.cmdQLE,
+                QSpacerItem(20, 20), gridlayout, hlayout2, None
                 )
 
         widget1 = QWidget()
@@ -126,7 +120,7 @@ class Preferences(QDialog):
         defvidcodecsQPB.clicked.connect(self.set_default_videocodecs)
         defaudcodecsQPB.clicked.connect(self.set_default_audiocodecs)
 
-        self.resize(400, 480)
+        self.resize(400, 450)
         self.setWindowTitle(self.tr('Preferences'))
 
         QTimer.singleShot(0, self.load_settings)
@@ -139,7 +133,6 @@ class Preferences(QDialog):
         default_output = settings.value('default_output')
         prefix = settings.value('prefix')
         suffix = settings.value('suffix')
-        avconv_prefered = utils.str_to_bool(settings.value('avconv_prefered'))
         default_command = settings.value('default_command')
         videocodecs = settings.value('videocodecs')
         audiocodecs = settings.value('audiocodecs')
@@ -156,21 +149,10 @@ class Preferences(QDialog):
             self.prefixQLE.setText(prefix)
         if suffix:
             self.suffixQLE.setText(suffix)
-        if avconv_prefered:
-            self.avconvQRB.setChecked(True)
-        else:
-            self.ffmpegQRB.setChecked(True)
         if default_command:
             self.cmdQLE.setText(default_command)
         else:
             self.cmdQLE.setText(config.default_ffmpeg_cmd)
-
-        if not self.test and not self.parent.ffmpeg:
-            self.avconvQRB.setChecked(True)
-            self.ffmpegQRB.setEnabled(False)
-        if not self.test and not self.parent.avconv:
-            self.ffmpegQRB.setChecked(True)
-            self.avconvQRB.setEnabled(False)
 
         if not videocodecs:
             self.set_default_videocodecs()
@@ -236,8 +218,6 @@ class Preferences(QDialog):
                 'prefix', self.prefixQLE.text())
         settings.setValue(
                 'suffix', self.suffixQLE.text())
-        settings.setValue(
-                'avconv_prefered', self.avconvQRB.isChecked())
         settings.setValue(
                 'default_command', self.cmdQLE.text())
         settings.setValue(

@@ -253,12 +253,18 @@ class AudioVideoTab(QWidget):
         acodecs = [i for i in acodecs.split("\n")] if acodecs else []
         extraformats = [i for i in extraformats.split("\n")] if extraformats else []
 
+        self.vidcodecQCB.currentIndexChanged.disconnect()
+        self.audcodecQCB.currentIndexChanged.disconnect()
+
         self.vidcodecQCB.clear()
         self.audcodecQCB.clear()
         self.extQCB.clear()
         self.vidcodecQCB.addItems([self.defaultStr] + vcodecs)
         self.audcodecQCB.addItems([self.defaultStr] + acodecs)
         self.extQCB.addItems(sorted(self.formats + extraformats))
+
+        self.vidcodecQCB.currentIndexChanged.connect(self.command_update_vcodec)
+        self.audcodecQCB.currentIndexChanged.connect(self.command_update_acodec)
 
     def ok_to_continue(self):
         """

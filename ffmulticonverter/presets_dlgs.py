@@ -411,7 +411,7 @@ class AddorEditPreset(QDialog):
         self.resize(410, 280)
         self.setWindowTitle(title)
 
-    def validation(self):
+    def validate_data(self):
         """
         Extract data from GUI and check if everything is ok to continue.
 
@@ -478,5 +478,5 @@ class AddorEditPreset(QDialog):
         return True
 
     def accept(self):
-        if self.validation():
+        if self.validate_data():
             QDialog.accept(self)

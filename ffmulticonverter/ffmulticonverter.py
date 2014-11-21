@@ -121,7 +121,7 @@ class MainWindow(QMainWindow):
                 )
         edit_presetsAction = utils.create_action(
                 self, self.tr('Edit Presets'), 'Ctrl+P', None,
-                self.tr('Edit Presets'), self.presets
+                self.tr('Edit Presets'), self.open_dialog_presets
                 )
         importAction = utils.create_action(
                 self, self.tr('Import'), None, None,
@@ -149,11 +149,11 @@ class MainWindow(QMainWindow):
                 )
         preferencesAction = utils.create_action(
                 self, self.tr('Preferences'), 'Alt+Ctrl+P',
-                None, self.tr('Preferences'), self.preferences
+                None, self.tr('Preferences'), self.open_dialog_preferences
                 )
         aboutAction = utils.create_action(
                 self, self.tr('About'), 'Ctrl+?', None,
-                self.tr('About'), self.about
+                self.tr('About'), self.open_dialog_about
                 )
 
         fileMenu = self.menuBar().addMenu(self.tr('File'))
@@ -170,7 +170,7 @@ class MainWindow(QMainWindow):
         utils.add_actions(editMenu, [clearallAction, None, preferencesAction])
         utils.add_actions(helpMenu, [aboutAction])
 
-        self.filesList.dropped.connect(self.url_dropped)
+        self.filesList.dropped.connect(self.add_files_dropped)
         addQPB.clicked.connect(self.add_files)
         delQPB.clicked.connect(self.delete_files)
         clearQPB.clicked.connect(self.clear_fileslist)
@@ -201,6 +201,32 @@ class MainWindow(QMainWindow):
                 self.fnames.append(i)
             else:
                 print("ffmulticonverter: {0}: Not a file".format(i))
+
+    def check_for_dependencies(self):
+        """
+        Check if each one of the program dependencies are installed and
+        update self.dependenciesQL with the appropriate message.
+        """
+        self.vidconverter = None
+        if utils.is_installed('ffmpeg'):
+            self.vidconverter = 'ffmpeg'
+        elif utils.is_installed('avconv'):
+            self.vidconverter = 'avconv'
+        self.unoconv = utils.is_installed('unoconv')
+        self.imagemagick = utils.is_installed('convert')
+
+        missing = []
+        if self.vidconverter is None:
+            missing.append('ffmpeg/avconv')
+        if not self.unoconv:
+            missing.append('unoconv')
+        if not self.imagemagick:
+            missing.append('imagemagick')
+
+        if missing:
+            missing = ', '.join(missing)
+            status = self.tr('Missing dependencies:') + ' ' + missing
+            self.dependenciesQL.setText(status)
 
     def load_settings(self, onstart=True):
         """
@@ -247,16 +273,6 @@ class MainWindow(QMainWindow):
         for i in self.fnames:
             self.filesList.addItem(i)
 
-    def url_dropped(self, links):
-        """
-        Append to self.fnames each file name that not already exists
-        and update self.filesList.
-        """
-        for url in links:
-            if os.path.isfile(url) and not url in self.fnames:
-                self.fnames.append(url)
-        self.update_filesList()
-
     def add_files(self):
         """
         Get file names using a standard Qt dialog.
@@ -289,6 +305,16 @@ class MainWindow(QMainWindow):
                 if not i in self.fnames:
                     self.fnames.append(i)
             self.update_filesList()
+
+    def add_files_dropped(self, links):
+        """
+        Append to self.fnames each file name that not already exists
+        and update self.filesList.
+        """
+        for path in links:
+            if os.path.isfile(path) and not path in self.fnames:
+                self.fnames.append(path)
+        self.update_filesList()
 
     def delete_files(self):
         """
@@ -328,17 +354,6 @@ class MainWindow(QMainWindow):
                     config.home)
             if output:
                 self.toQLE.setText(output)
-
-    def preferences(self):
-        """Open the preferences dialog."""
-        dialog = preferences_dlg.Preferences(self)
-        if dialog.exec_():
-            self.load_settings(onstart=False)
-
-    def presets(self):
-        """Open the presets dialog."""
-        dialog = presets_dlgs.ShowPresets(self)
-        dialog.exec_()
 
     def import_presets(self):
         presets_dlgs.ShowPresets().import_presets()
@@ -385,7 +400,7 @@ class MainWindow(QMainWindow):
                     self, 'FF Multi Converter - ' + self.tr('Error!'), str(e))
             return False
 
-    def output_ext(self):
+    def get_output_extension(self):
         """Extract the desired output file extension from GUI and return it."""
         tab = self.current_tab()
         if tab.name == 'AudioVideo':
@@ -405,7 +420,7 @@ class MainWindow(QMainWindow):
         if not self.ok_to_continue():
             return
 
-        ext_to = self.output_ext()
+        ext_to = self.get_output_extension()
         _list = utils.create_paths_list(
                 self.fnames, ext_to, self.prefix, self.suffix,
                 self.toQLE.text(), self.origQCB.isChecked(),
@@ -420,33 +435,18 @@ class MainWindow(QMainWindow):
                 _list, tab, self.deleteQCB.isChecked(), self)
         dialog.show()
 
-    def check_for_dependencies(self):
-        """
-        Check if each one of the program dependencies are installed and
-        update self.dependenciesQL with the appropriate message.
-        """
-        self.vidconverter = None
-        if utils.is_installed('ffmpeg'):
-            self.vidconverter = 'ffmpeg'
-        elif utils.is_installed('avconv'):
-            self.vidconverter = 'avconv'
-        self.unoconv = utils.is_installed('unoconv')
-        self.imagemagick = utils.is_installed('convert')
+    def open_dialog_preferences(self):
+        """Open the preferences dialog."""
+        dialog = preferences_dlg.Preferences(self)
+        if dialog.exec_():
+            self.load_settings(onstart=False)
 
-        missing = []
-        if self.vidconverter is None:
-            missing.append('ffmpeg/avconv')
-        if not self.unoconv:
-            missing.append('unoconv')
-        if not self.imagemagick:
-            missing.append('imagemagick')
+    def open_dialog_presets(self):
+        """Open the presets dialog."""
+        dialog = presets_dlgs.ShowPresets(self)
+        dialog.exec_()
 
-        if missing:
-            missing = ', '.join(missing)
-            status = self.tr('Missing dependencies:') + ' ' + missing
-            self.dependenciesQL.setText(status)
-
-    def about(self):
+    def open_dialog_about(self):
         """Call the about dialog with the appropriate values."""
         msg = self.tr('Convert among several file types to other extensions')
         msg = textwrap.fill(msg, 54).replace('\n', '<br>')

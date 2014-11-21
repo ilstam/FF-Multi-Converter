@@ -103,7 +103,7 @@ class Progress(QDialog):
         detailsQPB.toggled.connect(self.resize_dialog)
         detailsQPB.toggled.connect(self.frame.setVisible)
         self.cancelQPB.clicked.connect(self.reject)
-        self.file_converted_signal.connect(self.file_converted)
+        self.file_converted_signal.connect(self.next_file)
         self.refr_bars_signal.connect(self.refresh_progress_bars)
         self.update_text_edit_signal.connect(self.update_text_edit)
 
@@ -183,7 +183,7 @@ class Progress(QDialog):
         else:
             self.convert_a_file()
 
-    def file_converted(self):
+    def next_file(self):
         """
         Update progress bars values, remove converted file from self.files
         and call manage_conversions() to continue the process.

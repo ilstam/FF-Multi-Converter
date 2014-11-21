@@ -264,7 +264,7 @@ class Progress(QDialog):
                 params = (from_file, to_file, self.size, self.mntaspect,
                           self.imgcmd)
             else:
-                conv_func = self.convert_doc
+                conv_func = self.convert_document
                 params = (from_file, to_file)
 
             if conv_func(*params):
@@ -347,7 +347,7 @@ class Progress(QDialog):
 
     def convert_image(self, from_file, to_file, size, mntaspect, imgcmd):
         """
-        Convert an image with the desired size using ImageMagick.
+        Convert an image using ImageMagick.
         Create conversion info ("cmd") and emit the corresponding signal
         in order an outputQTE to be updated with that info.
         Finally, save log information.
@@ -387,37 +387,19 @@ class Progress(QDialog):
 
         return return_code == 0
 
-    def convert_doc(self, from_file, to_file):
+    def convert_document(self, from_file, to_file):
         """
         Create the unoconv command and execute it using the subprocess module.
 
-        Unoconv doesn't accept output file's name so we have to:
-          1. make a copy of the original file with output file's name
-          2. convert the copy
-          3. rename the converted file to match the desired output file's name
-
-        Also emit the corresponding signal in order an outputQTE to be updated
+        Emit the corresponding signal in order an outputQTE to be updated
         with unoconv's output. Finally, save log information.
 
         Return True if conversion succeed, else False.
         """
         # note: from_file and to_file names are inside quotation marks
-        from_file = from_file[1:-1] # get rid of quotation
-        to_file = to_file[1:-1]
-        from_base, from_ext = os.path.splitext(from_file)
-        to_base, to_ext = os.path.splitext(to_file)
+        to_base, to_ext = os.path.splitext(to_file[1:-1])
 
-        dummy_file = to_base + from_ext
-        dummy_base, dummy_ext = os.path.splitext(dummy_file)
-        while os.path.exists(dummy_file):
-            # do not overwrite existing files
-            dummy_file = dummy_base + '~' + dummy_ext
-            dummy_base = os.path.splitext(dummy_file)[0]
-
-        converted_file = dummy_base + to_ext
-        shutil.copy(from_file, dummy_file)
-
-        cmd = 'unoconv --format={0} {1}'.format(to_ext[1:], '"'+dummy_file+'"')
+        cmd = 'unoconv -f {0} -o {1} {2}'.format(to_ext[1:], to_file, from_file)
         self.update_text_edit_signal.emit(cmd + '\n')
         child = subprocess.Popen(
                 shlex.split(cmd),
@@ -425,13 +407,6 @@ class Progress(QDialog):
                 stdout=subprocess.PIPE
                 )
         child.wait()
-
-        os.remove(dummy_file)
-        try:
-            shutil.move(converted_file, to_file)
-        except IOError:
-            # unoconv conversion failed and converted_file does not exist
-            pass
 
         reader = io.TextIOWrapper(child.stdout, encoding='utf8')
         final_output = reader.read()

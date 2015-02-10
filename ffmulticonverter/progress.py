@@ -178,8 +178,6 @@ class Progress(QDialog):
             msg.show()
 
             self.cancelQPB.setText(self.tr("Close"))
-            if self._type == 'Documents':
-                self.parent.docconv = False  # doc conversion end
         else:
             self.convert_a_file()
 
@@ -215,8 +213,6 @@ class Progress(QDialog):
         if reply == QMessageBox.Yes:
             if self._type == 'AudioVideo':
                 self.process.kill()
-            if self._type == 'Documents':
-                self.parent.docconv = False
             self.running = False
             self.thread.join()
             QDialog.reject(self)

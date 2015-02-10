@@ -69,11 +69,6 @@ class DocumentTab(QWidget):
                 if file_ext != decl_ext:
                     raise ValidationError(
                             self.trUtf8('{0} is not {1}!'.format(i, decl_ext)))
-            if self.parent.docconv:
-                raise ValidationError(
-                        self.tr(
-                        'You can not make parallel document conversions.')
-                        )
             return True
 
         except ValidationError as e:

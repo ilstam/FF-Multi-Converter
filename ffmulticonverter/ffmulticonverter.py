@@ -56,9 +56,7 @@ class MainWindow(QMainWindow):
         self.main_fixed_height = 684
         self.default_command = config.default_ffmpeg_cmd
 
-        self.fnames = list()  # list of file names to be converted
-        self.docconv = False  # True when a documents conversion is running
-
+        self.fnames = []  # list of file names to be converted
         self.parse_cla()
 
         addQPB = QPushButton(self.tr('Add'))

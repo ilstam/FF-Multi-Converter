@@ -1,4 +1,4 @@
-# Copyright (C) 2011-2014 Ilias Stamatis <stamatis.iliass@gmail.com>
+# Copyright (C) 2011-2015 Ilias Stamatis <stamatis.iliass@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -453,7 +453,7 @@ class MainWindow(QMainWindow):
         text = '''<b> FF Multi Converter {0} </b>
                  <p>{1}
                  <p><a href="{2}">FF Multi Converter - Home Page</a>
-                 <p>Copyright &copy; 2011-2014 {3}
+                 <p>Copyright &copy; 2011-2015 {3}
                  <br>License: {4}
                  <p>Python {5} - Qt {6} - PyQt {7} on {8}'''\
                  .format(ffmc.__version__, msg, ffmc.__url__, ffmc.__author__,

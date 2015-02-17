@@ -1,3 +1,26 @@
+Version 1.7.0
+--------------
+
+* Updated graphical user interface.
+
+* Audio and video codecs selection.
+
+* Rotate and flip video options.
+
+* Split video files option.
+
+* Embed subtitles to video files.
+
+* Number of threads to use option for video conversions.
+
+* Autocrop, rotate and flip images.
+
+* Parallel document conversions.
+
+* Various small bugfixes.
+
+* Catalan, Galician and Romanian translations.
+
 Version 1.6.0
 --------------
 

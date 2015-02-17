@@ -18,6 +18,7 @@ import sys
 import platform
 import textwrap
 import logging
+import webbrowser
 
 from PyQt4.QtCore import (
         PYQT_VERSION_STR, QCoreApplication, QLocale, QSettings,
@@ -149,6 +150,26 @@ class MainWindow(QMainWindow):
                 self, self.tr('Preferences'), 'Alt+Ctrl+P',
                 None, self.tr('Preferences'), self.open_dialog_preferences
                 )
+        trackerAction = utils.create_action(
+                self, 'Issue tracker', None, None, None,
+                lambda: webbrowser.open(
+                    "https://github.com/Ilias95/FF-Multi-Converter/issues")
+                )
+        wikiAction = utils.create_action(
+                self, 'Wiki', None, None, None,
+                lambda: webbrowser.open(
+                    "https://github.com/Ilias95/FF-Multi-Converter/wiki")
+                )
+        ffmpegdocAction = utils.create_action(
+                self, 'FFmpeg documentation', None, None, None,
+                lambda: webbrowser.open(
+                    "https://www.ffmpeg.org/documentation.html")
+                )
+        imagemagickdocAction = utils.create_action(
+                self, 'ImageMagick documentation', None, None, None,
+                lambda: webbrowser.open(
+                    "http://www.imagemagick.org/script/convert.php")
+                )
         aboutAction = utils.create_action(
                 self, self.tr('About'), 'Ctrl+?', None,
                 self.tr('About'), self.open_dialog_about
@@ -158,6 +179,7 @@ class MainWindow(QMainWindow):
         editMenu = self.menuBar().addMenu(self.tr('Edit'))
         presetsMenu = self.menuBar().addMenu(self.tr('Presets'))
         helpMenu = self.menuBar().addMenu(self.tr('Help'))
+
         utils.add_actions(
                 fileMenu, [openAction, convertAction, None, quitAction])
         utils.add_actions(
@@ -166,7 +188,11 @@ class MainWindow(QMainWindow):
                  None, syncAction, removeoldAction]
                 )
         utils.add_actions(editMenu, [clearallAction, None, preferencesAction])
-        utils.add_actions(helpMenu, [aboutAction])
+        utils.add_actions(
+                helpMenu,
+                [trackerAction, wikiAction, None, ffmpegdocAction,
+                imagemagickdocAction, None, aboutAction]
+                )
 
         self.filesList.dropped.connect(self.add_files_dropped)
         addQPB.clicked.connect(self.add_files)

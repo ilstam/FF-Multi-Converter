@@ -46,6 +46,7 @@ setup(
         'Natural Language :: Polish',
         'Natural Language :: Portuguese',
         'Natural Language :: Portuguese (Brazilian)',
+        'Natural Language :: Romanian',
         'Natural Language :: Russian',
         'Natural Language :: Spanish',
         'Natural Language :: Turkish',

@@ -246,9 +246,16 @@ class MainWindow(QMainWindow):
         self.prefix = get_str_value(settings, 'prefix')
         self.suffix = get_str_value(settings, 'suffix')
         defcmd = get_str_value(settings, 'default_command')
-        videocodecs = get_str_value(settings, 'videocodecs')
-        audiocodecs = get_str_value(settings, 'audiocodecs')
         extraformats = get_str_value(settings, 'extraformats')
+        videocodecs = settings.value('videocodecs')
+        audiocodecs = settings.value('audiocodecs')
+
+        if videocodecs is None:
+            videocodecs = "\n".join(config.video_codecs)
+            settings.setValue('videocodecs', videocodecs)
+        if audiocodecs is None:
+            audiocodecs = "\n".join(config.audio_codecs)
+            settings.setValue('audiocodecs', audiocodecs)
 
         if defcmd:
             self.default_command = defcmd

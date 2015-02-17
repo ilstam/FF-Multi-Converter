@@ -21,7 +21,7 @@
   <CopyExtractAudioAAC>
     <label>Extract (copy) audio aac (mp4-video->aac-audio)</label>
     <params>-acodec copy</params>
-    <extension>aac</extension>
+    <extension>m4a</extension>
     <category>Scattered</category>
   </CopyExtractAudioAAC>
   <CopyExtractAudioMP3>

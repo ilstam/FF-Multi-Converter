@@ -58,6 +58,8 @@ class MainWindow(QMainWindow):
         self.default_command = config.default_ffmpeg_cmd
 
         self.fnames = []  # list of file names to be converted
+        self.office_listener_started = False
+
         self.parse_cla()
 
         addQPB = QPushButton(self.tr('Add'))
@@ -451,16 +453,17 @@ class MainWindow(QMainWindow):
         if not self.ok_to_continue():
             return
 
+        tab = self.current_tab()
+        if tab.name == 'Documents' and not self.office_listener_started:
+            utils.start_office_listener()
+            self.office_listener_started = True
+
         ext_to = self.get_output_extension()
         _list = utils.create_paths_list(
                 self.fnames, ext_to, self.prefix, self.suffix,
                 self.toQLE.text(), self.origQCB.isChecked(),
                 self.overwrite_existing
                 )
-
-        tab = self.current_tab()
-        if tab.name == 'Documents':
-            self.docconv = True
 
         dialog = progress.Progress(
                 _list, tab, self.deleteQCB.isChecked(), self)

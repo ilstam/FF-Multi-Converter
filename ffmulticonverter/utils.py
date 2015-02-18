@@ -19,6 +19,9 @@ Various useful functions.
 
 import os
 import sys
+import shlex
+import subprocess
+import time
 
 from PyQt4.QtCore import pyqtSignal, QSize, Qt
 from PyQt4.QtGui import (
@@ -49,6 +52,18 @@ def is_installed(program):
         if os.path.exists(fpath) and os.access(fpath, os.X_OK):
             return True
     return False
+
+def start_office_listener():
+    """
+    Start a openoffice/libreoffice listener.
+    We need an open office listener in order to make convertions with unoconv.
+    """
+    # note: we cannot kill the listener with p.kill() as it is a spawned process
+    # the office listener remains open even after program's termination
+    p = subprocess.Popen(shlex.split("unoconv --listener"))
+    while p.poll() is not None:
+        time.sleep(0.1)
+    time.sleep(1) # wait for listener to setup correctly
 
 def find_presets_file(fname, lookup_dirs, lookup_virtenv):
     """

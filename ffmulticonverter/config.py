@@ -6,7 +6,7 @@ import os
 home = os.getenv("HOME")
 config_dir = os.path.join(home, '.config/ffmulticonverter/')
 
-default_ffmpeg_cmd = '-ab 320k -ar 48000 -ac 2'
+default_ffmpeg_cmd = ''
 
 #-----log data
 

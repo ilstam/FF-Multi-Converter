@@ -40,6 +40,18 @@ class AudioVideoTab(QWidget):
         frequency_values = [self.defaultStr] + config.video_frequency_values
         bitrate_values = [self.defaultStr] + config.video_bitrate_values
 
+        rotation_options = [
+                self.tr('None'),
+                '90 ' + self.tr('clockwise'),
+                '90 ' + self.tr('clockwise') + ' + ' + self.tr('vertical flip'),
+                '90 ' + self.tr('counter clockwise'),
+                '90 ' + self.tr('counter clockwise') +
+                ' + ' + self.tr('vertical flip'),
+                '180',
+                self.tr('horizontal flip'),
+                self.tr('vertical flip')
+                ]
+
         digits_validator = QRegExpValidator(QRegExp(r'[1-9]\d*'), self)
         digits_validator_wzero = QRegExpValidator(QRegExp(r'\d*'), self)
         time_validator = QRegExpValidator(
@@ -111,7 +123,7 @@ class AudioVideoTab(QWidget):
         freqQL = QLabel(self.tr('Frequency (Hz):'))
         chanQL = QLabel(self.tr('Audio Channels:'))
         bitrateQL = QLabel(self.tr('Audio Bitrate (kbps):'))
-        threadsQL = QLabel('Threads:')
+        threadsQL = QLabel(self.tr('Threads:'))
 
         self.freqQCB = QComboBox()
         self.freqQCB.addItems(frequency_values)
@@ -156,7 +168,7 @@ class AudioVideoTab(QWidget):
 
         rotateQL = QLabel(self.tr("Rotate:"))
         self.rotateQCB = QComboBox()
-        self.rotateQCB.addItems(config.video_rotation_options)
+        self.rotateQCB.addItems(rotation_options)
 
         hlayout5 = utils.add_to_layout(
                 'h', rotateQL, self.rotateQCB, embedQL, self.embedQLE,

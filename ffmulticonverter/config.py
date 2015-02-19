@@ -44,17 +44,6 @@ video_formats = [
         'wma', 'wmv'
         ]
 
-video_rotation_options = [
-        'None',
-        '90 clockwise',
-        '90 clockwise + vertical flip',
-        '90 counter clockwise',
-        '90 counter clockwise + vertical flip',
-        '180',
-        'horizontal flip',
-        'vertical flip'
-        ]
-
 video_frequency_values = [
         '22050', '44100', '48000'
         ]

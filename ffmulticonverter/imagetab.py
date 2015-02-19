@@ -63,8 +63,8 @@ class ImageTab(QWidget):
                 "<html><div align='center'>" + self.tr("Rotate") +
                 ":</div><br>(" + self.tr("degrees - clockwise") + ")</html>")
         self.rotateQLE = utils.create_LineEdit((100, 16777215), validator, 3)
-        self.vflipQChB = QCheckBox("Vertical flip")
-        self.hflipQChB = QCheckBox("Horizontal flip")
+        self.vflipQChB = QCheckBox(self.tr('Vertical flip'))
+        self.hflipQChB = QCheckBox(self.tr('Horizontal flip'))
 
         vlayout2 = utils.add_to_layout('v', self.vflipQChB, self.hflipQChB)
         hlayout3 = utils.add_to_layout(

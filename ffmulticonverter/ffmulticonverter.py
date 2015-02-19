@@ -163,13 +163,13 @@ class MainWindow(QMainWindow):
                     "https://github.com/Ilias95/FF-Multi-Converter/wiki")
                 )
         ffmpegdocAction = utils.create_action(
-                self, 'FFmpeg documentation', None, None, None,
+                self, 'FFmpeg ' + self.tr('documentation'), None, None, None,
                 lambda: webbrowser.open(
                     "https://www.ffmpeg.org/documentation.html")
                 )
         imagemagickdocAction = utils.create_action(
-                self, 'ImageMagick documentation', None, None, None,
-                lambda: webbrowser.open(
+                self, 'ImageMagick' + self.tr('documentation'), None, None,
+                None, lambda: webbrowser.open(
                     "http://www.imagemagick.org/script/convert.php")
                 )
         aboutAction = utils.create_action(
@@ -482,7 +482,7 @@ class MainWindow(QMainWindow):
 
     def open_dialog_about(self):
         """Call the about dialog with the appropriate values."""
-        msg = self.tr('Convert among several file types to other extensions')
+        msg = self.tr('Convert among several file types to other formats')
         msg = textwrap.fill(msg, 54).replace('\n', '<br>')
         text = '''<b> FF Multi Converter {0} </b>
                  <p>{1}

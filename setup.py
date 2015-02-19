@@ -34,6 +34,7 @@ setup(
         'Environment :: X11 Applications :: Qt',
         'Natural Language :: English',
         'Natural Language :: Bulgarian',
+        'Natural Language :: Catalan',
         'Natural Language :: Chinese (Simplified)',
         'Natural Language :: Czech',
         'Natural Language :: French',

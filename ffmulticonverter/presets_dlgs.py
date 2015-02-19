@@ -15,6 +15,7 @@
 
 import os
 import re
+import time
 import xml.etree.ElementTree as etree
 
 from PyQt4.QtCore import Qt, QTimer
@@ -273,7 +274,7 @@ class ShowPresets(QDialog):
         """Export the xml tree."""
         fname = QFileDialog.getSaveFileName(
                 self, 'FF Multi Converter - ' + self.tr('Export presets'),
-                '.xml')
+                config.home + '/presets-' + time.strftime("%Y-%m-%d") + '.xml')
         if fname:
             self.load_xml()
             with open(fname, 'wb') as _file:

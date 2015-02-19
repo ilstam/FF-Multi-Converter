@@ -168,7 +168,7 @@ class MainWindow(QMainWindow):
                     "https://www.ffmpeg.org/documentation.html")
                 )
         imagemagickdocAction = utils.create_action(
-                self, 'ImageMagick' + self.tr('documentation'), None, None,
+                self, 'ImageMagick ' + self.tr('documentation'), None, None,
                 None, lambda: webbrowser.open(
                     "http://www.imagemagick.org/script/convert.php")
                 )

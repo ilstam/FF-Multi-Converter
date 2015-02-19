@@ -259,7 +259,7 @@ class ShowPresets(QDialog):
         if reply == QMessageBox.Yes:
             fname = QFileDialog.getOpenFileName(self, title)
             if fname:
-                msg = self.tr('Succesful import!')
+                msg = self.tr('Successful import!')
                 try:
                     self.tree = etree.parse(fname)
                 except:
@@ -290,6 +290,9 @@ class ShowPresets(QDialog):
         if reply == QMessageBox.Yes:
             if os.path.exists(self.current_presets_file):
                 os.remove(self.current_presets_file)
+
+            QMessageBox.information(self, ' ',
+                    self.tr('Default presets restored successfully.'))
 
     def synchronize(self):
         """
@@ -341,7 +344,12 @@ class ShowPresets(QDialog):
                 index = sorted([x.tag for x in self.root] +
                                [i.tag]).index(i.tag)
                 self.root.insert(index, i)
+
         self.save_tree()
+
+        QMessageBox.information(self, ' ',
+                self.tr(
+                'Synchronization completed.\nYour presets are up to date!'))
 
     def remove_old(self):
         """Remove those xml elements which their tags has an __OLD suffix."""
@@ -353,10 +361,15 @@ class ShowPresets(QDialog):
             return
 
         self.load_xml()
+
         for i in self.root:
             if i.tag.endswith(config.presets_old):
                 self.root.remove(i)
+
         self.save_tree()
+
+        QMessageBox.information(self, ' ',
+                self.tr('Old presets successfully removed.'))
 
     def accept(self):
         """

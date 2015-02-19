@@ -302,7 +302,7 @@ class AudioVideoTab(QWidget):
         Open the presets dialog and update self.commandQLE,
         and self.extQCB and with the appropriate values.
         """
-        dialog = presets_dlgs.ShowPresets()
+        dialog = presets_dlgs.ShowPresets(choose=True)
         if dialog.exec_() and dialog.the_command is not None:
             self.commandQLE.setText(dialog.the_command)
             self.commandQLE.home(False)

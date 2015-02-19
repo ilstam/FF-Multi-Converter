@@ -28,7 +28,7 @@ from ffmulticonverter import config
 
 
 class ShowPresets(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, choose=False):
         super(ShowPresets, self).__init__(parent)
 
         self.original_presets_file = utils.find_presets_file(
@@ -83,6 +83,8 @@ class ShowPresets(QDialog):
         self.delete_allQPB.clicked.connect(self.delete_all_presets)
         self.editQPB.clicked.connect(self.edit_preset)
         self.searchQLE.textEdited.connect(self.search)
+        if choose:
+            self.presQLW.doubleClicked.connect(okQPB.click)
 
         del_shortcut = QShortcut(self)
         del_shortcut.setKey(Qt.Key_Delete)

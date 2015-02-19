@@ -24,12 +24,6 @@
     <extension>m4a</extension>
     <category>Scattered</category>
   </CopyExtractAudioAAC>
-  <CopyExtractAudioMP3>
-    <label>Extract (copy) audio mp3 (flv-video->mp3-audio)</label>
-    <params>-acodec copy</params>
-    <extension>mp3</extension>
-    <category>Scattered</category>
-  </CopyExtractAudioMP3>
   <ExtractAudioMP3>
     <label>Extract audio mp3 (mp4-video->mp3-audio)</label>
     <params>-q:a 0 -map a</params>

@@ -162,7 +162,7 @@ Dopóki nie zainstalujesz jednego z nich, nie możesz konwertować plików audio
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="129"/>
         <source>Audio Channels:</source>
-        <translation type="unfinished"/>
+        <translation>Kanały dźwięku:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="161"/>
@@ -172,7 +172,7 @@ Dopóki nie zainstalujesz jednego z nich, nie możesz konwertować plików audio
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="163"/>
         <source>Duration</source>
-        <translation type="unfinished"/>
+        <translation>Długość</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="169"/>
@@ -240,7 +240,7 @@ Dopóki go nie zainstalujesz, nie możesz konwertować dokumentów.</translation
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="82"/>
         <source>{0} is not {1}!</source>
-        <translation type="unfinished"/>
+        <translation>{0} nie równa się {1}!</translation>
     </message>
 </context>
 <context>
@@ -273,7 +273,7 @@ Dopóki go nie zainstalujesz, nie możesz konwertować dokumentów.</translation
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="47"/>
         <source>Extra options:</source>
-        <translation type="unfinished"/>
+        <translation>Dodatkowe opcje:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="65"/>

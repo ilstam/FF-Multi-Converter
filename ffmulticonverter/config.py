@@ -86,6 +86,7 @@ document_formats = {
 #-----misc
 translators = [
         ['[bg] Bulgarian', 'Vasil Blagoev'],
+        ['[ca] Catalan', 'David Sabadell i Ximenes'],
         ['[cs] Czech', 'Petr Simacek'],
         ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
         ['[el] Greek', 'Ilias Stamatis'],

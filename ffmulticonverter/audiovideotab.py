@@ -331,13 +331,42 @@ class AudioVideoTab(QWidget):
             return
 
         regex = r'(\s+|^)-s(:v){0,1}\s+\d+x\d+(\s+|$)'
-        s = ' -s {0}x{1} '.format(text1, text2) if text1 and text2 else ' '
         if re.search(regex, command):
-            command = re.sub(regex, s, command)
-        else:
-            command += s
-        command = re.sub(' +', ' ', command).strip()
+            command = re.sub(regex, '', command)
 
+        regex1 = r'(,*\s*){0,1}(scale=\d+:\d+)(\s*,*\s*){0,1}'
+        regex2 = r'(-vf "[^"]*)"'
+        regex3 = r'-vf +([^ ]+)'
+
+        s = "scale={0}:{1}".format(text1, text2) if text1 and text2 else ''
+
+        search = re.search(regex1, command)
+        if search:
+            if text1 and text2:
+                command = re.sub(regex1, r'\1{0}\3'.format(s), command)
+            else:
+                group1 = search.groups()[0].strip()
+                group2 = search.groups()[2].strip()
+                if group1 and group2:
+                    # scale filter is between 2 other filters
+                    # remove it and leave a comma
+                    command = re.sub(regex1, ',', command)
+                else:
+                    # remove scale filter
+                    command = re.sub(regex1, s, command)
+                    # add a space between -vf and filter if needed
+                    command = re.sub(r'-vf([^ ])', r'-vf \1', command)
+                    if not group1 and not group2:
+                        # remove -vf option
+                        command = re.sub(r'-vf *("\s*"){0,1}', '', command)
+        elif re.search(regex2, command):
+            command = re.sub(regex2, r'\1,{0}"'.format(s), command)
+        elif re.search(regex3, command):
+            command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
+        else:
+            command += ' -vf "' + s + '"'
+
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_preserve_size(self):
@@ -367,12 +396,13 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-aspect\s+\d+:\d+(\s+|$)'
         s = ' -aspect {0}:{1} '.format(text1, text2) if text1 and text2 else ' '
+
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_preserve_aspect(self):
@@ -398,12 +428,13 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-r\s+\d+(\s+|$)'
         s = ' -r {0} '.format(text) if text else ' '
+
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_vidbitrate(self):
@@ -412,10 +443,12 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-b(:v){0,1}\s+\d+[kKmM](\s+|$)'
         s = ' -b:v {0}k '.format(text) if text else ' '
+
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:
             command += s
+
         command = re.sub('-sameq', '', command)
         command = re.sub(' +', ' ', command).strip()
 
@@ -427,12 +460,13 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-ar\s+\d+(\s+|$)'
         s = ' -ar {0} '.format(text) if self.freqQCB.currentIndex() != 0 else ' '
+
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_audbitrate(self):
@@ -449,8 +483,8 @@ class AudioVideoTab(QWidget):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_channels(self, channel):
@@ -458,12 +492,13 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-ac\s+\d+(\s+|$)'
         s = ' -ac {0} '.format(channel)
+
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_threads(self):
@@ -472,12 +507,13 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-threads\s+\d+(\s+|$)'
         s = ' -threads {0} '.format(text) if text else ' '
+
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_begin_time(self):
@@ -486,12 +522,13 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-ss\s+\S+(\s+|$)'
         s = ' -ss {0} '.format(text) if text else ' '
+
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_duration(self):
@@ -500,12 +537,13 @@ class AudioVideoTab(QWidget):
 
         regex = r'(\s+|^)-t\s+\S+(\s+|$)'
         s = ' -t {0} '.format(text) if text else ' '
+
         if re.search(regex, command):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_vcodec(self):
@@ -522,8 +560,8 @@ class AudioVideoTab(QWidget):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_acodec(self):
@@ -540,8 +578,8 @@ class AudioVideoTab(QWidget):
             command = re.sub(regex, s, command)
         else:
             command += s
-        command = re.sub(' +', ' ', command).strip()
 
+        command = re.sub(' +', ' ', command).strip()
         self.commandQLE.setText(command)
 
     def command_update_subtitles(self):
@@ -581,7 +619,6 @@ class AudioVideoTab(QWidget):
             command += ' -vf "' + s + '"'
 
         command = re.sub(' +', ' ', command).strip()
-
         self.commandQLE.setText(command)
 
     def command_update_rotation(self):
@@ -636,5 +673,4 @@ class AudioVideoTab(QWidget):
             command += ' -vf "' + s + '"'
 
         command = re.sub(' +', ' ', command).strip()
-
         self.commandQLE.setText(command)

@@ -573,19 +573,26 @@ class AudioVideoTab(QWidget):
             if text:
                 command = re.sub(regex1, r'\1{0}\3'.format(s), command)
             else:
-                if search.groups()[0] and search.groups()[2]:
+                group1 = search.groups()[0].strip()
+                group2 = search.groups()[2].strip()
+                if group1 and group2:
+                    # subtitles filter is between 2 other filters
+                    # remove it and leave a comma
                     command = re.sub(regex1, ',', command)
                 else:
+                    # remove subtitles filter
                     command = re.sub(regex1, s, command)
+                    # add a space between -vf and filter if needed
+                    command = re.sub(r'-vf([^ ])', r'-vf \1', command)
+                    if not group1 and not group2:
+                        # remove -vf option
+                        command = re.sub(r'-vf *("\s*"){0,1}', '', command)
         elif re.search(regex2, command):
             command = re.sub(regex2, r'\1,{0}"'.format(s), command)
         elif re.search(regex3, command):
             command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
         else:
             command += ' -vf "' + s + '"'
-
-        if not text:
-            command = re.sub(r'-vf "\s*"', '', command)
 
         command = re.sub(' +', ' ', command).strip()
 
@@ -622,19 +629,26 @@ class AudioVideoTab(QWidget):
             if rotate != 0:
                 command = re.sub(regex1, r'\1{0}\4'.format(s), command)
             else:
-                if search.groups()[0] and search.groups()[3]:
+                group1 = search.groups()[0].strip()
+                group2 = search.groups()[3].strip()
+                if group1 and group2:
+                    # rotation filter is between 2 other filters
+                    # remove it and leave a comma
                     command = re.sub(regex1, ',', command)
                 else:
+                    # remove rotation filter
                     command = re.sub(regex1, s, command)
+                    # add a space between -vf and filter if needed
+                    command = re.sub(r'-vf([^ ])', r'-vf \1', command)
+                    if not group1 and not group2:
+                        # remove -vf option
+                        command = re.sub(r'-vf *("\s*"){0,1}', '', command)
         elif re.search(regex2, command):
             command = re.sub(regex2, r'\1,{0}"'.format(s), command)
         elif re.search(regex3, command):
             command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
         else:
             command += ' -vf "' + s + '"'
-
-        if rotate == 0:
-            command = re.sub(r'-vf "\s*"', '', command)
 
         command = re.sub(' +', ' ', command).strip()
 

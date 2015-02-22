@@ -338,7 +338,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_preserve_size(self):
@@ -356,7 +355,6 @@ class AudioVideoTab(QWidget):
         command = re.sub(regex, ' ', command)
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_aspect(self):
@@ -375,7 +373,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_preserve_aspect(self):
@@ -393,7 +390,6 @@ class AudioVideoTab(QWidget):
         command = re.sub(regex, ' ', command)
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_frames(self):
@@ -408,7 +404,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_vidbitrate(self):
@@ -424,7 +419,6 @@ class AudioVideoTab(QWidget):
         command = re.sub('-sameq', '', command)
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_frequency(self):
@@ -439,7 +433,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_audbitrate(self):
@@ -458,7 +451,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_channels(self, channel):
@@ -472,7 +464,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_threads(self):
@@ -487,7 +478,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_begin_time(self):
@@ -502,7 +492,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_duration(self):
@@ -517,7 +506,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_vcodec(self):
@@ -536,7 +524,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_acodec(self):
@@ -555,7 +542,6 @@ class AudioVideoTab(QWidget):
             command += s
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_subtitles(self):
@@ -596,7 +582,6 @@ class AudioVideoTab(QWidget):
 
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)
 
     def command_update_rotation(self):
@@ -652,5 +637,4 @@ class AudioVideoTab(QWidget):
 
         command = re.sub(' +', ' ', command).strip()
 
-        self.commandQLE.clear()
         self.commandQLE.setText(command)

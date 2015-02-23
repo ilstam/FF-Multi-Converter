@@ -54,6 +54,7 @@ class AudioVideoTab(QWidget):
 
         digits_validator = QRegExpValidator(QRegExp(r'[1-9]\d*'), self)
         digits_validator_wzero = QRegExpValidator(QRegExp(r'\d*'), self)
+        digits_validator_minus = QRegExpValidator(QRegExp(r'(-1|[1-9]\d*)'), self)
         time_validator = QRegExpValidator(
                 QRegExp(r'\d{1,2}:\d{1,2}:\d{1,2}\.\d+'), self)
 
@@ -85,9 +86,9 @@ class AudioVideoTab(QWidget):
         bitrateQL = QLabel(self.tr('Video Bitrate (kbps):'))
 
         self.widthQLE = utils.create_LineEdit(
-                (70, 16777215), digits_validator, 4)
+                (70, 16777215), digits_validator_minus, 4)
         self.heightQLE = utils.create_LineEdit(
-                (70, 16777215), digits_validator, 4)
+                (70, 16777215), digits_validator_minus, 4)
         label = QLabel('<html><p align="center">x</p></html>')
         layout1 = utils.add_to_layout('h', self.widthQLE, label,self.heightQLE)
         self.aspect1QLE = utils.create_LineEdit(
@@ -327,14 +328,17 @@ class AudioVideoTab(QWidget):
         text1 = self.widthQLE.text()
         text2 = self.heightQLE.text()
 
-        if (text1 or text2) and not (text1 and text2):
+        if not (text1 == '-1' or text2 == '-1'):
+            self.preserveaspectQChB.setChecked(False)
+
+        if (text1 or text2) and not (text1 and text2) or text1 == '-' or text2 == '-':
             return
 
         regex = r'(\s+|^)-s(:v){0,1}\s+\d+x\d+(\s+|$)'
         if re.search(regex, command):
             command = re.sub(regex, '', command)
 
-        regex1 = r'(,*\s*){0,1}(scale=\d+:\d+)(\s*,*\s*){0,1}'
+        regex1 = r'(,*\s*){0,1}(scale=-?\d+:-?\d+)(\s*,*\s*){0,1}'
         regex2 = r'(-vf "[^"]*)"'
         regex3 = r'-vf +([^ ]+)'
 
@@ -363,7 +367,7 @@ class AudioVideoTab(QWidget):
             command = re.sub(regex2, r'\1,{0}"'.format(s), command)
         elif re.search(regex3, command):
             command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
-        else:
+        elif s:
             command += ' -vf "' + s + '"'
 
         command = re.sub(' +', ' ', command).strip()
@@ -411,14 +415,24 @@ class AudioVideoTab(QWidget):
         self.aspect1QLE.setEnabled(not checked)
         self.aspect2QLE.setEnabled(not checked)
 
-        if not checked:
-            self.command_update_aspect()
-            return
+        if checked:
+            self.aspect1QLE.clear()
+            self.aspect2QLE.clear()
+            # self.command_update_aspect() is triggered here
+
+            regex = r'(,*\s*){0,1}(scale=(-?\d+):(-?\d+))(\s*,*\s*){0,1}'
+            search = re.search(regex, command)
+            if search:
+                width = search.groups()[2]
+                height = search.groups()[3]
+                if not (width == '-1' or height == '-1'):
+                    s = "scale=-1:{0}".format(height)
+                    command = re.sub(regex, r'\1{0}\5'.format(s), command)
+                    self.widthQLE.setText('-1')
+                    self.heightQLE.setText(height)
 
         regex = r'(\s+|^)-aspect\s+\d+:\d+(\s+|$)'
-        command = re.sub(regex, ' ', command)
-        command = re.sub(' +', ' ', command).strip()
-
+        command = re.sub(' +', ' ', re.sub(regex, ' ', command)).strip()
         self.commandQLE.setText(command)
 
     def command_update_frames(self):
@@ -614,7 +628,7 @@ class AudioVideoTab(QWidget):
             command = re.sub(regex2, r'\1,{0}"'.format(s), command)
         elif re.search(regex3, command):
             command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
-        else:
+        elif s:
             command += ' -vf "' + s + '"'
 
         command = re.sub(' +', ' ', command).strip()
@@ -668,7 +682,7 @@ class AudioVideoTab(QWidget):
             command = re.sub(regex2, r'\1,{0}"'.format(s), command)
         elif re.search(regex3, command):
             command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
-        else:
+        elif s:
             command += ' -vf "' + s + '"'
 
         command = re.sub(' +', ' ', command).strip()

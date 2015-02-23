@@ -370,20 +370,19 @@ class AudioVideoTab(QWidget):
         self.commandQLE.setText(command)
 
     def command_update_preserve_size(self):
-        command = self.commandQLE.text()
         checked = self.preservesizeQChB.isChecked()
 
         self.widthQLE.setEnabled(not checked)
         self.heightQLE.setEnabled(not checked)
 
-        if not checked:
-            self.command_update_size()
-            return
+        if checked:
+            self.widthQLE.clear()
+            self.heightQLE.clear()
+            # command_update_size() is triggered here
 
+        command = self.commandQLE.text()
         regex = r'(\s+|^)-s\s+\d+x\d+(\s+|$)'
-        command = re.sub(regex, ' ', command)
-        command = re.sub(' +', ' ', command).strip()
-
+        command = re.sub(' +', ' ', re.sub(regex, ' ', command)).strip()
         self.commandQLE.setText(command)
 
     def command_update_aspect(self):

@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__(parent)
 
         # main window dimensions
-        self.main_width = 780
+        self.main_width = 820
         self.main_height = 510
         self.main_fixed_height = 684
         self.default_command = config.default_ffmpeg_cmd

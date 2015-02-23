@@ -202,7 +202,7 @@ class MainWindow(QMainWindow):
         clearQPB.clicked.connect(self.clear_fileslist)
         self.tabWidget.currentChanged.connect(
                 lambda: self.tabs[0].moreQPB.setChecked(False))
-        self.origQCB.clicked.connect(
+        self.origQCB.toggled.connect(
                 lambda: self.toQLE.setEnabled(not self.origQCB.isChecked()))
         self.toQTB.clicked.connect(self.open_dir)
         convertQPB.clicked.connect(convertAction.triggered)

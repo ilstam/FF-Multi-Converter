@@ -317,6 +317,7 @@ class AudioVideoTab(QWidget):
         """
         dialog = presets_dlgs.ShowPresets(choose=True)
         if dialog.exec_() and dialog.the_command is not None:
+            self.clear()
             self.commandQLE.setText(dialog.the_command)
             self.commandQLE.home(False)
             find = self.extQCB.findText(dialog.the_extension)

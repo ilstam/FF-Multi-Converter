@@ -18,7 +18,6 @@ import re
 import io
 import signal
 import threading
-import shutil
 import subprocess
 import shlex
 import logging

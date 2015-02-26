@@ -16,7 +16,7 @@
 from PyQt4.QtCore import QRegExp
 from PyQt4.QtGui import (
         QWidget, QRegExpValidator, QLabel, QComboBox, QCheckBox, QLineEdit,
-        QSpacerItem, QMessageBox
+        QMessageBox
         )
 
 from ffmulticonverter import utils

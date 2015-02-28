@@ -3,11 +3,10 @@ FF Multi Converter
 
 FF Multi Converter is a simple graphical application which enables you to
 convert audio, video, image and document files between all popular formats,
-using and combining other programs. It uses ffmpeg for audio/video files,
+by using and combining other applications. It uses ffmpeg for audio/video files,
 unoconv for document files and ImageMagick library for image file conversions.
 
 Project homepage: https://sites.google.com/site/ffmulticonverter/
-Download page: https://sourceforge.net/projects/ffmulticonv/files/
 
 Dependencies
 -------------
@@ -28,3 +27,12 @@ Installation
 -------------
 From application's directory run as root:
     python3 setup.py install
+
+Uninstall
+----------
+Run the following as root to delete all project files from your system:
+    sh uninstall.sh
+
+Note:
+If you've used a package manager to install the application you should use it
+again to remove it, instead of running the above script.

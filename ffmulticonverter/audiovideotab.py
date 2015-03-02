@@ -332,47 +332,19 @@ class AudioVideoTab(QWidget):
         if not (text1 == '-1' or text2 == '-1'):
             self.preserveaspectQChB.setChecked(False)
 
-        if (text1 or text2) and not (text1 and text2) or text1 == '-' or text2 == '-':
+        if (text1 or text2) and not (text1 and text2) or (text1 == '-' or
+                text2 == '-'):
             return
 
         regex = r'(\s+|^)-s(:v){0,1}\s+\d+x\d+(\s+|$)'
         if re.search(regex, command):
             command = re.sub(regex, '', command)
 
-        regex1 = r'(,*\s*){0,1}(scale=-?\d+:-?\d+)(\s*,*\s*){0,1}'
-        regex2 = r'(-vf "[^"]*)"'
-        regex3 = r'-vf +([^ ]+)'
+        regex = r'(,*\s*){0,1}(scale=-?\d+:-?\d+)(\s*,*\s*){0,1}'
+        _filter = "scale={0}:{1}".format(text1, text2) if text1 and text2 else ''
 
-        s = "scale={0}:{1}".format(text1, text2) if text1 and text2 else ''
-
-        search = re.search(regex1, command)
-        if search:
-            if text1 and text2:
-                command = re.sub(regex1, r'\1{0}\3'.format(s), command)
-            else:
-                group1 = search.groups()[0].strip()
-                group2 = search.groups()[2].strip()
-                if group1 and group2:
-                    # scale filter is between 2 other filters
-                    # remove it and leave a comma
-                    command = re.sub(regex1, ',', command)
-                else:
-                    # remove scale filter
-                    command = re.sub(regex1, s, command)
-                    # add a space between -vf and filter if needed
-                    command = re.sub(r'-vf([^ ])', r'-vf \1', command)
-                    if not group1 and not group2:
-                        # remove -vf option
-                        command = re.sub(r'-vf *("\s*"){0,1}', '', command)
-        elif re.search(regex2, command):
-            command = re.sub(regex2, r'\1,{0}"'.format(s), command)
-        elif re.search(regex3, command):
-            command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
-        elif s:
-            command += ' -vf "' + s + '"'
-
-        command = re.sub(' +', ' ', command).strip()
-        self.commandQLE.setText(command)
+        self.commandQLE.setText(utils.update_cmdline_text(
+                command, _filter, regex, bool(text1 and text2), 0, 2))
 
     def command_update_preserve_size(self):
         checked = self.preservesizeQChB.isChecked()
@@ -598,93 +570,35 @@ class AudioVideoTab(QWidget):
 
     def command_update_subtitles(self):
         command = self.commandQLE.text()
+        regex = r'(,*\s*){0,1}(subtitles=\'.*\')(\s*,*\s*){0,1}'
+
         text = self.embedQLE.text()
+        _filter = "subtitles='{0}'".format(text) if text else ''
 
-        regex1 = r'(,*\s*){0,1}(subtitles=\'.*\')(\s*,*\s*){0,1}'
-        regex2 = r'(-vf "[^"]*)"'
-        regex3 = r'-vf +([^ ]+)'
-
-        s = "subtitles='{0}'".format(text) if text else ''
-
-        search = re.search(regex1, command)
-        if search:
-            if text:
-                command = re.sub(regex1, r'\1{0}\3'.format(s), command)
-            else:
-                group1 = search.groups()[0].strip()
-                group2 = search.groups()[2].strip()
-                if group1 and group2:
-                    # subtitles filter is between 2 other filters
-                    # remove it and leave a comma
-                    command = re.sub(regex1, ',', command)
-                else:
-                    # remove subtitles filter
-                    command = re.sub(regex1, s, command)
-                    # add a space between -vf and filter if needed
-                    command = re.sub(r'-vf([^ ])', r'-vf \1', command)
-                    if not group1 and not group2:
-                        # remove -vf option
-                        command = re.sub(r'-vf *("\s*"){0,1}', '', command)
-        elif re.search(regex2, command):
-            command = re.sub(regex2, r'\1,{0}"'.format(s), command)
-        elif re.search(regex3, command):
-            command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
-        elif s:
-            command += ' -vf "' + s + '"'
-
-        command = re.sub(' +', ' ', command).strip()
-        self.commandQLE.setText(command)
+        self.commandQLE.setText(utils.update_cmdline_text(
+                command, _filter, regex, bool(text), 0, 2))
 
     def command_update_rotation(self):
         command = self.commandQLE.text()
+        regex = r'(,*\s*){0,1}(transpose=\d(,\s*transpose=\d)*|vflip|hflip)(\s*,*\s*){0,1}'
+
         rotate = self.rotateQCB.currentIndex()
-
-        if rotate == 0: # none
-            s = ''
+        if rotate == 0:   # none
+            _filter = ''
         elif rotate == 1: # 90 clockwise
-            s = 'transpose=1'
+            _filter = 'transpose=1'
         elif rotate == 2: # 90 clockwise + vertical flip
-            s = 'transpose=3'
+            _filter = 'transpose=3'
         elif rotate == 3: # 90 counter clockwise
-            s = 'transpose=2'
+            _filter = 'transpose=2'
         elif rotate == 4: # 90 counter clockwise + vertical flip
-            s = 'transpose=0'
+            _filter = 'transpose=0'
         elif rotate == 5: # 180
-            s = 'transpose=2,transpose=2'
+            _filter = 'transpose=2,transpose=2'
         elif rotate == 6: # horizontal flip
-            s = 'hflip'
+            _filter = 'hflip'
         elif rotate == 7: # vertical flip
-            s = 'vflip'
+            _filter = 'vflip'
 
-        regex1 = r'(,*\s*){0,1}(transpose=\d(,\s*transpose=\d)*|vflip|hflip)(\s*,*\s*){0,1}'
-        regex2 = r'(-vf "[^"]*)"'
-        regex3 = r'-vf +([^ ]+)'
-
-        search = re.search(regex1, command)
-        if search:
-            if rotate != 0:
-                command = re.sub(regex1, r'\1{0}\4'.format(s), command)
-            else:
-                group1 = search.groups()[0].strip()
-                group2 = search.groups()[3].strip()
-                if group1 and group2:
-                    # rotation filter is between 2 other filters
-                    # remove it and leave a comma
-                    command = re.sub(regex1, ',', command)
-                else:
-                    # remove rotation filter
-                    command = re.sub(regex1, s, command)
-                    # add a space between -vf and filter if needed
-                    command = re.sub(r'-vf([^ ])', r'-vf \1', command)
-                    if not group1 and not group2:
-                        # remove -vf option
-                        command = re.sub(r'-vf *("\s*"){0,1}', '', command)
-        elif re.search(regex2, command):
-            command = re.sub(regex2, r'\1,{0}"'.format(s), command)
-        elif re.search(regex3, command):
-            command = re.sub(regex3, r'-vf "\1,{0}"'.format(s), command)
-        elif s:
-            command += ' -vf "' + s + '"'
-
-        command = re.sub(' +', ' ', command).strip()
-        self.commandQLE.setText(command)
+        self.commandQLE.setText(utils.update_cmdline_text(
+                command, _filter, regex, bool(rotate != 0), 0, 3))

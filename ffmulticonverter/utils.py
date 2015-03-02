@@ -18,6 +18,7 @@ Various useful functions.
 """
 
 import os
+import re
 import sys
 import shlex
 import subprocess
@@ -148,6 +149,54 @@ def create_paths_list(
         conversion_list.append(_dict)
 
     return conversion_list
+
+def update_cmdline_text(command, _filter, regex, add, gindex1, gindex2):
+    """
+    Update and return the command line text by adding, removing or edditing a
+    ffmpeg filter based on the given regular expression.
+
+    Keyword arguments:
+    command  -- initial command text (string)
+    _filter  -- ffmpeg filter to add or edit in command (string)
+    regex    -- regex to search in command
+    add      -- if True, add filter to command, else filter must be removed
+    gindex1  -- group index of the first group before filter group in regex
+    gindex2  -- group index of the first group after filter group in regex
+    """
+    regex2 = r'(-vf "[^"]*)"'
+    regex3 = r'-vf +([^ ]+)'
+
+    search = re.search(regex, command)
+    if search:
+        if add:
+            command = re.sub(
+                    regex,
+                    r'\{0}{1}\{2}'.format(gindex1+1, _filter, gindex2+1),
+                    command
+                    )
+        else:
+            group1 = search.groups()[gindex1].strip()
+            group2 = search.groups()[gindex2].strip()
+            if group1 and group2:
+                # the filter is between 2 other filters
+                # remove it and leave a comma
+                command = re.sub(regex, ',', command)
+            else:
+                # remove filter
+                command = re.sub(regex, _filter, command)
+                # add a space between -vf and filter if needed
+                command = re.sub(r'-vf([^ ])', r'-vf \1', command)
+                if not group1 and not group2:
+                    # remove -vf option
+                    command = re.sub(r'-vf *("\s*"){0,1}', '', command)
+    elif re.search(regex2, command):
+        command = re.sub(regex2, r'\1,{0}"'.format(_filter), command)
+    elif re.search(regex3, command):
+        command = re.sub(regex3, r'-vf "\1,{0}"'.format(_filter), command)
+    elif _filter:
+        command += ' -vf "' + _filter + '"'
+
+    return re.sub(' +', ' ', command).strip()
 
 
 #######################################################################

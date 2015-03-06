@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ms_MY" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms_MY" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -56,11 +55,6 @@
         <translation>Nama praset tidak boleh dibiarkan kosong.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="434"/>
-        <source>Preset name must be one word and contain only letters and digits.</source>
-        <translation type="obsolete">Nama praset mesti satu perkataan yang hanya mengandungi abjad dan digit.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="465"/>
         <source>Preset label can&apos;t be left blank.</source>
         <translation>Label praset tidak boleh dibiarkan kosong.</translation>
@@ -88,7 +82,7 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="454"/>
         <source>Preset name must be one word, start with a letter and contain only letters, digits, underscores, hyphens, colons and periods. It cannot also start with xml.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nama praset mestilah satu perkataan, bermula dengan abjad dan hanya mengandungi abjad, digit, garis bawah, sengkang, titik bertindih dan koma bertindih. Ia juga boleh dimulakan dengan xml.</translation>
     </message>
 </context>
 <context>
@@ -149,13 +143,6 @@
         <translation>Ralat!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/audiovideotab.py" line="299"/>
-        <source>Neither ffmpeg nor avconv are installed.
-You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="obsolete">Tiada ffmpeg atau avconv terpasang.
-Anda tidak boleh tukar fail audio/video sehinggal anda memasang salah satu darinya.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="108"/>
         <source>Preserve aspect ratio</source>
         <translation>Kekal nisbah bidang</translation>
@@ -198,38 +185,39 @@ Anda tidak boleh tukar fail audio/video sehinggal anda memasang salah satu darin
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="44"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiada</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="46"/>
         <source>clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>arah jam</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="52"/>
         <source>vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>kalih menegak</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="48"/>
         <source>counter clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>lawan jam</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="51"/>
         <source>horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>kalih mengufuk</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="126"/>
         <source>Threads:</source>
-        <translation type="unfinished"></translation>
+        <translation>Bebenang:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="291"/>
         <source>Neither ffmpeg nor libav are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiada ffmpeg atau libav terpasang.
+Anda tidak boleh tukar fail audio/video sehinggalah anda memasang salah satu darinya.</translation>
     </message>
 </context>
 <context>
@@ -273,11 +261,6 @@ Anda tidak boleh menukar fail dokumen sehingga anda memasangnya.</translation>
         <location filename="../ffmulticonverter/documenttab.py" line="75"/>
         <source>Error!</source>
         <translation>Ralat!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="85"/>
-        <source>You can not make parallel document conversions.</source>
-        <translation type="obsolete">Anda tidak boleh buat penukaran dokumen secara serentak.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="70"/>
@@ -342,12 +325,12 @@ Anda tidak dapat menukar fail imej sehinggalah anda memasangnya.</translation>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="66"/>
         <source>Vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalih menegak</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="67"/>
         <source>Horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalih mengufuk</translation>
     </message>
 </context>
 <context>
@@ -528,11 +511,6 @@ Anda tidak dapat menukar fail imej sehinggalah anda memasangnya.</translation>
         <translation>Ralat!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="444"/>
-        <source>Convert among several file types to other extensions</source>
-        <translation type="obsolete">Tukar beberapa jenis fail ke sambungan lain</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="254"/>
         <source>Missing dependencies:</source>
         <translation>Dependensi hilang:</translation>
@@ -588,12 +566,12 @@ fail input</translation>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="170"/>
         <source>documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>dokumentasi</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="487"/>
         <source>Convert among several file types to other formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Tukar ke beberapa jenis fail kepada format lain</translation>
     </message>
 </context>
 <context>
@@ -647,16 +625,6 @@ fail input</translation>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="74"/>
         <source>Default command:</source>
         <translation>Perintah lalai:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="76"/>
-        <source>Use:</source>
-        <translation type="obsolete">Guna:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="78"/>
-        <source>avconv</source>
-        <translation type="obsolete">avconv</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="108"/>
@@ -832,11 +800,6 @@ Anda pasti hendak teruskan?</translation>
         <translation>Anda pasti hendak pulihkan praset lalai?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="257"/>
-        <source>Succesful import!</source>
-        <translation type="obsolete">Import berjaya!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="267"/>
         <source>Import failed!</source>
         <translation>Import gagal!</translation>
@@ -879,23 +842,24 @@ Anda pasti hendak teruskan?</translation>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="263"/>
         <source>Successful import!</source>
-        <translation type="unfinished"></translation>
+        <translation>Berjaya diimport!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="295"/>
         <source>Default presets restored successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Praset lalai berjaya dipulihkan.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="351"/>
         <source>Synchronization completed.
 Your presets are up to date!</source>
-        <translation type="unfinished"></translation>
+        <translation>Penyegerakan selesai.
+Praset anda telah dikemaskini!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="372"/>
         <source>Old presets successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Praset lama berjaya dibuang.</translation>
     </message>
 </context>
 <context>

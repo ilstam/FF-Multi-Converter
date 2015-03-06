@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ca" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -56,11 +55,6 @@
         <translation>El nom de la predefinició no es pot deixar en blanc.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="434"/>
-        <source>Preset name must be one word and contain only letters and digits.</source>
-        <translation type="obsolete">El nom de la predefinició ha de ser un mot i contenir només lletres i dígits.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="465"/>
         <source>Preset label can&apos;t be left blank.</source>
         <translation>L&apos;etiqueta de la predefinició no es pot deixar en blanc.</translation>
@@ -88,7 +82,7 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="454"/>
         <source>Preset name must be one word, start with a letter and contain only letters, digits, underscores, hyphens, colons and periods. It cannot also start with xml.</source>
-        <translation type="unfinished"></translation>
+        <translation>El nom de la predefinició ha de ser una paraula, començar amb una lletra i contenir només lletres, dígits, guions baixos, guions, dos punts i punts. No pot començar amb xml.</translation>
     </message>
 </context>
 <context>
@@ -149,13 +143,6 @@
         <translation>Error!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/audiovideotab.py" line="299"/>
-        <source>Neither ffmpeg nor avconv are installed.
-You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="obsolete">Ni ffmpeg ni avconv estan instal·lats.
-No podràs convertir fitxers d&apos;àudio o de vídeo fins que n&apos;instal·lis algun.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="108"/>
         <source>Preserve aspect ratio</source>
         <translation>Preserva la relació d&apos;aspecte</translation>
@@ -198,38 +185,39 @@ No podràs convertir fitxers d&apos;àudio o de vídeo fins que n&apos;instal·l
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="44"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Cap</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="46"/>
         <source>clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>en sentit horari</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="52"/>
         <source>vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>inversió vertical</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="48"/>
         <source>counter clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>contra el sentit horari</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="51"/>
         <source>horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>inversió horitzontal</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="126"/>
         <source>Threads:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fils:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="291"/>
         <source>Neither ffmpeg nor libav are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ni ffmpeg ni avconv estan instal·lats.
+No podràs convertir fitxers d&apos;àudio o de vídeo fins que n&apos;instal·lis algun dels dos.</translation>
     </message>
 </context>
 <context>
@@ -273,11 +261,6 @@ No podràs convertir documents fins que l&apos;instal·lis.</translation>
         <location filename="../ffmulticonverter/documenttab.py" line="75"/>
         <source>Error!</source>
         <translation>Error!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="85"/>
-        <source>You can not make parallel document conversions.</source>
-        <translation type="obsolete">No pots convertir documents en paral·lel.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="70"/>
@@ -342,12 +325,12 @@ No podràs convertir la imatge fins que l&apos;instal·lis.</translation>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="66"/>
         <source>Vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>Inversió vertical</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="67"/>
         <source>Horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>Inversió horitzontal</translation>
     </message>
 </context>
 <context>
@@ -528,11 +511,6 @@ No podràs convertir la imatge fins que l&apos;instal·lis.</translation>
         <translation>Error!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="444"/>
-        <source>Convert among several file types to other extensions</source>
-        <translation type="obsolete">Converteix entre múltiple tipus de fitxer a altres extensions</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="254"/>
         <source>Missing dependencies:</source>
         <translation>Dependències que manquen:</translation>
@@ -587,12 +565,12 @@ carpeta que el fitxer d&apos;entrada</translation>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="170"/>
         <source>documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>documentació</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="487"/>
         <source>Convert among several file types to other formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Converteix múltiple tipus de fitxers a altres formats</translation>
     </message>
 </context>
 <context>
@@ -646,16 +624,6 @@ carpeta que el fitxer d&apos;entrada</translation>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="74"/>
         <source>Default command:</source>
         <translation>Ordre predeterminada:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="76"/>
-        <source>Use:</source>
-        <translation type="obsolete">Empra:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="78"/>
-        <source>avconv</source>
-        <translation type="obsolete">avconv</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="108"/>
@@ -831,11 +799,6 @@ Vols continuar?</translation>
         <translation>Vols restablir les predefinicions predeterminades?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="257"/>
-        <source>Succesful import!</source>
-        <translation type="obsolete">La importació ha reeixit!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="267"/>
         <source>Import failed!</source>
         <translation>La importació ha fallat!</translation>
@@ -878,23 +841,24 @@ Vols continuar?</translation>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="263"/>
         <source>Successful import!</source>
-        <translation type="unfinished"></translation>
+        <translation>La importació ha reeixit!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="295"/>
         <source>Default presets restored successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les predefinicions d&apos;inici han estat restaurades correctament.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="351"/>
         <source>Synchronization completed.
 Your presets are up to date!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronització completada.
+Les predefinicions estan actualitzades!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="372"/>
         <source>Old presets successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les predefinicions obsoletes han estat eliminades correctament.</translation>
     </message>
 </context>
 <context>

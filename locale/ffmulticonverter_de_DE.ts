@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="de_DE" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de_DE" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -56,11 +55,6 @@
         <translation>Voreingestellter Name darf nicht leer sein.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="434"/>
-        <source>Preset name must be one word and contain only letters and digits.</source>
-        <translation type="obsolete">Voreingestellter Name muß aus einem Wort bestehen und darf nur Buchstaben und Zahlen beinhalten.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="465"/>
         <source>Preset label can&apos;t be left blank.</source>
         <translation>Voreingestellter Label darf nicht leer sein.</translation>
@@ -88,7 +82,7 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="454"/>
         <source>Preset name must be one word, start with a letter and contain only letters, digits, underscores, hyphens, colons and periods. It cannot also start with xml.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voreingestellter Name muss ein Wort sein welcher mit einem Buchstaben beginnt und nur aus Buchstaben, Unterstrichen, Bindestrichen, Zahlen und einem Doppelpunkt bestehen darf. Der Name darf nicht mit &quot;xml&quot; beginnen.</translation>
     </message>
 </context>
 <context>
@@ -149,13 +143,6 @@
         <translation>Fehler!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/audiovideotab.py" line="299"/>
-        <source>Neither ffmpeg nor avconv are installed.
-You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="obsolete">Weder ffmpeg noch avconv sind installiert.
-Sie können keine Audio/Videodateien konvertiere, bis Sie eins von beiden installiert haben.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="108"/>
         <source>Preserve aspect ratio</source>
         <translation>Seitenverhältnis beibehalten</translation>
@@ -198,38 +185,39 @@ Sie können keine Audio/Videodateien konvertiere, bis Sie eins von beiden instal
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="44"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Keines</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="46"/>
         <source>clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>im Uhrzeigersinn</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="52"/>
         <source>vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>vertikal spiegeln</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="48"/>
         <source>counter clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>entgegen dem Uhrzeigersinn</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="51"/>
         <source>horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>horizontal spiegeln</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="126"/>
         <source>Threads:</source>
-        <translation type="unfinished"></translation>
+        <translation>Threads:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="291"/>
         <source>Neither ffmpeg nor libav are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Weder ffmpeg noch libav sind installiert.
+Sie können keine Audio/Videodateien konvertieren, bis Sie eines von beiden installiert haben.</translation>
     </message>
 </context>
 <context>
@@ -273,11 +261,6 @@ Sie können keine Dokumente konvertieren, bis Sie Unoconv installiert haben.</tr
         <location filename="../ffmulticonverter/documenttab.py" line="75"/>
         <source>Error!</source>
         <translation>Fehler!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="85"/>
-        <source>You can not make parallel document conversions.</source>
-        <translation type="obsolete">Es kann nicht parallel konvertierte werden.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="70"/>
@@ -342,12 +325,12 @@ Sie können keine Bilder konvertieren, bis Sie es installiert haben.</translatio
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="66"/>
         <source>Vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertikal spiegeln</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="67"/>
         <source>Horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>Horizontal spiegeln</translation>
     </message>
 </context>
 <context>
@@ -528,11 +511,6 @@ Sie können keine Bilder konvertieren, bis Sie es installiert haben.</translatio
         <translation>Fehler!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="444"/>
-        <source>Convert among several file types to other extensions</source>
-        <translation type="obsolete">Konvertiere zahlreiche Dateitypen in andere Formate</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="254"/>
         <source>Missing dependencies:</source>
         <translation>Fehlende Abhängigkeiten:</translation>
@@ -587,12 +565,12 @@ Ordner speichern</translation>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="170"/>
         <source>documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokumentation</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="487"/>
         <source>Convert among several file types to other formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Konvertieren einer Vielzahl von Dateitypen in andere Formate</translation>
     </message>
 </context>
 <context>
@@ -646,16 +624,6 @@ Ordner speichern</translation>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="74"/>
         <source>Default command:</source>
         <translation>Standard Kommando:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="76"/>
-        <source>Use:</source>
-        <translation type="obsolete">Nutze:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="78"/>
-        <source>avconv</source>
-        <translation type="obsolete">avconv</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="108"/>
@@ -831,11 +799,6 @@ Wollen Sie wirklich fortfahren?</translation>
         <translation>Wollen Sie wirklich alle Voreinstellungen wiederherstellen?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="257"/>
-        <source>Succesful import!</source>
-        <translation type="obsolete">Erfolgreicher import!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="267"/>
         <source>Import failed!</source>
         <translation>Import gescheitert!</translation>
@@ -878,23 +841,24 @@ Wollen Sie wirklich fortfahren?</translation>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="263"/>
         <source>Successful import!</source>
-        <translation type="unfinished"></translation>
+        <translation>Erfolgreicher Import!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="295"/>
         <source>Default presets restored successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard Voreinstellungen erfolgreich wiederhergestellt.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="351"/>
         <source>Synchronization completed.
 Your presets are up to date!</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronisation abgeschlossen.
+Ihre Voreinstellungen sind aktuell!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="372"/>
         <source>Old presets successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alte Voreinstellungen erfolgreich entfernt.</translation>
     </message>
 </context>
 <context>

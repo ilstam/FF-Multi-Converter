@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="cs" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -56,11 +55,6 @@
         <translation>Jméno předvolby nemůže být prázdné.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="434"/>
-        <source>Preset name must be one word and contain only letters and digits.</source>
-        <translation type="obsolete">Jméno předvolby musí být jedno slovo a obsahovat jen písmena a číslice.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="465"/>
         <source>Preset label can&apos;t be left blank.</source>
         <translation>Jméno štítku nemůže být prázdné.</translation>
@@ -88,7 +82,7 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="454"/>
         <source>Preset name must be one word, start with a letter and contain only letters, digits, underscores, hyphens, colons and periods. It cannot also start with xml.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jméno předvolby musí být jedno slovo, začínat písmenem a obsahovat pouze písmena, číslice, podtržítka, pomlčky a dvojtečky Nemůže také začít s XML.</translation>
     </message>
 </context>
 <context>
@@ -149,13 +143,6 @@
         <translation>Chyba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/audiovideotab.py" line="299"/>
-        <source>Neither ffmpeg nor avconv are installed.
-You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="obsolete">Ani ffmpeg ani avconv nejsou nainstalovány.
-Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="108"/>
         <source>Preserve aspect ratio</source>
         <translation>Zachovat poměr stran</translation>
@@ -188,7 +175,7 @@ Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="169"/>
         <source>Rotate:</source>
-        <translation>O</translation>
+        <translation>Otočit:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="302"/>
@@ -198,38 +185,39 @@ Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="44"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádné</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="46"/>
         <source>clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>ve směru hodinových ručiček</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="52"/>
         <source>vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>otočit svisle</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="48"/>
         <source>counter clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>proti směru hodinových ručiček</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="51"/>
         <source>horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>otočit horizontálně</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="126"/>
         <source>Threads:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlákna:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="291"/>
         <source>Neither ffmpeg nor libav are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ani ffmpeg ani avconv nejsou nainstalovány.
+Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich.</translation>
     </message>
 </context>
 <context>
@@ -273,11 +261,6 @@ Nebudete moci převádět dokumenty dokud ho nenainstalujete.</translation>
         <location filename="../ffmulticonverter/documenttab.py" line="75"/>
         <source>Error!</source>
         <translation>Chyba!</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="85"/>
-        <source>You can not make parallel document conversions.</source>
-        <translation type="obsolete">Nelze realizovat paralelní konverze dokumentů.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="70"/>
@@ -342,12 +325,12 @@ Obrázky nebude možné převést do té doby, než ho nainstalujete. </translat
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="66"/>
         <source>Vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>Otočit svisle</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="67"/>
         <source>Horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>Otočit vodorovně</translation>
     </message>
 </context>
 <context>
@@ -528,11 +511,6 @@ Obrázky nebude možné převést do té doby, než ho nainstalujete. </translat
         <translation>Chyba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="444"/>
-        <source>Convert among several file types to other extensions</source>
-        <translation type="obsolete">Převod mezi několika typy souborů do jiných přípon</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="254"/>
         <source>Missing dependencies:</source>
         <translation>Chybějící závislosti:</translation>
@@ -587,12 +565,12 @@ jeho původní složky</translation>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="170"/>
         <source>documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>dokumentace</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="487"/>
         <source>Convert among several file types to other formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Převod mezi několika typy souborů do jiných formátů</translation>
     </message>
 </context>
 <context>
@@ -646,16 +624,6 @@ jeho původní složky</translation>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="74"/>
         <source>Default command:</source>
         <translation>Výchozí příkaz:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="76"/>
-        <source>Use:</source>
-        <translation type="obsolete">Použít:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="78"/>
-        <source>avconv</source>
-        <translation type="obsolete">avconv</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="108"/>
@@ -831,11 +799,6 @@ Opravdu chcete pokračovat?</translation>
         <translation>Opravdu chcete znovu obnovit výchozí předvolby?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="257"/>
-        <source>Succesful import!</source>
-        <translation type="obsolete">Úspěšný import!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="267"/>
         <source>Import failed!</source>
         <translation>Import selhal!</translation>
@@ -878,23 +841,24 @@ Opravdu chcete pokračovat?</translation>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="263"/>
         <source>Successful import!</source>
-        <translation type="unfinished"></translation>
+        <translation>Úspěšný import!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="295"/>
         <source>Default presets restored successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí předvolby úspěšně obnoveny.</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="351"/>
         <source>Synchronization completed.
 Your presets are up to date!</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronizace je kompletní.
+Vaše předvolby jsou aktuální!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="372"/>
         <source>Old presets successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Staré předvolby byly úspěšně odstraněny.</translation>
     </message>
 </context>
 <context>

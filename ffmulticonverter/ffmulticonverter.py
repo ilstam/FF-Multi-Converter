@@ -55,7 +55,6 @@ class MainWindow(QMainWindow):
         self.main_width = 820
         self.main_height = 510
         self.main_fixed_height = 684
-        self.default_command = config.default_ffmpeg_cmd
 
         self.fnames = []  # list of file names to be converted
         self.office_listener_started = False
@@ -287,6 +286,8 @@ class MainWindow(QMainWindow):
 
         if defcmd:
             self.default_command = defcmd
+        else:
+            self.default_command = config.default_ffmpeg_cmd
 
         self.audiovideo_tab.fill_video_comboboxes(
                 videocodecs, audiocodecs, extraformats)

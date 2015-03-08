@@ -190,8 +190,6 @@ class AudioVideoTab(QWidget):
         self.frame = QFrame()
         self.frame.setLayout(hidden_layout)
         self.frame.hide()
-        #for development
-        #self.frame.setVisible(True)
 
         final_layout = utils.add_to_layout(
                 'v', hlayout1, hlayout2, hlayout3, self.frame)
@@ -201,7 +199,6 @@ class AudioVideoTab(QWidget):
         self.defaultQPB.clicked.connect(self.set_default_command)
         self.embedQTB.clicked.connect(self.open_subtitle_file)
         self.moreQPB.toggled.connect(self.frame.setVisible)
-        self.moreQPB.toggled.connect(self.resize_parent)
         self.widthQLE.textChanged.connect(self.command_update_size)
         self.heightQLE.textChanged.connect(self.command_update_size)
         self.aspect1QLE.textChanged.connect(self.command_update_aspect)
@@ -226,15 +223,6 @@ class AudioVideoTab(QWidget):
                 self.command_update_preserve_aspect)
         self.preservesizeQChB.toggled.connect(
                 self.command_update_preserve_size)
-
-    def resize_parent(self):
-        """Resize MainWindow."""
-        if self.frame.isVisible():
-            height = self.parent.main_fixed_height
-        else:
-            height = self.parent.main_height
-        self.parent.setMinimumSize(self.parent.main_width, height)
-        self.parent.resize(self.parent.main_width, height)
 
     def clear(self):
         """Clear all values of graphical widgets."""

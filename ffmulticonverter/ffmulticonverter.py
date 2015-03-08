@@ -51,11 +51,6 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        # main window dimensions
-        self.main_width = 820
-        self.main_height = 510
-        self.main_fixed_height = 684
-
         self.fnames = []  # list of file names to be converted
         self.office_listener_started = False
 
@@ -210,7 +205,6 @@ class MainWindow(QMainWindow):
         del_shortcut.setKey(Qt.Key_Delete)
         del_shortcut.activated.connect(self.delete_files)
 
-        self.resize(self.main_width, self.main_height)
         self.setWindowTitle('FF Multi Converter')
 
         QTimer.singleShot(0, self.check_for_dependencies)

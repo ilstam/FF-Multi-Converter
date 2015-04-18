@@ -101,14 +101,14 @@ class ShowPresets(QDialog):
         """Load xml tree and set xml root."""
         try:
             self.tree = etree.parse(self.current_presets_file)
-        except (etree.ParseError, FileNotFoundError):
+        except (etree.ParseError, IOError):
             try:
                 self.tree = etree.parse(self.original_presets_file)
-            except FileNotFoundError:
+            except IOError:
                 # when program is not installed
                 try:
                     self.tree = etree.parse('share/' + config.presets_file_name)
-                except FileNotFoundError:
+                except IOError:
                     # when running from test_dialogs.py
                     self.tree = etree.parse(
                             '../share/' + config.presets_file_name)

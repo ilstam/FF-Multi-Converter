@@ -69,7 +69,9 @@ Features:
  - Access to common conversion options.
  - Audio/video ffmpeg-presets management.
  - Options for saving and naming files.
+ - Multilingual - over 20 languages.
 
-Requires: python3, pyqt4, ffmpeg, imagemagick, unoconv
+Requires: python3, pyqt4
+Optionally requires: ffmpeg, imagemagick, unoconv
 """
 )

@@ -26,7 +26,7 @@ setup(
                 'images', 'documents', 'ffmpeg', 'imagemagick', 'unoconv'],
     classifiers = [
         'Programming Language :: Python',
-        'Programming Language :: Python 3',
+        'Programming Language :: Python :: 3 :: Only',
         'License :: OSI Approved :: GNU General Public License (GPL)',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: POSIX :: Linux',

@@ -4,5 +4,5 @@ include test/*
 include share/*
 include man/*
 include locale/*
-exclude locale/*qm
-recursive-exclude ffmulticonverter *pyc
+exclude locale/*.qm
+recursive-exclude ffmulticonverter *.pyc

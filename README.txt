@@ -10,8 +10,7 @@ Project homepage: https://sites.google.com/site/ffmulticonverter/
 
 Dependencies
 -------------
-python3
-pyqt4
+pyqt4 (for python3)
 
 Optional dependencies
 ----------------------
@@ -20,7 +19,7 @@ imagemagick
 unoconv
 
 The program does NOT require the optional dependencies to run.
-E.g. you can run the application even if you don't have ImageMagick installed,
+e.g. you can run the application even if you don't have ImageMagick installed,
 but you will be able to convert any other types except image files.
 
 Installation
@@ -32,7 +31,3 @@ Uninstall
 ----------
 Run the following as root to delete all project files from your system:
     sh uninstall.sh
-
-Note:
-If you've used a package manager to install the application you should use it
-again to remove it, instead of running the above script.

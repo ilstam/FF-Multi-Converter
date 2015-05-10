@@ -1,4 +1,4 @@
-include AUTHORS COPYING TRANSLATORS ChangeLog resources.qrc uninstall.sh
+include AUTHORS COPYING ChangeLog TRANSLATORS launcher resources.qrc uninstall.sh
 include bin/ffmulticonverter
 include test/*
 include share/*

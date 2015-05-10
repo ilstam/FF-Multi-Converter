@@ -1,5 +1,4 @@
 # Ignore these files
-launcher
 MANIFEST
 build/
 dist/

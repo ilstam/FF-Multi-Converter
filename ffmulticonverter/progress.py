@@ -75,7 +75,7 @@ class Progress(QDialog):
         self.cancelQPB = QPushButton(self.tr('Cancel'))
 
         detailsQPB = QCommandLinkButton(self.tr('Details'))
-        detailsQPB.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
+        detailsQPB.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         detailsQPB.setCheckable(True)
         detailsQPB.setMaximumWidth(113)
         line = QFrame()

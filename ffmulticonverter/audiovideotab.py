@@ -183,7 +183,7 @@ class AudioVideoTab(QWidget):
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
         self.moreQPB = QPushButton(QApplication.translate('Tab', 'More'))
-        self.moreQPB.setSizePolicy(QSizePolicy(QSizePolicy.Fixed))
+        self.moreQPB.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.moreQPB.setCheckable(True)
         hlayout3 = utils.add_to_layout('h', line, self.moreQPB)
 

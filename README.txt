@@ -29,5 +29,11 @@ From application's directory run as root:
 
 Uninstall
 ----------
-Run the following as root to delete all project files from your system:
-    sh uninstall.sh
+Run the uninstall.sh script as root to delete all project files from your
+system.
+
+Run without installing
+-----------------------
+You can even launch the application without installing it, by running the
+launcher script. This option has not been extensively tested for everyday use
+though, and you may experience unexpected issues.

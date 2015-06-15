@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # ffmulticonverter uninstall script
 
 for i in $(find /usr -path "*ffmulticonverter*"); do

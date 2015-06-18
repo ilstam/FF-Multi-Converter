@@ -7,6 +7,7 @@ home = os.getenv("HOME")
 config_dir = os.path.join(home, '.config/ffmulticonverter/')
 
 default_ffmpeg_cmd = ''
+default_imagemagick_cmd = ''
 
 #-----log data
 

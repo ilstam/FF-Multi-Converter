@@ -112,3 +112,8 @@ class ImageTab(QWidget):
                 self.widthQLE.setFocus()
             return False
         return True
+
+    def set_default_command(self):
+        """Set the default value to self.commandQLE."""
+        self.clear()
+        self.commandQLE.setText(self.parent.default_command_image)

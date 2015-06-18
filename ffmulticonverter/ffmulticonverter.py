@@ -210,6 +210,7 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(0, self.check_for_dependencies)
         QTimer.singleShot(0, self.load_settings)
         QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
+        QTimer.singleShot(0, self.image_tab.set_default_command)
         QTimer.singleShot(0, self.update_filesList)
 
     def parse_cla(self):
@@ -270,6 +271,7 @@ class MainWindow(QMainWindow):
         extraformats = get_str_value(settings, 'extraformats')
         videocodecs = settings.value('videocodecs')
         audiocodecs = settings.value('audiocodecs')
+        defcmd_image = get_str_value(settings, 'default_command_image')
 
         if videocodecs is None:
             videocodecs = "\n".join(config.video_codecs)
@@ -282,6 +284,10 @@ class MainWindow(QMainWindow):
             self.default_command = defcmd
         else:
             self.default_command = config.default_ffmpeg_cmd
+        if defcmd_image:
+            self.default_command_image = defcmd_image
+        else:
+            self.default_command_image = config.default_imagemagick_cmd
 
         self.audiovideo_tab.fill_video_comboboxes(
                 videocodecs, audiocodecs, extraformats)

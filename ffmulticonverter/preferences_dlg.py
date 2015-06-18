@@ -158,6 +158,7 @@ class Preferences(QDialog):
         videocodecs = settings.value('videocodecs')
         audiocodecs = settings.value('audiocodecs')
         extraformats = settings.value('extraformats')
+        default_command_image = settings.value('default_command_image')
 
         # QSettings.value() returns str() in python3, not QVariant() as in p2
         if overwrite_existing:
@@ -184,6 +185,11 @@ class Preferences(QDialog):
         else:
             self.audcodecsQPTE.setPlainText(audiocodecs)
         self.extraformatsffmpegQPTE.setPlainText(extraformats)
+
+        if default_command_image:
+            self.imagecmdQLE.setText(default_command_image)
+        else:
+            self.imagecmdQLE.setText(config.default_imagemagick_cmd)
 
     def set_default_videocodecs(self):
         self.vidcodecsQPTE.setPlainText("\n".join(config.video_codecs))
@@ -247,5 +253,7 @@ class Preferences(QDialog):
                 'audiocodecs', audiocodecs)
         settings.setValue(
                 'extraformats', extraformats)
+        settings.setValue(
+                'default_command_image', self.imagecmdQLE.text())
 
         self.accept()

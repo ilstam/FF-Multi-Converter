@@ -504,7 +504,7 @@ def main():
     app = QApplication([i.encode('utf-8') for i in sys.argv])
     app.setOrganizationName(ffmc.__name__)
     app.setOrganizationDomain(ffmc.__url__)
-    app.setApplicationName('FF Muli Converter')
+    app.setApplicationName('FF Multi Converter')
     app.setWindowIcon(QIcon(':/ffmulticonverter.png'))
 
     locale = QLocale.system().name()

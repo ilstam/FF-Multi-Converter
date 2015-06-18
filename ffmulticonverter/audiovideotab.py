@@ -15,7 +15,7 @@
 
 import re
 
-from PyQt4.QtCore import QRegExp, QSize
+from PyQt4.QtCore import QRegExp, QSize, QTimer
 from PyQt4.QtGui import (
         QApplication, QWidget, QComboBox, QLineEdit, QLabel, QRegExpValidator,
         QPushButton, QCheckBox, QRadioButton, QHBoxLayout, QSpacerItem,
@@ -199,6 +199,8 @@ class AudioVideoTab(QWidget):
         self.defaultQPB.clicked.connect(self.set_default_command)
         self.embedQTB.clicked.connect(self.open_subtitle_file)
         self.moreQPB.toggled.connect(self.frame.setVisible)
+        self.moreQPB.toggled.connect(
+                lambda: QTimer.singleShot(100, self.resize_parent))
         self.widthQLE.textChanged.connect(self.command_update_size)
         self.heightQLE.textChanged.connect(self.command_update_size)
         self.aspect1QLE.textChanged.connect(self.command_update_aspect)
@@ -223,6 +225,11 @@ class AudioVideoTab(QWidget):
                 self.command_update_preserve_aspect)
         self.preservesizeQChB.toggled.connect(
                 self.command_update_preserve_size)
+
+    def resize_parent(self):
+        """Give MainWindow its default size."""
+        self.parent.setMinimumSize(self.parent.sizeHint())
+        self.parent.resize(self.parent.sizeHint())
 
     def clear(self):
         """Clear all values of graphical widgets."""

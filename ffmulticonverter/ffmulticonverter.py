@@ -268,10 +268,11 @@ class MainWindow(QMainWindow):
         self.prefix = get_str_value(settings, 'prefix')
         self.suffix = get_str_value(settings, 'suffix')
         defcmd = get_str_value(settings, 'default_command')
-        extraformats = get_str_value(settings, 'extraformats')
+        extraformats_video = get_str_value(settings, 'extraformats')
         videocodecs = settings.value('videocodecs')
         audiocodecs = settings.value('audiocodecs')
         defcmd_image = get_str_value(settings, 'default_command_image')
+        extraformats_image = get_str_value(settings, 'extraformats_image')
 
         if videocodecs is None:
             videocodecs = "\n".join(config.video_codecs)
@@ -290,7 +291,8 @@ class MainWindow(QMainWindow):
             self.default_command_image = config.default_imagemagick_cmd
 
         self.audiovideo_tab.fill_video_comboboxes(
-                videocodecs, audiocodecs, extraformats)
+                videocodecs, audiocodecs, extraformats_video)
+        self.image_tab.fill_extension_combobox(extraformats_image)
 
         if onstart:
             self.toQLE.setText(self.default_output)

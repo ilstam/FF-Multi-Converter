@@ -85,6 +85,11 @@ class ImageTab(QWidget):
         self.vflipQChB.setChecked(False)
         self.hflipQChB.setChecked(False)
 
+    def fill_extension_combobox(self, extraformats):
+        extraformats = [i for i in extraformats.split("\n")] if extraformats else []
+        self.extQCB.clear()
+        self.extQCB.addItems(sorted(self.formats + extraformats))
+
     def ok_to_continue(self):
         """
         Check if everything is ok with imagetab to continue conversion.

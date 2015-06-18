@@ -157,8 +157,9 @@ class Preferences(QDialog):
         default_command = settings.value('default_command')
         videocodecs = settings.value('videocodecs')
         audiocodecs = settings.value('audiocodecs')
-        extraformats = settings.value('extraformats')
+        extraformats_video = settings.value('extraformats')
         default_command_image = settings.value('default_command_image')
+        extraformats_image = settings.value('extraformats_image')
 
         # QSettings.value() returns str() in python3, not QVariant() as in p2
         if overwrite_existing:
@@ -184,12 +185,13 @@ class Preferences(QDialog):
             self.set_default_audiocodecs
         else:
             self.audcodecsQPTE.setPlainText(audiocodecs)
-        self.extraformatsffmpegQPTE.setPlainText(extraformats)
+        self.extraformatsffmpegQPTE.setPlainText(extraformats_video)
 
         if default_command_image:
             self.imagecmdQLE.setText(default_command_image)
         else:
             self.imagecmdQLE.setText(config.default_imagemagick_cmd)
+        self.extraformatsimageQPTE.setPlainText(extraformats_image)
 
     def set_default_videocodecs(self):
         self.vidcodecsQPTE.setPlainText("\n".join(config.video_codecs))
@@ -214,7 +216,8 @@ class Preferences(QDialog):
         # remove empty codecs
         videocodecs = []
         audiocodecs = []
-        extraformats = []
+        extraformats_video = []
+        extraformats_image = []
 
         for i in self.vidcodecsQPTE.toPlainText().split("\n"):
             i = i.strip()
@@ -228,13 +231,20 @@ class Preferences(QDialog):
 
         for i in self.extraformatsffmpegQPTE.toPlainText().split("\n"):
             i = i.strip()
-            if len(i.split()) == 1 and i not in extraformats \
+            if len(i.split()) == 1 and i not in extraformats_video \
             and i not in config.video_formats:
-                extraformats.append(i)
+                extraformats_video.append(i)
+
+        for i in self.extraformatsimageQPTE.toPlainText().split("\n"):
+            i = i.strip()
+            if len(i.split()) == 1 and i not in extraformats_image \
+            and i not in config.image_formats:
+                extraformats_image.append(i)
 
         videocodecs = "\n".join(sorted(videocodecs))
         audiocodecs = "\n".join(sorted(audiocodecs))
-        extraformats = "\n".join(sorted(extraformats))
+        extraformats_video = "\n".join(sorted(extraformats_video))
+        extraformats_image = "\n".join(sorted(extraformats_image))
 
         settings = QSettings()
         settings.setValue(
@@ -252,8 +262,10 @@ class Preferences(QDialog):
         settings.setValue(
                 'audiocodecs', audiocodecs)
         settings.setValue(
-                'extraformats', extraformats)
+                'extraformats', extraformats_video)
         settings.setValue(
                 'default_command_image', self.imagecmdQLE.text())
+        settings.setValue(
+                'extraformats_image', extraformats_image)
 
         self.accept()

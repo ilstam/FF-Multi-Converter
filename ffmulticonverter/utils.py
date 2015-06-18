@@ -94,12 +94,8 @@ def find_presets_file(fname, lookup_dirs, lookup_virtenv):
         if os.path.exists(_file):
             return _file
 
-    # when program is not installed
-    if os.path.isfile('share/' + fname):
-        return 'share/' + fname
-
-    # when running from test_dialogs.py
-    return '../share/' + fname
+    # when program is not installed or running from test_dialogs.py
+    return os.path.dirname(os.path.realpath(__file__)) + '/../share/' + fname
 
 def create_paths_list(
         files_list, ext_to, prefix, suffix, output, orig_dir,

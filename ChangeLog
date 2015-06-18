@@ -1,3 +1,10 @@
+Version 1.7.1
+--------------
+
+* Compatibility bug with pyqt 4.11.4 has been fixed.
+
+* Compatibility bug with python 3.2 and previous versions has been fixed.
+
 Version 1.7.0
 --------------
 

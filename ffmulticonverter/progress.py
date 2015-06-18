@@ -58,9 +58,9 @@ class Progress(QDialog):
 
         self.files = files
         self.tab = tab
-        self._type = tab.name
         self.delete = delete
         if not test:
+            self._type = tab.name
             self.step = int(100 / len(files))
         self.ok = 0
         self.error = 0
@@ -109,8 +109,8 @@ class Progress(QDialog):
         self.resize(484, 200)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
 
-        self.get_data() # should be first and not in singleShot()
         if not test:
+            self.get_data() # should be first and not in QTimer.singleShot()
             QTimer.singleShot(0, self.manage_conversions)
 
     def get_data(self):

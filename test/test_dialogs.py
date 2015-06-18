@@ -17,7 +17,7 @@ def main():
     dlg_about = AboutDialog('About Dialog', ':/ffmulticonverter.png', 'Authors', 'Translators')
     dlg_showpresets = ShowPresets()
     dlg_preferences = Preferences(test=True)
-    dlg_progress = Progress([], '', '', False, '', False, '', False, None, test=True)
+    dlg_progress = Progress([], None, False, None, test=True)
 
     # uncomment the dialog you wish to test
     #dlg_about.show()

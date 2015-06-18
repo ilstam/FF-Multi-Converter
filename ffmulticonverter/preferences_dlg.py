@@ -70,9 +70,9 @@ class Preferences(QDialog):
                 prefix_layout, None
                 )
 
-        ffmpegQL = QLabel('<html><b>' + self.tr('FFmpeg') +'</b></html>')
-        default_cmdQL = QLabel(self.tr('Default command:'))
-        self.cmdQLE = QLineEdit()
+        ffmpegQL = QLabel('<html><b>FFmpeg</b></html>')
+        default_cmd_ffmpegQL = QLabel(self.tr('Default command:'))
+        self.ffmpegcmdQLE = QLineEdit()
 
         vidcodecsQL = QLabel(
                 '<html><b>' + self.tr('Video codecs') +'</b></html>')
@@ -80,33 +80,54 @@ class Preferences(QDialog):
         audcodecsQL = QLabel(
                 '<html><b>' + self.tr('Audio codecs') +'</b></html>')
         self.audcodecsQPTE = QPlainTextEdit()
-        extraformatsQL = QLabel(
+        extraformatsffmpegQL = QLabel(
                 '<html><b>' + self.tr('Extra formats') +'</b></html>')
-        self.extraformatsQPTE = QPlainTextEdit()
+        self.extraformatsffmpegQPTE = QPlainTextEdit()
 
         gridlayout = utils.add_to_grid(
-                [vidcodecsQL, audcodecsQL, extraformatsQL],
-                [self.vidcodecsQPTE, self.audcodecsQPTE, self.extraformatsQPTE])
+                [vidcodecsQL, audcodecsQL, extraformatsffmpegQL],
+                [self.vidcodecsQPTE, self.audcodecsQPTE,
+                 self.extraformatsffmpegQPTE]
+                )
 
         defvidcodecsQPB = QPushButton(self.tr("Default video codecs"))
         defaudcodecsQPB = QPushButton(self.tr("Default audio codecs"))
 
-        hlayout2 = utils.add_to_layout(
+        hlayout1 = utils.add_to_layout(
                 'h', None, defvidcodecsQPB, defaudcodecsQPB)
 
         tabwidget2_layout = utils.add_to_layout(
                 'v', ffmpegQL,
-                QSpacerItem(14, 13), default_cmdQL, self.cmdQLE,
-                QSpacerItem(20, 20), gridlayout, hlayout2, None
+                QSpacerItem(14, 13), default_cmd_ffmpegQL, self.ffmpegcmdQLE,
+                QSpacerItem(20, 20), gridlayout, hlayout1, None
+                )
+
+        imagemagickQL = QLabel('<html><b>ImageMagick (convert)</b></html>')
+        default_cmd_imageQL = QLabel(self.tr('Default command:'))
+        self.imagecmdQLE = QLineEdit()
+
+        extraformatsimageQL = QLabel(
+                '<html><b>' + self.tr('Extra formats') +'</b></html>')
+        self.extraformatsimageQPTE = QPlainTextEdit()
+
+        hlayout2 = utils.add_to_layout('h', self.extraformatsimageQPTE, QSpacerItem(220,20))
+
+        tabwidget3_layout = utils.add_to_layout(
+                'v', imagemagickQL,
+                QSpacerItem(14,13), default_cmd_imageQL, self.imagecmdQLE,
+                QSpacerItem(20,20), extraformatsimageQL, hlayout2, None
                 )
 
         widget1 = QWidget()
         widget1.setLayout(tabwidget1_layout)
         widget2 = QWidget()
         widget2.setLayout(tabwidget2_layout)
+        widget3 = QWidget()
+        widget3.setLayout(tabwidget3_layout)
         tabWidget = QTabWidget()
         tabWidget.addTab(widget1, self.tr('General'))
         tabWidget.addTab(widget2, self.tr('Audio/Video'))
+        tabWidget.addTab(widget3, self.tr('Images'))
 
         buttonBox = QDialogButtonBox(
                 QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
@@ -150,9 +171,9 @@ class Preferences(QDialog):
         if suffix:
             self.suffixQLE.setText(suffix)
         if default_command:
-            self.cmdQLE.setText(default_command)
+            self.ffmpegcmdQLE.setText(default_command)
         else:
-            self.cmdQLE.setText(config.default_ffmpeg_cmd)
+            self.ffmpegcmdQLE.setText(config.default_ffmpeg_cmd)
 
         if not videocodecs:
             self.set_default_videocodecs()
@@ -162,7 +183,7 @@ class Preferences(QDialog):
             self.set_default_audiocodecs
         else:
             self.audcodecsQPTE.setPlainText(audiocodecs)
-        self.extraformatsQPTE.setPlainText(extraformats)
+        self.extraformatsffmpegQPTE.setPlainText(extraformats)
 
     def set_default_videocodecs(self):
         self.vidcodecsQPTE.setPlainText("\n".join(config.video_codecs))
@@ -199,7 +220,7 @@ class Preferences(QDialog):
             if len(i.split()) == 1 and i not in audiocodecs:
                 audiocodecs.append(i)
 
-        for i in self.extraformatsQPTE.toPlainText().split("\n"):
+        for i in self.extraformatsffmpegQPTE.toPlainText().split("\n"):
             i = i.strip()
             if len(i.split()) == 1 and i not in extraformats \
             and i not in config.video_formats:
@@ -219,7 +240,7 @@ class Preferences(QDialog):
         settings.setValue(
                 'suffix', self.suffixQLE.text())
         settings.setValue(
-                'default_command', self.cmdQLE.text())
+                'default_command', self.ffmpegcmdQLE.text())
         settings.setValue(
                 'videocodecs', videocodecs)
         settings.setValue(

@@ -103,7 +103,7 @@ class Preferences(QDialog):
                 )
 
         imagemagickQL = QLabel('<html><b>ImageMagick (convert)</b></html>')
-        default_cmd_imageQL = QLabel(self.tr('Default command:'))
+        default_cmd_imageQL = QLabel(self.tr('Default options:'))
         self.imagecmdQLE = QLineEdit()
 
         extraformatsimageQL = QLabel(

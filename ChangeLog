@@ -5,6 +5,8 @@ Version 1.7.1
 
 * Compatibility bug with python 3.2 and previous versions has been fixed.
 
+* New Image Preferences: default convert options and extra image formats.
+
 Version 1.7.0
 --------------
 

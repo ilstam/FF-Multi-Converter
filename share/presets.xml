@@ -30,7 +30,7 @@
     <extension>mp3</extension>
     <category>Scattered</category>
   </ExtractAudioMP3>
-  <GigabeatFS>
+  <CopyExtractAudioToM4A><label>Extract audio stream and remux to m4a</label><params>-vn -acodec copy</params><extension>m4a</extension><category>Scattered</category></CopyExtractAudioToM4A><GigabeatFS>
     <label>RB Toshiba Gigabeat F/X Fullscreen</label>
     <params>-acodec libmp3lame -b:a 128k -ar 44100 -vcodec mpeg2video -vf scale=320:240 -b:v 600k -strict -1</params>
     <extension>mpg</extension>

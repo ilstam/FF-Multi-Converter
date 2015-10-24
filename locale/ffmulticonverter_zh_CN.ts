@@ -88,17 +88,17 @@
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="423"/>
         <source>Edit {0}</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑 {0}</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="486"/>
         <source>Extension must be one word and must not start with a  dot.</source>
-        <translation type="unfinished"></translation>
+        <translation>扩展必须为一个单词且不能以圆点开头。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="454"/>
         <source>Preset name must be one word, start with a letter and contain only letters, digits, underscores, hyphens, colons and periods. It cannot also start with xml.</source>
-        <translation type="unfinished"></translation>
+        <translation>预设名必须是一个词，以字母开头且仅包含字母、数字、下划线、连字符、冒号、圆点。</translation>
     </message>
 </context>
 <context>
@@ -198,78 +198,78 @@ You will not be able to convert audio/video files until you install one of them.
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="108"/>
         <source>Preserve aspect ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>保持宽高比</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="109"/>
         <source>Preserve video size</source>
-        <translation type="unfinished"></translation>
+        <translation>保持视频尺寸</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="124"/>
         <source>Audio Channels:</source>
-        <translation type="unfinished"></translation>
+        <translation>音频通道：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="156"/>
         <source>Split file. Begin time</source>
-        <translation type="unfinished"></translation>
+        <translation>分割文件。开始时间</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="158"/>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>持续时间</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="164"/>
         <source>Embed subtitle:</source>
-        <translation type="unfinished"></translation>
+        <translation>嵌入字幕：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="169"/>
         <source>Rotate:</source>
-        <translation type="unfinished"></translation>
+        <translation>旋转：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="302"/>
         <source>Choose File</source>
-        <translation type="unfinished">选择文件</translation>
+        <translation>选择文件</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="44"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>无</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="46"/>
         <source>clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>顺时针</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="52"/>
         <source>vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>垂直翻转</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="48"/>
         <source>counter clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>逆时针</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="51"/>
         <source>horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>水平翻转</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="126"/>
         <source>Threads:</source>
-        <translation type="unfinished"></translation>
+        <translation>线程：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="291"/>
         <source>Neither ffmpeg nor libav are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="unfinished"></translation>
+        <translation>未安装ffmpeg或libav。需要安装其中一个才能转换视频/音频文件。</translation>
     </message>
 </context>
 <context>
@@ -332,7 +332,7 @@ You will not be able to convert document files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="70"/>
         <source>{0} is not {1}!</source>
-        <translation type="unfinished"></translation>
+        <translation>{0}不是{1}文件！</translation>
     </message>
 </context>
 <context>
@@ -372,38 +372,38 @@ You will not be able to convert image files until you install it.</source>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="40"/>
         <source>Extra options:</source>
-        <translation type="unfinished"></translation>
+        <translation>附加选项：</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="58"/>
         <source>Auto-crop</source>
-        <translation type="unfinished"></translation>
+        <translation>自动裁剪</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="62"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>旋转</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="62"/>
         <source>degrees - clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>度数 - 顺时针</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="102"/>
         <source>ImageMagick is not installed.
 You will not be able to convert image files until you install it.</source>
-        <translation type="unfinished"></translation>
+        <translation>未安装ImageMagick。必须安装后才能转换图片。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="66"/>
         <source>Vertical flip</source>
-        <translation type="unfinished"></translation>
+        <translation>垂直翻转</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="67"/>
         <source>Horizontal flip</source>
-        <translation type="unfinished"></translation>
+        <translation>水平翻转</translation>
     </message>
 </context>
 <context>
@@ -642,12 +642,12 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="170"/>
         <source>documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>文档</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="487"/>
         <source>Convert among several file types to other formats</source>
-        <translation type="unfinished"></translation>
+        <translation>将若干种不同格式的文件转换为其他格式</translation>
     </message>
 </context>
 <context>
@@ -735,27 +735,27 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="77"/>
         <source>Video codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>视频编码</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="80"/>
         <source>Audio codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>音频编码</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="83"/>
         <source>Extra formats</source>
-        <translation type="unfinished"></translation>
+        <translation>额外格式</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="91"/>
         <source>Default video codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>默认视频编码</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="92"/>
         <source>Default audio codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>默认音频编码</translation>
     </message>
 </context>
 <context>
@@ -818,7 +818,7 @@ folder as input file</source>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="177"/>
         <source>Converted: {0}/{1}</source>
-        <translation type="unfinished"></translation>
+        <translation>已转换：{0}/{1}</translation>
     </message>
 </context>
 <context>
@@ -928,38 +928,38 @@ Are you sure that you want to continue?</source>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="186"/>
         <source>Are you sure that you want to delete the {0} preset?</source>
-        <translation type="unfinished"></translation>
+        <translation>你确定你要删除预设{0}吗？</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="275"/>
         <source>Export presets</source>
-        <translation type="unfinished">导出预设</translation>
+        <translation>导出预设</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="357"/>
         <source>All presets with an __OLD suffix will be deleted. Are you sure that you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>带有__OLD前缀的预设将被删除。你确定要继续吗？</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="263"/>
         <source>Successful import!</source>
-        <translation type="unfinished"></translation>
+        <translation>导入成功！</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="295"/>
         <source>Default presets restored successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>已还原为默认预设。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="351"/>
         <source>Synchronization completed.
 Your presets are up to date!</source>
-        <translation type="unfinished"></translation>
+        <translation>同步完成。你的预设已为最新。</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/presets_dlgs.py" line="372"/>
         <source>Old presets successfully removed.</source>
-        <translation type="unfinished"></translation>
+        <translation>成功移除旧预设。</translation>
     </message>
 </context>
 <context>

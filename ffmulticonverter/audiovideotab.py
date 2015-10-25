@@ -268,8 +268,8 @@ class AudioVideoTab(QWidget):
         self.vidcodecQCB.clear()
         self.audcodecQCB.clear()
         self.extQCB.clear()
-        self.vidcodecQCB.addItems([self.defaultStr] + [self.DisableStream] + vcodecs)
-        self.audcodecQCB.addItems([self.defaultStr] + [self.DisableStream] + acodecs)
+        self.vidcodecQCB.addItems([self.defaultStr, self.DisableStream] + vcodecs)
+        self.audcodecQCB.addItems([self.defaultStr, self.DisableStream] + acodecs)
         self.extQCB.addItems(sorted(self.formats + extraformats))
 
         self.vidcodecQCB.currentIndexChanged.connect(self.command_update_vcodec)
@@ -533,7 +533,7 @@ class AudioVideoTab(QWidget):
         text = self.vidcodecQCB.currentText()
 
         regex = r'(\s+|^)-(vcodec|c:v)\s+\S+(\s+|$)'
-        regex_vn = r'(\s+|^)-(vn|c:v)(\s+|$)'
+        regex_vn = r'(\s+|^)-vn(\s+|$)'
         if self.vidcodecQCB.currentIndex() == 1:
             s = ' -vn '.format(text)
         elif self.vidcodecQCB.currentIndex() == 0:
@@ -556,7 +556,7 @@ class AudioVideoTab(QWidget):
         text = self.audcodecQCB.currentText()
 
         regex = r'(\s+|^)-(acodec|c:a)\s+\S+(\s+|$)'
-        regex_an = r'(\s+|^)-(an|c:v)(\s+|$)'
+        regex_an = r'(\s+|^)-an(\s+|$)'
         if self.audcodecQCB.currentIndex() == 1:
             s = ' -an '.format(text)
         elif self.audcodecQCB.currentIndex() == 0:

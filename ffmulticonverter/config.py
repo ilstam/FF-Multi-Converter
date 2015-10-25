@@ -107,6 +107,7 @@ translators = [
         ['[ru] Russian', 'Andrew Lapshin'],
         ['[tu] Turkish', 'Tayfun Kayha'],
         ['[vi] Vietnamese', 'Anh Phan'],
-        ['[zh_CN] Chinese (China)', 'Dianjin Wang'],
+        ['[zh_CN] Chinese (China)', 'Dianjin Wang'
+                             '\n     Ziyun Lin'],
         ['[zh_TW] Chinese (Taiwan)', 'Taijuin Lee']
         ]

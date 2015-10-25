@@ -35,6 +35,7 @@ class AudioVideoTab(QWidget):
         self.name = 'AudioVideo'
 
         self.defaultStr = self.tr('Default')
+        self.DisableStream = self.tr('Disable')
 
         self.formats = config.video_formats
         frequency_values = [self.defaultStr] + config.video_frequency_values
@@ -267,8 +268,8 @@ class AudioVideoTab(QWidget):
         self.vidcodecQCB.clear()
         self.audcodecQCB.clear()
         self.extQCB.clear()
-        self.vidcodecQCB.addItems([self.defaultStr] + vcodecs)
-        self.audcodecQCB.addItems([self.defaultStr] + acodecs)
+        self.vidcodecQCB.addItems([self.defaultStr, self.DisableStream] + vcodecs)
+        self.audcodecQCB.addItems([self.defaultStr, self.DisableStream] + acodecs)
         self.extQCB.addItems(sorted(self.formats + extraformats))
 
         self.vidcodecQCB.currentIndexChanged.connect(self.command_update_vcodec)
@@ -532,13 +533,18 @@ class AudioVideoTab(QWidget):
         text = self.vidcodecQCB.currentText()
 
         regex = r'(\s+|^)-(vcodec|c:v)\s+\S+(\s+|$)'
-        if self.vidcodecQCB.currentIndex() != 0:
-            s = ' -vcodec {0} '.format(text)
-        else:
+        regex_vn = r'(\s+|^)-vn(\s+|$)'
+        if self.vidcodecQCB.currentIndex() == 1:
+            s = ' -vn '.format(text)
+        elif self.vidcodecQCB.currentIndex() == 0:
             s = ' '
+        else:
+            s = ' -vcodec {0} '.format(text)
 
         if re.search(regex, command):
             command = re.sub(regex, s, command)
+        elif re.search(regex_vn, command):
+            command = re.sub(regex_vn, s, command)
         else:
             command += s
 
@@ -550,13 +556,18 @@ class AudioVideoTab(QWidget):
         text = self.audcodecQCB.currentText()
 
         regex = r'(\s+|^)-(acodec|c:a)\s+\S+(\s+|$)'
-        if self.audcodecQCB.currentIndex() != 0:
-            s = ' -acodec {0} '.format(text)
-        else:
+        regex_an = r'(\s+|^)-an(\s+|$)'
+        if self.audcodecQCB.currentIndex() == 1:
+            s = ' -an '.format(text)
+        elif self.audcodecQCB.currentIndex() == 0:
             s = ' '
+        else:
+            s = ' -acodec {0} '.format(text)
 
         if re.search(regex, command):
             command = re.sub(regex, s, command)
+        elif re.search(regex_an, command):
+            command = re.sub(regex_an, s, command)
         else:
             command += s
 

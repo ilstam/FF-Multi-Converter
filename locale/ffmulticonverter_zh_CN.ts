@@ -134,6 +134,11 @@
         <translation>默认</translation>
     </message>
     <message>
+        <location filename="../ffmulticonverter/audiovideotab.py" line="38"/>
+        <source>Disable</source>
+        <translation>禁用</translation>
+    </message>
+    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="82"/>
         <source>Video Size:</source>
         <translation>视频大小：</translation>

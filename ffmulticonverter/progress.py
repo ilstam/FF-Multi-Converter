@@ -264,7 +264,7 @@ class Progress(QDialog):
 
             if conv_func(*params):
                 self.ok += 1
-                if self.delete:
+                if self.delete and not from_file == to_file:
                     try:
                         os.remove(from_file[1:-1])
                     except OSError:

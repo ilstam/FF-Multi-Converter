@@ -30,16 +30,6 @@ class Preferences(QDialog):
         self.parent = parent
         self.test = test
 
-        self.default_videocodecs = [
-                'flv', 'h263', 'libvpx', 'libx264', 'libxvid', 'mpeg2video',
-                'mpeg4', 'msmpeg4', 'wmv2'
-                ]
-
-        self.default_audiocodecs = [
-                'aac', 'ac3', 'copy', 'libfaac', 'libmp3lame', 'libvo_aacenc',
-                'libvorbis', 'mp2', 'wmav2'
-                ]
-
         saveQL = QLabel('<html><b>' + self.tr('Save files') + '</b></html>')
         existQL = QLabel(self.tr('Existing files:'))
         self.exst_prefixQRB = QRadioButton(self.tr("Add '~' prefix"))

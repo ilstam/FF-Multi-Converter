@@ -222,7 +222,7 @@ Nu veți putea converti fișiere audio/video dacă nu veți instala unul dintre 
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="38"/>
         <source>Disable</source>
-        <translation type="unfinished"/>
+        <translation>Dezactivare</translation>
     </message>
 </context>
 <context>
@@ -673,12 +673,12 @@ dosar ca fișierul de intrare</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="106"/>
         <source>Default options:</source>
-        <translation type="unfinished"/>
+        <translation>Opțiuni implicite:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="130"/>
         <source>Images</source>
-        <translation type="unfinished"/>
+        <translation>Imagini</translation>
     </message>
 </context>
 <context>

@@ -57,6 +57,7 @@ class Progress(QDialog):
         self.parent = parent
 
         self.files = files
+        self.num_total_files = len(self.files)
         self.tab = tab
         self.delete = delete
         if not test:
@@ -233,11 +234,9 @@ class Progress(QDialog):
         from_file = list(self.files[0].keys())[0]
         to_file = list(self.files[0].values())[0]
 
-        if len(from_file) > 40:
-            # split file name if it is too long in order to display it properly
-            text = '.../' + from_file.split('/')[-1]
-        else:
-            text = from_file
+        text = os.path.basename(from_file[1:-1])
+        num_file = self.num_total_files - len(self.files) + 1
+        text += ' ({0}/{1})'.format(num_file, self.num_total_files)
 
         self.nowQL.setText(self.tr('In progress:') + ' ' + text)
         self.nowQPBar.setValue(0)

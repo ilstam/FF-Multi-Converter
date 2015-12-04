@@ -102,7 +102,9 @@ translators = [
         ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'
                              '\n     Piotr Surdacki'],
         ['[pt] Portuguese', 'Sérgio Marques'],
-        ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'],
+        ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'
+                                 '\n     Paulo Braz'
+                                 '\n     Nuno Duarte'],
         ['[ro_RO] Romanian (Romania)', 'Angelescu Constantin'],
         ['[ru] Russian', 'Andrew Lapshin'],
         ['[tu] Turkish', 'Tayfun Kayha'],

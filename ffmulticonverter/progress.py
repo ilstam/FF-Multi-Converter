@@ -25,7 +25,8 @@ import logging
 from PyQt4.QtCore import pyqtSignal, QTimer
 from PyQt4.QtGui import (
         QApplication, QDialog, QFrame, QLabel, QPushButton, QProgressBar,
-        QMessageBox, QTextEdit, QCommandLinkButton, QTextCursor, QSizePolicy
+        QMessageBox, QTextEdit, QCommandLinkButton, QTextCursor, QSizePolicy,
+        QCheckBox
         )
 
 from ffmulticonverter import utils
@@ -73,6 +74,7 @@ class Progress(QDialog):
         self.nowQPBar.setValue(0)
         self.totalQPBar = QProgressBar()
         self.totalQPBar.setValue(0)
+        self.shutdownQCB = QCheckBox(self.tr('Shutdown after conversion'))
         self.cancelQPB = QPushButton(self.tr('Cancel'))
 
         detailsQPB = QCommandLinkButton(self.tr('Details'))
@@ -96,7 +98,7 @@ class Progress(QDialog):
         hlayout5 = utils.add_to_layout('h', None, self.cancelQPB)
         vlayout = utils.add_to_layout(
                 'v', hlayout, self.nowQPBar, hlayout2, self.totalQPBar, None,
-                hlayout3, hlayout4, hlayout5
+                hlayout3, hlayout4, self.shutdownQCB, hlayout5
                 )
         self.setLayout(vlayout)
 
@@ -107,7 +109,7 @@ class Progress(QDialog):
         self.refr_bars_signal.connect(self.refresh_progress_bars)
         self.update_text_edit_signal.connect(self.update_text_edit)
 
-        self.resize(484, 200)
+        self.resize(484, 232)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
 
         if not test:
@@ -139,7 +141,7 @@ class Progress(QDialog):
 
     def resize_dialog(self):
         """Resize dialog."""
-        height = 200 if self.frame.isVisible() else 366
+        height = 232 if self.frame.isVisible() else 366
         self.setMinimumSize(484, height)
         self.resize(484, height)
 
@@ -178,6 +180,9 @@ class Progress(QDialog):
             msg.show()
 
             self.cancelQPB.setText(self.tr("Close"))
+
+            if self.shutdownQCB.isChecked():
+                subprocess.call(shlex.split('systemctl poweroff'))
         else:
             self.convert_a_file()
 

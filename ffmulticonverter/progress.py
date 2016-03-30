@@ -182,7 +182,10 @@ class Progress(QDialog):
             self.cancelQPB.setText(self.tr("Close"))
 
             if self.shutdownQCB.isChecked():
-                subprocess.call(shlex.split('systemctl poweroff'))
+                if utils.is_installed('systemctl'):
+                    subprocess.call(shlex.split('systemctl poweroff'))
+                else:
+                    subprocess.call(shlex.split('shutdown -h now'))
         else:
             self.convert_a_file()
 

@@ -15,12 +15,12 @@
 
 import re
 
-from PyQt4.QtCore import QRegExp, QSize, QTimer
-from PyQt4.QtGui import (
-        QApplication, QWidget, QComboBox, QLineEdit, QLabel, QRegExpValidator,
-        QPushButton, QCheckBox, QRadioButton, QHBoxLayout, QSpacerItem,
-        QSizePolicy, QFrame, QButtonGroup, QMessageBox, QToolButton,
-        QFileDialog
+from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtCore import QRegExp, QSize, QTimer
+from PyQt5.QtWidgets import (
+        QApplication, QWidget, QComboBox, QLineEdit, QLabel, QPushButton,
+        QCheckBox, QRadioButton, QHBoxLayout, QSpacerItem, QSizePolicy, QFrame,
+        QButtonGroup, QMessageBox, QToolButton, QFileDialog
         )
 
 from ffmulticonverter import utils

@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt4.QtCore import QRegExp
-from PyQt4.QtGui import (
-        QWidget, QRegExpValidator, QLabel, QComboBox, QCheckBox, QLineEdit,
-        QMessageBox
+from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtWidgets import (
+        QWidget, QLabel, QComboBox, QCheckBox, QLineEdit, QMessageBox
         )
 
 from ffmulticonverter import utils

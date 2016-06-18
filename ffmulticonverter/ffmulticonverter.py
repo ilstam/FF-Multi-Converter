@@ -20,14 +20,15 @@ import textwrap
 import logging
 import webbrowser
 
-from PyQt4.QtCore import (
+from PyQt5.QtGui import QIcon, QKeySequence
+from PyQt5.QtCore import (
         PYQT_VERSION_STR, QCoreApplication, QLocale, QSettings,
         Qt, QTimer, QTranslator, QT_VERSION_STR
         )
-from PyQt4.QtGui import (
-        QAbstractItemView, QApplication, QCheckBox, QFileDialog, QIcon,
-        QKeySequence, QLabel, QLineEdit, QMainWindow, QMessageBox,
-        QPushButton, QShortcut, QTabWidget, QToolButton, QWidget
+from PyQt5.QtWidgets import (
+        QAbstractItemView, QApplication, QCheckBox, QFileDialog, QLabel,
+        QLineEdit, QMainWindow, QMessageBox, QPushButton, QShortcut, QTabWidget,
+        QToolButton, QWidget
         )
 
 import ffmulticonverter as ffmc
@@ -37,7 +38,7 @@ from ffmulticonverter import about_dlg
 from ffmulticonverter import preferences_dlg
 from ffmulticonverter import presets_dlgs
 from ffmulticonverter import progress
-from ffmulticonverter import qrc_resources
+# from ffmulticonverter import qrc_resources
 from ffmulticonverter.audiovideotab import AudioVideoTab
 from ffmulticonverter.imagetab import ImageTab
 from ffmulticonverter.documenttab import DocumentTab
@@ -215,7 +216,7 @@ class MainWindow(QMainWindow):
 
     def parse_cla(self):
         """Parse command line arguments."""
-        for i in QCoreApplication.argv()[1:]:
+        for i in QCoreApplication.arguments()[1:]:
             i = os.path.abspath(i)
             if os.path.isfile(i):
                 self.fnames.append(i)

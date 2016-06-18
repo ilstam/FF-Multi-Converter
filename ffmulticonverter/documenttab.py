@@ -15,7 +15,7 @@
 
 import os
 
-from PyQt4.QtGui import QWidget, QLabel, QComboBox, QMessageBox
+from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QMessageBox
 
 from ffmulticonverter import utils
 from ffmulticonverter import config

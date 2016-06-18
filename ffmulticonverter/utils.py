@@ -24,8 +24,8 @@ import shlex
 import subprocess
 import time
 
-from PyQt4.QtCore import pyqtSignal, QSize, Qt
-from PyQt4.QtGui import (
+from PyQt5.QtCore import pyqtSignal, QSize, Qt
+from PyQt5.QtWidgets import (
         QAction, QLayout, QLineEdit, QListWidget, QListWidgetItem, QMenu,
         QSpacerItem, QWidget, QHBoxLayout, QVBoxLayout, QGridLayout
         )

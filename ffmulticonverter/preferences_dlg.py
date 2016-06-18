@@ -13,8 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt4.QtCore import QSettings, QTimer
-from PyQt4.QtGui import (
+from PyQt5.QtCore import QSettings, QTimer
+from PyQt5.QtWidgets import (
         QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit,
         QRadioButton, QSpacerItem, QTabWidget, QToolButton, QWidget,
         QPlainTextEdit, QPushButton

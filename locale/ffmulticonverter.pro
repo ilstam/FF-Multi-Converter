@@ -1,4 +1,4 @@
-﻿SOURCES       = ../ffmulticonverter/ffmulticonverter.py ../ffmulticonverter/preferences_dlg.py
+SOURCES       = ../ffmulticonverter/ffmulticonverter.py ../ffmulticonverter/preferences_dlg.py
 SOURCES      += ../ffmulticonverter/progress.py ../ffmulticonverter/presets_dlgs.py
 SOURCES      += ../ffmulticonverter/about_dlg.py ../ffmulticonverter/audiovideotab.py
 SOURCES      += ../ffmulticonverter/documenttab.py ../ffmulticonverter/imagetab.py

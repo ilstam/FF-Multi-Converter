@@ -38,7 +38,7 @@ from ffmulticonverter import about_dlg
 from ffmulticonverter import preferences_dlg
 from ffmulticonverter import presets_dlgs
 from ffmulticonverter import progress
-# from ffmulticonverter import qrc_resources
+from ffmulticonverter import qrc_resources
 from ffmulticonverter.audiovideotab import AudioVideoTab
 from ffmulticonverter.imagetab import ImageTab
 from ffmulticonverter.documenttab import DocumentTab

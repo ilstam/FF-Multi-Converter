@@ -18,8 +18,8 @@ import re
 import time
 import xml.etree.ElementTree as etree
 
-from PyQt4.QtCore import Qt, QTimer
-from PyQt4.QtGui import (
+from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtWidgets import (
         QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit, QListWidget,
         QMessageBox, QPushButton, QShortcut, QSizePolicy, QSpacerItem
         )

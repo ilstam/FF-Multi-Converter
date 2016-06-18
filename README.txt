@@ -1,16 +1,17 @@
 FF Multi Converter
 ====================
 
-FF Multi Converter is a simple graphical application which enables you to
-convert audio, video, image and document files between all popular formats,
-by using and combining other applications. It uses ffmpeg for audio/video files,
-unoconv for document files and ImageMagick library for image file conversions.
+FF Multi Converter is a simple graphical application for Linux which enables you
+to convert audio, video, image and document files between all popular formats,
+by utilizing and combining other programs. It uses ffmpeg for audio/video files,
+unoconv for document files and the ImageMagick library for image file conversions.
 
 Project homepage: https://sites.google.com/site/ffmulticonverter/
 
 Dependencies
 -------------
-pyqt4 (for python3)
+python3
+pyqt5
 
 Optional dependencies
 ----------------------

@@ -250,7 +250,7 @@ class ShowPresets(QDialog):
                 'presets will be deleted.\nAre you sure that you want to '
                 'continue?'), QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Yes:
-            fname = QFileDialog.getOpenFileName(self, title)
+            fname = QFileDialog.getOpenFileName(self, title, config.home)[0]
             if fname:
                 msg = self.tr('Successful import!')
                 try:
@@ -266,7 +266,8 @@ class ShowPresets(QDialog):
         """Export the xml tree."""
         fname = QFileDialog.getSaveFileName(
                 self, 'FF Multi Converter - ' + self.tr('Export presets'),
-                config.home + '/presets-' + time.strftime("%Y-%m-%d") + '.xml')
+                config.home + '/presets-' + time.strftime("%Y-%m-%d") + '.xml'
+                )[0]
         if fname:
             self.load_xml()
             with open(fname, 'wb') as _file:

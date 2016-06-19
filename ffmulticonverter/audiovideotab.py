@@ -293,11 +293,10 @@ class AudioVideoTab(QWidget):
         return True
 
     def open_subtitle_file(self):
-        """
-        Get the filename using standard QtDialog and update embedQLE's text.
-        """
-        fname = QFileDialog.getOpenFileName(self, 'FF Multi Converter - ' +
-                self.tr('Choose File'), config.home, 'Subtitles (*.srt *.sub *.ssa *.ass)')
+        fname = QFileDialog.getOpenFileName(
+                self, 'FF Multi Converter - ' + self.tr('Choose File'),
+                config.home, 'Subtitles (*.srt *.sub *.ssa *.ass)'
+                )[0]
         if fname:
             self.embedQLE.setText(fname)
 

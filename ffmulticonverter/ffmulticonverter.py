@@ -105,7 +105,7 @@ class MainWindow(QMainWindow):
 
         openAction = utils.create_action(
                 self, self.tr('Open'), QKeySequence.Open, None,
-                self.tr('Open a file'), self.add_files
+                self.tr('Open a file'), self.filesList_add
                 )
         convertAction = utils.create_action(
                 self, self.tr('Convert'), 'Ctrl+C', None,
@@ -191,20 +191,20 @@ class MainWindow(QMainWindow):
                 imagemagickdocAction, None, aboutAction]
                 )
 
-        self.filesList.dropped.connect(self.add_files_dropped)
-        addQPB.clicked.connect(self.add_files)
-        delQPB.clicked.connect(self.delete_files)
-        clearQPB.clicked.connect(self.clear_fileslist)
+        self.filesList.dropped.connect(self.filesList_add_dragged)
+        addQPB.clicked.connect(self.filesList_add)
+        delQPB.clicked.connect(self.filesList_delete)
+        clearQPB.clicked.connect(self.filesList_clear)
         self.tabWidget.currentChanged.connect(
                 lambda: self.tabs[0].moreQPB.setChecked(False))
         self.origQCB.toggled.connect(
                 lambda: self.toQLE.setEnabled(not self.origQCB.isChecked()))
-        self.toQTB.clicked.connect(self.open_dir)
+        self.toQTB.clicked.connect(self.get_output_folder)
         convertQPB.clicked.connect(convertAction.triggered)
 
         del_shortcut = QShortcut(self)
         del_shortcut.setKey(Qt.Key_Delete)
-        del_shortcut.activated.connect(self.delete_files)
+        del_shortcut.activated.connect(self.filesList_delete)
 
         self.setWindowTitle('FF Multi Converter')
 
@@ -212,7 +212,7 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(0, self.load_settings)
         QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
         QTimer.singleShot(0, self.image_tab.set_default_command)
-        QTimer.singleShot(0, self.update_filesList)
+        QTimer.singleShot(0, self.filesList_update)
 
     def parse_cla(self):
         """Parse command line arguments."""
@@ -298,22 +298,17 @@ class MainWindow(QMainWindow):
         if onstart:
             self.toQLE.setText(self.default_output)
 
-    def current_tab(self):
-        """Return the corresponding object of the selected tab."""
+    def get_current_tab(self):
         for i in self.tabs:
             if self.tabs.index(i) == self.tabWidget.currentIndex():
                 return i
 
-    def update_filesList(self):
+    def filesList_update(self):
         self.filesList.clear()
         for i in self.fnames:
             self.filesList.addItem(i)
 
-    def add_files(self):
-        """
-        Get file names using a standard Qt dialog, append to self.fnames
-        each name that does not already exists and update self.filesList.
-        """
+    def filesList_add(self):
         filters  = 'All Files (*);;'
         filters += 'Audio/Video Files (*.{});;'.format(
                 ' *.'.join(self.audiovideo_tab.formats))
@@ -330,49 +325,36 @@ class MainWindow(QMainWindow):
             for i in fnames:
                 if not i in self.fnames:
                     self.fnames.append(i)
-            self.update_filesList()
+            self.filesList_update()
 
-    def add_files_dropped(self, links):
-        """
-        Append to self.fnames each file name that not already exists
-        and update self.filesList.
-        """
+    def filesList_add_dragged(self, links):
         for path in links:
             if os.path.isfile(path) and not path in self.fnames:
                 self.fnames.append(path)
-        self.update_filesList()
+        self.filesList_update()
 
-    def delete_files(self):
-        """
-        Get selectedItems of self.filesList, remove them from self.fnames and
-        update the filesList.
-        """
+    def filesList_delete(self):
         items = self.filesList.selectedItems()
         if items:
             for i in items:
                 self.fnames.remove(i.text())
-            self.update_filesList()
+            self.filesList_update()
 
-    def clear_fileslist(self):
-        """Make self.fnames empty and update self.filesList."""
+    def filesList_clear(self):
         self.fnames = []
-        self.update_filesList()
+        self.filesList_update()
 
     def clear_all(self):
-        """Clear all values of graphical widgets."""
+        """Clears or sets to default the values of all graphical widgets."""
         self.toQLE.clear()
         self.origQCB.setChecked(False)
         self.deleteQCB.setChecked(False)
-        self.clear_fileslist()
+        self.filesList_clear()
 
         self.audiovideo_tab.clear()
         self.image_tab.clear()
 
-    def open_dir(self):
-        """
-        Get a directory name using a standard QtDialog and update
-        self.toQLE with dir's name.
-        """
+    def get_output_folder(self):
         if self.toQLE.isEnabled():
             output = QFileDialog.getExistingDirectory(
                     self, 'FF Multi Converter - ' +
@@ -417,7 +399,7 @@ class MainWindow(QMainWindow):
             elif (not self.origQCB.isChecked() and
                   not os.path.exists(self.toQLE.text())):
                 raise ValidationError(self.tr('Output folder does not exists!'))
-            if not self.current_tab().ok_to_continue():
+            if not self.get_current_tab().ok_to_continue():
                 return False
             return True
 
@@ -428,7 +410,7 @@ class MainWindow(QMainWindow):
 
     def get_output_extension(self):
         """Extract the desired output file extension from GUI and return it."""
-        tab = self.current_tab()
+        tab = self.get_current_tab()
         if tab.name == 'AudioVideo':
             ext_to = self.audiovideo_tab.extQCB.currentText()
         elif tab.name == 'Images':
@@ -446,7 +428,7 @@ class MainWindow(QMainWindow):
         if not self.ok_to_continue():
             return
 
-        tab = self.current_tab()
+        tab = self.get_current_tab()
         if tab.name == 'Documents' and not self.office_listener_started:
             utils.start_office_listener()
             self.office_listener_started = True

@@ -305,37 +305,26 @@ class MainWindow(QMainWindow):
                 return i
 
     def update_filesList(self):
-        """Clear self.filesList and add to it all items of self.fname."""
         self.filesList.clear()
         for i in self.fnames:
             self.filesList.addItem(i)
 
     def add_files(self):
         """
-        Get file names using a standard Qt dialog.
-        Append to self.fnames each file name that not already exists
-        and update self.filesList.
+        Get file names using a standard Qt dialog, append to self.fnames
+        each name that does not already exists and update self.filesList.
         """
-        # Create lists holding file formats extension.
-        # To be passed in QFileDialog.getOpenFileNames().
-        all_files = '*'
-        audiovideo_files = ' '.join(
-                ['*.'+i for i in self.audiovideo_tab.formats])
-        img_formats = self.image_tab.formats[:]
-        img_formats.extend(self.image_tab.extra_img)
-        image_files = ' '.join(['*.'+i for i in img_formats])
-        document_files = ' '.join(['*.'+i for i in self.document_tab.formats])
-        formats = [all_files, audiovideo_files, image_files, document_files]
-        strings = [self.tr('All Files'), self.tr('Audio/Video Files'),
-                   self.tr('Image Files'), self.tr('Document Files')]
-
-        filters = ''
-        for string, extensions in zip(strings, formats):
-            filters += string + ' ({0});;'.format(extensions)
-        filters = filters[:-2] # remove last ';;'
+        filters  = 'All Files (*);;'
+        filters += 'Audio/Video Files (*.{});;'.format(
+                ' *.'.join(self.audiovideo_tab.formats))
+        filters += 'Image Files (*.{});;'.format(
+                ' *.'.join(self.image_tab.formats + self.image_tab.extra_img))
+        filters += 'Document Files (*.{})'.format(
+                ' *.'.join(self.document_tab.formats))
 
         fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' +
-                self.tr('Choose File'), config.home, filters)
+                self.tr('Choose File'), config.home, filters,
+                options=QFileDialog.HideNameFilterDetails)[0]
 
         if fnames:
             for i in fnames:

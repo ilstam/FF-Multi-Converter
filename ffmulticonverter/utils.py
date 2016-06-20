@@ -31,12 +31,6 @@ from PyQt5.QtWidgets import (
         )
 
 
-def str_to_bool(string):
-    """Convert a string to bool and return it."""
-    if string is not None:
-        return string.lower() == 'true'
-    return False
-
 def duration_in_seconds(duration):
     """
     Return the number of seconds of duration, an integer.

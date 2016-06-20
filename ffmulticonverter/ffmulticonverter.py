@@ -256,39 +256,29 @@ class MainWindow(QMainWindow):
         onstart -- True means that this is the first time the method called,
                    usually when program beggins
         """
-        def get_str_value(settings, name):
-            value = settings.value(name)
-            if value is not None:
-                return value
-            return ''
-
         settings = QSettings()
-        self.overwrite_existing = utils.str_to_bool(
-                get_str_value(settings, 'overwrite_existing'))
-        self.default_output = get_str_value(settings, 'default_output')
-        self.prefix = get_str_value(settings, 'prefix')
-        self.suffix = get_str_value(settings, 'suffix')
-        defcmd = get_str_value(settings, 'default_command')
-        extraformats_video = get_str_value(settings, 'extraformats')
-        videocodecs = settings.value('videocodecs')
-        audiocodecs = settings.value('audiocodecs')
-        defcmd_image = get_str_value(settings, 'default_command_image')
-        extraformats_image = get_str_value(settings, 'extraformats_image')
+        self.overwrite_existing = settings.value('overwrite_existing', type=bool)
+        self.default_output = settings.value('default_output', type=str)
+        self.prefix = settings.value('prefix', type=str)
+        self.suffix = settings.value('suffix', type=str)
+        self.default_command = settings.value('default_command', type=str)
+        # type=list won't work for some reason
+        extraformats_video = (settings.value('extraformats') or [])
+        videocodecs = (settings.value('videocodecs', []) or [])
+        audiocodecs = (settings.value('audiocodecs', []) or [])
+        self.default_command_image = settings.value('default_command_image', type=str)
+        extraformats_image = (settings.value('extraformats_image') or [])
 
-        if videocodecs is None:
-            videocodecs = "\n".join(config.video_codecs)
+        if not videocodecs:
+            videocodecs = config.video_codecs
             settings.setValue('videocodecs', videocodecs)
-        if audiocodecs is None:
-            audiocodecs = "\n".join(config.audio_codecs)
+        if not audiocodecs:
+            audiocodecs = config.audio_codecs
             settings.setValue('audiocodecs', audiocodecs)
 
-        if defcmd:
-            self.default_command = defcmd
-        else:
+        if not self.default_command:
             self.default_command = config.default_ffmpeg_cmd
-        if defcmd_image:
-            self.default_command_image = defcmd_image
-        else:
+        if not self.default_command_image:
             self.default_command_image = config.default_imagemagick_cmd
 
         self.audiovideo_tab.fill_video_comboboxes(

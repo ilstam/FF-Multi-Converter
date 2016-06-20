@@ -86,7 +86,6 @@ class ImageTab(QWidget):
         self.hflipQChB.setChecked(False)
 
     def fill_extension_combobox(self, extraformats):
-        extraformats = [i for i in extraformats.split("\n")] if extraformats else []
         self.extQCB.clear()
         self.extQCB.addItems(sorted(self.formats + extraformats))
 

@@ -258,10 +258,6 @@ class AudioVideoTab(QWidget):
         # then setExclusive(True) so only one radio button can be set
 
     def fill_video_comboboxes(self, vcodecs, acodecs, extraformats):
-        vcodecs = [i for i in vcodecs.split("\n")] if vcodecs else []
-        acodecs = [i for i in acodecs.split("\n")] if acodecs else []
-        extraformats = [i for i in extraformats.split("\n")] if extraformats else []
-
         self.vidcodecQCB.currentIndexChanged.disconnect()
         self.audcodecQCB.currentIndexChanged.disconnect()
 

@@ -61,6 +61,9 @@ class Preferences(QDialog):
                 )
 
         ffmpegQL = QLabel('<html><b>FFmpeg</b></html>')
+        ffmpeg_pathQL= QLabel(self.tr('Path to executable:'))
+        self.ffmpegpathQLE = QLineEdit()
+
         default_cmd_ffmpegQL = QLabel(self.tr('Default command:'))
         self.ffmpegcmdQLE = QLineEdit()
 
@@ -87,8 +90,8 @@ class Preferences(QDialog):
                 'h', None, defvidcodecsQPB, defaudcodecsQPB)
 
         tabwidget2_layout = utils.add_to_layout(
-                'v', ffmpegQL,
-                QSpacerItem(14, 13), default_cmd_ffmpegQL, self.ffmpegcmdQLE,
+                'v', ffmpegQL, QSpacerItem(14, 13), ffmpeg_pathQL,
+                self.ffmpegpathQLE, default_cmd_ffmpegQL, self.ffmpegcmdQLE,
                 QSpacerItem(20, 20), gridlayout, hlayout1, None
                 )
 

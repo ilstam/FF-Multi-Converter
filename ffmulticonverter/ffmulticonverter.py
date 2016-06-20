@@ -20,14 +20,15 @@ import textwrap
 import logging
 import webbrowser
 
-from PyQt4.QtCore import (
+from PyQt5.QtGui import QIcon, QKeySequence
+from PyQt5.QtCore import (
         PYQT_VERSION_STR, QCoreApplication, QLocale, QSettings,
         Qt, QTimer, QTranslator, QT_VERSION_STR
         )
-from PyQt4.QtGui import (
-        QAbstractItemView, QApplication, QCheckBox, QFileDialog, QIcon,
-        QKeySequence, QLabel, QLineEdit, QMainWindow, QMessageBox,
-        QPushButton, QShortcut, QTabWidget, QToolButton, QWidget
+from PyQt5.QtWidgets import (
+        QAbstractItemView, QApplication, QCheckBox, QFileDialog, QLabel,
+        QLineEdit, QMainWindow, QMessageBox, QPushButton, QShortcut, QTabWidget,
+        QToolButton, QWidget
         )
 
 import ffmulticonverter as ffmc
@@ -104,7 +105,7 @@ class MainWindow(QMainWindow):
 
         openAction = utils.create_action(
                 self, self.tr('Open'), QKeySequence.Open, None,
-                self.tr('Open a file'), self.add_files
+                self.tr('Open a file'), self.filesList_add
                 )
         convertAction = utils.create_action(
                 self, self.tr('Convert'), 'Ctrl+C', None,
@@ -190,20 +191,20 @@ class MainWindow(QMainWindow):
                 imagemagickdocAction, None, aboutAction]
                 )
 
-        self.filesList.dropped.connect(self.add_files_dropped)
-        addQPB.clicked.connect(self.add_files)
-        delQPB.clicked.connect(self.delete_files)
-        clearQPB.clicked.connect(self.clear_fileslist)
+        self.filesList.dropped.connect(self.filesList_add_dragged)
+        addQPB.clicked.connect(self.filesList_add)
+        delQPB.clicked.connect(self.filesList_delete)
+        clearQPB.clicked.connect(self.filesList_clear)
         self.tabWidget.currentChanged.connect(
                 lambda: self.tabs[0].moreQPB.setChecked(False))
         self.origQCB.toggled.connect(
                 lambda: self.toQLE.setEnabled(not self.origQCB.isChecked()))
-        self.toQTB.clicked.connect(self.open_dir)
+        self.toQTB.clicked.connect(self.get_output_folder)
         convertQPB.clicked.connect(convertAction.triggered)
 
         del_shortcut = QShortcut(self)
         del_shortcut.setKey(Qt.Key_Delete)
-        del_shortcut.activated.connect(self.delete_files)
+        del_shortcut.activated.connect(self.filesList_delete)
 
         self.setWindowTitle('FF Multi Converter')
 
@@ -211,11 +212,11 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(0, self.load_settings)
         QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
         QTimer.singleShot(0, self.image_tab.set_default_command)
-        QTimer.singleShot(0, self.update_filesList)
+        QTimer.singleShot(0, self.filesList_update)
 
     def parse_cla(self):
         """Parse command line arguments."""
-        for i in QCoreApplication.argv()[1:]:
+        for i in QCoreApplication.arguments()[1:]:
             i = os.path.abspath(i)
             if os.path.isfile(i):
                 self.fnames.append(i)
@@ -255,39 +256,29 @@ class MainWindow(QMainWindow):
         onstart -- True means that this is the first time the method called,
                    usually when program beggins
         """
-        def get_str_value(settings, name):
-            value = settings.value(name)
-            if value is not None:
-                return value
-            return ''
-
         settings = QSettings()
-        self.overwrite_existing = utils.str_to_bool(
-                get_str_value(settings, 'overwrite_existing'))
-        self.default_output = get_str_value(settings, 'default_output')
-        self.prefix = get_str_value(settings, 'prefix')
-        self.suffix = get_str_value(settings, 'suffix')
-        defcmd = get_str_value(settings, 'default_command')
-        extraformats_video = get_str_value(settings, 'extraformats')
-        videocodecs = settings.value('videocodecs')
-        audiocodecs = settings.value('audiocodecs')
-        defcmd_image = get_str_value(settings, 'default_command_image')
-        extraformats_image = get_str_value(settings, 'extraformats_image')
+        self.overwrite_existing = settings.value('overwrite_existing', type=bool)
+        self.default_output = settings.value('default_output', type=str)
+        self.prefix = settings.value('prefix', type=str)
+        self.suffix = settings.value('suffix', type=str)
+        self.default_command = settings.value('default_command', type=str)
+        # type=list won't work for some reason
+        extraformats_video = (settings.value('extraformats') or [])
+        videocodecs = (settings.value('videocodecs', []) or [])
+        audiocodecs = (settings.value('audiocodecs', []) or [])
+        self.default_command_image = settings.value('default_command_image', type=str)
+        extraformats_image = (settings.value('extraformats_image') or [])
 
-        if videocodecs is None:
-            videocodecs = "\n".join(config.video_codecs)
+        if not videocodecs:
+            videocodecs = config.video_codecs
             settings.setValue('videocodecs', videocodecs)
-        if audiocodecs is None:
-            audiocodecs = "\n".join(config.audio_codecs)
+        if not audiocodecs:
+            audiocodecs = config.audio_codecs
             settings.setValue('audiocodecs', audiocodecs)
 
-        if defcmd:
-            self.default_command = defcmd
-        else:
+        if not self.default_command:
             self.default_command = config.default_ffmpeg_cmd
-        if defcmd_image:
-            self.default_command_image = defcmd_image
-        else:
+        if not self.default_command_image:
             self.default_command_image = config.default_imagemagick_cmd
 
         self.audiovideo_tab.fill_video_comboboxes(
@@ -297,92 +288,63 @@ class MainWindow(QMainWindow):
         if onstart:
             self.toQLE.setText(self.default_output)
 
-    def current_tab(self):
-        """Return the corresponding object of the selected tab."""
+    def get_current_tab(self):
         for i in self.tabs:
             if self.tabs.index(i) == self.tabWidget.currentIndex():
                 return i
 
-    def update_filesList(self):
-        """Clear self.filesList and add to it all items of self.fname."""
+    def filesList_update(self):
         self.filesList.clear()
         for i in self.fnames:
             self.filesList.addItem(i)
 
-    def add_files(self):
-        """
-        Get file names using a standard Qt dialog.
-        Append to self.fnames each file name that not already exists
-        and update self.filesList.
-        """
-        # Create lists holding file formats extension.
-        # To be passed in QFileDialog.getOpenFileNames().
-        all_files = '*'
-        audiovideo_files = ' '.join(
-                ['*.'+i for i in self.audiovideo_tab.formats])
-        img_formats = self.image_tab.formats[:]
-        img_formats.extend(self.image_tab.extra_img)
-        image_files = ' '.join(['*.'+i for i in img_formats])
-        document_files = ' '.join(['*.'+i for i in self.document_tab.formats])
-        formats = [all_files, audiovideo_files, image_files, document_files]
-        strings = [self.tr('All Files'), self.tr('Audio/Video Files'),
-                   self.tr('Image Files'), self.tr('Document Files')]
-
-        filters = ''
-        for string, extensions in zip(strings, formats):
-            filters += string + ' ({0});;'.format(extensions)
-        filters = filters[:-2] # remove last ';;'
+    def filesList_add(self):
+        filters  = 'All Files (*);;'
+        filters += 'Audio/Video Files (*.{});;'.format(
+                ' *.'.join(self.audiovideo_tab.formats))
+        filters += 'Image Files (*.{});;'.format(
+                ' *.'.join(self.image_tab.formats + self.image_tab.extra_img))
+        filters += 'Document Files (*.{})'.format(
+                ' *.'.join(self.document_tab.formats))
 
         fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' +
-                self.tr('Choose File'), config.home, filters)
+                self.tr('Choose File'), config.home, filters,
+                options=QFileDialog.HideNameFilterDetails)[0]
 
         if fnames:
             for i in fnames:
                 if not i in self.fnames:
                     self.fnames.append(i)
-            self.update_filesList()
+            self.filesList_update()
 
-    def add_files_dropped(self, links):
-        """
-        Append to self.fnames each file name that not already exists
-        and update self.filesList.
-        """
+    def filesList_add_dragged(self, links):
         for path in links:
             if os.path.isfile(path) and not path in self.fnames:
                 self.fnames.append(path)
-        self.update_filesList()
+        self.filesList_update()
 
-    def delete_files(self):
-        """
-        Get selectedItems of self.filesList, remove them from self.fnames and
-        update the filesList.
-        """
+    def filesList_delete(self):
         items = self.filesList.selectedItems()
         if items:
             for i in items:
                 self.fnames.remove(i.text())
-            self.update_filesList()
+            self.filesList_update()
 
-    def clear_fileslist(self):
-        """Make self.fnames empty and update self.filesList."""
+    def filesList_clear(self):
         self.fnames = []
-        self.update_filesList()
+        self.filesList_update()
 
     def clear_all(self):
-        """Clear all values of graphical widgets."""
+        """Clears or sets to default the values of all graphical widgets."""
         self.toQLE.clear()
         self.origQCB.setChecked(False)
         self.deleteQCB.setChecked(False)
-        self.clear_fileslist()
+        self.filesList_clear()
 
         self.audiovideo_tab.clear()
         self.image_tab.clear()
 
-    def open_dir(self):
-        """
-        Get a directory name using a standard QtDialog and update
-        self.toQLE with dir's name.
-        """
+    def get_output_folder(self):
         if self.toQLE.isEnabled():
             output = QFileDialog.getExistingDirectory(
                     self, 'FF Multi Converter - ' +
@@ -427,7 +389,7 @@ class MainWindow(QMainWindow):
             elif (not self.origQCB.isChecked() and
                   not os.path.exists(self.toQLE.text())):
                 raise ValidationError(self.tr('Output folder does not exists!'))
-            if not self.current_tab().ok_to_continue():
+            if not self.get_current_tab().ok_to_continue():
                 return False
             return True
 
@@ -438,7 +400,7 @@ class MainWindow(QMainWindow):
 
     def get_output_extension(self):
         """Extract the desired output file extension from GUI and return it."""
-        tab = self.current_tab()
+        tab = self.get_current_tab()
         if tab.name == 'AudioVideo':
             ext_to = self.audiovideo_tab.extQCB.currentText()
         elif tab.name == 'Images':
@@ -456,7 +418,7 @@ class MainWindow(QMainWindow):
         if not self.ok_to_continue():
             return
 
-        tab = self.current_tab()
+        tab = self.get_current_tab()
         if tab.name == 'Documents' and not self.office_listener_started:
             utils.start_office_listener()
             self.office_listener_started = True

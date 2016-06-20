@@ -13,8 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt4.QtCore import QSettings, QTimer
-from PyQt4.QtGui import (
+from PyQt5.QtCore import QSettings, QTimer
+from PyQt5.QtWidgets import (
         QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit,
         QRadioButton, QSpacerItem, QTabWidget, QToolButton, QWidget,
         QPlainTextEdit, QPushButton
@@ -128,8 +128,10 @@ class Preferences(QDialog):
         self.defaultQTB.clicked.connect(self.open_dir)
         buttonBox.accepted.connect(self.save_settings)
         buttonBox.rejected.connect(self.reject)
-        defvidcodecsQPB.clicked.connect(self.set_default_videocodecs)
-        defaudcodecsQPB.clicked.connect(self.set_default_audiocodecs)
+        defvidcodecsQPB.clicked.connect(
+                lambda: self.set_videocodecs(config.video_codecs))
+        defaudcodecsQPB.clicked.connect(
+                lambda: self.set_audiocodecs(config.audio_codecs))
 
         self.resize(400, 450)
         self.setWindowTitle(self.tr('Preferences'))
@@ -139,19 +141,17 @@ class Preferences(QDialog):
     def load_settings(self):
         """Load settings and update graphical widgets with loaded values."""
         settings = QSettings()
-        overwrite_existing = utils.str_to_bool(
-                settings.value('overwrite_existing'))
-        default_output = settings.value('default_output')
-        prefix = settings.value('prefix')
-        suffix = settings.value('suffix')
-        default_command = settings.value('default_command')
-        videocodecs = settings.value('videocodecs')
-        audiocodecs = settings.value('audiocodecs')
-        extraformats_video = settings.value('extraformats')
-        default_command_image = settings.value('default_command_image')
-        extraformats_image = settings.value('extraformats_image')
+        overwrite_existing = settings.value('overwrite_existing', type=bool)
+        default_output = settings.value('default_output', type=str)
+        prefix = settings.value('prefix', type=str)
+        suffix = settings.value('suffix', type=str)
+        default_command = settings.value('default_command', type=str)
+        videocodecs = (settings.value('videocodecs') or [])
+        audiocodecs = (settings.value('audiocodecs') or [])
+        extraformats_video = (settings.value('extraformats') or [])
+        default_command_image = settings.value('default_command_image', type=str)
+        extraformats_image = (settings.value('extraformats_image') or [])
 
-        # QSettings.value() returns str() in python3, not QVariant() as in p2
         if overwrite_existing:
             self.exst_overwriteQRB.setChecked(True)
         else:
@@ -168,26 +168,26 @@ class Preferences(QDialog):
             self.ffmpegcmdQLE.setText(config.default_ffmpeg_cmd)
 
         if not videocodecs:
-            self.set_default_videocodecs()
-        else:
-            self.vidcodecsQPTE.setPlainText(videocodecs)
+            videocodecs = config.video_codecs
         if not audiocodecs:
-            self.set_default_audiocodecs
-        else:
-            self.audcodecsQPTE.setPlainText(audiocodecs)
-        self.extraformatsffmpegQPTE.setPlainText(extraformats_video)
+            audiocodecs = config.audio_codecs
+        self.set_videocodecs(videocodecs)
+        self.set_audiocodecs(audiocodecs)
+
+        self.extraformatsffmpegQPTE.setPlainText("\n".join(extraformats_video))
 
         if default_command_image:
             self.imagecmdQLE.setText(default_command_image)
         else:
             self.imagecmdQLE.setText(config.default_imagemagick_cmd)
-        self.extraformatsimageQPTE.setPlainText(extraformats_image)
 
-    def set_default_videocodecs(self):
-        self.vidcodecsQPTE.setPlainText("\n".join(config.video_codecs))
+        self.extraformatsimageQPTE.setPlainText("\n".join(extraformats_image))
 
-    def set_default_audiocodecs(self):
-        self.audcodecsQPTE.setPlainText("\n".join(config.audio_codecs))
+    def set_videocodecs(self, codecs):
+        self.vidcodecsQPTE.setPlainText("\n".join(codecs))
+
+    def set_audiocodecs(self, codecs):
+        self.audcodecsQPTE.setPlainText("\n".join(codecs))
 
     def open_dir(self):
         """Get a directory name using a standard Qt dialog and update
@@ -231,11 +231,6 @@ class Preferences(QDialog):
             and i not in config.image_formats:
                 extraformats_image.append(i)
 
-        videocodecs = "\n".join(sorted(videocodecs))
-        audiocodecs = "\n".join(sorted(audiocodecs))
-        extraformats_video = "\n".join(sorted(extraformats_video))
-        extraformats_image = "\n".join(sorted(extraformats_image))
-
         settings = QSettings()
         settings.setValue(
                 'overwrite_existing', self.exst_overwriteQRB.isChecked())
@@ -248,14 +243,14 @@ class Preferences(QDialog):
         settings.setValue(
                 'default_command', self.ffmpegcmdQLE.text())
         settings.setValue(
-                'videocodecs', videocodecs)
+                'videocodecs', sorted(videocodecs))
         settings.setValue(
-                'audiocodecs', audiocodecs)
+                'audiocodecs', sorted(audiocodecs))
         settings.setValue(
-                'extraformats', extraformats_video)
+                'extraformats', sorted(extraformats_video))
         settings.setValue(
                 'default_command_image', self.imagecmdQLE.text())
         settings.setValue(
-                'extraformats_image', extraformats_image)
+                'extraformats_image', sorted(extraformats_image))
 
         self.accept()

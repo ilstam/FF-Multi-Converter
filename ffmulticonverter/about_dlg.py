@@ -13,9 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt4.QtCore import QSize
-from PyQt4.QtGui import (
-        QDialog, QLabel, QPixmap, QPlainTextEdit, QPushButton, QTabWidget
+from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import (
+        QDialog, QLabel, QPlainTextEdit, QPushButton, QTabWidget
         )
 
 from ffmulticonverter import utils

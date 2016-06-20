@@ -22,11 +22,11 @@ import subprocess
 import shlex
 import logging
 
-from PyQt4.QtCore import pyqtSignal, QTimer
-from PyQt4.QtGui import (
+from PyQt5.QtCore import pyqtSignal, QTimer
+from PyQt5.QtGui import QTextCursor
+from PyQt5.QtWidgets import (
         QApplication, QDialog, QFrame, QLabel, QPushButton, QProgressBar,
-        QMessageBox, QTextEdit, QCommandLinkButton, QTextCursor, QSizePolicy,
-        QCheckBox
+        QMessageBox, QTextEdit, QCommandLinkButton, QSizePolicy, QCheckBox
         )
 
 from ffmulticonverter import utils

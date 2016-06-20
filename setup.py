@@ -71,7 +71,7 @@ Features:
  - Options for saving and naming files.
  - Multilingual - over 20 languages.
 
-Requires: pyqt4 (for python3)
+Requires: python3, pyqt5
 Optionally requires: ffmpeg, imagemagick, unoconv
 """
 )

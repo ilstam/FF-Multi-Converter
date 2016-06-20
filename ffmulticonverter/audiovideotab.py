@@ -15,12 +15,12 @@
 
 import re
 
-from PyQt4.QtCore import QRegExp, QSize, QTimer
-from PyQt4.QtGui import (
-        QApplication, QWidget, QComboBox, QLineEdit, QLabel, QRegExpValidator,
-        QPushButton, QCheckBox, QRadioButton, QHBoxLayout, QSpacerItem,
-        QSizePolicy, QFrame, QButtonGroup, QMessageBox, QToolButton,
-        QFileDialog
+from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtCore import QRegExp, QSize, QTimer
+from PyQt5.QtWidgets import (
+        QApplication, QWidget, QComboBox, QLineEdit, QLabel, QPushButton,
+        QCheckBox, QRadioButton, QHBoxLayout, QSpacerItem, QSizePolicy, QFrame,
+        QButtonGroup, QMessageBox, QToolButton, QFileDialog
         )
 
 from ffmulticonverter import utils
@@ -258,10 +258,6 @@ class AudioVideoTab(QWidget):
         # then setExclusive(True) so only one radio button can be set
 
     def fill_video_comboboxes(self, vcodecs, acodecs, extraformats):
-        vcodecs = [i for i in vcodecs.split("\n")] if vcodecs else []
-        acodecs = [i for i in acodecs.split("\n")] if acodecs else []
-        extraformats = [i for i in extraformats.split("\n")] if extraformats else []
-
         self.vidcodecQCB.currentIndexChanged.disconnect()
         self.audcodecQCB.currentIndexChanged.disconnect()
 
@@ -293,11 +289,10 @@ class AudioVideoTab(QWidget):
         return True
 
     def open_subtitle_file(self):
-        """
-        Get the filename using standard QtDialog and update embedQLE's text.
-        """
-        fname = QFileDialog.getOpenFileName(self, 'FF Multi Converter - ' +
-                self.tr('Choose File'), config.home, 'Subtitles (*.srt *.sub *.ssa *.ass)')
+        fname = QFileDialog.getOpenFileName(
+                self, 'FF Multi Converter - ' + self.tr('Choose File'),
+                config.home, 'Subtitles (*.srt *.sub *.ssa *.ass)'
+                )[0]
         if fname:
             self.embedQLE.setText(fname)
 

@@ -69,20 +69,11 @@ image_extra_formats = [
 
 #-----document data
 
-document_formats = {
-        'doc' : ['odt', 'pdf'],
-        'html' : ['odt'],
-        'odp' : ['pdf', 'ppt'],
-        'ods' : ['pdf'],
-        'odt' : ['doc', 'html', 'pdf', 'rtf', 'sxw', 'txt','xml'],
-        'ppt' : ['odp'],
-        'rtf' : ['odt'],
-        'sdw' : ['odt'],
-        'sxw' : ['odt'],
-        'txt' : ['odt'],
-        'xls' : ['ods'],
-        'xml' : ['doc', 'odt', 'pdf']
-        }
+document_formats = [
+        'bib', 'csv', 'dif', 'doc', 'docx', 'html', 'ltx', 'odp', 'ods', 'odt',
+        'pdf', 'ppt', 'pptx', 'rtf', 'sdc', 'sdw', 'txt', 'xls', 'xlsx', 'xml'
+        ]
+
 
 #-----misc
 translators = [

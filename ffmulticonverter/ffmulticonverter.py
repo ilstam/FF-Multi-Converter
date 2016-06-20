@@ -398,18 +398,6 @@ class MainWindow(QMainWindow):
                     self, 'FF Multi Converter - ' + self.tr('Error!'), str(e))
             return False
 
-    def get_output_extension(self):
-        """Extract the desired output file extension from GUI and return it."""
-        tab = self.get_current_tab()
-        if tab.name == 'AudioVideo':
-            ext_to = self.audiovideo_tab.extQCB.currentText()
-        elif tab.name == 'Images':
-            ext_to = tab.extQCB.currentText()
-        else:
-            ext_to = tab.convertQCB.currentText().split()[-1]
-
-        return '.' + ext_to
-
     def start_conversion(self):
         """
         Extract the appropriate information from GUI and call the
@@ -419,11 +407,12 @@ class MainWindow(QMainWindow):
             return
 
         tab = self.get_current_tab()
+        ext_to = '.' + tab.extQCB.currentText()
+
         if tab.name == 'Documents' and not self.office_listener_started:
             utils.start_office_listener()
             self.office_listener_started = True
 
-        ext_to = self.get_output_extension()
         _list = utils.create_paths_list(
                 self.fnames, ext_to, self.prefix, self.suffix,
                 self.toQLE.text(), self.origQCB.isChecked(),

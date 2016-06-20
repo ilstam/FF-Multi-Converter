@@ -32,17 +32,11 @@ class DocumentTab(QWidget):
         self.name = 'Documents'
         self.formats = config.document_formats
 
-        flist = []
-        for i in self.formats:
-            for y in self.formats[i]:
-                flist.append(i + ' to ' + y)
-        flist.sort()
-
-        convertQL = QLabel(self.tr('Convert:'))
-        self.convertQCB = QComboBox()
-        self.convertQCB.addItems(flist)
+        convertQL = QLabel(self.tr('Convert to:'))
+        self.extQCB = QComboBox()
+        self.extQCB.addItems(sorted(self.formats))
         final_layout = utils.add_to_layout(
-                'h', convertQL, self.convertQCB, None)
+                'h', convertQL, self.extQCB, None)
         self.setLayout(final_layout)
 
     def ok_to_continue(self):
@@ -51,27 +45,11 @@ class DocumentTab(QWidget):
 
         Checks if:
         - unoconv is missing.
-        - Given file extension is same with the declared extension.
 
         Return True if all tests pass, else False.
         """
-        decl_ext = self.convertQCB.currentText().split(' ')[0]
-
-        try:
-            if not self.parent.unoconv:
-                raise ValidationError(
-                        self.tr(
-                        'Unocov is not installed.\nYou will not be able '
-                        'to convert document files until you install it.')
-                        )
-            for i in self.parent.fnames:
-                file_ext = os.path.splitext(i)[-1][1:]
-                if file_ext != decl_ext:
-                    raise ValidationError(
-                            self.trUtf8('{0} is not {1}!'.format(i, decl_ext)))
-            return True
-
-        except ValidationError as e:
-            QMessageBox.warning(self, 'FF Multi Converter - ' + \
-                    self.tr('Error!'), str(e))
+        if not self.parent.unoconv:
+            QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr('Error!'),
+                    self.tr('Unocov is not installed!'))
             return False
+        return True

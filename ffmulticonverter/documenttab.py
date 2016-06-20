@@ -34,10 +34,12 @@ class DocumentTab(QWidget):
 
         convertQL = QLabel(self.tr('Convert to:'))
         self.extQCB = QComboBox()
-        self.extQCB.addItems(sorted(self.formats))
-        final_layout = utils.add_to_layout(
-                'h', convertQL, self.extQCB, None)
+        final_layout = utils.add_to_layout('h', convertQL, self.extQCB, None)
         self.setLayout(final_layout)
+
+    def fill_extension_combobox(self, extraformats):
+        self.extQCB.clear()
+        self.extQCB.addItems(sorted(self.formats + extraformats))
 
     def ok_to_continue(self):
         """

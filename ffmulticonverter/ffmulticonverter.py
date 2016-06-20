@@ -268,6 +268,7 @@ class MainWindow(QMainWindow):
         audiocodecs = (settings.value('audiocodecs', []) or [])
         self.default_command_image = settings.value('default_command_image', type=str)
         extraformats_image = (settings.value('extraformats_image') or [])
+        extraformats_document = (settings.value('extraformats_document') or [])
 
         if not videocodecs:
             videocodecs = config.video_codecs
@@ -284,6 +285,7 @@ class MainWindow(QMainWindow):
         self.audiovideo_tab.fill_video_comboboxes(
                 videocodecs, audiocodecs, extraformats_video)
         self.image_tab.fill_extension_combobox(extraformats_image)
+        self.document_tab.fill_extension_combobox(extraformats_document)
 
         if onstart:
             self.toQLE.setText(self.default_output)

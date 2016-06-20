@@ -36,7 +36,6 @@ class ImageTab(QWidget):
 
         converttoQL = QLabel(self.tr('Convert to:'))
         self.extQCB = QComboBox()
-        self.extQCB.addItems(self.formats)
         commandQL = QLabel(self.tr('Extra options:'))
         self.commandQLE = QLineEdit()
 

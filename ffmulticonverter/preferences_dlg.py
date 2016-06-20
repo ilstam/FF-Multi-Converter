@@ -100,7 +100,8 @@ class Preferences(QDialog):
                 '<html><b>' + self.tr('Extra formats') +'</b></html>')
         self.extraformatsimageQPTE = QPlainTextEdit()
 
-        hlayout2 = utils.add_to_layout('h', self.extraformatsimageQPTE, QSpacerItem(220,20))
+        hlayout2 = utils.add_to_layout('h',
+                self.extraformatsimageQPTE, QSpacerItem(220,20))
 
         tabwidget3_layout = utils.add_to_layout(
                 'v', imagemagickQL,
@@ -108,16 +109,29 @@ class Preferences(QDialog):
                 QSpacerItem(20,20), extraformatsimageQL, hlayout2, None
                 )
 
+        extraformatsdocumentQL = QLabel(
+                '<html><b>' + self.tr('Extra formats') +'</b></html>')
+        self.extraformatsdocumentQPTE = QPlainTextEdit()
+
+        hlayout3 = utils.add_to_layout('h',
+                self.extraformatsdocumentQPTE, QSpacerItem(220,20))
+
+        tabwidget4_layout = utils.add_to_layout(
+                'v', extraformatsdocumentQL, hlayout3, None)
+
         widget1 = QWidget()
         widget1.setLayout(tabwidget1_layout)
         widget2 = QWidget()
         widget2.setLayout(tabwidget2_layout)
         widget3 = QWidget()
         widget3.setLayout(tabwidget3_layout)
+        widget4 = QWidget()
+        widget4.setLayout(tabwidget4_layout)
         tabWidget = QTabWidget()
         tabWidget.addTab(widget1, self.tr('General'))
         tabWidget.addTab(widget2, self.tr('Audio/Video'))
         tabWidget.addTab(widget3, self.tr('Images'))
+        tabWidget.addTab(widget4, self.tr('Documents'))
 
         buttonBox = QDialogButtonBox(
                 QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
@@ -151,6 +165,7 @@ class Preferences(QDialog):
         extraformats_video = (settings.value('extraformats') or [])
         default_command_image = settings.value('default_command_image', type=str)
         extraformats_image = (settings.value('extraformats_image') or [])
+        extraformats_document = (settings.value('extraformats_document') or [])
 
         if overwrite_existing:
             self.exst_overwriteQRB.setChecked(True)
@@ -182,6 +197,7 @@ class Preferences(QDialog):
             self.imagecmdQLE.setText(config.default_imagemagick_cmd)
 
         self.extraformatsimageQPTE.setPlainText("\n".join(extraformats_image))
+        self.extraformatsdocumentQPTE.setPlainText("\n".join(extraformats_document))
 
     def set_videocodecs(self, codecs):
         self.vidcodecsQPTE.setPlainText("\n".join(codecs))
@@ -200,36 +216,31 @@ class Preferences(QDialog):
             if _dir:
                 self.defaultQLE.setText(_dir)
 
+    @staticmethod
+    def plaintext_to_list(widget, formats=[]):
+        """
+        Parse the text from a QPlainTextEdit widget and return a list.
+        The list will consist of every text line that is a single word
+        and it's not in the formats list. No duplicates allowed.
+        """
+        _list = []
+        for line in widget.toPlainText().split("\n"):
+            line = line.strip()
+            if len(line.split()) == 1 and line not in (_list+formats):
+                _list.append(line)
+        return _list
+
     def save_settings(self):
-        """Set settings values, extracting the appropriate information from
+        """Set settings values by extracting the appropriate information from
         the graphical widgets."""
-        # remove empty codecs
-        videocodecs = []
-        audiocodecs = []
-        extraformats_video = []
-        extraformats_image = []
-
-        for i in self.vidcodecsQPTE.toPlainText().split("\n"):
-            i = i.strip()
-            if len(i.split()) == 1 and i not in videocodecs: # i single word
-                videocodecs.append(i)
-
-        for i in self.audcodecsQPTE.toPlainText().split("\n"):
-            i = i.strip()
-            if len(i.split()) == 1 and i not in audiocodecs:
-                audiocodecs.append(i)
-
-        for i in self.extraformatsffmpegQPTE.toPlainText().split("\n"):
-            i = i.strip()
-            if len(i.split()) == 1 and i not in extraformats_video \
-            and i not in config.video_formats:
-                extraformats_video.append(i)
-
-        for i in self.extraformatsimageQPTE.toPlainText().split("\n"):
-            i = i.strip()
-            if len(i.split()) == 1 and i not in extraformats_image \
-            and i not in config.image_formats:
-                extraformats_image.append(i)
+        videocodecs = self.plaintext_to_list(self.vidcodecsQPTE)
+        audiocodecs = self.plaintext_to_list(self.audcodecsQPTE)
+        extraformats_video = self.plaintext_to_list(self.extraformatsffmpegQPTE,
+                config.video_formats)
+        extraformats_image = self.plaintext_to_list(self.extraformatsimageQPTE,
+                config.image_formats)
+        extraformats_document = self.plaintext_to_list(
+                self.extraformatsdocumentQPTE, config.document_formats)
 
         settings = QSettings()
         settings.setValue(
@@ -252,5 +263,7 @@ class Preferences(QDialog):
                 'default_command_image', self.imagecmdQLE.text())
         settings.setValue(
                 'extraformats_image', sorted(extraformats_image))
+        settings.setValue(
+                'extraformats_document', sorted(extraformats_document))
 
         self.accept()

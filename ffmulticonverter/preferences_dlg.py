@@ -165,7 +165,7 @@ class Preferences(QDialog):
         default_command = settings.value('default_command', type=str)
         videocodecs = (settings.value('videocodecs') or [])
         audiocodecs = (settings.value('audiocodecs') or [])
-        extraformats_video = (settings.value('extraformats') or [])
+        extraformats_video = (settings.value('extraformats_video') or [])
         default_command_image = settings.value('default_command_image', type=str)
         extraformats_image = (settings.value('extraformats_image') or [])
         extraformats_document = (settings.value('extraformats_document') or [])
@@ -261,7 +261,7 @@ class Preferences(QDialog):
         settings.setValue(
                 'audiocodecs', sorted(audiocodecs))
         settings.setValue(
-                'extraformats', sorted(extraformats_video))
+                'extraformats_video', sorted(extraformats_video))
         settings.setValue(
                 'default_command_image', self.imagecmdQLE.text())
         settings.setValue(

@@ -22,8 +22,8 @@ import webbrowser
 
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtCore import (
-        PYQT_VERSION_STR, QCoreApplication, QLocale, QSettings,
-        Qt, QTimer, QTranslator, QT_VERSION_STR
+        PYQT_VERSION_STR, QCoreApplication, QLocale, QSettings, Qt,
+        QTranslator, QT_VERSION_STR
         )
 from PyQt5.QtWidgets import (
         QAbstractItemView, QApplication, QCheckBox, QFileDialog, QLabel,
@@ -208,11 +208,15 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle('FF Multi Converter')
 
-        QTimer.singleShot(0, self.check_for_dependencies)
-        QTimer.singleShot(0, self.load_settings)
-        QTimer.singleShot(0, self.audiovideo_tab.set_default_command)
-        QTimer.singleShot(0, self.image_tab.set_default_command)
-        QTimer.singleShot(0, self.filesList_update)
+        self.load_settings()
+        self.check_for_dependencies()
+
+        self.audiovideo_tab.set_default_command()
+        self.image_tab.set_default_command()
+        self.toQLE.setText(self.default_output)
+
+        self.filesList_update()
+
 
     def parse_cla(self):
         """Parse command line arguments."""
@@ -249,46 +253,29 @@ class MainWindow(QMainWindow):
             status = self.tr('Missing dependencies:') + ' ' + missing
             self.dependenciesQL.setText(status)
 
-    def load_settings(self, onstart=True):
-        """
-        Load settings values.
-
-        onstart -- True means that this is the first time the method called,
-                   usually when program beggins
-        """
+    def load_settings(self):
         settings = QSettings()
+
         self.overwrite_existing = settings.value('overwrite_existing', type=bool)
         self.default_output = settings.value('default_output', type=str)
         self.prefix = settings.value('prefix', type=str)
         self.suffix = settings.value('suffix', type=str)
-        self.default_command = settings.value('default_command', type=str)
+        self.default_command = (settings.value('default_command', type=str) or
+                config.default_ffmpeg_cmd)
         # type=list won't work for some reason
-        extraformats_video = (settings.value('extraformats') or [])
-        videocodecs = (settings.value('videocodecs', []) or [])
-        audiocodecs = (settings.value('audiocodecs', []) or [])
-        self.default_command_image = settings.value('default_command_image', type=str)
+        extraformats_video = (settings.value('extraformats_video') or [])
+        videocodecs = (settings.value('videocodecs') or config.video_codecs)
+        audiocodecs = (settings.value('audiocodecs') or config.audio_codecs)
+        self.default_command_image = (settings.value('default_command_image',
+                type=str) or
+                config.default_imagemagick_cmd)
         extraformats_image = (settings.value('extraformats_image') or [])
         extraformats_document = (settings.value('extraformats_document') or [])
 
-        if not videocodecs:
-            videocodecs = config.video_codecs
-            settings.setValue('videocodecs', videocodecs)
-        if not audiocodecs:
-            audiocodecs = config.audio_codecs
-            settings.setValue('audiocodecs', audiocodecs)
-
-        if not self.default_command:
-            self.default_command = config.default_ffmpeg_cmd
-        if not self.default_command_image:
-            self.default_command_image = config.default_imagemagick_cmd
-
-        self.audiovideo_tab.fill_video_comboboxes(
-                videocodecs, audiocodecs, extraformats_video)
+        self.audiovideo_tab.fill_video_comboboxes(videocodecs,
+                audiocodecs, extraformats_video)
         self.image_tab.fill_extension_combobox(extraformats_image)
         self.document_tab.fill_extension_combobox(extraformats_document)
-
-        if onstart:
-            self.toQLE.setText(self.default_output)
 
     def get_current_tab(self):
         for i in self.tabs:
@@ -429,7 +416,7 @@ class MainWindow(QMainWindow):
         """Open the preferences dialog."""
         dialog = preferences_dlg.Preferences(self)
         if dialog.exec_():
-            self.load_settings(onstart=False)
+            self.load_settings()
 
     def open_dialog_presets(self):
         """Open the presets dialog."""

@@ -3,15 +3,15 @@ GUI File Format Converter
 """
 
 # version
-__major__ = 1  # for major interface/format changes
-__minor__ = 7  # for minor interface/format changes
-__release__ = 2  # for tweaks, bug-fixes, or development
-__prerelease__ = "" # alpha, beta, rc etc.
+__major__ = 1
+__minor__ = 8
+__release__ = 0
+__prerelease__ = "a1" # alpha, beta, rc etc.
 
 # package information
 __name__ = "ffmulticonverter"
 __version__ = "{0}.{1}.{2}".format(__major__, __minor__, __release__)
-__version__ += __prerelease__
+__version__ += "-" + __prerelease__
 __description__ = __doc__
 __author__ = "Ilias Stamatis"
 __author_email__ = "stamatis.iliass@gmail.com"

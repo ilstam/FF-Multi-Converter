@@ -260,6 +260,7 @@ class MainWindow(QMainWindow):
         self.default_output = settings.value('default_output', type=str)
         self.prefix = settings.value('prefix', type=str)
         self.suffix = settings.value('suffix', type=str)
+        self.ffmpeg_path = settings.value('ffmpeg_path', type=str)
         self.default_command = (settings.value('default_command', type=str) or
                 config.default_ffmpeg_cmd)
         # type=list won't work for some reason

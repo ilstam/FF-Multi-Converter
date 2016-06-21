@@ -162,11 +162,16 @@ class Preferences(QDialog):
         default_output = settings.value('default_output', type=str)
         prefix = settings.value('prefix', type=str)
         suffix = settings.value('suffix', type=str)
-        default_command = settings.value('default_command', type=str)
-        videocodecs = (settings.value('videocodecs') or [])
-        audiocodecs = (settings.value('audiocodecs') or [])
+        ffmpeg_path = settings.value('ffmpeg_path', type=str)
+        default_command = (settings.value('default_command', type=str) or
+                config.default_ffmpeg_cmd)
+        videocodecs = (settings.value('videocodecs') or config.video_codecs)
+        audiocodecs = (settings.value('audiocodecs') or config.audio_codecs)
         extraformats_video = (settings.value('extraformats_video') or [])
-        default_command_image = settings.value('default_command_image', type=str)
+        default_command_image = (settings.value('default_command_image',
+                type=str) or
+                config.default_imagemagick_cmd
+                )
         extraformats_image = (settings.value('extraformats_image') or [])
         extraformats_document = (settings.value('extraformats_document') or [])
 
@@ -174,31 +179,16 @@ class Preferences(QDialog):
             self.exst_overwriteQRB.setChecked(True)
         else:
             self.exst_prefixQRB.setChecked(True)
-        if default_output:
-            self.defaultQLE.setText(default_output)
-        if prefix:
-            self.prefixQLE.setText(prefix)
-        if suffix:
-            self.suffixQLE.setText(suffix)
-        if default_command:
-            self.ffmpegcmdQLE.setText(default_command)
-        else:
-            self.ffmpegcmdQLE.setText(config.default_ffmpeg_cmd)
 
-        if not videocodecs:
-            videocodecs = config.video_codecs
-        if not audiocodecs:
-            audiocodecs = config.audio_codecs
+        self.defaultQLE.setText(default_output)
+        self.prefixQLE.setText(prefix)
+        self.suffixQLE.setText(suffix)
+        self.ffmpegpathQLE.setText(ffmpeg_path)
+        self.ffmpegcmdQLE.setText(default_command)
         self.set_videocodecs(videocodecs)
         self.set_audiocodecs(audiocodecs)
-
         self.extraformatsffmpegQPTE.setPlainText("\n".join(extraformats_video))
-
-        if default_command_image:
-            self.imagecmdQLE.setText(default_command_image)
-        else:
-            self.imagecmdQLE.setText(config.default_imagemagick_cmd)
-
+        self.imagecmdQLE.setText(default_command_image)
         self.extraformatsimageQPTE.setPlainText("\n".join(extraformats_image))
         self.extraformatsdocumentQPTE.setPlainText("\n".join(extraformats_document))
 
@@ -254,6 +244,8 @@ class Preferences(QDialog):
                 'prefix', self.prefixQLE.text())
         settings.setValue(
                 'suffix', self.suffixQLE.text())
+        settings.setValue(
+                'ffmpeg_path', self.ffmpegpathQLE.text())
         settings.setValue(
                 'default_command', self.ffmpegcmdQLE.text())
         settings.setValue(

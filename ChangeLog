@@ -1,3 +1,18 @@
+Version 1.8.0
+--------------
+
+* PyQt5 port
+
+* User can now specify a custom ffmpeg path.
+
+* Libav/avconv support dropped.
+
+* Progress bar showing total conversions progress removed.
+
+* Document tab now allows all conversions supported by unoconv.
+
+* Shutdown after conversion button added.
+
 Version 1.7.2
 --------------
 

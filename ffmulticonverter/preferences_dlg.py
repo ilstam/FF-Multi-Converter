@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import os
+
 from PyQt5.QtCore import QSettings, QTimer
 from PyQt5.QtWidgets import (
         QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit,
@@ -236,29 +238,22 @@ class Preferences(QDialog):
                 self.extraformatsdocumentQPTE, config.document_formats)
 
         settings = QSettings()
-        settings.setValue(
-                'overwrite_existing', self.exst_overwriteQRB.isChecked())
-        settings.setValue(
-                'default_output', self.defaultQLE.text())
-        settings.setValue(
-                'prefix', self.prefixQLE.text())
-        settings.setValue(
-                'suffix', self.suffixQLE.text())
-        settings.setValue(
-                'ffmpeg_path', self.ffmpegpathQLE.text())
-        settings.setValue(
-                'default_command', self.ffmpegcmdQLE.text())
-        settings.setValue(
-                'videocodecs', sorted(videocodecs))
-        settings.setValue(
-                'audiocodecs', sorted(audiocodecs))
-        settings.setValue(
-                'extraformats_video', sorted(extraformats_video))
-        settings.setValue(
-                'default_command_image', self.imagecmdQLE.text())
-        settings.setValue(
-                'extraformats_image', sorted(extraformats_image))
-        settings.setValue(
-                'extraformats_document', sorted(extraformats_document))
+
+        ffmpeg_path = os.path.expanduser(self.ffmpegpathQLE.text())
+        if not utils.is_installed(ffmpeg_path):
+            ffmpeg_path = utils.is_installed('ffmpeg')
+
+        settings.setValue('overwrite_existing', self.exst_overwriteQRB.isChecked())
+        settings.setValue('default_output', self.defaultQLE.text())
+        settings.setValue('prefix', self.prefixQLE.text())
+        settings.setValue('suffix', self.suffixQLE.text())
+        settings.setValue('ffmpeg_path', ffmpeg_path)
+        settings.setValue('default_command', self.ffmpegcmdQLE.text())
+        settings.setValue('videocodecs', sorted(videocodecs))
+        settings.setValue('audiocodecs', sorted(audiocodecs))
+        settings.setValue('extraformats_video', sorted(extraformats_video))
+        settings.setValue('default_command_image', self.imagecmdQLE.text())
+        settings.setValue('extraformats_image', sorted(extraformats_image))
+        settings.setValue('extraformats_document', sorted(extraformats_document))
 
         self.accept()

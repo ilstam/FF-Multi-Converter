@@ -232,17 +232,15 @@ class MainWindow(QMainWindow):
         Check if each one of the program dependencies are installed and
         update self.dependenciesQL with the appropriate message.
         """
-        self.vidconverter = None
-        if utils.is_installed('ffmpeg'):
-            self.vidconverter = 'ffmpeg'
-        elif utils.is_installed('avconv'):
-            self.vidconverter = 'avconv'
+        if not utils.is_installed(self.ffmpeg_path):
+            self.ffmpeg_path = utils.is_installed('ffmpeg')
+            QSettings().setValue('ffmpeg_path', self.ffmpeg_path)
         self.unoconv = utils.is_installed('unoconv')
         self.imagemagick = utils.is_installed('convert')
 
         missing = []
-        if self.vidconverter is None:
-            missing.append('ffmpeg/avconv')
+        if not self.ffmpeg_path:
+            missing.append('ffmpeg')
         if not self.unoconv:
             missing.append('unoconv')
         if not self.imagemagick:

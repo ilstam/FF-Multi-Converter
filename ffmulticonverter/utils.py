@@ -41,12 +41,19 @@ def duration_in_seconds(duration):
     return secs + (hours * 3600) + (mins * 60)
 
 def is_installed(program):
-    """Return True if program appears in user's PATH var, else False."""
+    """
+    If program is a program name, returns the absolute path to this program if
+    included in the PATH enviromental variable, else empty string.
+
+    If program is an absolute path, returns the path if it's executable, else
+    empty sring.
+    """
+    program = os.path.expanduser(program)
     for path in os.getenv('PATH').split(os.pathsep):
         fpath = os.path.join(path, program)
-        if os.path.exists(fpath) and os.access(fpath, os.X_OK):
-            return True
-    return False
+        if os.path.isfile(fpath) and os.access(fpath, os.X_OK):
+            return fpath
+    return ''
 
 def start_office_listener():
     """

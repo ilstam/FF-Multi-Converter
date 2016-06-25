@@ -274,17 +274,11 @@ class AudioVideoTab(QWidget):
     def ok_to_continue(self):
         """
         Check if everything is ok with audiovideotab to continue conversion.
-
-        Check if:
-        - Either ffmpeg or avconv are installed.
-
-        Return True if all tests pass, else False.
+        Returns boolean.
         """
-        if self.parent.vidconverter is None:
+        if not self.parent.ffmpeg_path:
             QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
-                'Error!'), self.tr('Neither ffmpeg nor libav are installed.'
-                '\nYou will not be able to convert audio/video files until you'
-                ' install one of them.'))
+                'Error!'), self.tr('FFmpeg is not installed!'))
             return False
         return True
 

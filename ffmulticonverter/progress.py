@@ -34,7 +34,6 @@ from ffmulticonverter import utils
 
 class Progress(QDialog):
     file_converted_signal = pyqtSignal()
-    refr_bars_signal = pyqtSignal(int)
     update_text_edit_signal = pyqtSignal(str)
 
     def __init__(self, files, tab, delete, parent, test=False):
@@ -63,17 +62,13 @@ class Progress(QDialog):
         self.delete = delete
         if not test:
             self._type = tab.name
-            self.step = int(100 / len(files))
         self.ok = 0
         self.error = 0
         self.running = True
 
         self.nowQL = QLabel(self.tr('In progress: '))
-        totalQL = QLabel(self.tr('Total:'))
         self.nowQPBar = QProgressBar()
         self.nowQPBar.setValue(0)
-        self.totalQPBar = QProgressBar()
-        self.totalQPBar.setValue(0)
         self.shutdownQCB = QCheckBox(self.tr('Shutdown after conversion'))
         self.cancelQPB = QPushButton(self.tr('Cancel'))
 
@@ -91,14 +86,13 @@ class Progress(QDialog):
         self.frame.setLayout(frame_layout)
         self.frame.hide()
 
-        hlayout = utils.add_to_layout('h', None, self.nowQL, None)
-        hlayout2 = utils.add_to_layout('h', None, totalQL, None)
-        hlayout3 = utils.add_to_layout('h', detailsQPB, line)
-        hlayout4 = utils.add_to_layout('h', self.frame)
-        hlayout5 = utils.add_to_layout('h', None, self.cancelQPB)
+        hlayout1 = utils.add_to_layout('h', None, self.nowQL, None)
+        hlayout2 = utils.add_to_layout('h', detailsQPB, line)
+        hlayout3 = utils.add_to_layout('h', self.frame)
+        hlayout4 = utils.add_to_layout('h', None, self.cancelQPB)
         vlayout = utils.add_to_layout(
-                'v', hlayout, self.nowQPBar, hlayout2, self.totalQPBar, None,
-                hlayout3, hlayout4, self.shutdownQCB, hlayout5
+                'v', hlayout1, self.nowQPBar, hlayout2, hlayout3,
+                self.shutdownQCB, hlayout4
                 )
         self.setLayout(vlayout)
 
@@ -106,10 +100,9 @@ class Progress(QDialog):
         detailsQPB.toggled.connect(self.frame.setVisible)
         self.cancelQPB.clicked.connect(self.reject)
         self.file_converted_signal.connect(self.next_file)
-        self.refr_bars_signal.connect(self.refresh_progress_bars)
         self.update_text_edit_signal.connect(self.update_text_edit)
 
-        self.resize(484, 232)
+        self.resize(484, 190)
         self.setWindowTitle('FF Multi Converter - ' + self.tr('Conversion'))
 
         if not test:
@@ -140,8 +133,8 @@ class Progress(QDialog):
                 self.imgcmd += ' -flop'
 
     def resize_dialog(self):
-        """Resize dialog."""
-        height = 232 if self.frame.isVisible() else 366
+        """Resize dialog"""
+        height = 190 if self.frame.isVisible() else 450
         self.setMinimumSize(484, height)
         self.resize(484, height)
 
@@ -151,16 +144,6 @@ class Progress(QDialog):
         self.outputQTE.setText(current+txt)
         self.outputQTE.moveCursor(QTextCursor.End)
 
-    def refresh_progress_bars(self, now_percent):
-        """Refresh the values of self.nowQPBar and self.totalQPBar."""
-        total_percent = int(((now_percent * self.step) / 100) + self.min_value)
-
-        if now_percent > self.nowQPBar.value() and not (now_percent > 100):
-            self.nowQPBar.setValue(now_percent)
-        if (total_percent > self.totalQPBar.value() and
-        not (total_percent > self.max_value)):
-            self.totalQPBar.setValue(total_percent)
-
     def manage_conversions(self):
         """
         Check whether all files have been converted.
@@ -169,8 +152,6 @@ class Progress(QDialog):
         if not self.running:
             return
         if not self.files:
-            self.totalQPBar.setValue(100)
-        if self.totalQPBar.value() >= 100:
             sum_files = self.ok + self.error
             msg = QMessageBox(self)
             msg.setStandardButtons(QMessageBox.Ok)
@@ -191,10 +172,9 @@ class Progress(QDialog):
 
     def next_file(self):
         """
-        Update progress bars values, remove converted file from self.files
+        Update progress bar value, remove converted file from self.files
         and call manage_conversions() to continue the process.
         """
-        self.totalQPBar.setValue(self.max_value)
         self.nowQPBar.setValue(100)
         QApplication.processEvents()
         self.files.pop(0)
@@ -249,9 +229,6 @@ class Progress(QDialog):
         self.nowQL.setText(self.tr('In progress:') + ' ' + text)
         self.nowQPBar.setValue(0)
 
-        self.min_value = self.totalQPBar.value()
-        self.max_value = self.min_value + self.step
-
         if not os.path.exists(from_file[1:-1]):
             self.error += 1
             self.file_converted_signal.emit()
@@ -289,7 +266,7 @@ class Progress(QDialog):
         Create the ffmpeg command and execute it in a new process using the
         subprocess module. While the process is alive, parse ffmpeg output,
         estimate conversion progress using video's duration.
-        With the result, emit the corresponding signal in order progressbars
+        With the result, emit the corresponding signal in order progress bar
         to be updated. Also emit regularly the corresponding signal in order
         an outputQTE to be updated with ffmpeg's output. Finally, save log
         information.
@@ -327,7 +304,7 @@ class Progress(QDialog):
                         time = utils.duration_in_seconds(time)
                     now_sec = int(float(time))
                     try:
-                        self.refr_bars_signal.emit(100 * now_sec / total)
+                        self.nowQPBar.setValue(100 * now_sec / total)
                     except (UnboundLocalError, ZeroDivisionError):
                         pass
                 self.update_text_edit_signal.emit(myline)

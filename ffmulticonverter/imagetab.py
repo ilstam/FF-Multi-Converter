@@ -103,8 +103,7 @@ class ImageTab(QWidget):
 
         if not self.parent.imagemagick:
             QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(
-                'Error!'), self.tr('ImageMagick is not installed.\nYou will '
-                'not be able to convert image files until you install it.'))
+                'Error!'), self.tr('ImageMagick is not installed!'))
             return False
         if (width and not height) or (not width and height):
             QMessageBox.warning(self, 'FF Multi Converter - ' + self.tr(

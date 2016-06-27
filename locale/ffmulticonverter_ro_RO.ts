@@ -1,18 +1,19 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro_RO" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS><TS version="2.0" language="ro_RO" sourcelanguage="">
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../ffmulticonverter/about_dlg.py" line="39"/>
+        <location filename="../ffmulticonverter/about_dlg.py" line="40"/>
         <source>&amp;Close</source>
         <translation>&amp;Închide</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/about_dlg.py" line="52"/>
+        <location filename="../ffmulticonverter/about_dlg.py" line="53"/>
         <source>About FF Multi Converter</source>
         <translation>Despre FF Multi Converter</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/about_dlg.py" line="38"/>
+        <location filename="../ffmulticonverter/about_dlg.py" line="39"/>
         <source>C&amp;redits</source>
         <translation>C&amp;redite</translation>
     </message>
@@ -20,67 +21,67 @@
 <context>
     <name>AddorEditPreset</name>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="385"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="386"/>
         <source>Preset name (one word, A-z, 0-9)</source>
         <translation>Denumire preconfigurare (un cuvânt, A-z, 0-9)</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="387"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="388"/>
         <source>Preset label</source>
         <translation>Etichetă preconfigurare</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="389"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="390"/>
         <source>Preset command line parameters</source>
         <translation>Parametrii linie de comandă preconfigurare</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="391"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="392"/>
         <source>Output file extension</source>
         <translation>Extensie fișier ieșire</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="417"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="418"/>
         <source>Add preset</source>
         <translation>Adaugă preconfigurare</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="478"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="479"/>
         <source>Error!</source>
         <translation>Eroare!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="438"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="439"/>
         <source>Preset name can&apos;t be left blank.</source>
         <translation>Denumirea preconfigurării nu poate rămâne necompletată.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="457"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="458"/>
         <source>Preset label can&apos;t be left blank.</source>
         <translation>Eticheta preconfigurării nu poate rămâne necompletată.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="464"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="465"/>
         <source>Command label can&apos;t be left blank.</source>
         <translation>Eticheta comenzii nu poate rămâne necompletată.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="471"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="472"/>
         <source>Extension label can&apos;t be left blank.</source>
         <translation>Eticheta extensiei nu poate rămâne necompletată.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="415"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="416"/>
         <source>Edit {0}</source>
         <translation>Editare {0}</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="478"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="479"/>
         <source>Extension must be one word and must not start with a  dot.</source>
         <translation>Extensia trebuie să fie un cuvânt și nu trebuie să înceapă cu un punct.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="446"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="447"/>
         <source>Preset name must be one word, start with a letter and contain only letters, digits, underscores, hyphens, colons and periods. It cannot also start with xml.</source>
         <translation>Numele preconfigurării trebuie să fie un cuvânt, care începe cu o literă și care conține numai litere, digiți, subliniere, cratime, doua puncte și perioade. Nu poate începe cu xml.</translation>
     </message>
@@ -138,7 +139,7 @@
         <translation>Audio bitrate (kops):</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/audiovideotab.py" line="288"/>
+        <location filename="../ffmulticonverter/audiovideotab.py" line="280"/>
         <source>Error!</source>
         <translation>Eroare!</translation>
     </message>
@@ -178,7 +179,7 @@
         <translation>Rotire:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/audiovideotab.py" line="299"/>
+        <location filename="../ffmulticonverter/audiovideotab.py" line="286"/>
         <source>Choose File</source>
         <translation>Alegeți un fișier</translation>
     </message>
@@ -216,7 +217,7 @@
         <location filename="../ffmulticonverter/audiovideotab.py" line="288"/>
         <source>Neither ffmpeg nor libav are installed.
 You will not be able to convert audio/video files until you install one of them.</source>
-        <translation>Nu este instalat ffmpeg și nici libav.
+        <translation type="obsolete">Nu este instalat ffmpeg și nici libav.
 Nu veți putea converti fișiere audio/video dacă nu veți instala unul dintre acestea.</translation>
     </message>
     <message>
@@ -224,26 +225,31 @@ Nu veți putea converti fișiere audio/video dacă nu veți instala unul dintre 
         <source>Disable</source>
         <translation>Dezactivare</translation>
     </message>
+    <message>
+        <location filename="../ffmulticonverter/audiovideotab.py" line="280"/>
+        <source>FFmpeg is not installed!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CreditsDialog</name>
     <message>
-        <location filename="../ffmulticonverter/about_dlg.py" line="70"/>
+        <location filename="../ffmulticonverter/about_dlg.py" line="71"/>
         <source>Written by</source>
         <translation>Scris de</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/about_dlg.py" line="71"/>
+        <location filename="../ffmulticonverter/about_dlg.py" line="72"/>
         <source>Translated by</source>
         <translation>Tradus de</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/about_dlg.py" line="72"/>
+        <location filename="../ffmulticonverter/about_dlg.py" line="73"/>
         <source>&amp;Close</source>
         <translation>&amp;Închide</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/about_dlg.py" line="82"/>
+        <location filename="../ffmulticonverter/about_dlg.py" line="83"/>
         <source>Credits</source>
         <translation>Credite</translation>
     </message>
@@ -253,24 +259,34 @@ Nu veți putea converti fișiere audio/video dacă nu veți instala unul dintre 
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="41"/>
         <source>Convert:</source>
-        <translation>Convertește:</translation>
+        <translation type="obsolete">Convertește:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="62"/>
         <source>Unocov is not installed.
 You will not be able to convert document files until you install it.</source>
-        <translation>Unocov nu este instalat.
+        <translation type="obsolete">Unocov nu este instalat.
 Nu se vor putea converti fișiere document până ce nu va fi instalat.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="75"/>
+        <location filename="../ffmulticonverter/documenttab.py" line="52"/>
         <source>Error!</source>
         <translation>Eroare!</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="70"/>
         <source>{0} is not {1}!</source>
-        <translation>{0} nu este {1}!</translation>
+        <translation type="obsolete">{0} nu este {1}!</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/documenttab.py" line="33"/>
+        <source>Convert to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/documenttab.py" line="52"/>
+        <source>Unocov is not installed!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -281,42 +297,42 @@ Nu se vor putea converti fișiere document până ce nu va fi instalat.</transla
         <translation>Convertește la:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="46"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="45"/>
         <source>Image Size:</source>
         <translation>Dimensiune imagine:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="112"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="109"/>
         <source>Error!</source>
         <translation>Eroare!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="112"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="109"/>
         <source>The size LineEdit may not be empty.</source>
         <translation>Dimensiunea EditareLinie nu poate fi goală.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="57"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="56"/>
         <source>Maintain aspect ratio</source>
         <translation>Menține raportul aspectului</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="40"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="39"/>
         <source>Extra options:</source>
         <translation>Opțiuni suplimentare:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="58"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="57"/>
         <source>Auto-crop</source>
         <translation>Decupare automată</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="62"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="61"/>
         <source>Rotate</source>
         <translation>Rotire</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="62"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="61"/>
         <source>degrees - clockwise</source>
         <translation>grade - sens orar</translation>
     </message>
@@ -324,256 +340,261 @@ Nu se vor putea converti fișiere document până ce nu va fi instalat.</transla
         <location filename="../ffmulticonverter/imagetab.py" line="107"/>
         <source>ImageMagick is not installed.
 You will not be able to convert image files until you install it.</source>
-        <translation>ImageMagick nu este instalat.
+        <translation type="obsolete">ImageMagick nu este instalat.
 Nu se pot converti fișiere imagine până ce nu îl instalați.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="66"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="65"/>
         <source>Vertical flip</source>
         <translation>Întoarce vertical</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="67"/>
+        <location filename="../ffmulticonverter/imagetab.py" line="66"/>
         <source>Horizontal flip</source>
         <translation>Întoarce orizontal</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/imagetab.py" line="105"/>
+        <source>ImageMagick is not installed!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="68"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="69"/>
         <source>Output folder:</source>
         <translation>Dosar ieșire:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="80"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="81"/>
         <source>Audio/Video</source>
         <translation>Audio/Video</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="80"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="81"/>
         <source>Images</source>
         <translation>Imagini</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="81"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="82"/>
         <source>Documents</source>
         <translation>Documente</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="90"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="91"/>
         <source>Delete original</source>
         <translation>Șterge originalul</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="91"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="92"/>
         <source>&amp;Convert</source>
         <translation>&amp;Convertește</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="105"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="106"/>
         <source>Open</source>
         <translation>Deschide</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="105"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="106"/>
         <source>Open a file</source>
         <translation>Deschide un fișier</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="109"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="110"/>
         <source>Convert</source>
         <translation>Convertește</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="109"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="110"/>
         <source>Convert files</source>
         <translation>Convertește fișiere</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="113"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="114"/>
         <source>Quit</source>
         <translation>Termină</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="117"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="118"/>
         <source>Edit Presets</source>
         <translation>Editare preconfigurări</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="121"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="122"/>
         <source>Import</source>
         <translation>Import</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="121"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="122"/>
         <source>Import presets</source>
         <translation>Import preconfigurări</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="125"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="126"/>
         <source>Export presets</source>
         <translation>Export preconfigurări</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="129"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
         <source>Reset</source>
         <translation>Reset</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="129"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="130"/>
         <source>Reset presets</source>
         <translation>Resetare preconfigurări</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="61"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="62"/>
         <source>Clear</source>
         <translation>Curăță</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="141"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="142"/>
         <source>Clear form</source>
         <translation>Curăță formularul</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="145"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="146"/>
         <source>Preferences</source>
         <translation>Preferințe</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="169"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="170"/>
         <source>About</source>
         <translation>Despre</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="174"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="175"/>
         <source>File</source>
         <translation>Fișier</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="175"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="176"/>
         <source>Edit</source>
         <translation>Editare</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="176"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="177"/>
         <source>Presets</source>
         <translation>Preconfigurări</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="177"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="178"/>
         <source>Help</source>
         <translation>Ajutor</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="329"/>
         <source>All Files</source>
-        <translation>Toate fișierele</translation>
+        <translation type="obsolete">Toate fișierele</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="329"/>
         <source>Audio/Video Files</source>
-        <translation>Fișiere audio/video</translation>
+        <translation type="obsolete">Fișiere audio/video</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="330"/>
         <source>Image Files</source>
-        <translation>Fișiere imagine</translation>
+        <translation type="obsolete">Fișiere imagine</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="330"/>
         <source>Document Files</source>
-        <translation>Fișiere document</translation>
+        <translation type="obsolete">Fișiere document</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="338"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="298"/>
         <source>Choose File</source>
         <translation>Alegeți un fișier</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="389"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="337"/>
         <source>Choose output destination</source>
         <translation>Alegeți destinația de ieșire</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="427"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="375"/>
         <source>You must choose an output folder!</source>
         <translation>Trebuie să alegeți un dosar de ieșire!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="431"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="379"/>
         <source>Output folder does not exists!</source>
         <translation>Dosarul de ieșire nu există!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="437"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="385"/>
         <source>Error!</source>
         <translation>Eroare!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="248"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="251"/>
         <source>Missing dependencies:</source>
         <translation>Lipsesc dependențe:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="59"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="60"/>
         <source>Add</source>
         <translation>Adaugă</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="60"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="61"/>
         <source>Delete</source>
         <translation>Șterge</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="141"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="142"/>
         <source>Clear All</source>
         <translation>Curăță tot</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="424"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="372"/>
         <source>You must add at least one file to convert!</source>
         <translation>Trebuie să adăugați cel puțin un fișier de convertit!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="88"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="89"/>
         <source>Save each file in the same
 folder as input file</source>
         <translation>Salvează fiecare fișier în același
 dosar ca fișierul de intrare</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="133"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="134"/>
         <source>Synchronize</source>
         <translation>Sincronizare</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="133"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="134"/>
         <source>Synchronize presets</source>
         <translation>Sincronizare preconfigurări</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
         <source>Remove old</source>
         <translation>Elimină vechi</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="137"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="138"/>
         <source>Remove old presets</source>
         <translation>Elimină preconfigurările vechi</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="164"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="165"/>
         <source>documentation</source>
         <translation>documentație</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="490"/>
+        <location filename="../ffmulticonverter/ffmulticonverter.py" line="427"/>
         <source>Convert among several file types to other formats</source>
         <translation>Convertește între diferite tipuri de fișiere la alte formate</translation>
     </message>
@@ -581,104 +602,114 @@ dosar ca fișierul de intrare</translation>
 <context>
     <name>Preferences</name>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="43"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="35"/>
         <source>Save files</source>
         <translation>Salvare fișiere</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="44"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="36"/>
         <source>Existing files:</source>
         <translation>Fișiere existente:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="45"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="37"/>
         <source>Add &apos;~&apos; prefix</source>
         <translation>Adaugă &apos;~&apos; prefix</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="46"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="38"/>
         <source>Overwrite</source>
         <translation>Suprascrie</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="50"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="42"/>
         <source>Default output destination:</source>
         <translation>Destinație implicită de ieșire:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="56"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="48"/>
         <source>Name files</source>
         <translation>Denumire fișiere</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="57"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="49"/>
         <source>Prefix:</source>
         <translation>Prefix:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="58"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="50"/>
         <source>Suffix:</source>
         <translation>Sufix:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="74"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="69"/>
         <source>Default command:</source>
         <translation>Comandă implicită:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="128"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="136"/>
         <source>General</source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="129"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="137"/>
         <source>Audio/Video</source>
         <translation>Audio/Video</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="145"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="156"/>
         <source>Preferences</source>
         <translation>Preferințe</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="206"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="207"/>
         <source>Choose default output destination</source>
         <translation>Alegeți destinația de ieșire implicită</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="77"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="72"/>
         <source>Video codecs</source>
         <translation>Codecuri video</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="80"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="75"/>
         <source>Audio codecs</source>
         <translation>Codecuri audio</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="109"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="117"/>
         <source>Extra formats</source>
         <translation>Formate suplimentare</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="93"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="88"/>
         <source>Default video codecs</source>
         <translation>Codecuri video implicite</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="94"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="89"/>
         <source>Default audio codecs</source>
         <translation>Codecuri audio implicite</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="106"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="101"/>
         <source>Default options:</source>
         <translation>Opțiuni implicite:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/preferences_dlg.py" line="130"/>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="138"/>
         <source>Images</source>
         <translation>Imagini</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="66"/>
+        <source>Path to executable:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/preferences_dlg.py" line="139"/>
+        <source>Documents</source>
+        <translation type="unfinished">Documente</translation>
     </message>
 </context>
 <context>
@@ -691,52 +722,57 @@ dosar ca fișierul de intrare</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="70"/>
         <source>Total:</source>
-        <translation>Total:</translation>
+        <translation type="obsolete">Total:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="75"/>
+        <location filename="../ffmulticonverter/progress.py" line="73"/>
         <source>Cancel</source>
         <translation>Anulare</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="77"/>
+        <location filename="../ffmulticonverter/progress.py" line="75"/>
         <source>Details</source>
         <translation>Detali</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="110"/>
+        <location filename="../ffmulticonverter/progress.py" line="106"/>
         <source>Conversion</source>
         <translation>Conversie</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="207"/>
+        <location filename="../ffmulticonverter/progress.py" line="196"/>
         <source>Cancel Conversion</source>
         <translation>Anulare conversie</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="207"/>
+        <location filename="../ffmulticonverter/progress.py" line="196"/>
         <source>Are you sure you want to cancel conversion?</source>
         <translation>Sigur doriți să anulați conversia?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="243"/>
+        <location filename="../ffmulticonverter/progress.py" line="230"/>
         <source>In progress:</source>
         <translation>În desfășurare:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="175"/>
+        <location filename="../ffmulticonverter/progress.py" line="159"/>
         <source>Report</source>
         <translation>Raport</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="180"/>
+        <location filename="../ffmulticonverter/progress.py" line="164"/>
         <source>Close</source>
         <translation>Închide</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/progress.py" line="176"/>
+        <location filename="../ffmulticonverter/progress.py" line="160"/>
         <source>Converted: {0}/{1}</source>
         <translation>Convertit: {0}/{1}</translation>
+    </message>
+    <message>
+        <location filename="../ffmulticonverter/progress.py" line="72"/>
+        <source>Shutdown after conversion</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -787,7 +823,7 @@ dosar ca fișierul de intrare</translation>
         <translation>Editare preconfigurări</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="280"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="281"/>
         <source>Delete Preset</source>
         <translation>Șterge preconfigurarea</translation>
     </message>
@@ -804,7 +840,7 @@ Are you sure that you want to continue?</source>
 Sigur doriți să continuați?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="280"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="281"/>
         <source>Are you sure that you want to restore the default presets?</source>
         <translation>Sigur doriți să restaurați preconfigurările implicite?</translation>
     </message>
@@ -819,17 +855,17 @@ Sigur doriți să continuați?</translation>
         <translation>Caută</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="301"/>
         <source>Presets Synchronization</source>
         <translation>Sincronizare preconfigurări</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="300"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="301"/>
         <source>Current presets and default presets will be merged. Are you sure that you want to continue?</source>
         <translation>Preconfigurările actuale și cele implicite vor fi comasate. Sigur doriți să continuați?</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="349"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="350"/>
         <source>Remove old presets</source>
         <translation>Elimină preconfigurările vechi</translation>
     </message>
@@ -844,7 +880,7 @@ Sigur doriți să continuați?</translation>
         <translation>Export preconfigurări</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="349"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="350"/>
         <source>All presets with an __OLD suffix will be deleted. Are you sure that you want to continue?</source>
         <translation>Toate preconfigurările cu un sufix __OLD vor fi șterse. Sigur doriți să continuați?</translation>
     </message>
@@ -854,19 +890,19 @@ Sigur doriți să continuați?</translation>
         <translation>Importat cu succes!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="287"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="288"/>
         <source>Default presets restored successfully.</source>
         <translation>Preconfigurările implicite s-au restaurat cu succes.</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="343"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="344"/>
         <source>Synchronization completed.
 Your presets are up to date!</source>
         <translation>Sincronizare finalizată.
 Preconfigurările sunt actualizate!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/presets_dlgs.py" line="364"/>
+        <location filename="../ffmulticonverter/presets_dlgs.py" line="365"/>
         <source>Old presets successfully removed.</source>
         <translation>Vechile preconfigurări s-au eliminat cu succes.</translation>
     </message>

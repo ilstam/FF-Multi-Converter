@@ -78,11 +78,13 @@ document_formats = [
 #-----misc
 translators = [
         ['[bg] Bulgarian', 'Vasil Blagoev'],
-        ['[ca] Catalan', 'David Sabadell i Ximenes'],
+        ['[ca] Catalan', 'David Sabadell i Ximenes'
+                  '\n     Toni Estévez'],
         ['[cs] Czech', 'Petr Simacek'],
         ['[de_DE] German (Germany)', 'Stefan Wilhelm'],
         ['[el] Greek', 'Ilias Stamatis'],
-        ['[es] Spanish', 'Miguel Ángel Rodríguez Muíños'],
+        ['[es] Spanish', 'Miguel Ángel Rodríguez Muíños'
+                  '\n     Toni Estévez'],
         ['[fr] French', 'Rémi Mercier'
                  '\n     Lebarhon'],
         ['[gl] Galician', 'Miguel Anxo Bouzada'],
@@ -92,15 +94,16 @@ translators = [
         ['[ms_MY] Malay (Malaysia)', 'abuyop'],
         ['[pl_PL] Polish (Poland)', 'Lukasz Koszy'
                              '\n     Piotr Surdacki'],
-        ['[pt] Portuguese', 'Sérgio Marques'],
-        ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'
-                                 '\n     Paulo Braz'
-                                 '\n     Nuno Duarte'],
+        ['[pt] Portuguese', 'Sérgio Marques'
+                     '\n     Paulo Braz'
+                     '\n     Nuno Duarte'],
+        ['[pt_BR] Portuguese (Brasil)', 'José Humberto A Melo'],
         ['[ro_RO] Romanian (Romania)', 'Angelescu Constantin'],
         ['[ru] Russian', 'Andrew Lapshin'],
         ['[tu] Turkish', 'Tayfun Kayha'],
         ['[vi] Vietnamese', 'Anh Phan'],
         ['[zh_CN] Chinese (China)', 'Dianjin Wang'
                              '\n     Ziyun Lin'],
-        ['[zh_TW] Chinese (Taiwan)', 'Taijuin Lee']
+        ['[zh_TW] Chinese (Taiwan)', 'Taijuin Lee'
+                              '\n     Jeff Huang'],
         ]

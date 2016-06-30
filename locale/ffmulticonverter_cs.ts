@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="cs" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -214,13 +213,6 @@
         <translation>Vlákna:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/audiovideotab.py" line="288"/>
-        <source>Neither ffmpeg nor libav are installed.
-You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="obsolete">Ani ffmpeg ani avconv nejsou nainstalovány.
-Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="38"/>
         <source>Disable</source>
         <translation>Zakázat</translation>
@@ -228,7 +220,7 @@ Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="280"/>
         <source>FFmpeg is not installed!</source>
-        <translation type="unfinished"></translation>
+        <translation>FFmpeg není nainstalován!</translation>
     </message>
 </context>
 <context>
@@ -257,36 +249,19 @@ Nebudete moci převádět audio/video soubory dokud nenainstalujete jeden z nich
 <context>
     <name>DocumentTab</name>
     <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="41"/>
-        <source>Convert:</source>
-        <translation type="obsolete">Převést:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="62"/>
-        <source>Unocov is not installed.
-You will not be able to convert document files until you install it.</source>
-        <translation type="obsolete">Unocov není nainstalován.
-Nebudete moci převádět dokumenty dokud ho nenainstalujete.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="52"/>
         <source>Error!</source>
         <translation>Chyba!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="70"/>
-        <source>{0} is not {1}!</source>
-        <translation type="obsolete">{0} není {1}!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="33"/>
         <source>Convert to:</source>
-        <translation type="unfinished">Převést na:</translation>
+        <translation>Převést na:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="52"/>
         <source>Unocov is not installed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Unoconv není nainstalován!</translation>
     </message>
 </context>
 <context>
@@ -337,13 +312,6 @@ Nebudete moci převádět dokumenty dokud ho nenainstalujete.</translation>
         <translation>stupňů - ve směru hodinových ručiček</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="107"/>
-        <source>ImageMagick is not installed.
-You will not be able to convert image files until you install it.</source>
-        <translation type="obsolete">ImageMagick není nainstalován.
-Obrázky nebude možné převést do té doby, než ho nainstalujete. </translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/imagetab.py" line="65"/>
         <source>Vertical flip</source>
         <translation>Otočit svisle</translation>
@@ -356,7 +324,7 @@ Obrázky nebude možné převést do té doby, než ho nainstalujete. </translat
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="105"/>
         <source>ImageMagick is not installed!</source>
-        <translation type="unfinished"></translation>
+        <translation>ImageMagick není nainstalován!</translation>
     </message>
 </context>
 <context>
@@ -490,26 +458,6 @@ Obrázky nebude možné převést do té doby, než ho nainstalujete. </translat
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="178"/>
         <source>Help</source>
         <translation>Pomoc</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="329"/>
-        <source>All Files</source>
-        <translation type="obsolete">Všechny soubory</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="329"/>
-        <source>Audio/Video Files</source>
-        <translation type="obsolete">Audio/Video soubory</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="330"/>
-        <source>Image Files</source>
-        <translation type="obsolete">Obrázkové soubory</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="330"/>
-        <source>Document Files</source>
-        <translation type="obsolete">Soubory dokumentů</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="298"/>
@@ -704,12 +652,12 @@ jeho původní složky</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="66"/>
         <source>Path to executable:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesta ke spustitelnému:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="139"/>
         <source>Documents</source>
-        <translation type="unfinished">Dokumenty</translation>
+        <translation>Dokumenty</translation>
     </message>
 </context>
 <context>
@@ -718,11 +666,6 @@ jeho původní složky</translation>
         <location filename="../ffmulticonverter/progress.py" line="69"/>
         <source>In progress: </source>
         <translation>Probíhá:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/progress.py" line="70"/>
-        <source>Total:</source>
-        <translation type="obsolete">Celkem:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="73"/>
@@ -772,7 +715,7 @@ jeho původní složky</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="72"/>
         <source>Shutdown after conversion</source>
-        <translation type="unfinished"></translation>
+        <translation>Vypnout po převedení</translation>
     </message>
 </context>
 <context>

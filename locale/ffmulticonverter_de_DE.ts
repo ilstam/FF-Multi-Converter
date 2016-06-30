@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="de_DE" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de_DE" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -214,13 +213,6 @@
         <translation>Threads:</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/audiovideotab.py" line="288"/>
-        <source>Neither ffmpeg nor libav are installed.
-You will not be able to convert audio/video files until you install one of them.</source>
-        <translation type="obsolete">Weder ffmpeg noch libav sind installiert.
-Sie können keine Audio/Videodateien konvertieren, bis Sie eines von beiden installiert haben.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="38"/>
         <source>Disable</source>
         <translation>Deaktiviere</translation>
@@ -228,7 +220,7 @@ Sie können keine Audio/Videodateien konvertieren, bis Sie eines von beiden inst
     <message>
         <location filename="../ffmulticonverter/audiovideotab.py" line="280"/>
         <source>FFmpeg is not installed!</source>
-        <translation type="unfinished"></translation>
+        <translation>FFmpeg ist nicht installiert!</translation>
     </message>
 </context>
 <context>
@@ -257,36 +249,19 @@ Sie können keine Audio/Videodateien konvertieren, bis Sie eines von beiden inst
 <context>
     <name>DocumentTab</name>
     <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="41"/>
-        <source>Convert:</source>
-        <translation type="obsolete">Konvertiere:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="62"/>
-        <source>Unocov is not installed.
-You will not be able to convert document files until you install it.</source>
-        <translation type="obsolete">Unocov ist nicht installiert.
-Sie können keine Dokumente konvertieren, bis Sie Unoconv installiert haben.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="52"/>
         <source>Error!</source>
         <translation>Fehler!</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/documenttab.py" line="70"/>
-        <source>{0} is not {1}!</source>
-        <translation type="obsolete">{0} ist nicht {1}!</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/documenttab.py" line="33"/>
         <source>Convert to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Konvertiere zu:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/documenttab.py" line="52"/>
         <source>Unocov is not installed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Unocov ist nicht installiert!</translation>
     </message>
 </context>
 <context>
@@ -337,13 +312,6 @@ Sie können keine Dokumente konvertieren, bis Sie Unoconv installiert haben.</tr
         <translation>Grad - im Uhrzeigersinn</translation>
     </message>
     <message>
-        <location filename="../ffmulticonverter/imagetab.py" line="107"/>
-        <source>ImageMagick is not installed.
-You will not be able to convert image files until you install it.</source>
-        <translation type="obsolete">ImageMagick ist nicht installiert.
-Sie können keine Bilder konvertieren, bis Sie es installiert haben.</translation>
-    </message>
-    <message>
         <location filename="../ffmulticonverter/imagetab.py" line="65"/>
         <source>Vertical flip</source>
         <translation>Vertikal spiegeln</translation>
@@ -356,7 +324,7 @@ Sie können keine Bilder konvertieren, bis Sie es installiert haben.</translatio
     <message>
         <location filename="../ffmulticonverter/imagetab.py" line="105"/>
         <source>ImageMagick is not installed!</source>
-        <translation type="unfinished"></translation>
+        <translation>ImageMagick ist nicht installiert!</translation>
     </message>
 </context>
 <context>
@@ -490,26 +458,6 @@ Sie können keine Bilder konvertieren, bis Sie es installiert haben.</translatio
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="178"/>
         <source>Help</source>
         <translation>Hilfe</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="329"/>
-        <source>All Files</source>
-        <translation type="obsolete">Alle Dateien</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="329"/>
-        <source>Audio/Video Files</source>
-        <translation type="obsolete">Audio/Video Dateien</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="330"/>
-        <source>Image Files</source>
-        <translation type="obsolete">Bilder</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/ffmulticonverter.py" line="330"/>
-        <source>Document Files</source>
-        <translation type="obsolete">Dokumente</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/ffmulticonverter.py" line="298"/>
@@ -704,12 +652,12 @@ Ordner speichern</translation>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="66"/>
         <source>Path to executable:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pfad zur ausführbaren Datei:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/preferences_dlg.py" line="139"/>
         <source>Documents</source>
-        <translation type="unfinished">Dokumente</translation>
+        <translation>Dokumente</translation>
     </message>
 </context>
 <context>
@@ -718,11 +666,6 @@ Ordner speichern</translation>
         <location filename="../ffmulticonverter/progress.py" line="69"/>
         <source>In progress: </source>
         <translation>In Arbeit:</translation>
-    </message>
-    <message>
-        <location filename="../ffmulticonverter/progress.py" line="70"/>
-        <source>Total:</source>
-        <translation type="obsolete">Gesamt:</translation>
     </message>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="73"/>
@@ -772,7 +715,7 @@ Ordner speichern</translation>
     <message>
         <location filename="../ffmulticonverter/progress.py" line="72"/>
         <source>Shutdown after conversion</source>
-        <translation type="unfinished"></translation>
+        <translation>Nach Umwandlung herunterfahren</translation>
     </message>
 </context>
 <context>

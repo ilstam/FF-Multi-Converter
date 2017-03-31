@@ -1,5 +1,6 @@
 [Desktop Entry]
 Type=Application
+Version=1.1
 Name=FF Multi Converter
 GenericName=File Format Converter
 GenericName[pt]=Conversor de ficheiros
@@ -9,5 +10,4 @@ Exec=ffmulticonverter
 Icon=ffmulticonverter
 Terminal=false
 StartupNotify=false
-Encoding=UTF-8
-Categories=Application;AudioVideo;AudioVideoEditing;Office;
+Categories=AudioVideo;Video;Audio;Office;

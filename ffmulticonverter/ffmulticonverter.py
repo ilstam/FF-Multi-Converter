@@ -238,13 +238,9 @@ class MainWindow(QMainWindow):
         self.unoconv = utils.is_installed('unoconv')
         self.imagemagick = utils.is_installed('convert')
 
-        missing = []
-        if not self.ffmpeg_path:
-            missing.append('ffmpeg')
-        if not self.unoconv:
-            missing.append('unoconv')
-        if not self.imagemagick:
-            missing.append('imagemagick')
+        missing = [dependency for dependency in
+                   ('ffmpeg', 'unoconv', 'convert') if not
+                   utils.is_installed(dependency)]
 
         if missing:
             missing = ', '.join(missing)

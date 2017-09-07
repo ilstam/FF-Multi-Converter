@@ -30,6 +30,7 @@ from PyQt5.QtWidgets import (
         QSpacerItem, QWidget, QHBoxLayout, QVBoxLayout, QGridLayout
         )
 
+# General comment: you should run Pylint or any other tool on all your sources
 
 def duration_in_seconds(duration):
     """
@@ -246,6 +247,8 @@ def add_to_grid(*items):
     # for now it adds only 1 item per cell.
     for x, _list in enumerate(items):
         for y, item in enumerate(_list):
+            # if you are using isinstance in Python you probably are doing
+            # it wrong, use polymorphism
             if isinstance(item, QWidget):
                 layout.addWidget(item, x, y)
             elif isinstance(item, QLayout):

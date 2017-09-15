@@ -238,13 +238,9 @@ class MainWindow(QMainWindow):
         self.unoconv = utils.is_installed('unoconv')
         self.imagemagick = utils.is_installed('convert')
 
-        missing = []
-        if not self.ffmpeg_path:
-            missing.append('ffmpeg')
-        if not self.unoconv:
-            missing.append('unoconv')
-        if not self.imagemagick:
-            missing.append('imagemagick')
+        missing = [dependency for dependency in
+                   ('ffmpeg', 'unoconv', 'convert') if not
+                   utils.is_installed(dependency)]
 
         if missing:
             missing = ', '.join(missing)
@@ -295,14 +291,15 @@ class MainWindow(QMainWindow):
         filters += 'Document Files (*.{})'.format(
                 ' *.'.join(self.document_tab.formats))
 
-        fnames = QFileDialog.getOpenFileNames(self, 'FF Multi Converter - ' +
-                self.tr('Choose File'), config.home, filters,
-                options=QFileDialog.HideNameFilterDetails)[0]
+        file_names = QFileDialog.getOpenFileNames(
+            self, 'FF Multi Converter - ' +
+            self.tr('Choose File'), config.home, filters,
+            options=QFileDialog.HideNameFilterDetails)[0]
 
-        if fnames:
-            for i in fnames:
-                if not i in self.fnames:
-                    self.fnames.append(i)
+        if file_names:
+            for file_name in file_names:
+                if file_name not in self.fnames:
+                    self.fnames.append(file_name)
             self.filesList_update()
 
     def filesList_add_dragged(self, links):

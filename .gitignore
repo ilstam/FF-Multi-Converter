@@ -4,3 +4,6 @@ build/
 dist/
 locale/*.qm
 *.pyc
+
+#PyCharm
+.idea/

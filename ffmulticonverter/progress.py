@@ -26,7 +26,8 @@ from PyQt5.QtCore import pyqtSignal, QTimer
 from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import (
         QApplication, QDialog, QFrame, QLabel, QPushButton, QProgressBar,
-        QMessageBox, QTextEdit, QCommandLinkButton, QSizePolicy, QCheckBox
+        QMessageBox, QTextEdit, QCommandLinkButton, QSizePolicy, QCheckBox,
+        QHBoxLayout, QVBoxLayout
         )
 
 from ffmulticonverter import utils
@@ -82,16 +83,16 @@ class Progress(QDialog):
         self.outputQTE = QTextEdit()
         self.outputQTE.setReadOnly(True)
         self.frame = QFrame()
-        frame_layout = utils.add_to_layout('h', self.outputQTE)
+        frame_layout = utils.add_to_layout(QHBoxLayout, self.outputQTE)
         self.frame.setLayout(frame_layout)
         self.frame.hide()
 
-        hlayout1 = utils.add_to_layout('h', None, self.nowQL, None)
-        hlayout2 = utils.add_to_layout('h', detailsQPB, line)
-        hlayout3 = utils.add_to_layout('h', self.frame)
-        hlayout4 = utils.add_to_layout('h', None, self.cancelQPB)
+        hlayout1 = utils.add_to_layout(QHBoxLayout, None, self.nowQL, None)
+        hlayout2 = utils.add_to_layout(QHBoxLayout, detailsQPB, line)
+        hlayout3 = utils.add_to_layout(QHBoxLayout, self.frame)
+        hlayout4 = utils.add_to_layout(QHBoxLayout, None, self.cancelQPB)
         vlayout = utils.add_to_layout(
-                'v', hlayout1, self.nowQPBar, hlayout2, hlayout3,
+                QVBoxLayout, hlayout1, self.nowQPBar, hlayout2, hlayout3,
                 self.shutdownQCB, hlayout4
                 )
         self.setLayout(vlayout)

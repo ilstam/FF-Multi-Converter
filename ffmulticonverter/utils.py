@@ -27,7 +27,7 @@ import time
 from PyQt5.QtCore import pyqtSignal, QSize, Qt
 from PyQt5.QtWidgets import (
         QAction, QLayout, QLineEdit, QListWidget, QListWidgetItem, QMenu,
-        QSpacerItem, QWidget, QHBoxLayout, QVBoxLayout, QGridLayout
+        QSpacerItem, QWidget, QGridLayout
         )
 
 
@@ -206,7 +206,7 @@ def update_cmdline_text(command, _filter, regex, add, gindex1, gindex2):
 # Useful pyqt-related functions to automate some parts of ui creation.
 #######################################################################
 
-def add_to_layout(layout, *items):
+def add_to_layout(layout_cls, *items):
     """Add items to QVBox and QHBox layouts easily.
 
     Keyword arguments:
@@ -214,25 +214,17 @@ def add_to_layout(layout, *items):
               if "v" or "h" create a QVBox or QHBox respectively
     *items -- list with items to be added
     """
-    if isinstance(layout, str):
-        if layout == "v":
-            layout = QVBoxLayout()
-        elif layout == "h":
-            layout = QHBoxLayout()
-        else:
-            raise TypeError("Invalid layout!")
+    layout = layout_cls()
 
     for item in items:
-        if isinstance(item, QWidget):
-            layout.addWidget(item)
-        elif isinstance(item, QLayout):
-            layout.addLayout(item)
-        elif isinstance(item, QSpacerItem):
+        name = item.__class__.__name__
+        if 'Layout' in name or 'Spacer' in name:
             layout.addItem(item)
         elif item is None:
             layout.addStretch()
         else:
-            raise TypeError("Argument of wrong type!")
+            layout.addWidget(item)
+
     return layout
 
 def add_to_grid(*items):

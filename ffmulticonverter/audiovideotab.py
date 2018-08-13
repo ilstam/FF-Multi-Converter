@@ -20,7 +20,7 @@ from PyQt5.QtCore import QRegExp, QSize, QTimer
 from PyQt5.QtWidgets import (
         QApplication, QWidget, QComboBox, QLineEdit, QLabel, QPushButton,
         QCheckBox, QRadioButton, QHBoxLayout, QSpacerItem, QSizePolicy, QFrame,
-        QButtonGroup, QMessageBox, QToolButton, QFileDialog
+        QButtonGroup, QMessageBox, QToolButton, QFileDialog, QVBoxLayout
         )
 
 from ffmulticonverter import utils
@@ -70,7 +70,7 @@ class AudioVideoTab(QWidget):
         self.audcodecQCB.setMinimumWidth(110)
 
         hlayout1 = utils.add_to_layout(
-                'h', converttoQL, self.extQCB, QSpacerItem(180, 20),
+                QHBoxLayout, converttoQL, self.extQCB, QSpacerItem(180, 20),
                 vidcodecQL, self.vidcodecQCB, audcodecQL, self.audcodecQCB)
 
         commandQL = QLabel(self.tr('Command:'))
@@ -78,7 +78,7 @@ class AudioVideoTab(QWidget):
         self.presetQPB = QPushButton(self.tr('Preset'))
         self.defaultQPB = QPushButton(self.defaultStr)
         hlayout2 = utils.add_to_layout(
-                'h', commandQL, self.commandQLE, self.presetQPB,
+                QHBoxLayout, commandQL, self.commandQLE, self.presetQPB,
                 self.defaultQPB)
 
         sizeQL = QLabel(self.tr('Video Size:'))
@@ -91,14 +91,14 @@ class AudioVideoTab(QWidget):
         self.heightQLE = utils.create_LineEdit(
                 (70, 16777215), digits_validator_minus, 4)
         label = QLabel('<html><p align="center">x</p></html>')
-        layout1 = utils.add_to_layout('h', self.widthQLE, label,self.heightQLE)
+        layout1 = utils.add_to_layout(QHBoxLayout, self.widthQLE, label,self.heightQLE)
         self.aspect1QLE = utils.create_LineEdit(
                 (50, 16777215), digits_validator, 2)
         self.aspect2QLE = utils.create_LineEdit(
                 (50, 16777215), digits_validator, 2)
         label = QLabel('<html><p align="center">:</p></html>')
         layout2 = utils.add_to_layout(
-                'h', self.aspect1QLE, label, self.aspect2QLE)
+                QHBoxLayout, self.aspect1QLE, label, self.aspect2QLE)
         self.frameQLE = utils.create_LineEdit(
                 (120, 16777215), digits_validator, 4)
         self.bitrateQLE = utils.create_LineEdit(
@@ -111,12 +111,12 @@ class AudioVideoTab(QWidget):
         self.preservesizeQChB = QCheckBox(self.tr("Preserve video size"))
 
         preserve_layout = utils.add_to_layout(
-                'v', self.preserveaspectQChB, self.preservesizeQChB)
+                QVBoxLayout, self.preserveaspectQChB, self.preservesizeQChB)
 
         videosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
             a.setText('<html><p align="center">{0}</p></html>'.format(a.text()))
-            layout = utils.add_to_layout('v', a, b)
+            layout = utils.add_to_layout(QVBoxLayout, a, b)
             videosettings_layout.addLayout(layout)
             if a == aspectQL:
                 # add vidaspectCB in layout after aspectQL
@@ -139,7 +139,7 @@ class AudioVideoTab(QWidget):
         spcr1 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         spcr2 = QSpacerItem(40, 20, QSizePolicy.Preferred, QSizePolicy.Minimum)
         chanlayout = utils.add_to_layout(
-                'h', spcr1, self.chan1QRB, self.chan2QRB, spcr2)
+                QHBoxLayout, spcr1, self.chan1QRB, self.chan2QRB, spcr2)
         self.audbitrateQCB = QComboBox()
         self.audbitrateQCB.addItems(bitrate_values)
         self.threadsQLE = utils.create_LineEdit(
@@ -151,7 +151,7 @@ class AudioVideoTab(QWidget):
         audiosettings_layout = QHBoxLayout()
         for a, b in zip(labels, widgets):
             a.setText('<html><p align="center">{0}</p></html>'.format(a.text()))
-            layout = utils.add_to_layout('v', a, b)
+            layout = utils.add_to_layout(QVBoxLayout, a, b)
             audiosettings_layout.addLayout(layout)
 
         time_format = " (hh:mm:ss):"
@@ -161,7 +161,7 @@ class AudioVideoTab(QWidget):
         self.durationQLE = utils.create_LineEdit(None, time_validator, None)
 
         hlayout4 = utils.add_to_layout(
-                'h',  beginQL, self.beginQLE, durationQL, self.durationQLE)
+                QHBoxLayout,  beginQL, self.beginQLE, durationQL, self.durationQLE)
 
         embedQL = QLabel(self.tr("Embed subtitle:"))
         self.embedQLE = QLineEdit()
@@ -173,11 +173,11 @@ class AudioVideoTab(QWidget):
         self.rotateQCB.addItems(rotation_options)
 
         hlayout5 = utils.add_to_layout(
-                'h', rotateQL, self.rotateQCB, embedQL, self.embedQLE,
+                QHBoxLayout, rotateQL, self.rotateQCB, embedQL, self.embedQLE,
                 self.embedQTB)
 
         hidden_layout = utils.add_to_layout(
-                'v', videosettings_layout, audiosettings_layout,
+                QVBoxLayout, videosettings_layout, audiosettings_layout,
                 hlayout4, hlayout5)
 
         line = QFrame()
@@ -186,14 +186,14 @@ class AudioVideoTab(QWidget):
         self.moreQPB = QPushButton(QApplication.translate('Tab', 'More'))
         self.moreQPB.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.moreQPB.setCheckable(True)
-        hlayout3 = utils.add_to_layout('h', line, self.moreQPB)
+        hlayout3 = utils.add_to_layout(QHBoxLayout, line, self.moreQPB)
 
         self.frame = QFrame()
         self.frame.setLayout(hidden_layout)
         self.frame.hide()
 
         final_layout = utils.add_to_layout(
-                'v', hlayout1, hlayout2, hlayout3, self.frame)
+                QVBoxLayout, hlayout1, hlayout2, hlayout3, self.frame)
         self.setLayout(final_layout)
 
         self.presetQPB.clicked.connect(self.choose_preset)

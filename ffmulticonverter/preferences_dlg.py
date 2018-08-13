@@ -19,7 +19,7 @@ from PyQt5.QtCore import QSettings, QTimer
 from PyQt5.QtWidgets import (
         QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit,
         QRadioButton, QSpacerItem, QTabWidget, QToolButton, QWidget,
-        QPlainTextEdit, QPushButton
+        QPlainTextEdit, QPushButton, QHBoxLayout, QVBoxLayout
         )
 
 from ffmulticonverter import utils
@@ -37,14 +37,14 @@ class Preferences(QDialog):
         self.exst_prefixQRB = QRadioButton(self.tr("Add '~' prefix"))
         self.exst_overwriteQRB = QRadioButton(self.tr('Overwrite'))
         exist_layout = utils.add_to_layout(
-                'h', self.exst_prefixQRB, self.exst_overwriteQRB)
+                QHBoxLayout, self.exst_prefixQRB, self.exst_overwriteQRB)
 
         defaultQL = QLabel(self.tr('Default output destination:'))
         self.defaultQLE = QLineEdit()
         self.defaultQTB = QToolButton()
         self.defaultQTB.setText('...')
         deafult_fol_layout = utils.add_to_layout(
-                'h', self.defaultQLE, self.defaultQTB)
+                QHBoxLayout, self.defaultQLE, self.defaultQTB)
         nameQL = QLabel('<html><b>' + self.tr('Name files') +'</b></html>')
         prefixQL = QLabel(self.tr('Prefix:'))
         suffixQL = QLabel(self.tr('Suffix:'))
@@ -52,10 +52,10 @@ class Preferences(QDialog):
         self.suffixQLE = QLineEdit()
         grid = utils.add_to_grid(
                 [prefixQL, self.prefixQLE], [suffixQL, self.suffixQLE])
-        prefix_layout = utils.add_to_layout('h', grid, None)
+        prefix_layout = utils.add_to_layout(QHBoxLayout, grid, None)
 
         tabwidget1_layout = utils.add_to_layout(
-                'v', saveQL,
+                QVBoxLayout, saveQL,
                 QSpacerItem(14, 13), existQL, exist_layout,
                 QSpacerItem(14, 13), defaultQL, deafult_fol_layout,
                 QSpacerItem(13, 13), nameQL, QSpacerItem(14, 13),
@@ -89,10 +89,10 @@ class Preferences(QDialog):
         defaudcodecsQPB = QPushButton(self.tr("Default audio codecs"))
 
         hlayout1 = utils.add_to_layout(
-                'h', None, defvidcodecsQPB, defaudcodecsQPB)
+                QHBoxLayout, None, defvidcodecsQPB, defaudcodecsQPB)
 
         tabwidget2_layout = utils.add_to_layout(
-                'v', ffmpegQL, QSpacerItem(14, 13), ffmpeg_pathQL,
+                QVBoxLayout, ffmpegQL, QSpacerItem(14, 13), ffmpeg_pathQL,
                 self.ffmpegpathQLE, default_cmd_ffmpegQL, self.ffmpegcmdQLE,
                 QSpacerItem(20, 20), gridlayout, hlayout1, None
                 )
@@ -105,11 +105,11 @@ class Preferences(QDialog):
                 '<html><b>' + self.tr('Extra formats') +'</b></html>')
         self.extraformatsimageQPTE = QPlainTextEdit()
 
-        hlayout2 = utils.add_to_layout('h',
+        hlayout2 = utils.add_to_layout(QHBoxLayout,
                 self.extraformatsimageQPTE, QSpacerItem(220,20))
 
         tabwidget3_layout = utils.add_to_layout(
-                'v', imagemagickQL,
+                QVBoxLayout, imagemagickQL,
                 QSpacerItem(14,13), default_cmd_imageQL, self.imagecmdQLE,
                 QSpacerItem(20,20), extraformatsimageQL, hlayout2, None
                 )
@@ -118,11 +118,11 @@ class Preferences(QDialog):
                 '<html><b>' + self.tr('Extra formats') +'</b></html>')
         self.extraformatsdocumentQPTE = QPlainTextEdit()
 
-        hlayout3 = utils.add_to_layout('h',
+        hlayout3 = utils.add_to_layout(QHBoxLayout,
                 self.extraformatsdocumentQPTE, QSpacerItem(220,20))
 
         tabwidget4_layout = utils.add_to_layout(
-                'v', extraformatsdocumentQL, hlayout3, None)
+                QVBoxLayout, extraformatsdocumentQL, hlayout3, None)
 
         widget1 = QWidget()
         widget1.setLayout(tabwidget1_layout)
@@ -141,7 +141,7 @@ class Preferences(QDialog):
         buttonBox = QDialogButtonBox(
                 QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
 
-        final_layout = utils.add_to_layout('v', tabWidget, None, buttonBox)
+        final_layout = utils.add_to_layout(QVBoxLayout, tabWidget, None, buttonBox)
         self.setLayout(final_layout)
 
         self.defaultQTB.clicked.connect(self.open_dir)

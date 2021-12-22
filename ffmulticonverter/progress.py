@@ -304,7 +304,7 @@ class Progress(QDialog):
                         time = utils.duration_in_seconds(time)
                     now_sec = int(float(time))
                     try:
-                        self.nowQPBar.setValue(100 * now_sec / total)
+                        self.nowQPBar.setValue(int(100 * now_sec / total))
                     except (UnboundLocalError, ZeroDivisionError):
                         pass
                 self.update_text_edit_signal.emit(myline)

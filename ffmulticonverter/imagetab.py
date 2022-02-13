@@ -16,7 +16,8 @@
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import (
-        QWidget, QLabel, QComboBox, QCheckBox, QLineEdit, QMessageBox
+        QWidget, QLabel, QComboBox, QCheckBox, QLineEdit, QMessageBox,
+        QVBoxLayout, QHBoxLayout
         )
 
 from ffmulticonverter import utils
@@ -40,7 +41,7 @@ class ImageTab(QWidget):
         self.commandQLE = QLineEdit()
 
         hlayout2 = utils.add_to_layout(
-                'h', converttoQL, self.extQCB, commandQL, self.commandQLE)
+                QHBoxLayout, converttoQL, self.extQCB, commandQL, self.commandQLE)
 
         sizeQL = QLabel(
                 '<html><p align="center">' + self.tr('Image Size:') +
@@ -50,13 +51,13 @@ class ImageTab(QWidget):
         label = QLabel('<html><p align="center">x</p></html>')
         label.setMaximumWidth(25)
 
-        hlayout1 = utils.add_to_layout('h', self.widthQLE, label,self.heightQLE)
-        sizelayout = utils.add_to_layout('v', sizeQL, hlayout1)
+        hlayout1 = utils.add_to_layout(QHBoxLayout, self.widthQLE, label,self.heightQLE)
+        sizelayout = utils.add_to_layout(QVBoxLayout, sizeQL, hlayout1)
 
         self.imgaspectQChB = QCheckBox(self.tr("Maintain aspect ratio"))
         self.autocropQChB = QCheckBox(self.tr("Auto-crop"))
 
-        vlayout = utils.add_to_layout('v', self.imgaspectQChB,self.autocropQChB)
+        vlayout = utils.add_to_layout(QVBoxLayout, self.imgaspectQChB,self.autocropQChB)
 
         rotateQL = QLabel(
                 "<html><div align='center'>" + self.tr("Rotate") +
@@ -65,12 +66,12 @@ class ImageTab(QWidget):
         self.vflipQChB = QCheckBox(self.tr('Vertical flip'))
         self.hflipQChB = QCheckBox(self.tr('Horizontal flip'))
 
-        vlayout2 = utils.add_to_layout('v', self.vflipQChB, self.hflipQChB)
+        vlayout2 = utils.add_to_layout(QVBoxLayout, self.vflipQChB, self.hflipQChB)
         hlayout3 = utils.add_to_layout(
-                'h', sizelayout, vlayout, rotateQL, self.rotateQLE,
+                QHBoxLayout, sizelayout, vlayout, rotateQL, self.rotateQLE,
                 vlayout2, None)
 
-        final_layout = utils.add_to_layout('v', hlayout2, hlayout3)
+        final_layout = utils.add_to_layout(QVBoxLayout, hlayout2, hlayout3)
         self.setLayout(final_layout)
 
     def clear(self):

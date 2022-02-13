@@ -16,7 +16,8 @@
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (
-        QDialog, QLabel, QPlainTextEdit, QPushButton, QTabWidget
+        QDialog, QLabel, QPlainTextEdit, QPushButton, QTabWidget, QHBoxLayout,
+        QVBoxLayout
         )
 
 from ffmulticonverter import utils
@@ -39,10 +40,10 @@ class AboutDialog(QDialog):
         creditsQPB = QPushButton(self.tr('C&redits'))
         closeQPB = QPushButton(self.tr('&Close'))
 
-        vlayout1 = utils.add_to_layout('v', imageQL, None)
-        hlayout1 = utils.add_to_layout('h', vlayout1, textQL)
-        hlayout2 = utils.add_to_layout('h', creditsQPB, None, closeQPB)
-        fin_layout = utils.add_to_layout('v', hlayout1, hlayout2)
+        vlayout1 = utils.add_to_layout(QVBoxLayout, imageQL, None)
+        hlayout1 = utils.add_to_layout(QHBoxLayout, vlayout1, textQL)
+        hlayout2 = utils.add_to_layout(QHBoxLayout, creditsQPB, None, closeQPB)
+        fin_layout = utils.add_to_layout(QVBoxLayout, hlayout1, hlayout2)
 
         self.setLayout(fin_layout)
 
@@ -72,8 +73,8 @@ class CreditsDialog(QDialog):
         TabWidget.addTab(translatorsLabel, self.tr('Translated by'))
         closeQPB = QPushButton(self.tr('&Close'))
 
-        hlayout = utils.add_to_layout('h', None, closeQPB)
-        vlayout = utils.add_to_layout('v', TabWidget, hlayout)
+        hlayout = utils.add_to_layout(QHBoxLayout, None, closeQPB)
+        vlayout = utils.add_to_layout(QVBoxLayout, TabWidget, hlayout)
 
         self.setLayout(vlayout)
         closeQPB.clicked.connect(self.close)

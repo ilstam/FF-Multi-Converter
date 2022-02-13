@@ -21,7 +21,8 @@ import xml.etree.ElementTree as etree
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import (
         QDialog, QDialogButtonBox, QFileDialog, QLabel, QLineEdit, QListWidget,
-        QMessageBox, QPushButton, QShortcut, QSizePolicy, QSpacerItem
+        QMessageBox, QPushButton, QShortcut, QSizePolicy, QSpacerItem,
+        QHBoxLayout, QVBoxLayout
         )
 
 from ffmulticonverter import utils
@@ -68,10 +69,10 @@ class ShowPresets(QDialog):
                 )
 
         hlayout = utils.add_to_layout(
-                'h', searchQL, self.searchQLE, None, okQPB)
+                QHBoxLayout, searchQL, self.searchQLE, None, okQPB)
 
         final_layout = utils.add_to_layout(
-                'v', self.presQLW, labelQL, self.labelQLE, commandQL,
+                QVBoxLayout, self.presQLW, labelQL, self.labelQLE, commandQL,
                 self.commandQLE, extQL, self.extQLE, grid, spc3, hlayout
                 )
 
@@ -395,7 +396,7 @@ class AddorEditPreset(QDialog):
                 QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
 
         final_layout = utils.add_to_layout(
-                'v', nameQL, self.nameQLE, labelQL, self.labelQLE,
+                QVBoxLayout, nameQL, self.nameQLE, labelQL, self.labelQLE,
                 commandQL, self.commandQLE, extQL, self.extQLE, buttonBox
                 )
 

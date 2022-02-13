@@ -28,7 +28,7 @@ from PyQt5.QtCore import (
 from PyQt5.QtWidgets import (
         QAbstractItemView, QApplication, QCheckBox, QFileDialog, QLabel,
         QLineEdit, QMainWindow, QMessageBox, QPushButton, QShortcut, QTabWidget,
-        QToolButton, QWidget
+        QToolButton, QWidget, QVBoxLayout, QHBoxLayout
         )
 
 import ffmulticonverter as ffmc
@@ -60,18 +60,18 @@ class MainWindow(QMainWindow):
         addQPB = QPushButton(self.tr('Add'))
         delQPB = QPushButton(self.tr('Delete'))
         clearQPB = QPushButton(self.tr('Clear'))
-        vlayout1 = utils.add_to_layout('v', addQPB, delQPB, clearQPB, None)
+        vlayout1 = utils.add_to_layout(QVBoxLayout, addQPB, delQPB, clearQPB, None)
 
         self.filesList = utils.FilesList()
         self.filesList.setSelectionMode(QAbstractItemView.ExtendedSelection)
-        hlayout1 = utils.add_to_layout('h', self.filesList, vlayout1)
+        hlayout1 = utils.add_to_layout(QHBoxLayout, self.filesList, vlayout1)
 
         outputQL = QLabel(self.tr('Output folder:'))
         self.toQLE = QLineEdit()
         self.toQLE.setReadOnly(True)
         self.toQTB = QToolButton()
         self.toQTB.setText('...')
-        hlayout2 = utils.add_to_layout('h', outputQL, self.toQLE, self.toQTB)
+        hlayout2 = utils.add_to_layout(QHBoxLayout, outputQL, self.toQLE, self.toQTB)
 
         self.audiovideo_tab = AudioVideoTab(self)
         self.image_tab = ImageTab(self)
@@ -91,10 +91,10 @@ class MainWindow(QMainWindow):
         self.deleteQCB = QCheckBox(self.tr('Delete original'))
         convertQPB = QPushButton(self.tr('&Convert'))
 
-        hlayout3 = utils.add_to_layout('h', self.origQCB, self.deleteQCB, None)
-        hlayout4 = utils.add_to_layout('h', None, convertQPB)
+        hlayout3 = utils.add_to_layout(QHBoxLayout, self.origQCB, self.deleteQCB, None)
+        hlayout4 = utils.add_to_layout(QHBoxLayout, None, convertQPB)
         final_layout = utils.add_to_layout(
-                'v', hlayout1, self.tabWidget, hlayout2, hlayout3, hlayout4)
+                QVBoxLayout, hlayout1, self.tabWidget, hlayout2, hlayout3, hlayout4)
 
         self.dependenciesQL = QLabel()
         self.statusBar().addPermanentWidget(self.dependenciesQL, stretch=1)

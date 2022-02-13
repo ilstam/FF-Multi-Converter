@@ -13,7 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt5.QtWidgets import QWidget, QLabel, QComboBox, QMessageBox
+from PyQt5.QtWidgets import (QWidget, QLabel, QComboBox, QMessageBox,
+                             QHBoxLayout)
 
 from ffmulticonverter import utils
 from ffmulticonverter import config
@@ -32,7 +33,7 @@ class DocumentTab(QWidget):
 
         convertQL = QLabel(self.tr('Convert to:'))
         self.extQCB = QComboBox()
-        final_layout = utils.add_to_layout('h', convertQL, self.extQCB, None)
+        final_layout = utils.add_to_layout(QHBoxLayout, convertQL, self.extQCB, None)
         self.setLayout(final_layout)
 
     def fill_extension_combobox(self, extraformats):
